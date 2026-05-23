@@ -1,0 +1,17 @@
+---
+const {
+  title,
+  description,
+  canonical,
+  schema,
+  noindex = false,
+} = Astro.props;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow'} />
+{canonical && <link rel="canonical" href={canonical} />}
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

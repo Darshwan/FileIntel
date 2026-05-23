@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.cache/
+.astro/
+public/build/
+package-lock.json
+pnpm-lock.yaml
+.env
+.env.local
+.DS_Store
+.vscode/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vercel/
+netlify/
+*.log

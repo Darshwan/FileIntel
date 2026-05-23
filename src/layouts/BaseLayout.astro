@@ -1,0 +1,90 @@
+---
+import SEO from '../components/SEO.astro';
+import '../styles/global.css';
+
+const {
+  title,
+  description,
+  canonical,
+  schema,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SEO title={title} description={description} canonical={canonical} schema={schema} />
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="/" class="nav-brand">
+        <div class="nav-logo">Fi</div>
+        <div>
+          <div class="nav-name">FileIntel</div>
+          <div class="nav-tagline">Private File Tools</div>
+        </div>
+      </a>
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <SEO title={title} description={description} canonical={canonical} schema={schema} />
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+          <link rel="stylesheet" href="/responsive.css" />
+        </head>
+        <body>
+
+    <main>
+      <slot />
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="nav-logo-footer">Fi</div>
+            <span style="color:#5a5a52;font-size:15px;font-weight:600;">FileIntel</span>
+          </div>
+          <p>Private file tools for professionals. Everything runs in your browser. Nothing touches our servers.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
+            <li><a href="#">PDF Redactor</a></li>
+            <li><a href="#">CSV Deduplicator</a></li>
+            <li><a href="#">PDF Merger (soon)</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="#why">How it works</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <ul>
+            <li><a href="#">For Lawyers</a></li>
+            <li><a href="#">For Journalists</a></li>
+            <li><a href="#">For Freelancers</a></li>
+            <li><a href="#">For Compliance</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 FileIntel. Built with privacy by design.</span>
+        <span style="font-family:var(--mono);font-size:11px;">0 bytes sent to our servers</span>
+      </div>
+    </footer>
+  </body>
+</html>

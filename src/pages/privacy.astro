@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Privacy Policy | FileIntel';
+const description = 'FileIntel privacy policy describing browser-only processing, analytics, and contact details.';
+---
+
+<BaseLayout title={title} description={description} showAdBanner={false}>
+  <section class="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
+    <div class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_280px] xl:items-start">
+      <article class="site-panel-strong px-6 py-8 sm:px-10">
+        <p class="site-kicker">Privacy Policy</p>
+        <h1 class="mt-5 text-[clamp(2.4rem,4.5vw,3.8rem)] font-serif font-semibold tracking-tight text-fileintel-ink">FileIntel Privacy Statement</h1>
+        <p class="mt-4 text-xs font-medium uppercase tracking-[0.24em] text-fileintel-muted sm:text-sm">Effective date: May 22, 2026 • Last updated: May 22, 2026</p>
+
+        <div class="mt-8 space-y-6 text-base leading-8 text-fileintel-muted">
+          <p>
+            FileIntel processes all files entirely within your browser. We do not upload, store, or access your documents on any server as part of the PDF Metadata Remover workflow.
+          </p>
+          <p>
+            When you choose a file, the application reads it locally using browser APIs, inspects the PDF metadata in memory, and generates a cleaned file on your device. Because the process is client-side, the content of your file never needs to leave your computer.
+          </p>
+          <p>
+            At launch, FileIntel does not require user accounts and does not maintain document storage. If future analytics are enabled, they will be configured to minimize data collection and may use anonymized Google Analytics or a comparable privacy-conscious measurement tool only for aggregate usage trends. Where feasible, we will keep analytics optional or limited to non-identifying information.
+          </p>
+          <p>
+            We may collect standard website telemetry such as basic page load metrics, browser type, and aggregate usage counts if analytics are enabled. We do not intend to collect the contents of your files, extracted metadata, or document hashes unless a future feature explicitly requires that functionality and is documented first.
+          </p>
+          <p>
+            If you have questions about this policy or need to contact us about privacy, write to <a href="mailto:privacy@fileintel.tech">privacy@fileintel.tech</a>.
+          </p>
+          <p>
+            This policy may be updated as FileIntel adds more tools. Any future changes will continue to prioritize local, browser-based processing wherever possible.
+          </p>
+        </div>
+      </article>
+
+      <aside class="space-y-6 xl:sticky xl:top-28">
+        <div class="site-panel">
+          <p class="text-xs font-semibold uppercase tracking-[0.28em] text-fileintel-muted">Trust summary</p>
+          <div class="mt-4 space-y-3 text-sm leading-7 text-fileintel-muted">
+            <div class="rounded-2xl border border-fileintel-line bg-white/80 p-4">
+              <p class="font-semibold text-fileintel-ink">No upload step</p>
+              <p class="mt-1 text-fileintel-muted">Files are read locally in the browser.</p>
+            </div>
+            <div class="rounded-2xl border border-fileintel-line bg-white/80 p-4">
+              <p class="font-semibold text-fileintel-ink">No storage model</p>
+              <p class="mt-1 text-fileintel-muted">FileIntel does not keep copies of your documents.</p>
+            </div>
+            <div class="rounded-2xl border border-fileintel-line bg-white/80 p-4">
+              <p class="font-semibold text-fileintel-ink">Designed for professionals</p>
+              <p class="mt-1 text-fileintel-muted">The workflow is built for confidential and regulated use cases.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
