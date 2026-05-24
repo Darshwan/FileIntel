@@ -120,11 +120,11 @@
                 max-width: var(--max-width);
                 width: 100%;
                 margin: 0 auto;
-                padding: 64px 40px 56px;
+                padding: 56px 40px 48px;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                gap: 48px;
+                gap: 36px;
                 position: relative;
                 z-index: 1;
             }
@@ -152,7 +152,7 @@
             .hero-headline-wrap {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 48px;
+                gap: 40px;
                 align-items: end;
             }
 
@@ -170,12 +170,58 @@
             }
 
             .hero-desc {
-                font-size: 14.5px;
-                color: #6a6a62;
-                line-height: 1.75;
+                font-size: 15.5px;
+                color: #9c9b93;
+                line-height: 1.8;
                 font-weight: 300;
-                max-width: 400px;
+                max-width: 460px;
                 align-self: end;
+            }
+
+            .hero-actions {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+
+            .hero-action-primary,
+            .hero-action-secondary {
+                text-decoration: none;
+                transition: all 0.18s ease;
+            }
+
+            .hero-action-primary {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 12px 18px;
+                border-radius: 999px;
+                background: var(--paper);
+                color: var(--ink);
+                font-family: var(--sans);
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: -0.01em;
+                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+            }
+
+            .hero-action-primary:hover {
+                transform: translateY(-1px);
+                background: var(--white);
+            }
+
+            .hero-action-secondary {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: #7d7a72;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+            }
+
+            .hero-action-secondary:hover {
+                color: var(--paper);
             }
 
             /* Bottom row */
@@ -192,12 +238,13 @@
             .hero-stats {
                 display: flex;
                 align-items: center;
-                gap: 28px;
+                gap: 20px;
+                opacity: 0.72;
             }
 
             .hero-stat-num {
                 font-family: var(--serif);
-                font-size: 26px;
+                font-size: 22px;
                 font-style: italic;
                 color: var(--paper);
                 line-height: 1;
@@ -206,7 +253,7 @@
 
             .hero-stat-label {
                 font-family: var(--mono);
-                font-size: 9.5px;
+                font-size: 9px;
                 letter-spacing: 0.1em;
                 text-transform: uppercase;
                 color: #3a3a35;
@@ -227,20 +274,22 @@
             }
 
             .hero-featured-link-inner {
-                border: 1px solid #1e1e1a;
+                border: 1px solid rgba(255, 255, 255, 0.08);
                 border-radius: var(--radius-lg);
-                padding: 16px 20px;
+                padding: 18px 22px;
                 display: flex;
                 flex-direction: column;
-                gap: 6px;
-                max-width: 420px;
+                gap: 8px;
+                max-width: 460px;
                 transition: all 0.2s;
-                background: rgba(255, 255, 255, 0.02);
+                background: rgba(255, 255, 255, 0.035);
+                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
             }
 
             .hero-featured-link:hover .hero-featured-link-inner {
-                border-color: #3a3a35;
-                background: rgba(255, 255, 255, 0.04);
+                border-color: rgba(255, 255, 255, 0.16);
+                background: rgba(255, 255, 255, 0.05);
+                transform: translateY(-1px);
             }
 
             .hero-featured-eyebrow {
@@ -263,10 +312,10 @@
             }
 
             .hero-featured-title {
-                font-size: 13.5px;
-                font-weight: 500;
+                font-size: 14px;
+                font-weight: 600;
                 color: var(--paper);
-                line-height: 1.4;
+                line-height: 1.45;
                 letter-spacing: -0.01em;
             }
 
@@ -275,7 +324,7 @@
                 align-items: center;
                 gap: 5px;
                 font-size: 12px;
-                color: #5a5a52;
+                color: #87837a;
                 font-family: var(--mono);
                 margin-top: 2px;
                 transition:
@@ -286,9 +335,6 @@
             .hero-featured-link:hover .hero-featured-arrow {
                 gap: 9px;
                 color: var(--paper);
-            }
-            .featured-post-card:hover .featured-arrow {
-                gap: 10px;
             }
 
             /* ══ SECTION DIVIDER ══ */
@@ -765,6 +811,9 @@
                 .hero-desc {
                     max-width: 100%;
                 }
+                .hero-actions {
+                    margin-top: 16px;
+                }
                 .hero-bottom {
                     flex-direction: column;
                     gap: 20px;
@@ -776,14 +825,34 @@
 
             @media (max-width: 768px) {
                 .hero-inner {
-                    padding: 40px 20px 36px;
-                    gap: 36px;
+                    padding: 32px 20px 30px;
+                    gap: 28px;
                 }
                 .hero-title {
-                    font-size: clamp(36px, 9vw, 52px);
+                    font-size: clamp(36px, 8.5vw, 52px);
+                }
+                .hero-desc {
+                    font-size: 15px;
+                    color: #a7a49c;
                 }
                 .hero-stats {
-                    gap: 20px;
+                    gap: 16px;
+                }
+                .hero-stat-num {
+                    font-size: 20px;
+                }
+                .hero-featured-link-inner {
+                    padding: 16px 18px;
+                }
+                .bg-orb {
+                    width: 420px;
+                    height: 420px;
+                    right: -160px;
+                    top: -160px;
+                    opacity: 0.7;
+                }
+                .bg-line-2 {
+                    opacity: 0.55;
                 }
 
                 .articles-section {
@@ -840,12 +909,44 @@
             }
 
             @media (max-width: 480px) {
+                .hero-issue {
+                    font-size: 10px;
+                }
+                .hero-headline-wrap {
+                    gap: 14px;
+                }
+                .hero-actions {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 10px;
+                }
+                .hero-action-primary {
+                    width: 100%;
+                    justify-content: center;
+                }
+                .hero-action-secondary {
+                    font-size: 10px;
+                }
                 .hero-stats {
                     flex-wrap: wrap;
-                    gap: 16px;
+                    gap: 12px;
                 }
                 .hero-stat-divider {
                     display: none;
+                }
+                .bg-line-1,
+                .bg-line-2 {
+                    display: none;
+                }
+                .bg-line-3 {
+                    opacity: 0.45;
+                }
+                .bg-orb {
+                    width: 320px;
+                    height: 320px;
+                    right: -180px;
+                    top: -160px;
+                    opacity: 0.45;
                 }
                 .topics-row {
                     grid-template-columns: 1fr;
@@ -1062,7 +1163,7 @@
             </a>
 
             <ul class="nav-links">
-                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/">Home</a></li>
 
                 <!-- TOOLS DROPDOWN -->
                 <li class="nav-dropdown" id="tools-dropdown">
@@ -1192,7 +1293,7 @@
                     </div>
                 </li>
 
-                <li><a href="/blog">Blog</a></li>
+                <li><a href="/blog" class="active">Blog</a></li>
                 <li><a href="/privacy">Privacy</a></li>
                 <li>
                     <a
@@ -1260,6 +1361,28 @@
                         journalists, compliance officers, and professionals who
                         handle sensitive documents.
                     </p>
+                    <div class="hero-actions">
+                        <a
+                            href="/blog/gdpr-pdf-metadata"
+                            class="hero-action-primary"
+                        >
+                            Read featured article
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                            >
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+                        <a href="#pdf-security" class="hero-action-secondary">
+                            Browse all posts
+                        </a>
+                    </div>
                 </div>
 
                 <!-- BOTTOM ROW: stats + featured link -->
