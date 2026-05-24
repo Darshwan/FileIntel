@@ -720,6 +720,129 @@ section {
   transform: translateX(16px);
 }
 
+/* Prevent metadata/risk tables from overflowing with long values */
+.meta-preview table,
+.risk-rows table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.meta-preview td,
+.meta-preview th,
+.risk-row,
+.risk-row > div,
+.risk-row label,
+.risk-row div {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.meta-preview td {
+  white-space: normal;
+  max-width: 48ch;
+}
+
+.risk-row {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.risk-row .risk-value {
+  flex: 1 1 auto;
+  min-width: 0; /* allow flex children to shrink */
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.risk-row .risk-name {
+  flex: 0 0 160px;
+  font-weight: 600;
+}
+
+.risk-row .risk-badge {
+  flex: 0 0 120px;
+  text-align: right;
+}
+
+/* Result table styling to match reference */
+.result-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.result-table thead th {
+  background: var(--paper-2);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 12px 16px;
+  text-align: left;
+  letter-spacing: 0.12em;
+}
+.result-table tbody tr {
+  border-bottom: 1px solid var(--paper-3);
+}
+.result-table td {
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+.result-field {
+  font-size: 14px;
+  color: var(--ink);
+  width: 25%;
+  font-weight: 600;
+}
+.result-value {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  width: 60%;
+  white-space: normal;
+  word-break: break-word;
+}
+.result-risk {
+  width: 15%;
+  text-align: right;
+}
+.risk-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.risk-dot.high { background: var(--accent); }
+.risk-dot.medium { background: var(--amber); }
+.risk-dot.low { background: var(--green); }
+.res-high { color: var(--accent); }
+.res-medium { color: var(--amber); }
+
+/* Compact result list (reference style) */
+.result-list {
+  background: var(--white);
+  border-top: 1px solid var(--paper-3);
+  border-bottom: 1px solid var(--paper-3);
+}
+.result-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--paper-3);
+}
+.result-item:last-child { border-bottom: none; }
+.result-icon { width: 28px; flex: 0 0 28px; text-align: center; font-size: 16px; }
+.result-content { flex: 1 1 auto; min-width: 0; }
+.result-field { font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.result-value { color: var(--ink-2); font-family: var(--mono); font-size: 13px; }
+.result-badge { flex: 0 0 64px; text-align: right; }
+.result-badge .risk-dot { width: 12px; height: 12px; }
+
 /* ─── UPLOAD ZONE ─── */
 .upload-zone {
   margin: var(--space-5);
@@ -1137,4 +1260,52 @@ section {
 
 .code-fn {
   color: #80aaff;
+}
+
+/* ─── FLUID SECTION GRIDS ─── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.architecture-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 100px;
+  align-items: center;
+}
+
+/* WHO USES THIS and fields-grid affordances */
+.use-strip, .fields-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 1024px) {
+  .tools-grid,
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+  .architecture-grid { grid-template-columns: 1fr; gap: 48px; }
+  .use-strip, .fields-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .tools-grid,
+  .blog-grid,
+  .use-strip,
+  .fields-grid { grid-template-columns: 1fr; }
+
+  /* Make cards fill available width and reduce padding for small screens */
+  .tool-card, .blog-card { border-right: none; }
+  section { padding-left: 20px; padding-right: 20px; }
+  header { padding-left: 20px; padding-right: 20px; }
+  .architecture-grid { gap: 24px; }
+  .section-sub { max-width: 100%; }
 }

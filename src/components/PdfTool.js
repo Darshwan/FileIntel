@@ -52,8 +52,72 @@ function sha256Hex(arrayBuffer) {
 }
 
 function hasXmpMetadata(arrayBuffer) {
-  const text = new TextDecoder('latin1').decode(arrayBuffer);
-  return /<x:xmpmeta|\?xpacket begin=/i.test(text);
+  const bytes = new Uint8Array(arrayBuffer);
+  const searchSize = Math.min(bytes.length, 65536);
+  const view = bytes.subarray(0, searchSize);
+  const text = new TextDecoder('utf-8', { fatal: false }).decode(view);
+  return /xmpmeta|xpacket/i.test(text);
+}
+
+function calculateRiskScore(metadata) {
+  const checks = [];
+
+  function push(field, value, risk, reason) {
+    checks.push({ field, value: value ?? 'Not set', risk, reason });
+  }
+
+  // Author
+  if (metadata.author) {
+    const isPerson = /\S+@\S+\.\S+/.test(metadata.author) || /[A-Z][a-z]+\s+[A-Z][a-z]+/.test(metadata.author);
+    push('Author', metadata.author, isPerson ? 'High' : 'Medium', isPerson ? 'Contains personal name/email' : 'Contains organization or identifier');
+  } else {
+    push('Author', '', 'None', 'Not set');
+  }
+
+  // Creator
+  if (metadata.creator) {
+    push('Creator', metadata.creator, 'Low', 'Software used to create the document');
+  } else {
+    push('Creator', '', 'None', 'Not set');
+  }
+
+  // Subject
+  if (metadata.subject) push('Subject', metadata.subject, 'Medium', 'May describe document contents');
+  else push('Subject', '', 'None', 'Not set');
+
+  // Keywords
+  if (metadata.keywords) push('Keywords', Array.isArray(metadata.keywords) ? metadata.keywords.join(', ') : metadata.keywords, 'Medium', 'Tags could leak topics');
+  else push('Keywords', '', 'None', 'Not set');
+
+  // Dates
+  if (metadata.creationDate) push('CreationDate', metadata.creationDate, 'Low', 'Document creation timestamp');
+  else push('CreationDate', '', 'None', 'Not set');
+
+  if (metadata.modificationDate) push('ModificationDate', metadata.modificationDate, 'Low', 'Last edit timestamp');
+  else push('ModificationDate', '', 'None', 'Not set');
+
+  // Page count
+  push('PageCount', metadata.pageCount ?? 'Unknown', 'None', 'Number of pages');
+
+  // File size
+  push('FileSize', metadata.fileSize ?? 'Unknown', 'None', 'File size');
+
+  // XMP
+  push('XMP', metadata.hasXmpMetadata ? 'Present' : 'Not detected', metadata.hasXmpMetadata ? 'Medium' : 'None', metadata.hasXmpMetadata ? 'XMP metadata stream detected' : 'No XMP metadata detected');
+
+  // Simple overall computation
+  const highCount = checks.filter((c) => c.risk === 'High').length;
+  const mediumCount = checks.filter((c) => c.risk === 'Medium').length;
+  let overall = 'Low';
+  if (highCount > 0) overall = 'High';
+  else if (mediumCount > 0) overall = 'Medium';
+
+  // Numeric score: 100 downweighted by risk counts (tunable)
+  let score = 100 - highCount * 45 - mediumCount * 20;
+  if (score < 0) score = 0;
+  if (score > 100) score = 100;
+
+  return { checks, overall, score };
 }
 
 function downloadBlob(blob, filename) {
@@ -65,20 +129,32 @@ function downloadBlob(blob, filename) {
   document.body.appendChild(link);
   link.click();
   link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
-async function stripPdfMetadataFromDoc(pdfDoc) {
-  const targetDoc = await PDFDocument.create();
-  const pages = await targetDoc.copyPages(pdfDoc, pdfDoc.getPageIndices());
-  pages.forEach((page) => targetDoc.addPage(page));
+export function clearPdfMetadata(pdfDoc) {
+  pdfDoc.setTitle('');
+  pdfDoc.setAuthor('');
+  pdfDoc.setSubject('');
+  pdfDoc.setKeywords([]);
+  pdfDoc.setCreator('');
+  pdfDoc.setProducer('');
 
-  targetDoc.catalog?.dict?.delete?.(PDFName.of('Metadata'));
-  return targetDoc;
+  try {
+    const metadataKey = PDFName.of('Metadata');
+    const dict = pdfDoc.catalog?.dict;
+    if (dict?.delete) {
+      dict.delete(metadataKey);
+    }
+  } catch (e) {
+    console.warn('Could not remove XMP metadata stream:', e);
+  }
 }
 
 function setText(element, value) {
-  if (element) element.textContent = value;
+  if (!element) return;
+  element.textContent = value;
+  element.hidden = !value;
 }
 
 export function initPdfTool() {
@@ -93,6 +169,9 @@ export function initPdfTool() {
   const stripButton = document.querySelector('[data-strip-button]');
   const downloadAgainButton = document.querySelector('[data-download-again]');
   const processHintEl = document.querySelector('[data-process-hint]');
+  const stripSelectedBtn = document.querySelector('#strip-selected-btn');
+  const stripAllBtn = document.querySelector('#strip-all-btn');
+  const riskRowsEl = document.querySelector('#risk-rows');
 
   if (!dropzoneEl || !inputEl || !metadataContainer) return;
 
@@ -199,20 +278,46 @@ export function initPdfTool() {
       const author = pdfDoc.getAuthor() || '';
       const creator = pdfDoc.getCreator() || '';
 
-      renderMetadataTable(metadataContainer, {
+      const metadata = {
         title: pdfDoc.getTitle(),
         author: author || null,
         subject: pdfDoc.getSubject(),
         keywords: pdfDoc.getKeywords(),
         creator: creator || null,
         producer: pdfDoc.getProducer(),
-        creationDate: formatDate(pdfDoc.getCreationDate()),
-        modificationDate: formatDate(pdfDoc.getModificationDate()),
+        creationDate: pdfDoc.getCreationDate(),
+        modificationDate: pdfDoc.getModificationDate(),
         pageCount: pdfDoc.getPageCount(),
         fileSize: formatFileSize(file.size),
         hasXmpMetadata: hasXmpMetadata(arrayBuffer),
+      };
+
+      const riskReport = calculateRiskScore({
+        title: metadata.title,
+        author: metadata.author,
+        subject: metadata.subject,
+        keywords: metadata.keywords,
+        creator: metadata.creator,
+        producer: metadata.producer,
+        creationDate: metadata.creationDate,
+        modificationDate: metadata.modificationDate,
+        pageCount: metadata.pageCount,
+        fileSize: metadata.fileSize,
+        hasXmpMetadata: metadata.hasXmpMetadata,
+      });
+
+      renderMetadataTable(metadataContainer, metadata, riskReport, {
         showWarning: isLikelyPersonalIdentifier(author) || isLikelyPersonalIdentifier(creator),
       });
+
+      if (riskRowsEl) renderRiskRows(riskRowsEl, metadata, riskReport);
+
+      // Wire summary elements with quick snapshot
+      if (fileSummaryEl) {
+        const overall = riskReport?.overall || 'Low';
+        const emoji = overall === 'High' ? '🔴' : overall === 'Medium' ? '🟡' : '🟢';
+        fileSummaryEl.textContent = `${file.name} • ${formatFileSize(file.size)} • Privacy: ${emoji} ${overall}`;
+      }
 
       if (stripButton) stripButton.disabled = false;
       if (downloadAgainButton) downloadAgainButton.disabled = true;
@@ -229,6 +334,99 @@ export function initPdfTool() {
     }
   }
 
+  function escapeHtml(str) {
+    return String(str || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function renderRiskRows(container, metadata, riskReport) {
+    const checks = (riskReport && riskReport.checks) || [];
+    const rows = checks.map((c) => ({ field: c.field, value: c.value, risk: c.risk, reason: c.reason }));
+
+    if (!container) return;
+
+    container.innerHTML = `
+      <div style="margin:0 20px 20px;border:1px solid var(--paper-3);border-radius:var(--radius);overflow:hidden;">
+        <table class="meta-table" style="width:100%;">
+          <thead>
+            <tr>
+              <th>Strip</th>
+              <th>Field</th>
+              <th>Value</th>
+              <th style="text-align:center;">Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows
+              .map((r) => {
+                const val = r.value instanceof Date ? formatDate(r.value) : String(r.value ?? '');
+                const valClass = r.risk === 'High' ? 'risk-high' : r.risk === 'Medium' ? 'risk-med' : '';
+                const dotClass = r.risk === 'High' ? 'high' : r.risk === 'Medium' ? 'medium' : 'low';
+                return `
+                  <tr>
+                    <td style="text-align:center;">
+                      <input type="checkbox" data-field="${escapeHtml(r.field)}" aria-label="Strip ${escapeHtml(r.field)}" style="width:16px;height:16px;accent-color:var(--accent);" />
+                    </td>
+                    <td class="meta-key">${escapeHtml(r.field)}</td>
+                    <td class="meta-val ${valClass}">${escapeHtml(val)}</td>
+                    <td><div class="risk-dot ${dotClass}" style="margin:0 auto;"></div></td>
+                  </tr>
+                `;
+              })
+              .join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  async function handleStripSelected() {
+    if (!currentFile || !currentBytes) return;
+
+    const checked = Array.from((riskRowsEl || document).querySelectorAll('input[type="checkbox"][data-field]:checked')).map((el) => el.getAttribute('data-field'));
+    if (!checked.length) {
+      showError('No fields selected to strip.');
+      return;
+    }
+
+    clearMessages();
+    if (loadingEl) loadingEl.hidden = false;
+    if (processHintEl) processHintEl.textContent = 'Stripping selected metadata locally...';
+
+    try {
+      const loadedDoc = await PDFDocument.load(currentBytes, { ignoreEncryption: false });
+      if (checked.includes('Author')) loadedDoc.setAuthor('');
+      if (checked.includes('Title')) loadedDoc.setTitle('');
+      if (checked.includes('Subject')) loadedDoc.setSubject('');
+      if (checked.includes('Keywords')) loadedDoc.setKeywords([]);
+      if (checked.includes('Creator')) loadedDoc.setCreator('');
+      if (checked.includes('Producer')) loadedDoc.setProducer('');
+
+      let cleanedBytes = await loadedDoc.save();
+      try {
+        await PDFDocument.load(cleanedBytes);
+      } catch (validateErr) {
+        console.error('Validation failed, trying fallback:', validateErr);
+        cleanedBytes = await loadedDoc.save({ useObjectStreams: false });
+        await PDFDocument.load(cleanedBytes);
+      }
+
+      const blob = new Blob([cleanedBytes], { type: 'application/pdf' });
+      downloadBlob(blob, currentFile.name.replace(/\.pdf$/i, '') + '-cleaned-selected.pdf');
+      showSuccess('Selected metadata removed and file downloaded.');
+      if (downloadAgainButton) downloadAgainButton.disabled = false;
+      if (loadingEl) loadingEl.hidden = true;
+      if (processHintEl) processHintEl.textContent = 'You can download the cleaned PDF again below.';
+    } catch (err) {
+      console.error('Error stripping selected fields', err);
+      showError('Something went wrong while stripping selected fields.');
+    }
+  }
+
   async function handleStripClick() {
     if (!currentFile || !currentBytes) return;
 
@@ -238,17 +436,18 @@ export function initPdfTool() {
 
     try {
       const loadedDoc = await PDFDocument.load(currentBytes, { ignoreEncryption: false });
-      const cleanDoc = await stripPdfMetadataFromDoc(loadedDoc);
+      clearPdfMetadata(loadedDoc);
 
-      cleanDoc.setAuthor('');
-      cleanDoc.setTitle('');
-      cleanDoc.setSubject('');
-      cleanDoc.setKeywords([]);
-      cleanDoc.setProducer('');
-      cleanDoc.setCreator('');
-      cleanDoc.catalog?.dict?.delete?.(PDFName.of('Metadata'));
+      let cleanedBytes = await loadedDoc.save();
 
-      const cleanedBytes = await cleanDoc.save({ useObjectStreams: false });
+      try {
+        await PDFDocument.load(cleanedBytes);
+      } catch (validateErr) {
+        console.error('Cleaned PDF validation failed, attempting fallback save', validateErr);
+        cleanedBytes = await loadedDoc.save({ useObjectStreams: false });
+        await PDFDocument.load(cleanedBytes);
+      }
+
       cleanBlob = new Blob([cleanedBytes], { type: 'application/pdf' });
       cleanFilename = currentFile.name.replace(/\.pdf$/i, '') + '-cleaned.pdf';
 
@@ -280,6 +479,8 @@ export function initPdfTool() {
 
   stripButton?.addEventListener('click', handleStripClick);
   downloadAgainButton?.addEventListener('click', handleDownloadAgain);
+  stripSelectedBtn?.addEventListener('click', handleStripSelected);
+  stripAllBtn?.addEventListener('click', handleStripClick);
 
   resetResults();
   clearMessages();

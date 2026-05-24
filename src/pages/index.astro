@@ -213,7 +213,7 @@ const marqueeItems = [
     <h2 class="section-title">Every tool. Zero upload.</h2>
     <p class="section-sub">Built for professionals who send sensitive documents daily and can't afford data leaks.</p>
 
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+    <div class="tools-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
       {tools.map((tool) => (
         <a
           href={tool.href}
@@ -233,7 +233,7 @@ const marqueeItems = [
 
   <!-- WHY SECTION -->
   <section class="section-dark" id="why" style="padding:88px 40px;">
-    <div style="max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:100px;align-items:center;">
+    <div class="architecture-grid" style="max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:100px;align-items:center;">
 
       <div>
         <div class="section-label">The architecture</div>
@@ -331,7 +331,7 @@ const marqueeItems = [
     <h2 class="section-title">Why this matters</h2>
     <p class="section-sub">Guides on file privacy, document security, and protecting your data before sharing.</p>
 
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+    <div class="blog-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
       {blogs.map((post) => (
         <a href={post.href} class="blog-card">
           <div class="blog-card-body">
