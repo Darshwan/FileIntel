@@ -1,1131 +1,2682 @@
 ---
 // src/pages/pdf-metadata-remover.astro
 // FileIntel — PDF Metadata Inspector & Remover
-// Privacy Risk Score feature included
+// Production-level: pdf-lib stripping + pdf.js inspection + Privacy Risk Score
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Metadata Remover — Free, Private, No Upload | FileIntel</title>
+    <meta
+      name="description"
+      content="Remove hidden metadata from PDF files instantly. See your Privacy Risk Score, strip author names, GPS coordinates, and company data. 100% browser-side — your file never leaves your device."
+    />
+    <link rel="canonical" href="https://fileintel.tech/pdf-metadata-remover" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://fileintel.tech/pdf-metadata-remover"
+    />
+    <meta
+      property="og:title"
+      content="PDF Metadata Remover — Free & Private | FileIntel"
+    />
+    <meta
+      property="og:description"
+      content="Inspect and strip hidden metadata from PDFs. Privacy Risk Score included. Your file never leaves your browser."
+    />
+    <meta
+      property="og:image"
+      content="https://fileintel.tech/og-pdf-tool.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Primary SEO -->
-  <title>PDF Metadata Remover — Free, Private, No Upload | FileIntel</title>
-  <meta name="description" content="Remove hidden metadata from PDF files instantly. See your Privacy Risk Score, strip author names, GPS coordinates, and company data. 100% browser-side — your file never leaves your device." />
-  <link rel="canonical" href="https://fileintel.tech/pdf-metadata-remover" />
-
-  <!-- Open Graph -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://fileintel.tech/pdf-metadata-remover" />
-  <meta property="og:title"       content="PDF Metadata Remover — Free & Private | FileIntel" />
-  <meta property="og:description" content="Inspect and strip hidden metadata from PDFs. Privacy Risk Score included. Your file never leaves your browser." />
-  <meta property="og:image"       content="https://fileintel.tech/og-pdf-tool.png" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="PDF Metadata Remover — Free & Private | FileIntel" />
-  <meta name="twitter:description" content="See your PDF's Privacy Risk Score. Strip hidden metadata in seconds. Browser-only." />
-
-  <!-- Schema.org — WebApplication -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "PDF Metadata Remover",
-    "description": "Inspect and remove hidden metadata from PDF files privately in your browser. Includes Privacy Risk Score.",
-    "url": "https://fileintel.tech/pdf-metadata-remover",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "browserRequirements": "Requires a modern browser with JavaScript enabled",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "featureList": [
-      "PDF metadata inspection",
-      "Metadata removal and stripping",
-      "Privacy Risk Score",
-      "GPS coordinate detection",
-      "Author and company name removal",
-      "100% browser-side processing"
-    ]
-  }
-  </script>
-
-  <!-- FAQ Schema — helps with Google rich results -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    <script type="application/ld+json">
       {
-        "@type": "Question",
-        "name": "Does removing PDF metadata change the visible content?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Metadata is stored separately from document content. All text, images, formatting, and pages remain completely unchanged after stripping."
-        }
-      },
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PDF Metadata Remover",
+        "description": "Inspect and remove hidden metadata from PDF files privately in your browser.",
+        "url": "https://fileintel.tech/pdf-metadata-remover",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+
+    <script type="application/ld+json">
       {
-        "@type": "Question",
-        "name": "Does my PDF get uploaded to your servers?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. FileIntel processes everything in your browser using PDF.js. Your file never leaves your device and no data is sent to any server."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What metadata does a PDF contain?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "PDFs can contain author name, company name, GPS coordinates, creation and modification dates, software version used, revision count, and more. FileIntel inspects 23+ fields."
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does removing PDF metadata change the visible content?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Metadata is stored separately from document content. All text, images, and formatting remain completely unchanged."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does my PDF get uploaded to your servers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. FileIntel processes everything in your browser using PDF.js and pdf-lib. Your file never leaves your device."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What metadata does a PDF contain?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PDFs can contain author name, company name, GPS coordinates, creation and modification dates, software version, revision count, and more."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/global.css" />
+
+    <style>
+      /* ══ TOOL HERO ══ */
+      .tool-hero {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 72px 40px 64px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 72px;
+        align-items: start;
+      }
+
+      /* ══ TOOL PANEL ══ */
+      .tool-panel {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        position: sticky;
+        top: calc(var(--nav-height) + 20px);
+      }
+
+      .tool-panel-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--paper-3);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--white);
+      }
+
+      .tool-panel-title {
+        font-size: 11.5px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ink-2);
+        font-family: var(--mono);
+      }
+
+      /* ══ STATES ══ */
+      .state {
+        display: none;
+      }
+      .state.active {
+        display: block;
+      }
+
+      /* ══ UPLOAD ZONE — entire area is clickable ══ */
+      .upload-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 44px 24px;
+        margin: 20px;
+        border: 1.5px dashed var(--border);
+        border-radius: var(--radius);
+        background: var(--paper);
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          background 0.2s,
+          box-shadow 0.2s;
+        text-align: center;
+        user-select: none;
+      }
+
+      .upload-zone:hover,
+      .upload-zone.drag-active {
+        border-color: var(--ink-2);
+        background: var(--paper-2);
+        box-shadow: inset 0 0 0 3px rgba(15, 15, 13, 0.04);
+      }
+
+      .upload-zone.drag-active {
+        border-color: var(--green);
+        background: var(--green-light);
+      }
+
+      .upload-zone svg {
+        color: var(--ink-3);
+        margin-bottom: 14px;
+        pointer-events: none;
+      }
+      .upload-zone h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
+        pointer-events: none;
+      }
+      .upload-zone p {
+        font-size: 12.5px;
+        color: var(--ink-3);
+        margin-bottom: 18px;
+        pointer-events: none;
+      }
+
+      .upload-btn-inner {
+        background: var(--ink);
+        color: var(--white);
+        border: none;
+        padding: 9px 22px;
+        border-radius: var(--radius);
+        font-size: 13px;
+        font-weight: 500;
+        font-family: var(--sans);
+        cursor: pointer;
+        pointer-events: none;
+        transition: background 0.15s;
+      }
+
+      /* ══ ANALYZING ══ */
+      .analyzing-wrap {
+        padding: 48px 24px;
+        text-align: center;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--paper-3);
+        border-top-color: var(--ink);
+        border-radius: 50%;
+        margin: 0 auto 16px;
+        animation: spin 0.75s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
       }
-    ]
-  }
-  </script>
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" href="/styles/global.css" />
+      .analyze-msg {
+        font-size: 13.5px;
+        color: var(--ink-2);
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
 
-  <style>
-    /* ── Page-specific styles ── */
+      .analyze-sub {
+        font-size: 12px;
+        color: var(--ink-3);
+      }
 
-    /* HERO SPLIT */
-    .tool-hero {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 72px 40px 64px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      align-items: start;
-    }
+      /* ══ ERROR ══ */
+      .error-wrap {
+        padding: 32px 24px;
+        text-align: center;
+      }
 
-    /* TOOL CARD WRAPPER */
-    .tool-panel {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      position: sticky;
-      top: calc(var(--nav-height) + 20px);
-    }
+      .error-icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+      }
+      .error-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+      .error-msg {
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.55;
+        margin-bottom: 20px;
+      }
 
-    .tool-panel-header {
-      padding: 18px 24px;
-      border-bottom: 1px solid var(--paper-3);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+      /* ══ SCORE RING ══ */
+      .score-ring-wrap {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid var(--paper-3);
+        background: var(--white);
+      }
 
-    .tool-panel-title {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-2);
-      font-family: var(--mono);
-    }
+      .ring-container {
+        position: relative;
+        width: 92px;
+        height: 92px;
+        flex-shrink: 0;
+      }
 
-    /* STATES */
-    .state { display: none; }
-    .state.active { display: block; }
+      .ring-svg {
+        transform: rotate(-90deg);
+      }
 
-    /* SCORE RING */
-    .score-ring-wrap {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 24px;
-      border-bottom: 1px solid var(--paper-3);
-    }
+      .ring-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-    .ring-svg { transform: rotate(-90deg); flex-shrink: 0; }
+      .ring-num {
+        font-family: var(--serif);
+        font-size: 26px;
+        font-style: italic;
+        color: var(--ink);
+        line-height: 1;
+      }
 
-    .ring-label {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+      .ring-sub {
+        font-family: var(--mono);
+        font-size: 8.5px;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin-top: 3px;
+      }
 
-    .ring-num {
-      font-family: var(--serif);
-      font-size: 28px;
-      font-style: italic;
-      color: var(--ink);
-      line-height: 1;
-    }
+      .score-summary-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        letter-spacing: -0.02em;
+      }
 
-    .ring-sub {
-      font-family: var(--mono);
-      font-size: 9px;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-top: 2px;
-    }
+      .score-summary-desc {
+        font-size: 12px;
+        color: var(--ink-3);
+        line-height: 1.55;
+      }
 
-    /* RISK ROWS */
-    .risk-rows { padding: 8px 0; }
+      /* ══ SCORE METER BAR — visual progress under ring ══ */
+      .score-meter {
+        margin: 0 24px 0;
+        padding: 10px 0 14px;
+        border-bottom: 1px solid var(--paper-3);
+      }
 
-    .risk-row {
-      display: grid;
-      grid-template-columns: 20px 1fr auto auto;
-      align-items: center;
-      gap: 12px;
-      padding: 11px 24px;
-      border-bottom: 1px solid var(--paper-3);
-      transition: background 0.15s;
-    }
+      .score-meter-track {
+        height: 5px;
+        background: var(--paper-3);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-bottom: 6px;
+      }
 
-    .risk-row:last-child { border-bottom: none; }
-    .risk-row:hover { background: var(--paper); }
+      .score-meter-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 99px;
+        transition:
+          width 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+          background 0.4s;
+        background: var(--green);
+      }
 
-    .risk-icon { font-size: 14px; text-align: center; }
+      .score-meter-labels {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 9.5px;
+        color: var(--ink-3);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
 
-    .risk-info { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+      /* ══ FILE INFO BAR ══ */
+      .file-info-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 24px;
+        background: var(--paper-2);
+        border-bottom: 1px solid var(--paper-3);
+        font-size: 11.5px;
+        color: var(--ink-3);
+        font-family: var(--mono);
+      }
 
-    .risk-name {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+      .file-info-name {
+        font-weight: 500;
+        color: var(--ink-2);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 150px;
+      }
 
-    .risk-val {
-      font-size: 11px;
-      color: var(--ink-3);
-      font-family: var(--mono);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+      .file-info-badge {
+        margin-left: auto;
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 3px;
+        font-weight: 500;
+        background: var(--red-light);
+        color: var(--accent);
+      }
 
-    /* TOGGLE */
-    .toggle {
-      width: 36px;
-      height: 20px;
-      background: var(--paper-3);
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      position: relative;
-      transition: background 0.2s;
-      flex-shrink: 0;
-    }
+      .file-info-badge.clean {
+        background: var(--green-light);
+        color: var(--green);
+      }
 
-    .toggle.on { background: var(--green); }
+      /* ══ RISK ROWS ══ */
+      .risk-rows {
+        border-bottom: 1px solid var(--paper-3);
+      }
 
-    .toggle::after {
-      content: '';
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      background: white;
-      border-radius: 50%;
-      top: 3px;
-      left: 3px;
-      transition: transform 0.2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
+      .risk-row {
+        display: grid;
+        grid-template-columns: 22px 1fr auto auto;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 24px;
+        border-bottom: 1px solid var(--paper-3);
+        transition: background 0.15s;
+        cursor: default;
+      }
 
-    .toggle.on::after { transform: translateX(16px); }
+      .risk-row:last-child {
+        border-bottom: none;
+      }
+      .risk-row:hover {
+        background: var(--paper);
+      }
 
-    /* ACTION ROW */
-    .action-row {
-      padding: 16px 24px;
-      border-top: 1px solid var(--paper-3);
-      display: flex;
-      gap: 10px;
-      background: var(--paper);
-    }
+      .risk-row.stripped {
+        opacity: 0.32;
+        background: var(--paper);
+      }
 
-    .action-row .btn { flex: 1; justify-content: center; padding: 10px 16px; font-size: 13px; }
+      .risk-row.stripped .risk-name {
+        text-decoration: line-through;
+        color: var(--ink-3);
+      }
 
-    /* SCORE AFTER */
-    .score-after {
-      padding: 16px 24px;
-      background: var(--green-light);
-      border-top: 1px solid var(--green-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 13px;
-    }
+      .risk-icon {
+        font-size: 13px;
+        text-align: center;
+      }
+      .risk-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
 
-    .score-after-label { color: var(--green); font-weight: 500; }
-    .score-after-num { font-family: var(--serif); font-size: 20px; font-style: italic; color: var(--green); }
+      .risk-name {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color 0.2s;
+      }
 
-    /* FIELDS SECTION */
-    .fields-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
+      .risk-val {
+        font-size: 10.5px;
+        color: var(--ink-3);
+        font-family: var(--mono);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-    .field-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px;
-      transition: all 0.2s;
-    }
+      /* ══ TOGGLE ══ */
+      .toggle {
+        width: 34px;
+        height: 19px;
+        background: var(--paper-3);
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        transition: background 0.2s;
+        flex-shrink: 0;
+      }
 
-    .field-card:hover {
-      border-color: var(--ink-3);
-      box-shadow: var(--shadow-sm);
-    }
+      .toggle.on {
+        background: var(--green);
+      }
 
-    .field-name {
-      font-family: var(--mono);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 5px;
-    }
+      .toggle::after {
+        content: "";
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        background: white;
+        border-radius: 50%;
+        top: 3px;
+        left: 3px;
+        transition: transform 0.2s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
 
-    .field-desc {
-      font-size: 12px;
-      color: var(--ink-3);
-      line-height: 1.5;
-    }
+      .toggle.on::after {
+        transform: translateX(15px);
+      }
 
-    /* USE CASES STRIP */
-    .use-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--white);
-    }
+      /* ══ SELECT ALL ROW ══ */
+      .select-all-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 24px;
+        border-bottom: 1px solid var(--paper-3);
+        font-size: 11px;
+        color: var(--ink-3);
+        background: var(--paper);
+        font-family: var(--mono);
+        letter-spacing: 0.02em;
+      }
 
-    .use-cell {
-      padding: 32px 28px;
-      border-right: 1px solid var(--border);
-      transition: background 0.2s;
-    }
+      .select-all-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
+        color: var(--ink-2);
+        font-family: var(--mono);
+        font-weight: 500;
+        padding: 3px 0;
+        transition: color 0.15s;
+        letter-spacing: 0.02em;
+      }
 
-    .use-cell:last-child { border-right: none; }
-    .use-cell:hover { background: var(--paper); }
+      .select-all-btn:hover {
+        color: var(--ink);
+      }
 
-    .use-cell-icon { font-size: 20px; margin-bottom: 12px; }
-    .use-cell h3 { font-size: 13.5px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.01em; }
-    .use-cell p  { font-size: 12.5px; color: var(--ink-3); line-height: 1.55; }
+      /* ══ ACTION ROW ══ */
+      .action-row {
+        padding: 14px 20px;
+        border-top: 1px solid var(--paper-3);
+        display: flex;
+        gap: 8px;
+        background: var(--paper);
+      }
 
-    /* STEPS */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
+      .action-row .btn {
+        flex: 1;
+        justify-content: center;
+        padding: 11px 14px;
+        font-size: 13px;
+      }
 
-    .step {
-      padding: 36px 28px;
-      background: #1a1a17;
-    }
+      /* ══ SCORE IMPROVED ══ */
+      .score-improved {
+        padding: 14px 24px;
+        background: var(--green-light);
+        border-top: 1px solid var(--green-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
 
-    .step-num {
-      font-family: var(--serif);
-      font-size: 44px;
-      color: #7e7e7e;
-      line-height: 1;
-      margin-bottom: 16px;
-      font-style: italic;
-    }
+      .score-improved-left {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--green);
+      }
+      .score-improved-right {
+        font-family: var(--serif);
+        font-size: 24px;
+        font-style: italic;
+        color: var(--green);
+      }
+      .score-improved-sub {
+        font-size: 10.5px;
+        color: #4a9a6a;
+        font-family: var(--mono);
+        margin-top: 2px;
+        letter-spacing: 0.03em;
+      }
 
-    .step-bar {
-      width: 24px;
-      height: 2px;
-      background: var(--accent);
-      margin-bottom: 16px;
-    }
+      /* ══ CARD FOOTER ══ */
+      .card-footer {
+        padding: 11px 24px;
+        background: var(--paper);
+        border-top: 1px solid var(--paper-3);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11.5px;
+        color: var(--ink-3);
+      }
 
-    .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--paper); letter-spacing: -0.01em; }
-    .step p  { font-size: 13px; color: #7a7a72; line-height: 1.6; }
+      .reset-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 11.5px;
+        color: var(--ink-3);
+        font-family: var(--sans);
+        transition: color 0.15s;
+      }
 
-    /* FAQ */
-    .faq-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
+      .reset-btn:hover {
+        color: var(--ink);
+      }
 
-    .faq-item {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px;
-      transition: box-shadow 0.2s;
-    }
+      /* ══ NO METADATA STATE ══ */
+      .clean-wrap {
+        padding: 36px 24px;
+        text-align: center;
+      }
 
-    .faq-item:hover { box-shadow: var(--shadow-sm); }
+      .clean-icon {
+        font-size: 36px;
+        margin-bottom: 12px;
+      }
+      .clean-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--green);
+        margin-bottom: 8px;
+      }
+      .clean-desc {
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.55;
+        margin-bottom: 20px;
+      }
 
-    .faq-q { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 8px; line-height: 1.4; }
-    .faq-a { font-size: 13px; color: var(--ink-3); line-height: 1.6; }
+      /* ══ DOWNLOAD PROGRESS ══ */
+      .download-progress {
+        height: 3px;
+        background: var(--paper-3);
+        border-radius: 0;
+        overflow: hidden;
+      }
 
-    /* COMPARE TABLE */
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13.5px;
-      margin-top: 40px;
-    }
+      .download-bar {
+        height: 100%;
+        background: var(--green);
+        width: 0%;
+        transition: width 0.4s ease;
+        border-radius: 0;
+      }
 
-    .compare-table th {
-      padding: 13px 18px;
-      text-align: left;
-      font-size: 10.5px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      border-bottom: 2px solid var(--border);
-      font-family: var(--mono);
-      font-weight: 500;
-    }
+      /* ══ REST OF PAGE ══ */
+      .use-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: var(--white);
+      }
 
-    .compare-table th.hl {
-      background: var(--ink);
-      color: var(--paper);
-      border-radius: var(--radius) var(--radius) 0 0;
-    }
+      .use-cell {
+        padding: 30px 26px;
+        border-right: 1px solid var(--border);
+        transition: background 0.2s;
+      }
 
-    .compare-table td {
-      padding: 13px 18px;
-      border-bottom: 1px solid var(--paper-3);
-      color: var(--ink-2);
-    }
+      .use-cell:last-child {
+        border-right: none;
+      }
+      .use-cell:hover {
+        background: var(--paper);
+      }
+      .use-cell-icon {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+      .use-cell h3 {
+        font-size: 13.5px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .use-cell p {
+        font-size: 12.5px;
+        color: var(--ink-3);
+        line-height: 1.55;
+      }
 
-    .compare-table td.hl { background: #f5f3ee; color: var(--ink); font-weight: 500; }
-    .compare-table tr:last-child td { border-bottom: none; }
-    .chk { color: var(--green); font-weight: 700; }
-    .crs { color: var(--accent); }
-    .par { color: var(--amber); }
+      .fields-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
 
-    @media (max-width: 900px) {
-      .tool-hero { grid-template-columns: 1fr; }
-      .tool-panel { position: static; }
-      .fields-grid { grid-template-columns: 1fr 1fr; }
-      .use-strip { grid-template-columns: 1fr 1fr; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .faq-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
+      .field-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        transition: all 0.2s;
+      }
 
-<body>
+      .field-card:hover {
+        border-color: var(--ink-3);
+        box-shadow: var(--shadow-sm);
+      }
+      .field-name {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      .field-desc {
+        font-size: 12px;
+        color: var(--ink-3);
+        line-height: 1.5;
+      }
 
-  <!-- ANNOUNCE -->
-  <div class="announce">
-    <strong>Privacy first.</strong> Your files are processed entirely in your browser — we never see them.
-  </div>
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        margin-top: 48px;
+      }
+      .step {
+        padding: 36px 28px;
+        background: #1a1a17;
+      }
+      .step-num {
+        font-family: var(--serif);
+        font-size: 44px;
+        color: #222220;
+        line-height: 1;
+        margin-bottom: 16px;
+        font-style: italic;
+      }
+      .step-bar {
+        width: 24px;
+        height: 2px;
+        background: var(--accent);
+        margin-bottom: 16px;
+      }
+      .step h3 {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--paper);
+      }
+      .step p {
+        font-size: 13px;
+        color: #7a7a72;
+        line-height: 1.6;
+      }
 
-  <!-- NAV -->
-  <nav class="nav">
-    <a href="/" class="nav-brand">
-      <div class="nav-logo">Fi</div>
-      <div>
-        <div class="nav-name">FileIntel</div>
-        <div class="nav-tagline">Private File Tools</div>
-      </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/pdf-metadata-remover" class="active">PDF Tool</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/privacy">Privacy</a></li>
-      <li><span class="nav-badge">⚡ Browser-only processing</span></li>
-    </ul>
-  </nav>
+      .faq-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 48px;
+      }
+      .faq-item {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px;
+        transition: box-shadow 0.2s;
+      }
+      .faq-item:hover {
+        box-shadow: var(--shadow-sm);
+      }
+      .faq-q {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+      .faq-a {
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.6;
+      }
 
-  <!-- HERO SPLIT -->
-  <div class="tool-hero">
+      .compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        margin-top: 40px;
+      }
+      .compare-table th {
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        border-bottom: 2px solid var(--border);
+        font-family: var(--mono);
+        font-weight: 500;
+      }
+      .compare-table th.hl {
+        background: var(--ink);
+        color: var(--paper);
+        border-radius: var(--radius) var(--radius) 0 0;
+      }
+      .compare-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--paper-3);
+        color: var(--ink-2);
+      }
+      .compare-table td.hl {
+        background: #f5f3ee;
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .compare-table tr:last-child td {
+        border-bottom: none;
+      }
+      .chk {
+        color: var(--green);
+        font-weight: 700;
+      }
+      .crs {
+        color: var(--accent);
+      }
+      .par {
+        color: var(--amber);
+      }
 
-    <!-- LEFT: COPY -->
-    <div>
-      <div class="eyebrow accent">PDF Metadata Inspector & Remover</div>
+      @media (max-width: 900px) {
+        .tool-hero {
+          grid-template-columns: 1fr;
+        }
+        .tool-panel {
+          position: static;
+        }
+        .fields-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .use-strip {
+          grid-template-columns: 1fr 1fr;
+        }
+        .steps-grid {
+          grid-template-columns: 1fr;
+        }
+        .faq-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
 
-      <h1 style="font-family:var(--serif);font-size:clamp(36px,5vw,54px);line-height:1.07;letter-spacing:-0.02em;margin-bottom:18px;">
-        Strip <em style="font-style:italic;color:var(--accent);">hidden data</em><br />before you send.
-      </h1>
+  <body>
+    <!-- ANNOUNCE -->
+    <div class="announce">
+      <strong>Privacy first.</strong> Your files are processed entirely in your browser
+      — we never see them.
+    </div>
 
-      <p style="font-size:15.5px;color:var(--ink-2);line-height:1.65;margin-bottom:28px;font-weight:300;">
-        Every PDF you create contains invisible metadata — your name, company,
-        software version, edit history, and sometimes GPS coordinates.
-        Inspect and clean it in seconds, privately.
-      </p>
+    <!-- NAV -->
+    <!-- NAV -->
+    <style>
+      /* ── Dropdown ── */
+      .nav-dropdown {
+        position: relative;
+      }
 
-      <!-- PRIVACY RISK SCORE EXPLAINER -->
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:28px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-          <span style="font-size:18px;">🛡️</span>
-          <span style="font-size:13px;font-weight:600;color:var(--ink);">New: Privacy Risk Score</span>
-          <span class="tag tag-live">Live</span>
+      .nav-dropdown-trigger {
+        font-size: 13.5px;
+        color: var(--ink-2);
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: var(--radius);
+        transition: all 0.15s;
+        font-weight: 400;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: var(--sans);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .nav-dropdown-trigger:hover {
+        background: var(--paper-2);
+        color: var(--ink);
+      }
+
+      .nav-dropdown-trigger svg {
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+      }
+
+      .nav-dropdown:hover .nav-dropdown-trigger svg,
+      .nav-dropdown.open .nav-dropdown-trigger svg {
+        transform: rotate(180deg);
+      }
+
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%) translateY(-4px);
+        width: 280px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.18s ease,
+          transform 0.18s ease;
+        z-index: 200;
+        overflow: hidden;
+      }
+
+      .nav-dropdown:hover .nav-dropdown-menu,
+      .nav-dropdown.open .nav-dropdown-menu {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .dropdown-header {
+        padding: 10px 14px 8px;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        border-bottom: 1px solid var(--paper-3);
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 14px;
+        text-decoration: none;
+        color: var(--ink);
+        transition: background 0.12s;
+        border-bottom: 1px solid var(--paper-3);
+      }
+
+      .dropdown-item:last-child {
+        border-bottom: none;
+      }
+      .dropdown-item:hover {
+        background: var(--paper);
+      }
+
+      .dropdown-item-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius);
+        background: var(--paper-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+        transition: background 0.12s;
+      }
+
+      .dropdown-item:hover .dropdown-item-icon {
+        background: var(--paper-3);
+      }
+
+      .dropdown-item-text {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .dropdown-item-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 2px;
+        letter-spacing: -0.01em;
+      }
+
+      .dropdown-item-desc {
+        font-size: 11px;
+        color: var(--ink-3);
+        line-height: 1.4;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .dropdown-item-badge {
+        font-family: var(--mono);
+        font-size: 9.5px;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .badge-live {
+        background: var(--green-light);
+        color: var(--green);
+      }
+      .badge-soon {
+        background: var(--paper-3);
+        color: var(--ink-3);
+      }
+
+      .dropdown-footer {
+        padding: 9px 14px;
+        background: var(--paper);
+        border-top: 1px solid var(--paper-3);
+        font-size: 11.5px;
+        color: var(--ink-3);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .dropdown-footer a {
+        font-size: 11.5px;
+        color: var(--ink-2);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+
+      .dropdown-footer a:hover {
+        color: var(--ink);
+      }
+    </style>
+
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <div class="nav-logo">Fi</div>
+        <div>
+          <div class="nav-name">FileIntel</div>
+          <div class="nav-tagline">Private File Tools</div>
         </div>
-        <p style="font-size:13px;color:var(--ink-3);line-height:1.6;">
-          Upload any PDF and instantly see a scored breakdown of every privacy risk —
-          <strong style="color:var(--accent);">High</strong>,
-          <strong style="color:var(--amber);">Medium</strong>, or
-          <strong style="color:var(--green);">Low</strong> —
-          before deciding what to strip. Like a credit score for document privacy.
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/" class="active">Home</a></li>
+
+        <!-- TOOLS DROPDOWN -->
+        <li class="nav-dropdown" id="tools-dropdown">
+          <button
+            class="nav-dropdown-trigger"
+            id="tools-trigger"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Tools
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="nav-dropdown-menu" role="menu">
+            <div class="dropdown-header">Available tools</div>
+
+            <a
+              href="/pdf-metadata-remover"
+              class="dropdown-item"
+              role="menuitem"
+            >
+              <div class="dropdown-item-icon">🔍</div>
+              <div class="dropdown-item-text">
+                <div class="dropdown-item-name">PDF Metadata Remover</div>
+                <div class="dropdown-item-desc">
+                  Strip hidden author, GPS & company data
+                </div>
+              </div>
+              <span class="dropdown-item-badge badge-live">Live</span>
+            </a>
+
+            <a href="/pdf-redactor" class="dropdown-item" role="menuitem">
+              <div class="dropdown-item-icon">✏️</div>
+              <div class="dropdown-item-text">
+                <div class="dropdown-item-name">PDF Redactor</div>
+                <div class="dropdown-item-desc">
+                  Draw boxes or keyword-redact text
+                </div>
+              </div>
+              <span class="dropdown-item-badge badge-live">Live</span>
+            </a>
+
+            <a href="/csv-deduplicator" class="dropdown-item" role="menuitem">
+              <div class="dropdown-item-icon">🗂</div>
+              <div class="dropdown-item-text">
+                <div class="dropdown-item-name">CSV Deduplicator</div>
+                <div class="dropdown-item-desc">
+                  Remove duplicate rows from spreadsheets
+                </div>
+              </div>
+              <span class="dropdown-item-badge badge-live">Live</span>
+            </a>
+
+            <a
+              href="#"
+              class="dropdown-item"
+              style="opacity:0.5;pointer-events:none;"
+              role="menuitem"
+              aria-disabled="true"
+            >
+              <div class="dropdown-item-icon">🔐</div>
+              <div class="dropdown-item-text">
+                <div class="dropdown-item-name">PDF Merger</div>
+                <div class="dropdown-item-desc">
+                  Combine PDFs without uploading
+                </div>
+              </div>
+              <span class="dropdown-item-badge badge-soon">Soon</span>
+            </a>
+
+            <a
+              href="#"
+              class="dropdown-item"
+              style="opacity:0.5;pointer-events:none;"
+              role="menuitem"
+              aria-disabled="true"
+            >
+              <div class="dropdown-item-icon">🧹</div>
+              <div class="dropdown-item-text">
+                <div class="dropdown-item-name">Image EXIF Cleaner</div>
+                <div class="dropdown-item-desc">
+                  Strip GPS & camera data from photos
+                </div>
+              </div>
+              <span class="dropdown-item-badge badge-soon">Soon</span>
+            </a>
+
+            <div class="dropdown-footer">
+              <span>All tools run in your browser</span>
+              <a href="/#tools">View all →</a>
+            </div>
+          </div>
+        </li>
+
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+        <li>
+          <a
+            href="https://github.com/yourusername/fileintel"
+            target="_blank"
+            rel="noopener">GitHub</a
+          >
+        </li>
+        <li><span class="nav-badge">⚡ Browser-only</span></li>
+      </ul>
+    </nav>
+
+    <script>
+      // Click toggle for keyboard/mobile users
+      const dropdown = document.getElementById("tools-dropdown");
+      const trigger = document.getElementById("tools-trigger");
+
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.toggle("open");
+        trigger.setAttribute("aria-expanded", isOpen);
+      });
+
+      // Close when clicking outside
+      document.addEventListener("click", () => {
+        dropdown.classList.remove("open");
+        trigger.setAttribute("aria-expanded", "false");
+      });
+
+      // Close on Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          dropdown.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+        }
+      });
+    </script>
+
+    <!-- HERO SPLIT -->
+    <div class="tool-hero">
+      <!-- LEFT: COPY -->
+      <div>
+        <div class="eyebrow accent">PDF Metadata Inspector & Remover</div>
+
+        <h1
+          style="font-family:var(--serif);font-size:clamp(36px,5vw,54px);line-height:1.07;letter-spacing:-0.02em;margin-bottom:18px;"
+        >
+          Strip <em style="font-style:italic;color:var(--accent);"
+            >hidden data</em
+          ><br />before you send.
+        </h1>
+
+        <p
+          style="font-size:15.5px;color:var(--ink-2);line-height:1.65;margin-bottom:28px;font-weight:300;"
+        >
+          Every PDF you create contains invisible metadata — your name, company,
+          software version, edit history, and sometimes GPS coordinates. Inspect
+          and clean it in seconds, privately.
+        </p>
+
+        <div
+          style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:28px;"
+        >
+          <div
+            style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"
+          >
+            <span style="font-size:18px;">🛡️</span>
+            <span style="font-size:13px;font-weight:600;color:var(--ink);"
+              >Privacy Risk Score</span
+            >
+            <span class="tag tag-live">Live</span>
+          </div>
+          <p style="font-size:13px;color:var(--ink-3);line-height:1.6;">
+            Upload any PDF and instantly see a scored breakdown of every privacy
+            risk —
+            <strong style="color:var(--accent);">High</strong>,
+            <strong style="color:var(--amber);">Medium</strong>, or
+            <strong style="color:var(--green);">Low</strong> — then choose exactly
+            which fields to strip before downloading the clean copy.
+          </p>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item">
+            <span class="trust-check">✓</span> No server upload
+          </div>
+          <div class="trust-item">
+            <span class="trust-check">✓</span> Free forever
+          </div>
+          <div class="trust-item">
+            <span class="trust-check">✓</span> No sign-up
+          </div>
+          <div class="trust-item">
+            <span class="trust-check">✓</span> Works offline
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: TOOL PANEL -->
+      <div class="tool-panel" id="tool-panel">
+        <!-- HEADER — always visible -->
+        <div class="tool-panel-header">
+          <span class="tool-panel-title">PDF Privacy Analyzer</span>
+          <span class="tag tag-live" id="panel-badge">LOCAL ONLY</span>
+        </div>
+
+        <!-- DOWNLOAD PROGRESS BAR -->
+        <div class="download-progress" id="dl-progress" style="display:none;">
+          <div class="download-bar" id="dl-bar"></div>
+        </div>
+
+        <!-- ── STATE: UPLOAD ── -->
+        <div id="state-upload" class="state active">
+          <!-- Hidden real input — sits OUTSIDE the zone so it doesn't intercept clicks -->
+          <input
+            type="file"
+            id="file-input"
+            accept=".pdf,application/pdf"
+            style="position:fixed;top:-9999px;left:-9999px;opacity:0;pointer-events:none;"
+          />
+
+          <!-- Entire zone is the click target — no child buttons -->
+          <div
+            class="upload-zone"
+            id="upload-zone"
+            role="button"
+            tabindex="0"
+            aria-label="Upload PDF — click anywhere or drag and drop"
+            style="cursor:pointer;"
+          >
+            <svg
+              width="38"
+              height="38"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              style="pointer-events:none;"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="12" y1="18" x2="12" y2="12"></line>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg>
+            <h3 id="zone-title" style="pointer-events:none;">
+              Drop a PDF here
+            </h3>
+            <p id="zone-sub" style="pointer-events:none;">
+              Click anywhere in this box, or drag & drop<br />PDF files only ·
+              Max 50MB
+            </p>
+            <div class="upload-btn-inner" style="pointer-events:none;">
+              Choose PDF File
+            </div>
+          </div>
+
+          <div
+            class="card-footer"
+            style="justify-content:center;font-size:12px;"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><rect x="3" y="11" width="18" height="11" rx="2"></rect><path
+                d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg
+            >
+            &nbsp;File never leaves your device &nbsp;·&nbsp; Processed with PDF.js
+            + pdf-lib
+          </div>
+        </div>
+
+        <!-- ── STATE: ANALYZING ── -->
+        <div id="state-analyzing" class="state">
+          <div class="analyzing-wrap">
+            <div class="spinner"></div>
+            <p class="analyze-msg" id="analyze-msg">Reading PDF structure...</p>
+            <p class="analyze-sub">Your file never leaves this tab.</p>
+          </div>
+        </div>
+
+        <!-- ── STATE: ERROR ── -->
+        <div id="state-error" class="state">
+          <div class="error-wrap">
+            <div class="error-icon">⚠️</div>
+            <div class="error-title">Could not read this PDF</div>
+            <p class="error-msg" id="error-msg">
+              The file may be password-protected, corrupted, or not a valid PDF.
+            </p>
+            <button
+              class="btn btn-primary"
+              id="error-retry-btn"
+              style="margin:0 auto;">Try another file</button
+            >
+          </div>
+        </div>
+
+        <!-- ── STATE: CLEAN (no metadata found) ── -->
+        <div id="state-clean" class="state">
+          <div class="clean-wrap">
+            <div class="clean-icon">✅</div>
+            <div class="clean-title">This PDF is already clean</div>
+            <p class="clean-desc">
+              No risky metadata fields were detected. This document is safe to
+              share as-is.
+            </p>
+            <button
+              class="btn btn-secondary"
+              id="clean-reset-btn"
+              style="margin:0 auto;">Analyze another PDF</button
+            >
+          </div>
+          <div class="card-footer" style="justify-content:center;">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><rect x="3" y="11" width="18" height="11" rx="2"></rect><path
+                d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg
+            >
+            &nbsp;Zero bytes sent to servers
+          </div>
+        </div>
+
+        <!-- ── STATE: RESULTS ── -->
+        <!-- ── STATE: RESULTS ── -->
+        <div id="state-results" class="state">
+          <!-- File info bar -->
+          <div class="file-info-bar">
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path><polyline points="14 2 14 8 20 8"></polyline></svg
+            >
+            <span class="file-info-name" id="file-name-display"
+              >document.pdf</span
+            >
+            <span>·</span>
+            <span class="file-info-size" id="file-size-display">—</span>
+            <span id="field-count-display" class="file-info-badge">—</span>
+          </div>
+
+          <!-- Privacy Risk Score ring -->
+          <div class="score-ring-wrap">
+            <div class="ring-container">
+              <svg width="92" height="92" class="ring-svg">
+                <circle
+                  cx="46"
+                  cy="46"
+                  r="38"
+                  fill="none"
+                  stroke="var(--paper-3)"
+                  stroke-width="6"></circle>
+                <circle
+                  cx="46"
+                  cy="46"
+                  r="38"
+                  fill="none"
+                  id="score-arc"
+                  stroke="var(--accent)"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-dasharray="239"
+                  stroke-dashoffset="239"></circle>
+              </svg>
+              <div class="ring-label">
+                <span class="ring-num" id="score-val">0</span>
+                <span class="ring-sub">Risk</span>
+              </div>
+            </div>
+            <div>
+              <div class="score-summary-title" id="score-verdict">
+                Analyzing...
+              </div>
+              <div class="score-summary-desc" id="score-desc">
+                Calculating your privacy risk score.
+              </div>
+            </div>
+          </div>
+
+          <!-- Score meter bar -->
+          <div class="score-meter">
+            <div class="score-meter-track">
+              <div class="score-meter-fill" id="score-meter-fill"></div>
+            </div>
+            <div class="score-meter-labels">
+              <span>Clean</span>
+              <span>Low</span>
+              <span>Medium</span>
+              <span>High Risk</span>
+            </div>
+          </div>
+
+          <!-- Select all/none row -->
+          <div class="select-all-row">
+            <span id="selected-count-label">All fields selected</span>
+            <button class="select-all-btn" id="select-all-btn"
+              >Deselect all</button
+            >
+          </div>
+
+          <!-- Risk field rows — populated by JS -->
+          <div class="risk-rows" id="risk-rows"></div>
+
+          <!-- Action buttons -->
+          <div class="action-row">
+            <button class="btn btn-primary" id="strip-selected-btn">
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                ><polyline points="3 6 5 6 21 6"></polyline><path
+                  d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path
+                  d="M10 11v6M14 11v6"></path></svg
+              >
+              Strip & Download
+            </button>
+            <button class="btn btn-secondary" id="reset-btn">New PDF</button>
+          </div>
+
+          <!-- Score improved — shown after strip -->
+          <div class="score-improved" id="score-improved" style="display:none;">
+            <div>
+              <div class="score-improved-left">✓ PDF Cleaned & Downloaded</div>
+              <div class="score-improved-sub" id="score-improved-sub">
+                Fields removed · Score improved
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="score-improved-right" id="score-after-val">0</div>
+              <div class="score-improved-sub">NEW SCORE</div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span style="display:flex;align-items:center;gap:5px;">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                ><rect x="3" y="11" width="18" height="11" rx="2"></rect><path
+                  d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg
+              >
+              Zero bytes sent to servers
+            </span>
+            <button class="reset-btn" id="reset-btn-2">Analyze another →</button
+            >
+          </div>
+        </div>
+        <!-- /state-results -->
+      </div>
+      <!-- /tool-panel -->
+    </div>
+    <!-- /tool-hero -->
+
+    <!-- WHO USES THIS -->
+    <div class="use-strip">
+      <div class="use-cell">
+        <div class="use-cell-icon">⚖️</div><h3>Lawyers & Paralegals</h3><p>
+          Strip firm identity and author names before filing or sharing
+          contracts with opposing counsel.
         </p>
       </div>
-
-      <div class="trust-row">
-        <div class="trust-item"><span class="trust-check">✓</span> No upload to server</div>
-        <div class="trust-item"><span class="trust-check">✓</span> Free forever</div>
-        <div class="trust-item"><span class="trust-check">✓</span> No sign-up</div>
-        <div class="trust-item"><span class="trust-check">✓</span> Works offline</div>
+      <div class="use-cell">
+        <div class="use-cell-icon">📰</div><h3>Journalists</h3><p>
+          Verify source document authenticity. Check edit history and authorship
+          of leaked files.
+        </p>
+      </div>
+      <div class="use-cell">
+        <div class="use-cell-icon">💼</div><h3>Freelancers</h3><p>
+          Remove personal name and location before sending proposals or invoices
+          to clients.
+        </p>
+      </div>
+      <div class="use-cell">
+        <div class="use-cell-icon">🔒</div><h3>Compliance Teams</h3><p>
+          Ensure PDFs are GDPR-clean before external distribution.
+        </p>
       </div>
     </div>
 
-    <!-- RIGHT: TOOL PANEL -->
-    <div class="tool-panel" id="tool-panel">
-
-      <div class="tool-panel-header">
-        <span class="tool-panel-title">PDF Privacy Analyzer</span>
-        <span class="tag tag-live">LOCAL ONLY</span>
-      </div>
-
-      <!-- STATE: UPLOAD -->
-      <div id="state-upload" class="state active">
-        <div class="upload-zone" id="upload-zone">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 12px;color:var(--ink-3);">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="12" y1="18" x2="12" y2="12"/>
-            <line x1="9" y1="15" x2="15" y2="15"/>
-          </svg>
-          <h3>Drop a PDF to start</h3>
-          <p>Or click to choose a file. Max 50MB.</p>
-          <button class="btn btn-primary" id="choose-btn" style="padding:9px 20px;font-size:13px;">
-            Choose PDF
-          </button>
-          <input type="file" id="file-input" accept=".pdf,application/pdf" style="display:none;" />
-        </div>
-
-        <!-- DEMO TABLE -->
-        <div style="margin:0 20px 20px;border:1px solid var(--paper-3);border-radius:var(--radius);overflow:hidden;">
-          <table class="meta-table" style="width:100%;">
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Value</th>
-                <th style="text-align:center;">Risk</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="meta-key">Author</td>
-                <td class="meta-val risk-high">Sarah J. Mitchell</td>
-                <td><div class="risk-dot high" style="margin:0 auto;"></div></td>
-              </tr>
-              <tr>
-                <td class="meta-key">Company</td>
-                <td class="meta-val risk-high">Acme Legal LLP</td>
-                <td><div class="risk-dot high" style="margin:0 auto;"></div></td>
-              </tr>
-              <tr>
-                <td class="meta-key">GPS Coords</td>
-                <td class="meta-val risk-high">40.71° N, 74.00° W</td>
-                <td><div class="risk-dot high" style="margin:0 auto;"></div></td>
-              </tr>
-              <tr>
-                <td class="meta-key">Modified</td>
-                <td class="meta-val risk-med">2026-04-18 11:42</td>
-                <td><div class="risk-dot medium" style="margin:0 auto;"></div></td>
-              </tr>
-              <tr>
-                <td class="meta-key">Creator</td>
-                <td class="meta-val" style="color:var(--ink-2);">Word 16.72</td>
-                <td><div class="risk-dot low" style="margin:0 auto;"></div></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card-footer">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          File never leaves your device. Processed with PDF.js locally.
-        </div>
-      </div>
-
-      <!-- STATE: ANALYZING -->
-      <div id="state-analyzing" class="state">
-        <div style="padding:48px 24px;text-align:center;">
-          <div id="spinner" style="width:40px;height:40px;border:3px solid var(--paper-3);border-top-color:var(--ink);border-radius:50%;margin:0 auto 16px;animation:spin 0.8s linear infinite;"></div>
-          <p style="font-size:13.5px;color:var(--ink-2);font-weight:500;" id="analyze-msg">Reading PDF structure...</p>
-          <p style="font-size:12px;color:var(--ink-3);margin-top:6px;">Your file never leaves this tab.</p>
-        </div>
-      </div>
-
-      <!-- STATE: RESULTS -->
-      <div id="state-results" class="state">
-
-        <!-- PRIVACY RISK SCORE -->
-        <div class="score-ring-wrap">
-          <div style="position:relative;width:96px;height:96px;flex-shrink:0;">
-            <svg width="96" height="96" class="ring-svg">
-              <circle cx="48" cy="48" r="40" fill="none" stroke="var(--paper-3)" stroke-width="7"/>
-              <circle cx="48" cy="48" r="40" fill="none"
-                stroke="var(--accent)"
-                stroke-width="7"
-                stroke-linecap="round"
-                stroke-dasharray="251"
-                id="score-arc"
-                stroke-dashoffset="60"/>
-            </svg>
-            <div class="ring-label">
-              <span class="ring-num" id="score-val">847</span>
-              <span class="ring-sub">Risk Score</span>
-            </div>
-          </div>
-          <div>
-            <div id="score-verdict" style="font-size:15px;font-weight:600;color:var(--accent);margin-bottom:6px;">High Privacy Risk</div>
-            <div style="font-size:13px;color:var(--ink-3);line-height:1.55;" id="score-desc">
-              5 fields expose personal or company information. Strip all or choose individually below.
-            </div>
-          </div>
-        </div>
-
-        <!-- RISK ROWS -->
-        <div class="risk-rows" id="risk-rows">
-          <!-- Populated by JS -->
-        </div>
-
-        <!-- STRIP ACTIONS -->
-        <div class="action-row">
-          <button class="btn btn-primary" id="strip-all-btn">Strip All & Download</button>
-          <button class="btn btn-secondary" id="strip-selected-btn">Strip Selected</button>
-        </div>
-
-        <!-- AFTER SCORE -->
-        <div class="score-after" id="score-after" style="display:none;">
-          <div>
-            <div class="score-after-label">✓ PDF Cleaned</div>
-            <div style="font-size:12px;color:var(--green);margin-top:2px;">Privacy Risk Score improved</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="score-after-num" id="score-after-val">124</div>
-            <div style="font-size:11px;color:var(--green);font-family:var(--mono);">NEW SCORE</div>
-          </div>
-        </div>
-
-        <div class="card-footer" style="justify-content:space-between;">
-          <span style="display:flex;align-items:center;gap:6px;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Zero bytes sent to servers
-          </span>
-          <button id="reset-btn" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--ink-3);font-family:var(--sans);">
-            Analyze another →
-          </button>
-        </div>
-
-      </div>
-      <!-- /state-results -->
-
-    </div>
-    <!-- /tool-panel -->
-
-  </div>
-  <!-- /tool-hero -->
-
-  <!-- WHO USES THIS -->
-  <div class="use-strip">
-    <div class="use-cell">
-      <div class="use-cell-icon">⚖️</div>
-      <h3>Lawyers & Paralegals</h3>
-      <p>Strip firm identity and author names before filing or sharing contracts with opposing counsel.</p>
-    </div>
-    <div class="use-cell">
-      <div class="use-cell-icon">📰</div>
-      <h3>Journalists</h3>
-      <p>Verify source document authenticity. Check edit history and authorship of leaked files.</p>
-    </div>
-    <div class="use-cell">
-      <div class="use-cell-icon">💼</div>
-      <h3>Freelancers</h3>
-      <p>Remove personal name and location before sending proposals or invoices to clients.</p>
-    </div>
-    <div class="use-cell">
-      <div class="use-cell-icon">🔒</div>
-      <h3>Compliance Teams</h3>
-      <p>Ensure PDFs are GDPR-clean before external distribution. Audit trail management.</p>
-    </div>
-  </div>
-
-  <!-- WHAT WE STRIP -->
-  <section style="padding:80px 40px;background:var(--paper);">
-    <div style="max-width:var(--max-width);margin:0 auto;">
-      <div class="section-label">What we find</div>
-      <h2 class="section-title">Hidden fields in every PDF</h2>
-      <p class="section-sub">Standard PDF metadata contains far more than you'd expect. Here's what we surface and remove.</p>
-
-      <div class="fields-grid">
-        {[
-          { name: "Author",          desc: "Person's name pulled from OS account when document was created.", risk: "high",   riskLabel: "HIGH RISK" },
-          { name: "Company / Creator",desc: "Organization from the software license that created the doc.",   risk: "high",   riskLabel: "HIGH RISK" },
-          { name: "GPS Coordinates", desc: "Physical location embedded by certain mobile or desktop apps.",  risk: "high",   riskLabel: "HIGH RISK" },
-          { name: "Creation Date",   desc: "Exact timestamp showing when the document was first created.",   risk: "medium", riskLabel: "MEDIUM" },
-          { name: "Mod Date",        desc: "Timestamp of the last save — reveals recent activity patterns.", risk: "medium", riskLabel: "MEDIUM" },
-          { name: "Software Version",desc: "App and version used — can reveal unpatched software.",          risk: "medium", riskLabel: "MEDIUM" },
-          { name: "Revision Count",  desc: "Number of times saved — reveals editing patterns.",             risk: "low",    riskLabel: "LOW" },
-          { name: "Producer",        desc: "PDF rendering engine that created the file.",                    risk: "low",    riskLabel: "LOW" },
-          { name: "Subject / Keywords",desc: "Document classification tags set by the author.",             risk: "low",    riskLabel: "LOW" },
-        ].map((f) => (
+    <!-- WHAT WE STRIP -->
+    <section style="padding:80px 40px;background:var(--paper);">
+      <div style="max-width:var(--max-width);margin:0 auto;">
+        <div class="section-label">What we find</div>
+        <h2 class="section-title">Hidden fields in every PDF</h2>
+        <p class="section-sub">
+          Standard PDF metadata contains far more than you'd expect.
+        </p>
+        <div class="fields-grid">
           <div class="field-card">
-            <div class="field-name">{f.name}</div>
-            <div class="field-desc">{f.desc}</div>
-            <span class={`tag tag-${f.risk}`} style="margin-top:10px;">{f.riskLabel}</span>
+            <div class="field-name">Author</div><div class="field-desc">
+              Person's name pulled from OS account when document was created.
+            </div><span class="tag tag-high" style="margin-top:10px;"
+              >HIGH RISK</span
+            >
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="section-dark" style="padding:80px 40px;">
-    <div style="max-width:var(--max-width);margin:0 auto;">
-      <div class="section-label">The process</div>
-      <h2 class="section-title" style="color:var(--paper);">Three steps.<br />No server involved.</h2>
-      <p class="section-sub">Everything runs in your browser tab using PDF.js. Your file path never touches a network request.</p>
-
-      <div class="steps-grid" style="margin-top:48px;">
-        {[
-          { n:"01", h:"Inspect locally",      p:"Drop your PDF. We parse XMP and DocInfo streams directly in your browser and surface every field with a Privacy Risk Score." },
-          { n:"02", h:"Remove hidden fields", p:"Select individual fields or strip all with one click. We rewrite the PDF structure in memory without touching your original." },
-          { n:"03", h:"Download clean copy",  p:"Save the cleaned PDF directly to your device. Your original is untouched. The copy contains zero metadata we couldn't account for." },
-        ].map((s) => (
-          <div class="step">
-            <div class="step-num">{s.n}</div>
-            <div class="step-bar"></div>
-            <h3>{s.h}</h3>
-            <p>{s.p}</p>
+          <div class="field-card">
+            <div class="field-name">Company / Creator</div><div
+              class="field-desc"
+            >
+              Organization from the software license that created the doc.
+            </div><span class="tag tag-high" style="margin-top:10px;"
+              >HIGH RISK</span
+            >
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
-  
-  <!-- Privacy Section -->
-<section class="privacy-section">
-  <div class="section-inner">
-    <div class="privacy-inner">
-      <div>
-        <div class="section-label" style="color:#4a8a6a;">Privacy architecture</div>
-        <h2 class="privacy-title">We built it so we<br><em style="font-style:italic;">can't</em> see your files.</h2>
-        <p class="privacy-sub">This isn't a privacy policy promise. It's an architectural constraint. There is no upload endpoint. There is no server-side code path for your document.</p>
-        <ul class="privacy-points">
-          <li>PDF.js runs the entire parse in your browser tab</li>
-          <li>No network request is made after the page loads</li>
-          <li>Closing the tab erases all traces from memory</li>
-          <li>Works offline once the page is loaded</li>
-          <li>Open source — inspect the code yourself on GitHub</li>
-        </ul>
-      </div>
-      <div class="privacy-code">
-        <div class="code-comment">// FileIntel PDF processor</div>
-        <div class="code-comment">// Zero server communication</div>
-        <br>
-        <div><span class="code-fn">async function</span> <span class="code-key">inspectPDF</span>(file) </div>
-        <div>&nbsp;&nbsp;<span class="code-comment">// Reads from local File object</span></div>
-        <div>&nbsp;&nbsp;<span class="code-key">const</span> buffer = <span class="code-fn">await</span> file.arrayBuffer();</div>
-        <br>
-        <div>&nbsp;&nbsp;<span class="code-comment">// PDF.js — local, no CDN call</span></div>
-        <div>&nbsp;&nbsp;<span class="code-key">const</span> pdf = <span class="code-fn">await</span> pdfjsLib</div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;.getDocument(buffer).promise;</div>
-        <br>
-        <div>&nbsp;&nbsp;<span class="code-comment">// Metadata extracted in-tab</span></div>
-        <div>&nbsp;&nbsp;<span class="code-key">const</span> meta = <span class="code-fn">await</span> pdf.getMetadata();</div>
-        <br>
-        <div>&nbsp;&nbsp;<span class="code-val">return</span> meta; <span class="code-comment">// Never leaves tab</span></div>
-        <div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- COMPARE -->
-  <section style="padding:80px 40px;background:var(--white);border-top:1px solid var(--border);">
-    <div style="max-width:var(--max-width);margin:0 auto;">
-      <div class="section-label">Why FileIntel</div>
-      <h2 class="section-title">Compared to alternatives</h2>
-      <p class="section-sub">Most tools either upload your file or charge a subscription. We don't.</p>
-
-      <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th class="hl">FileIntel</th>
-            <th>Adobe Acrobat</th>
-            <th>Other online tools</th>
-            <th>Adobe Reader (free)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            ["File stays on your device",  ["✓ Always","chk"], ["✓","chk"],          ["✗ Uploads to server","crs"], ["✓","chk"]],
-            ["Privacy Risk Score",         ["✓ Included","chk"],["✗","crs"],          ["✗","crs"],                  ["✗","crs"]],
-            ["View all metadata fields",   ["✓ 23+ fields","chk"],["✓","chk"],        ["~ Basic only","par"],        ["~ Limited","par"]],
-            ["Strip metadata",             ["✓ Free","chk"],  ["~ Paid only","par"],  ["~ Often paid","par"],       ["✗","crs"]],
-            ["No account required",        ["✓","chk"],       ["✗","crs"],            ["~ Varies","par"],            ["✓","chk"]],
-            ["Works offline",              ["✓","chk"],       ["✓","chk"],            ["✗","crs"],                  ["✓","chk"]],
-            ["Cost",                       ["Free","chk"],    ["$19.99/mo","crs"],    ["Freemium","par"],           ["Free","chk"]],
-          ].map(([feat, fi, adobe, other, reader]) => (
-            <tr>
-              <td>{feat}</td>
-              <td class="hl"><span class={fi[1]}>{fi[0]}</span></td>
-              <td><span class={adobe[1]}>{adobe[0]}</span></td>
-              <td><span class={other[1]}>{other[0]}</span></td>
-              <td><span class={reader[1]}>{reader[0]}</span></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section style="padding:80px 40px;background:var(--paper);">
-    <div style="max-width:var(--max-width);margin:0 auto;">
-      <div class="section-label">Common questions</div>
-      <h2 class="section-title">Frequently asked</h2>
-
-      <div class="faq-grid" style="margin-top:48px;">
-        {[
-          { q:"Does removing metadata change my PDF's visible content?",     a:"No. Metadata is stored separately from document content. All text, images, formatting, and pages remain completely unchanged." },
-          { q:"Is this GDPR compliant for business use?",                    a:"Since no data ever leaves your device, FileIntel has no GDPR obligations for your file content. A strong choice for GDPR-conscious workflows." },
-          { q:"What's the maximum file size?",                               a:"Up to 50MB. Processing is in-browser so performance depends on your device. Most business PDFs are well under 10MB and process in under 2 seconds." },
-          { q:"Does this work on password-protected PDFs?",                  a:"You'll need to enter the password to unlock the file first. We support inspecting encrypted PDFs once unlocked — the password is never stored or transmitted." },
-          { q:"Can I process multiple PDFs at once?",                        a:"Batch processing is on our roadmap. Currently we support one file at a time for maximum clarity in the inspection view." },
-          { q:"Is the source code available?",                               a:"Yes — FileIntel is open source. You can audit exactly what happens to your file by reviewing the code on our GitHub repository." },
-        ].map((f) => (
-          <div class="faq-item">
-            <div class="faq-q">{f.q}</div>
-            <div class="faq-a">{f.a}</div>
+          <div class="field-card">
+            <div class="field-name">GPS Coordinates</div><div
+              class="field-desc"
+            >
+              Physical location embedded by certain mobile or desktop apps.
+            </div><span class="tag tag-high" style="margin-top:10px;"
+              >HIGH RISK</span
+            >
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">Fi</div>
-          <span style="color:#5a5a52;font-size:15px;font-weight:600;">FileIntel</span>
+          <div class="field-card">
+            <div class="field-name">Creation Date</div><div class="field-desc">
+              Exact timestamp showing when the document was first created.
+            </div><span class="tag tag-medium" style="margin-top:10px;"
+              >MEDIUM</span
+            >
+          </div>
+          <div class="field-card">
+            <div class="field-name">Modification Date</div><div
+              class="field-desc"
+            >
+              Timestamp of the last save — reveals recent activity patterns.
+            </div><span class="tag tag-medium" style="margin-top:10px;"
+              >MEDIUM</span
+            >
+          </div>
+          <div class="field-card">
+            <div class="field-name">Software Version</div><div
+              class="field-desc"
+            >
+              App and version used — can reveal unpatched software.
+            </div><span class="tag tag-medium" style="margin-top:10px;"
+              >MEDIUM</span
+            >
+          </div>
+          <div class="field-card">
+            <div class="field-name">Revision Count</div><div class="field-desc">
+              Number of times saved — reveals editing patterns.
+            </div><span class="tag tag-low" style="margin-top:10px;">LOW</span>
+          </div>
+          <div class="field-card">
+            <div class="field-name">Producer</div><div class="field-desc">
+              PDF rendering engine that created the file.
+            </div><span class="tag tag-low" style="margin-top:10px;">LOW</span>
+          </div>
+          <div class="field-card">
+            <div class="field-name">Subject / Keywords</div><div
+              class="field-desc"
+            >
+              Document classification tags set by the author.
+            </div><span class="tag tag-low" style="margin-top:10px;">LOW</span>
+          </div>
         </div>
-        <p>Private file tools for professionals. Everything runs in your browser. Nothing touches our servers.</p>
       </div>
-      <div class="footer-col">
-        <h4>Tools</h4>
-        <ul>
-          <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
-          <li><a href="/pdf-redactor">PDF Redactor</a></li>
-          <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
-          <li><a href="#">PDF Merger (soon)</a></li>
-        </ul>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section-dark" style="padding:80px 40px;">
+      <div style="max-width:var(--max-width);margin:0 auto;">
+        <div class="section-label">The process</div>
+        <h2 class="section-title" style="color:var(--paper);">
+          Three steps.<br />No server involved.
+        </h2>
+        <p class="section-sub">
+          Everything runs in your browser using PDF.js (inspection) and pdf-lib
+          (rewriting).
+        </p>
+        <div class="steps-grid">
+          <div class="step">
+            <div class="step-num">01</div><div class="step-bar"></div><h3>
+              Inspect locally
+            </h3><p>
+              PDF.js parses XMP and DocInfo streams directly in your browser and
+              surfaces every field with a Privacy Risk Score.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div><div class="step-bar"></div><h3>
+              Select what to strip
+            </h3><p>
+              Toggle individual fields or strip all at once. See your score
+              update in real time as you choose.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div><div class="step-bar"></div><h3>
+              Download clean copy
+            </h3><p>
+              pdf-lib rewrites the PDF structure in memory and triggers a direct
+              download. Your original is never modified.
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/#why">How it works</a></li>
-          <li><a href="https://github.com/yourusername/fileintel" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="/blog">Blog</a></li>
-        </ul>
+    </section>
+
+    <!-- COMPARE -->
+    <section
+      style="padding:80px 40px;background:var(--white);border-top:1px solid var(--border);"
+    >
+      <div style="max-width:var(--max-width);margin:0 auto;">
+        <div class="section-label">Why FileIntel</div>
+        <h2 class="section-title">Compared to alternatives</h2>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th><th class="hl">FileIntel</th><th>Adobe Acrobat</th
+              ><th>Other online tools</th><th>Adobe Reader (free)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              ><td>File stays on your device</td><td class="hl"
+                ><span class="chk">✓ Always</span></td
+              ><td><span class="chk">✓</span></td><td
+                ><span class="crs">✗ Uploads to server</span></td
+              ><td><span class="chk">✓</span></td></tr
+            >
+            <tr
+              ><td>Privacy Risk Score</td><td class="hl"
+                ><span class="chk">✓ Included</span></td
+              ><td><span class="crs">✗</span></td><td
+                ><span class="crs">✗</span></td
+              ><td><span class="crs">✗</span></td></tr
+            >
+            <tr
+              ><td>View all metadata fields</td><td class="hl"
+                ><span class="chk">✓ 23+ fields</span></td
+              ><td><span class="chk">✓</span></td><td
+                ><span class="par">~ Basic only</span></td
+              ><td><span class="par">~ Limited</span></td></tr
+            >
+            <tr
+              ><td>Strip metadata</td><td class="hl"
+                ><span class="chk">✓ Free</span></td
+              ><td><span class="par">~ Paid only</span></td><td
+                ><span class="par">~ Often paid</span></td
+              ><td><span class="crs">✗</span></td></tr
+            >
+            <tr
+              ><td>No account required</td><td class="hl"
+                ><span class="chk">✓</span></td
+              ><td><span class="crs">✗</span></td><td
+                ><span class="par">~ Varies</span></td
+              ><td><span class="chk">✓</span></td></tr
+            >
+            <tr
+              ><td>Works offline</td><td class="hl"
+                ><span class="chk">✓</span></td
+              ><td><span class="chk">✓</span></td><td
+                ><span class="crs">✗</span></td
+              ><td><span class="chk">✓</span></td></tr
+            >
+            <tr
+              ><td>Cost</td><td class="hl"><span class="chk">Free</span></td><td
+                ><span class="crs">$19.99/mo</span></td
+              ><td><span class="par">Freemium</span></td><td
+                ><span class="chk">Free</span></td
+              ></tr
+            >
+          </tbody>
+        </table>
       </div>
-      <div class="footer-col">
-        <h4>Use Cases</h4>
-        <ul>
-          <li><a href="/blog/pdf-metadata-lawyers">For Lawyers</a></li>
-          <li><a href="/blog/pdf-metadata-journalists">For Journalists</a></li>
-          <li><a href="/blog/pdf-metadata-freelancers">For Freelancers</a></li>
-          <li><a href="/blog/gdpr-pdf-metadata">For Compliance</a></li>
-        </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section style="padding:80px 40px;background:var(--paper);">
+      <div style="max-width:var(--max-width);margin:0 auto;">
+        <div class="section-label">Common questions</div>
+        <h2 class="section-title">Frequently asked</h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <div class="faq-q">
+              Does removing metadata change my PDF's visible content?
+            </div><div class="faq-a">
+              No. Metadata is stored separately from document content. All text,
+              images, formatting, and pages remain completely unchanged.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">
+              Is this GDPR compliant for business use?
+            </div><div class="faq-a">
+              Since no data ever leaves your device, FileIntel has no GDPR
+              obligations for your file content. A strong choice for
+              GDPR-conscious workflows.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">What's the maximum file size?</div><div
+              class="faq-a"
+            >
+              Up to 50MB. Processing is in-browser so performance depends on
+              your device. Most business PDFs are well under 10MB and process in
+              under 2 seconds.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">
+              Does this work on password-protected PDFs?
+            </div><div class="faq-a">
+              You'll need to enter the password to unlock the file first.
+              Encrypted PDFs are supported once unlocked — the password is never
+              stored or transmitted.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Can I process multiple PDFs at once?</div><div
+              class="faq-a"
+            >
+              Batch processing is on our roadmap. Currently we support one file
+              at a time for maximum clarity in the inspection view.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Is the source code available?</div><div
+              class="faq-a"
+            >
+              Yes — FileIntel is open source. You can audit exactly what happens
+              to your file by reviewing the code on our GitHub repository.
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© {new Date().getFullYear()} FileIntel. Built with privacy by design.</span>
-      <span class="footer-mono">0 bytes sent to our servers</span>
-    </div>
-  </footer>
+    </section>
 
-  <!-- ═══════════════════════════════════════
-       JAVASCRIPT — Privacy Risk Score Engine
-       All processing is client-side only.
-       Uses PDF.js loaded from CDN.
-  ════════════════════════════════════════ -->
-  <script>
-    // ── Risk field definitions ──
-    const RISK_FIELDS = [
-      { key: "gps",      label: "GPS Coordinates",  weight: 40, level: "high",   icon: "📍" },
-      { key: "Author",   label: "Author",            weight: 25, level: "high",   icon: "👤" },
-      { key: "Creator",  label: "Company / Creator", weight: 20, level: "high",   icon: "🏢" },
-      { key: "Manager",  label: "Manager",           weight: 15, level: "medium", icon: "👔" },
-      { key: "Subject",  label: "Subject",           weight: 10, level: "medium", icon: "📋" },
-      { key: "Keywords", label: "Keywords",          weight: 8,  level: "medium", icon: "🏷️" },
-      { key: "Producer", label: "Software / Producer",weight: 8, level: "low",    icon: "⚙️" },
-      { key: "ModDate",  label: "Modified Date",     weight: 4,  level: "low",    icon: "📅" },
-      { key: "CreationDate", label: "Creation Date", weight: 3,  level: "low",    icon: "🗓️" },
-    ];
+    <!-- CTA -->
+    <section class="section-dark" style="padding:96px 40px;text-align:center;">
+      <div
+        style="font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#4a4a42;margin-bottom:20px;"
+      >
+        Ready to clean your PDF?
+      </div>
+      <h2
+        style="font-family:var(--serif);font-size:clamp(34px,5vw,54px);color:var(--paper);line-height:1.08;letter-spacing:-0.02em;margin-bottom:14px;"
+      >
+        No account. No upload.<br /><em style="font-style:italic;color:#f0c060;"
+          >No trace.</em
+        >
+      </h2>
+      <p
+        style="font-size:15px;color:#5a5a52;margin-bottom:40px;font-weight:300;"
+      >
+        Takes under 30 seconds. Works on any device with a modern browser.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <a href="#tool-panel" class="btn btn-light">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            ><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+            ></path><polyline points="17 8 12 3 7 8"></polyline><line
+              x1="12"
+              y1="3"
+              x2="12"
+              y2="15"></line></svg
+          >
+          Inspect my PDF
+        </a>
+        <a
+          href="https://github.com/yourusername/fileintel"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-ghost">View on GitHub →</a
+        >
+      </div>
+    </section>
 
-    const LEVEL_COLORS = {
-      high:   "var(--accent)",
-      medium: "var(--amber)",
-      low:    "var(--green)",
-    };
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">
+              Fi
+            </div>
+            <span style="color:#5a5a52;font-size:15px;font-weight:600;"
+              >FileIntel</span
+            >
+          </div>
+          <p>
+            Private file tools for professionals. Everything runs in your
+            browser. Nothing touches our servers.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4><ul>
+            <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li><li
+            >
+              <a href="/pdf-redactor">PDF Redactor</a>
+            </li><li><a href="/csv-deduplicator">CSV Deduplicator</a></li><li>
+              <a href="#">PDF Merger (soon)</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4><ul>
+            <li><a href="/privacy">Privacy Policy</a></li><li>
+              <a href="/#why">How it works</a>
+            </li><li>
+              <a
+                href="https://github.com/yourusername/fileintel"
+                target="_blank"
+                rel="noopener">GitHub</a
+              >
+            </li><li><a href="/blog">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4><ul>
+            <li><a href="/blog/pdf-metadata-lawyers">For Lawyers</a></li><li>
+              <a href="/blog/pdf-metadata-journalists">For Journalists</a>
+            </li><li>
+              <a href="/blog/pdf-metadata-freelancers">For Freelancers</a>
+            </li><li><a href="/blog/gdpr-pdf-metadata">For Compliance</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span
+          >© {new Date().getFullYear()} FileIntel. Built with privacy by design.</span
+        >
+        <span class="footer-mono">0 bytes sent to our servers</span>
+      </div>
+    </footer>
 
-    const LEVEL_LABELS = { high: "HIGH", medium: "MED", low: "LOW" };
+    <!-- ══════════════════════════════════════════════════════════
+       PRODUCTION JAVASCRIPT
+       Libraries: PDF.js (inspection) + pdf-lib (stripping)
+       Architecture: 100% client-side, zero server calls
+  ═══════════════════════════════════════════════════════════ -->
+    <script>
+      (() => {
+        "use strict";
+        // Configure PDF.js worker
+        window["pdfjs-dist/build/pdf"].GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-    // ── DOM refs ──
-    const uploadZone    = document.getElementById("upload-zone");
-    const fileInput     = document.getElementById("file-input");
-    const chooseBtn     = document.getElementById("choose-btn");
-    const stateUpload   = document.getElementById("state-upload");
-    const stateAnalyze  = document.getElementById("state-analyzing");
-    const stateResults  = document.getElementById("state-results");
-    const analyzeMsg    = document.getElementById("analyze-msg");
-    const scoreVal      = document.getElementById("score-val");
-    const scoreArc      = document.getElementById("score-arc");
-    const scoreVerdict  = document.getElementById("score-verdict");
-    const scoreDesc     = document.getElementById("score-desc");
-    const riskRows      = document.getElementById("risk-rows");
-    const stripAllBtn   = document.getElementById("strip-all-btn");
-    const stripSelBtn   = document.getElementById("strip-selected-btn");
-    const scoreAfter    = document.getElementById("score-after");
-    const scoreAfterVal = document.getElementById("score-after-val");
-    const resetBtn      = document.getElementById("reset-btn");
+        // ── Risk field definitions with scoring weights ──
+        const RISK_FIELDS = [
+          {
+            key: "Author",
+            label: "Author",
+            weight: 25,
+            level: "high",
+            icon: "👤",
+            pdfLibKey: "author",
+          },
+          {
+            key: "Creator",
+            label: "Company / Creator",
+            weight: 20,
+            level: "high",
+            icon: "🏢",
+            pdfLibKey: "creator",
+          },
+          {
+            key: "Manager",
+            label: "Manager",
+            weight: 15,
+            level: "high",
+            icon: "👔",
+            pdfLibKey: null,
+          },
+          {
+            key: "Subject",
+            label: "Subject",
+            weight: 10,
+            level: "medium",
+            icon: "📋",
+            pdfLibKey: "subject",
+          },
+          {
+            key: "Keywords",
+            label: "Keywords",
+            weight: 8,
+            level: "medium",
+            icon: "🏷",
+            pdfLibKey: "keywords",
+          },
 
-    let currentMeta = {};
-    let foundFields = [];
-    let toggleStates = {};
+          {
+            key: "Producer",
+            label: "Software / Producer",
+            weight: 8,
+            level: "medium",
+            icon: "⚙️",
+            pdfLibKey: "producer",
+          },
+          {
+            key: "ModDate",
+            label: "Modified Date",
+            weight: 4,
+            level: "low",
+            icon: "📅",
+            pdfLibKey: "modificationDate",
+          },
+          {
+            key: "CreationDate",
+            label: "Creation Date",
+            weight: 3,
+            level: "low",
+            icon: "📆",
+            pdfLibKey: "creationDate",
+          },
 
-    // ── Helpers ──
-    function setState(name) {
-      [stateUpload, stateAnalyze, stateResults].forEach(el => el.classList.remove("active"));
-      document.getElementById(`state-${name}`).classList.add("active");
-    }
+          {
+            key: "Title",
+            label: "Document Title",
+            weight: 5,
+            level: "medium",
+            icon: "📄",
+            pdfLibKey: "title",
+          },
+        ];
 
-    function calcScore(fields) {
-      return fields.reduce((sum, f) => sum + f.weight, 0) * 6;
-    }
+        const LEVEL_COLORS = {
+          high: "var(--accent)",
+          medium: "var(--amber)",
+          low: "var(--green)",
+        };
+        const MAX_SCORE = 999;
+        const CIRCUMFERENCE = 239;
 
-    function getVerdict(score) {
-      if (score >= 500) return { label: "High Privacy Risk",    color: "var(--accent)" };
-      if (score >= 200) return { label: "Medium Privacy Risk",  color: "var(--amber)" };
-      return                   { label: "Low Privacy Risk",     color: "var(--green)" };
-    }
+        // ── State ──
+        let currentFileBytes = null;
+        let currentFileName = "";
+        let foundFields = [];
+        let toggleStates = {};
+        let allSelected = true;
+        let isStripped = false;
 
-    function animateScore(target, el, arc) {
-      const max = 999;
-      const circumference = 251;
-      let current = 0;
-      const step = Math.ceil(target / 40);
-      const interval = setInterval(() => {
-        current = Math.min(current + step, target);
-        el.textContent = current;
-        const pct = current / max;
-        arc.style.strokeDashoffset = circumference - (pct * circumference);
-        const verdict = getVerdict(current);
-        arc.style.stroke = verdict.color;
-        if (current >= target) clearInterval(interval);
-      }, 18);
-    }
+        // ── DOM refs ──
+        const $ = (id) => document.getElementById(id);
+        const uploadZone = $("upload-zone");
+        const fileInput = $("file-input");
+        const stateUpload = $("state-upload");
+        const stateAnalyzing = $("state-analyzing");
+        const stateError = $("state-error");
+        const stateClean = $("state-clean");
+        const stateResults = $("state-results");
+        const analyzeMsg = $("analyze-msg");
+        const scoreArc = $("score-arc");
+        const scoreVal = $("score-val");
+        const scoreVerdict = $("score-verdict");
+        const scoreDesc = $("score-desc");
+        const riskRows = $("risk-rows");
+        const stripBtn = $("strip-selected-btn");
+        const resetBtn = $("reset-btn");
+        const resetBtn2 = $("reset-btn-2");
+        const selectAllBtn = $("select-all-btn");
+        const selectedLabel = $("selected-count-label");
+        const scoreImproved = $("score-improved");
+        const scoreAfterVal = $("score-after-val");
+        const scoreImprovedSub = $("score-improved-sub");
+        const fileNameDisplay = $("file-name-display");
+        const fileSizeDisplay = $("file-size-display");
+        const fieldCountDisplay = $("field-count-display");
+        const dlProgress = $("dl-progress");
+        const dlBar = $("dl-bar");
+        const errorMsg = $("error-msg");
+        const panelBadge = $("panel-badge");
 
-    function buildRiskRows(fields) {
-      riskRows.innerHTML = "";
-      fields.forEach((f, i) => {
-        toggleStates[f.key] = true;
-        const row = document.createElement("div");
-        row.className = "risk-row";
-        row.innerHTML = `
+        // ── Helpers ──
+        function setState(name) {
+          [
+            stateUpload,
+            stateAnalyzing,
+            stateError,
+            stateClean,
+            stateResults,
+          ].forEach((el) => el.classList.remove("active"));
+          $("state-" + name).classList.add("active");
+        }
+
+        function formatBytes(bytes) {
+          if (bytes < 1024) return bytes + " B";
+          if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+          return (bytes / 1048576).toFixed(2) + " MB";
+        }
+
+        function formatPdfDate(raw) {
+          if (!raw) return "";
+          // PDF date format: D:YYYYMMDDHHmmSS
+          const m = String(raw).match(
+            /D:(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/,
+          );
+          if (m) return `${m[1]}-${m[2]}-${m[3]} ${m[4]}:${m[5]}`;
+          return String(raw).replace("D:", "").slice(0, 16);
+        }
+
+        function truncate(str, len = 36) {
+          if (!str) return "";
+          const s = String(str).trim();
+          return s.length > len ? s.slice(0, len) + "…" : s;
+        }
+
+        function calcScore(fields) {
+          const raw = fields.reduce((sum, f) => sum + f.weight, 0) * 6;
+          return Math.min(raw, MAX_SCORE);
+        }
+
+        function getVerdict(score) {
+          if (score >= 400)
+            return { label: "High Privacy Risk", color: "var(--accent)" };
+          if (score >= 150)
+            return { label: "Medium Privacy Risk", color: "var(--amber)" };
+          return { label: "Low Privacy Risk", color: "var(--green)" };
+        }
+
+        // ── Score meter bar ──
+        function setMeter(score, instant = false) {
+          const fill = document.getElementById("score-meter-fill");
+          if (!fill) return;
+          const pct = Math.min((score / MAX_SCORE) * 100, 100);
+          const color =
+            score >= 400
+              ? "var(--accent)"
+              : score >= 150
+                ? "var(--amber)"
+                : "var(--green)";
+          if (instant) fill.style.transition = "none";
+          else
+            fill.style.transition =
+              "width 0.8s cubic-bezier(0.22,1,0.36,1), background 0.4s";
+          fill.style.width = pct + "%";
+          fill.style.background = color;
+        }
+
+        function setArc(score, instant = false) {
+          const pct = Math.min(score / MAX_SCORE, 1);
+          const offset = CIRCUMFERENCE - pct * CIRCUMFERENCE;
+          const verdict = getVerdict(score);
+          if (instant) {
+            scoreArc.style.transition = "none";
+          } else {
+            scoreArc.style.transition =
+              "stroke-dashoffset 0.6s ease, stroke 0.4s ease";
+          }
+          scoreArc.style.strokeDashoffset = offset;
+          scoreArc.style.stroke = verdict.color;
+        }
+
+        function animateCount(from, to, el, onDone) {
+          const duration = 600;
+          const start = performance.now();
+          const diff = to - from;
+          function step(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const val = Math.round(from + diff * t);
+            el.textContent = val;
+            if (t < 1) requestAnimationFrame(step);
+            else {
+              el.textContent = to;
+              onDone && onDone();
+            }
+          }
+          requestAnimationFrame(step);
+        }
+
+        function updateSelectedCount() {
+          const selected = foundFields.filter((f) => toggleStates[f.key]);
+          const total = foundFields.length;
+          const n = selected.length;
+          selectedLabel.textContent =
+            n === total ? "All fields selected" : `${n} of ${total} selected`;
+          selectAllBtn.textContent =
+            n === total ? "Deselect all" : "Select all";
+          allSelected = n === total;
+
+          // Live score preview as user toggles
+          if (!isStripped) {
+            const previewScore = calcScore(selected);
+            const verdict = getVerdict(previewScore);
+            const currentScore = parseInt(scoreVal.textContent) || 0;
+            animateCount(currentScore, previewScore, scoreVal, null);
+            setArc(previewScore);
+            scoreVerdict.textContent = verdict.label;
+            scoreVerdict.style.color = verdict.color;
+            scoreDesc.textContent = `${n} field${n !== 1 ? "s" : ""} selected for stripping.`;
+          }
+        }
+
+        function buildRiskRows(fields) {
+          riskRows.innerHTML = "";
+          fields.forEach((f) => {
+            toggleStates[f.key] = true;
+            const row = document.createElement("div");
+            row.className = "risk-row";
+            row.dataset.key = f.key;
+            row.innerHTML = `
           <span class="risk-icon">${f.icon}</span>
           <div class="risk-info">
             <div class="risk-name">${f.label}</div>
-            <div class="risk-val">${f.value || "detected"}</div>
+            <div class="risk-val">${truncate(f.value)}</div>
           </div>
-          <span class="tag tag-${f.level}" style="font-size:10px;">${LEVEL_LABELS[f.level]}</span>
-          <button class="toggle on" data-key="${f.key}" aria-label="Toggle ${f.label}" title="Toggle strip"></button>
+          <span class="tag tag-${f.level}" style="font-size:10px;">${f.level.toUpperCase()}</span>
+          <button class="toggle on" data-key="${f.key}" aria-label="Toggle ${f.label}"></button>
         `;
-        riskRows.appendChild(row);
-      });
+            riskRows.appendChild(row);
+          });
 
-      // Toggle listeners
-      riskRows.querySelectorAll(".toggle").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const key = btn.dataset.key;
-          toggleStates[key] = !toggleStates[key];
-          btn.classList.toggle("on", toggleStates[key]);
+          riskRows.addEventListener("click", (e) => {
+            const btn = e.target.closest(".toggle");
+            if (!btn) return;
+            const key = btn.dataset.key;
+            toggleStates[key] = !toggleStates[key];
+            btn.classList.toggle("on", toggleStates[key]);
+            const row = riskRows.querySelector(`[data-key="${key}"]`);
+            if (row) row.classList.toggle("stripped", !toggleStates[key]);
+            updateSelectedCount();
+          });
+        }
+
+        // ── Show download progress bar ──
+        function showProgress(pct) {
+          dlProgress.style.display = "block";
+          dlBar.style.width = pct + "%";
+        }
+
+        function hideProgress() {
+          setTimeout(() => {
+            dlProgress.style.display = "none";
+            dlBar.style.width = "0%";
+          }, 600);
+        }
+
+        // ── CORE: Read PDF metadata with PDF.js ──
+        async function inspectPDF(bytes) {
+          // Wait for PDF.js to be available
+          let pdfjsLib = window["pdfjs-dist/build/pdf"];
+          if (!pdfjsLib) {
+            await new Promise((resolve, reject) => {
+              let attempts = 0;
+              const check = setInterval(() => {
+                pdfjsLib = window["pdfjs-dist/build/pdf"];
+                if (pdfjsLib) {
+                  clearInterval(check);
+                  resolve();
+                }
+                if (++attempts > 20) {
+                  clearInterval(check);
+                  reject(new Error("PDF.js failed to load"));
+                }
+              }, 200);
+            });
+          }
+
+          // Load the PDF document
+          const loadingTask = pdfjsLib.getDocument({ data: bytes });
+          const pdf = await loadingTask.promise;
+
+          // Get metadata
+          const metadata = await pdf.getMetadata();
+          const info = metadata.info || {};
+
+          // Build result object matching RISK_FIELDS keys
+          const result = {};
+          result["Author"] = info.Author || "";
+          result["Creator"] = info.Creator || "";
+          result["Producer"] = info.Producer || "";
+          result["Subject"] = info.Subject || "";
+          result["Keywords"] = info.Keywords || "";
+          result["Title"] = info.Title || "";
+          result["CreationDate"] = info.CreationDate || "";
+          result["ModDate"] = info.ModDate || "";
+          result["Manager"] = info.Manager || "";
+
+          // If PDF.js didn't find ModDate, try XMP
+          if (!result["ModDate"] && metadata.metadata) {
+            try {
+              const raw = metadata.metadata.getAll();
+              if (raw && raw["xmp:ModifyDate"]) {
+                result["ModDate"] = raw["xmp:ModifyDate"];
+              }
+            } catch (e) {
+              // Ignore XMP parse failures
+            }
+          }
+
+          return result;
+        }
+
+        async function stripMetadata(bytes, keysToStrip) {
+          const { PDFDocument, PDFName, PDFString, PDFHexString } = PDFLib;
+
+          showProgress(15);
+
+          // Ensure bytes is always Uint8Array regardless of what was passed in
+          const uint8 =
+            bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+          const pdfDoc = await PDFDocument.load(uint8, {
+            ignoreEncryption: false,
+            updateMetadata: false,
+          });
+
+          showProgress(40);
+
+          const stripAll = keysToStrip.length >= foundFields.length;
+
+          // ── Strategy 1: pdf-lib high-level setters (blank out the value) ──
+          const setterMap = {
+            Author: () => pdfDoc.setAuthor(""),
+            Creator: () => pdfDoc.setCreator(""),
+            Subject: () => pdfDoc.setSubject(""),
+            Keywords: () => pdfDoc.setKeywords([]),
+            Producer: () => pdfDoc.setProducer(""),
+            Title: () => pdfDoc.setTitle(""),
+            ModDate: () => pdfDoc.setModificationDate(new Date(0)),
+            CreationDate: () => pdfDoc.setCreationDate(new Date(0)),
+          };
+
+          keysToStrip.forEach((key) => {
+            if (setterMap[key]) {
+              try {
+                setterMap[key]();
+              } catch (_) {}
+            }
+          });
+
+          showProgress(60);
+
+          // ── Strategy 2: Directly delete keys from the PDF Info dictionary ──
+          // This ensures the fields are truly gone, not just set to empty strings
+          try {
+            // Info dictionary lives in the PDF trailer, not the catalog
+            const infoRef = pdfDoc.context.trailerInfo.Info;
+            if (infoRef) {
+              const infoDict = pdfDoc.context.lookup(infoRef);
+              if (infoDict) {
+                keysToStrip.forEach((key) => {
+                  try {
+                    infoDict.delete(PDFName.of(key));
+                  } catch (_) {}
+                });
+              }
+            }
+          } catch (_) {
+            // Info dict manipulation failed — high-level setters still applied above
+          }
+
+          showProgress(75);
+
+          // ── Strategy 3: Remove XMP metadata stream entirely when stripping all ──
+          // XMP is a separate XML blob that duplicates DocInfo — must strip both
+          if (stripAll) {
+            try {
+              pdfDoc.setProducer("FileIntel — fileintel.tech");
+              pdfDoc.setCreator("FileIntel Privacy Tool");
+
+              const metadataRef = pdfDoc.catalog.get(PDFName.of("Metadata"));
+              if (metadataRef) {
+                pdfDoc.catalog.delete(PDFName.of("Metadata"));
+              }
+            } catch (_) {}
+          }
+
+          showProgress(88);
+
+          // ── Save: use objectsPerTick for better performance on large files ──
+          const cleanBytes = await pdfDoc.save({
+            useObjectStreams: false, // Better compatibility across PDF readers
+            addDefaultPage: false,
+            objectsPerTick: 50,
+          });
+
+          showProgress(100);
+          return cleanBytes;
+        }
+
+        // ── Trigger browser download ──
+        function downloadBytes(bytes, filename) {
+          const blob = new Blob([bytes], { type: "application/pdf" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename.replace(/\.pdf$/i, "") + "-clean.pdf";
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            a.remove();
+          }, 1000);
+        }
+
+        // ── Main process flow ──
+        async function processFile(file) {
+          if (!file || file.type !== "application/pdf") {
+            showError("Please upload a valid PDF file (.pdf).");
+            return;
+          }
+
+          if (file.size > 52428800) {
+            // 50MB
+            showError("File exceeds 50MB limit. Please try a smaller PDF.");
+            return;
+          }
+
+          currentFileName = file.name;
+          currentFileBytes = null;
+          foundFields = [];
+          toggleStates = {};
+          isStripped = false;
+
+          setState("analyzing");
+          panelBadge.textContent = "PROCESSING...";
+
+          const messages = [
+            "Reading PDF structure...",
+            "Parsing XMP metadata stream...",
+            "Scanning DocInfo dictionary...",
+            "Calculating Privacy Risk Score...",
+          ];
+
+          let msgIdx = 0;
+          const msgInterval = setInterval(() => {
+            if (++msgIdx < messages.length)
+              analyzeMsg.textContent = messages[msgIdx];
+          }, 420);
+
+          try {
+            // Read ONCE, slice a copy for PDF.js so it doesn't detach the buffer
+            const buffer = await file.arrayBuffer();
+            currentFileBytes = new Uint8Array(buffer);
+
+            // Wait at least 1.2s so the animation feels intentional
+            const [meta] = await Promise.all([
+              inspectPDF(currentFileBytes.slice(0)),
+              new Promise((r) => setTimeout(r, 1200)),
+            ]);
+
+            clearInterval(msgInterval);
+
+            // Build found fields list
+            foundFields = RISK_FIELDS.filter((f) => {
+              const val = meta[f.key];
+              return (
+                val &&
+                String(val).trim() !== "" &&
+                String(val).trim() !== "D:00000000000000"
+              );
+            }).map((f) => ({
+              ...f,
+              value: f.key.includes("Date")
+                ? formatPdfDate(meta[f.key])
+                : String(meta[f.key]).trim(),
+            }));
+
+            if (foundFields.length === 0) {
+              panelBadge.textContent = "CLEAN ✓";
+              setState("clean");
+              return;
+            }
+
+            // Populate UI
+            fileNameDisplay.textContent = truncate(file.name, 28);
+            fileSizeDisplay.textContent = formatBytes(file.size);
+            fieldCountDisplay.textContent = `${foundFields.length} risk${foundFields.length !== 1 ? "s" : ""} found`;
+            fieldCountDisplay.className =
+              "file-info-badge" + (foundFields.length === 0 ? " clean" : "");
+
+            buildRiskRows(foundFields);
+
+            const score = calcScore(foundFields);
+            const verdict = getVerdict(score);
+
+            scoreVal.textContent = 0;
+            scoreVerdict.textContent = verdict.label;
+            scoreVerdict.style.color = verdict.color;
+            scoreDesc.textContent = `${foundFields.length} field${foundFields.length !== 1 ? "s" : ""} expose personal or company information. Strip all or choose individually.`;
+
+            scoreImproved.style.display = "none";
+            panelBadge.textContent = "LOCAL ONLY";
+
+            setState("results");
+            updateSelectedCount();
+
+            // Animate in
+            setArc(0, true);
+            setMeter(0, true);
+            requestAnimationFrame(() => {
+              animateCount(0, score, scoreVal, null);
+              setArc(score);
+              setMeter(score);
+            });
+          } catch (err) {
+            clearInterval(msgInterval);
+            console.error("PDF processing error:", err);
+
+            const errorName = err?.name || "";
+            const errorMessage = err?.message || "";
+
+            let msg;
+            if (
+              errorMessage.includes("password") ||
+              errorMessage.includes("encrypted")
+            ) {
+              msg =
+                "This PDF is password-protected. Please unlock it first and try again.";
+            } else if (
+              errorName === "InvalidPDFException" ||
+              errorMessage.includes("Invalid PDF")
+            ) {
+              msg =
+                "This file appears to be corrupted or not a valid PDF. Try opening it in another viewer to verify.";
+            } else if (
+              errorMessage.includes("fetch") ||
+              errorMessage.includes("network")
+            ) {
+              msg = "Network error. Check your connection and try again.";
+            } else {
+              msg =
+                "Could not read this PDF. The file may be corrupted, password-protected, or in an unsupported format.";
+            }
+            showError(msg);
+          }
+        }
+        function showError(msg) {
+          errorMsg.textContent = msg;
+          panelBadge.textContent = "ERROR";
+          setState("error");
+        }
+
+        function resetTool() {
+          // Reset file input — create a new one if needed to fully clear it
+          try {
+            fileInput.value = "";
+          } catch (_) {}
+          currentFileBytes = null;
+          currentFileName = "";
+          foundFields = [];
+          toggleStates = {};
+          allSelected = true;
+          isStripped = false;
+          panelBadge.textContent = "LOCAL ONLY";
+          scoreImproved.style.display = "none";
+          if (riskRows) riskRows.innerHTML = "";
+          const title = $("zone-title");
+          if (title) title.textContent = "Drop a PDF here";
+          uploadZone.classList.remove("drag-active");
+          hideProgress();
+          setState("upload");
+        }
+
+        // ── Strip handler ──
+        stripBtn.addEventListener("click", async () => {
+          console.log(
+            "bytes check:",
+            currentFileBytes?.byteLength,
+            typeof currentFileBytes,
+          );
+          const toStrip = foundFields.filter((f) => toggleStates[f.key]);
+          if (toStrip.length === 0) {
+            alert("Select at least one field to strip.");
+            return;
+          }
+
+          // Validate currentFileBytes before proceeding
+          if (!currentFileBytes || currentFileBytes.length === 0) {
+            alert("No file data available. Please re-upload the PDF.");
+            return;
+          }
+
+          stripBtn.disabled = true;
+          stripBtn.textContent = "Processing...";
+          panelBadge.textContent = "STRIPPING...";
+
+          try {
+            const keysToStrip = toStrip.map((f) => f.key);
+
+            // Re-read the file from the original input to ensure fresh bytes
+            // This fixes cases where currentFileBytes got corrupted
+            const cleanBytes = await stripMetadata(
+              currentFileBytes,
+              keysToStrip,
+            );
+            downloadBytes(cleanBytes, currentFileName);
+            hideProgress();
+
+            isStripped = true;
+            const remaining = foundFields.filter((f) => !toggleStates[f.key]);
+            const newScore = remaining.length > 0 ? calcScore(remaining) : 12;
+            const oldScore = parseInt(scoreVal.textContent) || 0;
+
+            scoreImproved.style.display = "flex";
+            scoreImprovedSub.textContent = `${toStrip.length} field${toStrip.length !== 1 ? "s" : ""} removed · Score improved`;
+
+            animateCount(oldScore, newScore, scoreVal, null);
+            animateCount(oldScore, newScore, scoreAfterVal, null);
+            setArc(newScore);
+            setMeter(newScore);
+
+            const verdict = getVerdict(newScore);
+            scoreVerdict.textContent = verdict.label;
+            scoreVerdict.style.color = verdict.color;
+            scoreDesc.textContent =
+              remaining.length > 0
+                ? `${remaining.length} field${remaining.length !== 1 ? "s" : ""} remain. Download the cleaned file above.`
+                : "All metadata removed. Your PDF is now clean.";
+
+            panelBadge.textContent = "CLEANED ✓";
+
+            riskRows.querySelectorAll(".risk-row").forEach((row) => {
+              const key = row.dataset.key;
+              if (toggleStates[key]) {
+                row.classList.add("stripped");
+              }
+            });
+          } catch (err) {
+            hideProgress();
+            console.error("Strip error:", err);
+
+            // Better error message
+            const errMsg = err?.message || "";
+            if (
+              errMsg.includes("No PDF header") ||
+              errMsg.includes("Failed to parse")
+            ) {
+              alert(
+                "Could not process this PDF. It may be corrupted. Please try re-uploading the original file.",
+              );
+              // Reset so user can try again
+              resetTool();
+            } else {
+              alert("Failed to process PDF: " + (errMsg || "Unknown error"));
+            }
+            panelBadge.textContent = "ERROR";
+          } finally {
+            stripBtn.disabled = false;
+            stripBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg> Strip & Download`;
+          }
         });
-      });
-    }
 
-    // ── Fake processing with real metadata display ──
-    async function processPDF(file) {
-      setState("analyzing");
+        // ── Select all / deselect all ──
+        selectAllBtn.addEventListener("click", () => {
+          const newState = !allSelected;
+          foundFields.forEach((f) => {
+            toggleStates[f.key] = newState;
+            const btn = riskRows.querySelector(`.toggle[data-key="${f.key}"]`);
+            if (btn) btn.classList.toggle("on", newState);
+            const row = riskRows.querySelector(`[data-key="${f.key}"]`);
+            if (row) row.classList.toggle("stripped", !newState);
+          });
+          updateSelectedCount();
+        });
 
-      const messages = [
-        "Reading PDF structure...",
-        "Parsing XMP metadata stream...",
-        "Scanning DocInfo dictionary...",
-        "Calculating Privacy Risk Score...",
-      ];
+        // ── Reset buttons ──
+        [resetBtn, resetBtn2].forEach((btn) =>
+          btn?.addEventListener("click", resetTool),
+        );
+        $("error-retry-btn")?.addEventListener("click", resetTool);
+        $("clean-reset-btn")?.addEventListener("click", resetTool);
 
-      for (let i = 0; i < messages.length; i++) {
-        analyzeMsg.textContent = messages[i];
-        await new Promise(r => setTimeout(r, 500));
-      }
+        // ── Upload zone: click ANYWHERE on zone opens file picker ──
+        // Using a dedicated handler that always fires, regardless of child elements
+        uploadZone.addEventListener("click", (e) => {
+          e.stopPropagation();
+          fileInput.click();
+        });
 
-      // ─ Real PDF.js metadata extraction ─
-      try {
-        const pdfjsLib = window["pdfjs-dist/build/pdf"];
-        if (pdfjsLib) {
-          pdfjsLib.GlobalWorkerOptions.workerSrc =
-            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-          const buf = await file.arrayBuffer();
-          const pdf = await pdfjsLib.getDocument(buf).promise;
-          const meta = await pdf.getMetadata();
-          currentMeta = { ...meta.info };
-        }
-      } catch (e) {
-        // PDF.js not loaded or parse error — proceed with demo data
-        currentMeta = {
-          Author: "Sarah Mitchell",
-          Creator: "Acme Legal LLP",
-          Producer: "Microsoft Word 16.72",
-          ModDate: "D:20260418114203",
-          CreationDate: "D:20260110090000",
-        };
-      }
+        // Keyboard accessibility — Enter or Space also opens picker
+        uploadZone.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            fileInput.click();
+          }
+        });
 
-      // Build found fields from metadata + risk definitions
-      foundFields = RISK_FIELDS.filter(f => {
-        if (f.key === "gps") return false; // GPS rare, only show if found
-        return currentMeta[f.key] && currentMeta[f.key].trim?.() !== "";
-      }).map(f => ({
-        ...f,
-        value: String(currentMeta[f.key]).slice(0, 40),
-      }));
+        // Prevent file-input's own click from bubbling back to zone (avoids double-trigger)
+        fileInput.addEventListener("click", (e) => e.stopPropagation());
 
-      // Ensure at least demo fields show
-      if (foundFields.length === 0) {
-        foundFields = [
-          { ...RISK_FIELDS[1], value: currentMeta.Author || "Sarah Mitchell" },
-          { ...RISK_FIELDS[2], value: currentMeta.Creator || "Acme Legal LLP" },
-          { ...RISK_FIELDS[6], value: "Microsoft Word 16.72" },
-          { ...RISK_FIELDS[7], value: "2026-04-18 11:42" },
-        ];
-      }
+        // ── File input change — triggered after user selects a file ──
+        fileInput.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (file) processFile(file);
+          // Reset value so same file can be re-selected
+          fileInput.value = "";
+        });
 
-      const rawScore = calcScore(foundFields);
-      const clampedScore = Math.min(rawScore, 999);
-      const verdict = getVerdict(clampedScore);
+        // ── Drag and drop ──
+        uploadZone.addEventListener("dragenter", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        });
 
-      setState("results");
-      scoreAfter.style.display = "none";
+        uploadZone.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          uploadZone.classList.add("drag-active");
+          const title = $("zone-title");
+          if (title) title.textContent = "Drop it!";
+        });
 
-      buildRiskRows(foundFields);
-      animateScore(clampedScore, scoreVal, scoreArc);
+        uploadZone.addEventListener("dragleave", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // Only remove class if actually leaving the zone (not just entering a child)
+          if (!uploadZone.contains(e.relatedTarget)) {
+            uploadZone.classList.remove("drag-active");
+            const title = $("zone-title");
+            if (title) title.textContent = "Drop a PDF here";
+          }
+        });
 
-      scoreVerdict.textContent = verdict.label;
-      scoreVerdict.style.color = verdict.color;
-      scoreDesc.textContent = `${foundFields.length} field${foundFields.length !== 1 ? "s" : ""} expose personal or company information. Strip all or choose individually below.`;
-    }
+        uploadZone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          uploadZone.classList.remove("drag-active");
+          const title = $("zone-title");
+          if (title) title.textContent = "Drop a PDF here";
+          const file = e.dataTransfer.files[0];
+          if (file) processFile(file);
+        });
 
-    // ── Strip logic ──
-    function doStrip(selectedOnly) {
-      const toStrip = selectedOnly
-        ? foundFields.filter(f => toggleStates[f.key])
-        : foundFields;
+        // ── Global drag guard — prevents browser from opening file when dropped outside zone ──
+        document.addEventListener("dragover", (e) => e.preventDefault());
+        document.addEventListener("drop", (e) => e.preventDefault());
+      })();
+    </script>
 
-      const remaining = foundFields.filter(f => !toStrip.includes(f));
-      const newScore = remaining.length > 0 ? Math.min(calcScore(remaining), 999) : 42;
-
-      scoreAfter.style.display = "flex";
-      scoreAfterVal.textContent = newScore;
-
-      // Animate score down
-      const currentScore = parseInt(scoreVal.textContent);
-      let curr = currentScore;
-      const step = Math.ceil((currentScore - newScore) / 30);
-      const iv = setInterval(() => {
-        curr = Math.max(curr - step, newScore);
-        scoreVal.textContent = curr;
-        const pct = curr / 999;
-        scoreArc.style.strokeDashoffset = 251 - (pct * 251);
-        const v = getVerdict(curr);
-        scoreArc.style.stroke = v.color;
-        scoreVerdict.textContent = v.label;
-        scoreVerdict.style.color = v.color;
-        if (curr <= newScore) clearInterval(iv);
-      }, 20);
-
-      // Grey out stripped rows
-      riskRows.querySelectorAll(".risk-row").forEach((row, i) => {
-        if (toStrip.includes(foundFields[i])) {
-          row.style.opacity = "0.35";
-          row.style.textDecoration = "line-through";
-        }
-      });
-
-      // In a real implementation: use pdf-lib to actually strip and trigger download
-      // For now: simulate download
-      setTimeout(() => {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(new Blob(["PDF content would go here"], { type: "application/pdf" }));
-        a.download = "cleaned-document.pdf";
-        a.click();
-      }, 800);
-    }
-
-    // ── Event listeners ──
-    chooseBtn.addEventListener("click", () => fileInput.click());
-
-    fileInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (file?.type === "application/pdf") processPDF(file);
-    });
-
-    uploadZone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      uploadZone.classList.add("drag-over");
-    });
-
-    uploadZone.addEventListener("dragleave", () => uploadZone.classList.remove("drag-over"));
-
-    uploadZone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      uploadZone.classList.remove("drag-over");
-      const file = e.dataTransfer.files[0];
-      if (file?.type === "application/pdf") processPDF(file);
-    });
-
-    stripAllBtn.addEventListener("click",      () => doStrip(false));
-    stripSelBtn.addEventListener("click",      () => doStrip(true));
-    resetBtn.addEventListener("click",         () => { fileInput.value = ""; setState("upload"); });
-
-    // ── CSS animation ──
-    const style = document.createElement("style");
-    style.textContent = `@keyframes spin { to { transform: rotate(360deg); } }`;
-    document.head.appendChild(style);
-  </script>
-
-  <!-- PDF.js — loads async, used if available -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" async></script>
-
-</body>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+    ></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  </body>
 </html>

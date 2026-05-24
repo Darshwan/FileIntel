@@ -1,0 +1,1753 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Blog — File Privacy, GDPR & Document Security | FileIntel</title>
+        <meta
+            name="description"
+            content="Expert guides on PDF metadata, GDPR compliance, document security, and file privacy for lawyers, journalists, freelancers, and compliance teams."
+        />
+        <link rel="canonical" href="https://fileintel.tech/blog" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://fileintel.tech/blog" />
+        <meta
+            property="og:title"
+            content="FileIntel Blog — File Privacy & Document Security"
+        />
+        <meta
+            property="og:description"
+            content="Expert guides on PDF metadata, GDPR, and document security for professionals."
+        />
+        <meta
+            property="og:image"
+            content="https://fileintel.tech/og-blog.png"
+        />
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Blog",
+                "name": "FileIntel Blog",
+                "description": "Expert guides on PDF metadata, GDPR compliance, document security, and file privacy.",
+                "url": "https://fileintel.tech/blog",
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "FileIntel",
+                    "url": "https://fileintel.tech"
+                }
+            }
+        </script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="stylesheet" href="/styles/global.css" />
+
+        <style>
+            /* ══ BLOG PAGE TOKENS ══ */
+            :root {
+                --col-gap: 24px;
+                --hero-h: 540px;
+            }
+
+            /* ══ HERO ══ */
+            /* ══ HERO ══ */
+            .blog-hero {
+                background: var(--ink);
+                min-height: 520px;
+                display: flex;
+                align-items: stretch;
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Decorative lines */
+            .blog-hero-bg {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                overflow: hidden;
+            }
+
+            .bg-line {
+                position: absolute;
+                background: rgba(255, 255, 255, 0.035);
+            }
+
+            .bg-line-1 {
+                width: 1px;
+                height: 100%;
+                left: 33.33%;
+                top: 0;
+            }
+
+            .bg-line-2 {
+                width: 1px;
+                height: 100%;
+                left: 66.66%;
+                top: 0;
+            }
+
+            .bg-line-3 {
+                width: 100%;
+                height: 1px;
+                top: 56%;
+                left: 0;
+            }
+
+            .bg-orb {
+                position: absolute;
+                width: 600px;
+                height: 600px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle,
+                    rgba(200, 67, 42, 0.06) 0%,
+                    transparent 70%
+                );
+                right: -100px;
+                top: -100px;
+                pointer-events: none;
+            }
+
+            .hero-inner {
+                max-width: var(--max-width);
+                width: 100%;
+                margin: 0 auto;
+                padding: 64px 40px 56px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 48px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .hero-issue {
+                font-family: var(--mono);
+                font-size: 10.5px;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: #3a3a35;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .hero-issue-dot {
+                display: block;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: #3a3a35;
+                flex-shrink: 0;
+            }
+
+            .hero-headline-wrap {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 48px;
+                align-items: end;
+            }
+
+            .hero-title {
+                font-family: var(--serif);
+                font-size: clamp(44px, 6vw, 76px);
+                line-height: 1.02;
+                letter-spacing: -0.03em;
+                color: var(--paper);
+            }
+
+            .hero-title em {
+                font-style: italic;
+                color: var(--accent);
+            }
+
+            .hero-desc {
+                font-size: 14.5px;
+                color: #6a6a62;
+                line-height: 1.75;
+                font-weight: 300;
+                max-width: 400px;
+                align-self: end;
+            }
+
+            /* Bottom row */
+            .hero-bottom {
+                display: flex;
+                align-items: stretch;
+                justify-content: space-between;
+                gap: 24px;
+                border-top: 1px solid #1e1e1a;
+                padding-top: 28px;
+                flex-wrap: wrap;
+            }
+
+            .hero-stats {
+                display: flex;
+                align-items: center;
+                gap: 28px;
+            }
+
+            .hero-stat-num {
+                font-family: var(--serif);
+                font-size: 26px;
+                font-style: italic;
+                color: var(--paper);
+                line-height: 1;
+                margin-bottom: 4px;
+            }
+
+            .hero-stat-label {
+                font-family: var(--mono);
+                font-size: 9.5px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #3a3a35;
+            }
+
+            .hero-stat-divider {
+                width: 1px;
+                height: 32px;
+                background: #1e1e1a;
+                flex-shrink: 0;
+            }
+
+            /* Featured article link in bottom row */
+            .hero-featured-link {
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+            }
+
+            .hero-featured-link-inner {
+                border: 1px solid #1e1e1a;
+                border-radius: var(--radius-lg);
+                padding: 16px 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                max-width: 420px;
+                transition: all 0.2s;
+                background: rgba(255, 255, 255, 0.02);
+            }
+
+            .hero-featured-link:hover .hero-featured-link-inner {
+                border-color: #3a3a35;
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+            .hero-featured-eyebrow {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-family: var(--mono);
+                font-size: 9.5px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #f0c060;
+            }
+
+            .hero-featured-dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: #f0c060;
+                flex-shrink: 0;
+            }
+
+            .hero-featured-title {
+                font-size: 13.5px;
+                font-weight: 500;
+                color: var(--paper);
+                line-height: 1.4;
+                letter-spacing: -0.01em;
+            }
+
+            .hero-featured-arrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                font-size: 12px;
+                color: #5a5a52;
+                font-family: var(--mono);
+                margin-top: 2px;
+                transition:
+                    gap 0.18s,
+                    color 0.18s;
+            }
+
+            .hero-featured-link:hover .hero-featured-arrow {
+                gap: 9px;
+                color: var(--paper);
+            }
+            .featured-post-card:hover .featured-arrow {
+                gap: 10px;
+            }
+
+            /* ══ SECTION DIVIDER ══ */
+            .section-rule {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                max-width: 1160px;
+                margin: 0 auto;
+                padding: 0 40px;
+            }
+
+            .section-rule-line {
+                flex: 1;
+                height: 1px;
+                background: var(--border);
+            }
+
+            .section-rule-label {
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--ink-3);
+                white-space: nowrap;
+                padding: 0 4px;
+            }
+
+            /* ══ ARTICLES GRID ══ */
+            .articles-section {
+                max-width: 1160px;
+                margin: 0 auto;
+                padding: 56px 40px 80px;
+            }
+
+            .articles-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--col-gap);
+                margin-top: 40px;
+            }
+
+            /* ── Article Card ── */
+            .article-card {
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                overflow: hidden;
+                text-decoration: none;
+                color: inherit;
+                display: flex;
+                flex-direction: column;
+                transition: all 0.22s ease;
+                position: relative;
+            }
+
+            .article-card:hover {
+                border-color: var(--ink-2);
+                box-shadow: var(--shadow-md);
+                transform: translateY(-3px);
+            }
+
+            /* Category color accent bar */
+            .article-card-accent {
+                height: 3px;
+                width: 100%;
+            }
+
+            .article-card-body {
+                padding: 24px 24px 20px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .article-card-category {
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                font-weight: 600;
+                margin-bottom: 12px;
+            }
+
+            .article-card-title {
+                font-family: var(--serif);
+                font-size: 19px;
+                line-height: 1.25;
+                letter-spacing: -0.015em;
+                color: var(--ink);
+                margin-bottom: 10px;
+                flex: 1;
+                transition: color 0.15s;
+            }
+
+            .article-card:hover .article-card-title {
+                color: var(--accent);
+            }
+
+            .article-card-excerpt {
+                font-size: 13px;
+                color: var(--ink-3);
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+
+            .article-card-footer {
+                padding: 14px 24px;
+                border-top: 1px solid var(--paper-3);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: var(--paper);
+            }
+
+            .article-card-meta {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--ink-3);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .article-card-read {
+                font-size: 12px;
+                color: var(--ink-2);
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                transition: gap 0.18s;
+            }
+
+            .article-card:hover .article-card-read {
+                gap: 8px;
+            }
+
+            /* ── Article Card — Wide (spans 2 cols) ── */
+            .article-card.wide {
+                grid-column: span 2;
+                flex-direction: row;
+            }
+
+            .article-card.wide .article-card-accent {
+                width: 3px;
+                height: auto;
+                flex-shrink: 0;
+            }
+
+            .article-card.wide .article-card-body {
+                padding: 28px;
+            }
+            .article-card.wide .article-card-title {
+                font-size: 22px;
+            }
+            .article-card.wide .article-card-footer {
+                border-top: none;
+                border-left: 1px solid var(--paper-3);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                min-width: 160px;
+                justify-content: center;
+            }
+
+            /* ══ TOPIC FILTER ══ */
+            .topic-filter {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .topic-btn {
+                padding: 6px 14px;
+                border-radius: 20px;
+                border: 1px solid var(--border);
+                background: var(--white);
+                font-size: 12.5px;
+                font-family: var(--sans);
+                color: var(--ink-2);
+                cursor: pointer;
+                transition: all 0.15s;
+                font-weight: 400;
+            }
+
+            .topic-btn:hover {
+                border-color: var(--ink-3);
+                color: var(--ink);
+                background: var(--paper-2);
+            }
+            .topic-btn.active {
+                background: var(--ink);
+                color: var(--white);
+                border-color: var(--ink);
+                font-weight: 500;
+            }
+
+            /* ══ NEWSLETTER ══ */
+            .newsletter-section {
+                background: var(--ink);
+                padding: 64px 40px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .newsletter-section::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(
+                    circle,
+                    rgba(255, 255, 255, 0.03) 1px,
+                    transparent 1px
+                );
+                background-size: 28px 28px;
+                pointer-events: none;
+            }
+
+            .newsletter-inner {
+                max-width: 1160px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 80px;
+                align-items: center;
+                position: relative;
+                z-index: 1;
+            }
+
+            .newsletter-title {
+                font-family: var(--serif);
+                font-size: clamp(28px, 3.5vw, 42px);
+                color: var(--paper);
+                line-height: 1.1;
+                letter-spacing: -0.02em;
+                margin-bottom: 12px;
+            }
+
+            .newsletter-title em {
+                font-style: italic;
+                color: #f0c060;
+            }
+
+            .newsletter-desc {
+                font-size: 14px;
+                color: #6a6a62;
+                line-height: 1.65;
+                font-weight: 300;
+            }
+
+            .newsletter-form {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .newsletter-input-row {
+                display: flex;
+                gap: 8px;
+            }
+
+            .newsletter-input {
+                flex: 1;
+                padding: 12px 16px;
+                background: #0a0a08;
+                border: 1px solid #2a2a27;
+                border-radius: var(--radius);
+                font-size: 14px;
+                font-family: var(--sans);
+                color: var(--paper);
+                outline: none;
+                transition: border-color 0.15s;
+            }
+
+            .newsletter-input::placeholder {
+                color: #4a4a42;
+            }
+            .newsletter-input:focus {
+                border-color: #5a5a52;
+            }
+
+            .newsletter-submit {
+                padding: 12px 24px;
+                background: var(--paper);
+                color: var(--ink);
+                border: none;
+                border-radius: var(--radius);
+                font-size: 13.5px;
+                font-weight: 600;
+                cursor: pointer;
+                font-family: var(--sans);
+                transition: all 0.2s;
+                white-space: nowrap;
+            }
+
+            .newsletter-submit:hover {
+                background: var(--white);
+                transform: translateY(-1px);
+            }
+
+            .newsletter-note {
+                font-family: var(--mono);
+                font-size: 10.5px;
+                color: #3a3a35;
+                letter-spacing: 0.04em;
+            }
+
+            /* ══ TOPICS ROW ══ */
+            .topics-section {
+                background: var(--white);
+                border-top: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                padding: 0;
+            }
+
+            .topics-row {
+                max-width: 1160px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .topic-cell {
+                padding: 28px 32px;
+                border-right: 1px solid var(--border);
+                text-decoration: none;
+                color: inherit;
+                transition: background 0.15s;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .topic-cell:last-child {
+                border-right: none;
+            }
+            .topic-cell:hover {
+                background: var(--paper);
+            }
+
+            .topic-cell-icon {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+            .topic-cell-name {
+                font-size: 13.5px;
+                font-weight: 600;
+                color: var(--ink);
+                letter-spacing: -0.01em;
+            }
+            .topic-cell-count {
+                font-family: var(--mono);
+                font-size: 10.5px;
+                color: var(--ink-3);
+            }
+
+            /* ══ COMING SOON ARTICLES ══ */
+            .coming-soon-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--col-gap);
+                margin-top: 40px;
+            }
+
+            .coming-card {
+                border: 1px dashed var(--border);
+                border-radius: var(--radius-lg);
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                background: transparent;
+                transition: background 0.15s;
+            }
+
+            .coming-card:hover {
+                background: var(--white);
+            }
+
+            .coming-cat {
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--ink-3);
+            }
+
+            .coming-title {
+                font-family: var(--serif);
+                font-size: 17px;
+                color: var(--ink-2);
+                line-height: 1.3;
+                letter-spacing: -0.01em;
+            }
+
+            .coming-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.07em;
+                text-transform: uppercase;
+                color: var(--ink-3);
+                margin-top: auto;
+            }
+
+            .coming-badge::before {
+                content: "";
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: var(--paper-3);
+                flex-shrink: 0;
+            }
+
+            /* ══ ANIMATIONS ══ */
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .article-card {
+                animation: fadeUp 0.4s ease both;
+            }
+
+            .article-card:nth-child(1) {
+                animation-delay: 0.05s;
+            }
+            .article-card:nth-child(2) {
+                animation-delay: 0.1s;
+            }
+            .article-card:nth-child(3) {
+                animation-delay: 0.15s;
+            }
+            .article-card:nth-child(4) {
+                animation-delay: 0.2s;
+            }
+
+            /* ══ RESPONSIVE ══ */
+            /* ══ FULLY RESPONSIVE ══ */
+            @media (max-width: 1024px) {
+                .articles-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .article-card.wide {
+                    grid-column: span 2;
+                }
+                .newsletter-inner {
+                    grid-template-columns: 1fr;
+                    gap: 36px;
+                }
+                .topics-row {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .coming-soon-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            @media (max-width: 900px) {
+                .hero-headline-wrap {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+                .hero-desc {
+                    max-width: 100%;
+                }
+                .hero-bottom {
+                    flex-direction: column;
+                    gap: 20px;
+                }
+                .hero-featured-link-inner {
+                    max-width: 100%;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .hero-inner {
+                    padding: 40px 20px 36px;
+                    gap: 36px;
+                }
+                .hero-title {
+                    font-size: clamp(36px, 9vw, 52px);
+                }
+                .hero-stats {
+                    gap: 20px;
+                }
+
+                .articles-section {
+                    padding: 36px 20px 56px;
+                }
+                .articles-grid {
+                    grid-template-columns: 1fr;
+                }
+                .article-card.wide {
+                    grid-column: span 1;
+                    flex-direction: column;
+                }
+                .article-card.wide .article-card-accent {
+                    width: 100%;
+                    height: 3px;
+                }
+                .article-card.wide .article-card-footer {
+                    border-left: none;
+                    border-top: 1px solid var(--paper-3);
+                    flex-direction: row;
+                    min-width: auto;
+                    padding: 14px 24px;
+                }
+
+                .topics-row {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .topic-cell {
+                    padding: 20px;
+                }
+
+                .coming-soon-grid {
+                    grid-template-columns: 1fr;
+                }
+                .newsletter-section {
+                    padding: 40px 20px;
+                }
+                .newsletter-input-row {
+                    flex-direction: column;
+                }
+                .newsletter-submit {
+                    width: 100%;
+                    padding: 13px;
+                }
+
+                .section-rule {
+                    padding: 0 20px;
+                }
+
+                .footer-inner {
+                    grid-template-columns: 1fr 1fr;
+                    gap: 32px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .hero-stats {
+                    flex-wrap: wrap;
+                    gap: 16px;
+                }
+                .hero-stat-divider {
+                    display: none;
+                }
+                .topics-row {
+                    grid-template-columns: 1fr;
+                }
+                .topic-cell {
+                    border-right: none;
+                    border-bottom: 1px solid var(--border);
+                }
+                .topic-cell:last-child {
+                    border-bottom: none;
+                }
+                .footer-inner {
+                    grid-template-columns: 1fr;
+                }
+                .topic-filter {
+                    gap: 6px;
+                }
+                .topic-btn {
+                    font-size: 11.5px;
+                    padding: 5px 11px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- ANNOUNCE -->
+        <div class="announce">
+            New: <a href="/pdf-metadata-remover"
+                ><strong>PDF Privacy Risk Score</strong></a
+            > — instantly see your document's privacy risk before stripping. →
+        </div>
+        <!-- NAV -->
+        <style>
+            /* ── Dropdown ── */
+            .nav-dropdown {
+                position: relative;
+            }
+
+            .nav-dropdown-trigger {
+                font-size: 13.5px;
+                color: var(--ink-2);
+                text-decoration: none;
+                padding: 6px 14px;
+                border-radius: var(--radius);
+                transition: all 0.15s;
+                font-weight: 400;
+                cursor: pointer;
+                background: none;
+                border: none;
+                font-family: var(--sans);
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .nav-dropdown-trigger:hover {
+                background: var(--paper-2);
+                color: var(--ink);
+            }
+
+            .nav-dropdown-trigger svg {
+                transition: transform 0.2s ease;
+                flex-shrink: 0;
+            }
+
+            .nav-dropdown:hover .nav-dropdown-trigger svg,
+            .nav-dropdown.open .nav-dropdown-trigger svg {
+                transform: rotate(180deg);
+            }
+
+            .nav-dropdown-menu {
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 50%;
+                transform: translateX(-50%) translateY(-4px);
+                width: 280px;
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-lg);
+                opacity: 0;
+                pointer-events: none;
+                transition:
+                    opacity 0.18s ease,
+                    transform 0.18s ease;
+                z-index: 200;
+                overflow: hidden;
+            }
+
+            .nav-dropdown:hover .nav-dropdown-menu,
+            .nav-dropdown.open .nav-dropdown-menu {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            .dropdown-header {
+                padding: 10px 14px 8px;
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--ink-3);
+                border-bottom: 1px solid var(--paper-3);
+            }
+
+            .dropdown-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 11px 14px;
+                text-decoration: none;
+                color: var(--ink);
+                transition: background 0.12s;
+                border-bottom: 1px solid var(--paper-3);
+            }
+
+            .dropdown-item:last-child {
+                border-bottom: none;
+            }
+            .dropdown-item:hover {
+                background: var(--paper);
+            }
+
+            .dropdown-item-icon {
+                width: 32px;
+                height: 32px;
+                border-radius: var(--radius);
+                background: var(--paper-2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                flex-shrink: 0;
+                transition: background 0.12s;
+            }
+
+            .dropdown-item:hover .dropdown-item-icon {
+                background: var(--paper-3);
+            }
+
+            .dropdown-item-text {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .dropdown-item-name {
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--ink);
+                margin-bottom: 2px;
+                letter-spacing: -0.01em;
+            }
+
+            .dropdown-item-desc {
+                font-size: 11px;
+                color: var(--ink-3);
+                line-height: 1.4;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .dropdown-item-badge {
+                font-family: var(--mono);
+                font-size: 9.5px;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-weight: 600;
+                flex-shrink: 0;
+            }
+
+            .badge-live {
+                background: var(--green-light);
+                color: var(--green);
+            }
+            .badge-soon {
+                background: var(--paper-3);
+                color: var(--ink-3);
+            }
+
+            .dropdown-footer {
+                padding: 9px 14px;
+                background: var(--paper);
+                border-top: 1px solid var(--paper-3);
+                font-size: 11.5px;
+                color: var(--ink-3);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .dropdown-footer a {
+                font-size: 11.5px;
+                color: var(--ink-2);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.15s;
+            }
+
+            .dropdown-footer a:hover {
+                color: var(--ink);
+            }
+        </style>
+
+        <nav class="nav">
+            <a href="/" class="nav-brand">
+                <div class="nav-logo">Fi</div>
+                <div>
+                    <div class="nav-name">FileIntel</div>
+                    <div class="nav-tagline">Private File Tools</div>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+
+                <!-- TOOLS DROPDOWN -->
+                <li class="nav-dropdown" id="tools-dropdown">
+                    <button
+                        class="nav-dropdown-trigger"
+                        id="tools-trigger"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        Tools
+                        <svg
+                            width="11"
+                            height="11"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                        >
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="nav-dropdown-menu" role="menu">
+                        <div class="dropdown-header">Available tools</div>
+
+                        <a
+                            href="/pdf-metadata-remover"
+                            class="dropdown-item"
+                            role="menuitem"
+                        >
+                            <div class="dropdown-item-icon">🔍</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-name">
+                                    PDF Metadata Remover
+                                </div>
+                                <div class="dropdown-item-desc">
+                                    Strip hidden author, GPS & company data
+                                </div>
+                            </div>
+                            <span class="dropdown-item-badge badge-live"
+                                >Live</span
+                            >
+                        </a>
+
+                        <a
+                            href="/pdf-redactor"
+                            class="dropdown-item"
+                            role="menuitem"
+                        >
+                            <div class="dropdown-item-icon">✏️</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-name">
+                                    PDF Redactor
+                                </div>
+                                <div class="dropdown-item-desc">
+                                    Draw boxes or keyword-redact text
+                                </div>
+                            </div>
+                            <span class="dropdown-item-badge badge-live"
+                                >Live</span
+                            >
+                        </a>
+
+                        <a
+                            href="/csv-deduplicator"
+                            class="dropdown-item"
+                            role="menuitem"
+                        >
+                            <div class="dropdown-item-icon">🗂</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-name">
+                                    CSV Deduplicator
+                                </div>
+                                <div class="dropdown-item-desc">
+                                    Remove duplicate rows from spreadsheets
+                                </div>
+                            </div>
+                            <span class="dropdown-item-badge badge-live"
+                                >Live</span
+                            >
+                        </a>
+
+                        <a
+                            href="#"
+                            class="dropdown-item"
+                            style="opacity:0.5;pointer-events:none;"
+                            role="menuitem"
+                            aria-disabled="true"
+                        >
+                            <div class="dropdown-item-icon">🔐</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-name">PDF Merger</div>
+                                <div class="dropdown-item-desc">
+                                    Combine PDFs without uploading
+                                </div>
+                            </div>
+                            <span class="dropdown-item-badge badge-soon"
+                                >Soon</span
+                            >
+                        </a>
+
+                        <a
+                            href="#"
+                            class="dropdown-item"
+                            style="opacity:0.5;pointer-events:none;"
+                            role="menuitem"
+                            aria-disabled="true"
+                        >
+                            <div class="dropdown-item-icon">🧹</div>
+                            <div class="dropdown-item-text">
+                                <div class="dropdown-item-name">
+                                    Image EXIF Cleaner
+                                </div>
+                                <div class="dropdown-item-desc">
+                                    Strip GPS & camera data from photos
+                                </div>
+                            </div>
+                            <span class="dropdown-item-badge badge-soon"
+                                >Soon</span
+                            >
+                        </a>
+
+                        <div class="dropdown-footer">
+                            <span>All tools run in your browser</span>
+                            <a href="/#tools">View all →</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/privacy">Privacy</a></li>
+                <li>
+                    <a
+                        href="https://github.com/yourusername/fileintel"
+                        target="_blank"
+                        rel="noopener">GitHub</a
+                    >
+                </li>
+                <li><span class="nav-badge">⚡ Browser-only</span></li>
+            </ul>
+        </nav>
+
+        <script>
+            // Click toggle for keyboard/mobile users
+            const dropdown = document.getElementById("tools-dropdown");
+            const trigger = document.getElementById("tools-trigger");
+
+            trigger.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const isOpen = dropdown.classList.toggle("open");
+                trigger.setAttribute("aria-expanded", isOpen);
+            });
+
+            // Close when clicking outside
+            document.addEventListener("click", () => {
+                dropdown.classList.remove("open");
+                trigger.setAttribute("aria-expanded", "false");
+            });
+
+            // Close on Escape
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    dropdown.classList.remove("open");
+                    trigger.setAttribute("aria-expanded", "false");
+                }
+            });
+        </script>
+
+        <!-- ══ HERO ══ -->
+        <div class="blog-hero">
+            <!-- Background texture -->
+            <div class="blog-hero-bg" aria-hidden="true">
+                <div class="bg-line bg-line-1"></div>
+                <div class="bg-line bg-line-2"></div>
+                <div class="bg-line bg-line-3"></div>
+                <div class="bg-orb"></div>
+            </div>
+
+            <div class="hero-inner">
+                <!-- TOP ROW: issue label -->
+                <div class="hero-issue">
+                    <span class="hero-issue-dot"></span>
+                    FileIntel Journal · Est. 2026
+                </div>
+
+                <!-- CENTER: headline -->
+                <div class="hero-headline-wrap">
+                    <h1 class="hero-title">
+                        The private file<br />
+                        <em>security</em> reference.
+                    </h1>
+                    <p class="hero-desc">
+                        Expert guides on PDF metadata, GDPR compliance, document
+                        security, and file privacy — written for lawyers,
+                        journalists, compliance officers, and professionals who
+                        handle sensitive documents.
+                    </p>
+                </div>
+
+                <!-- BOTTOM ROW: stats + featured link -->
+                <div class="hero-bottom">
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">3</div>
+                            <div class="hero-stat-label">Articles</div>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">4</div>
+                            <div class="hero-stat-label">Topics</div>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">~7 min</div>
+                            <div class="hero-stat-label">Avg. read</div>
+                        </div>
+                    </div>
+
+                    <a
+                        href="/blog/gdpr-pdf-metadata"
+                        class="hero-featured-link"
+                    >
+                        <div class="hero-featured-link-inner">
+                            <div class="hero-featured-eyebrow">
+                                <span class="hero-featured-dot"></span>
+                                Featured
+                            </div>
+                            <div class="hero-featured-title">
+                                GDPR and PDF Metadata: What Every DPO Needs to
+                                Know
+                            </div>
+                            <div class="hero-featured-arrow">
+                                Read article
+                                <svg
+                                    width="13"
+                                    height="13"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                >
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"
+                                    ></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /hero -->
+
+        <!-- ══ TOPICS ROW ══ -->
+        <div class="topics-section">
+            <div class="topics-row">
+                <a href="#pdf-security" class="topic-cell">
+                    <div class="topic-cell-icon">🔍</div>
+                    <div class="topic-cell-name">PDF Security</div>
+                    <div class="topic-cell-count">2 articles</div>
+                </a>
+                <a href="#gdpr" class="topic-cell">
+                    <div class="topic-cell-icon">🇪🇺</div>
+                    <div class="topic-cell-name">GDPR & Compliance</div>
+                    <div class="topic-cell-count">1 article</div>
+                </a>
+                <a href="#legal" class="topic-cell">
+                    <div class="topic-cell-icon">⚖️</div>
+                    <div class="topic-cell-name">Legal & Professional</div>
+                    <div class="topic-cell-count">1 article</div>
+                </a>
+                <a href="#coming" class="topic-cell">
+                    <div class="topic-cell-icon">✦</div>
+                    <div class="topic-cell-name">Coming Soon</div>
+                    <div class="topic-cell-count">5 articles</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- ══ ARTICLES ══ -->
+        <div class="articles-section" id="pdf-security">
+            <!-- FILTER -->
+            <div
+                style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:0;"
+            >
+                <div>
+                    <div class="section-label" style="margin-bottom:6px;">
+                        All articles
+                    </div>
+                    <h2 class="section-title" style="margin-bottom:0;">
+                        Everything published
+                    </h2>
+                </div>
+                <div class="topic-filter" id="topic-filter">
+                    <button class="topic-btn active" data-filter="all"
+                        >All</button
+                    >
+                    <button class="topic-btn" data-filter="pdf"
+                        >PDF Security</button
+                    >
+                    <button class="topic-btn" data-filter="gdpr">GDPR</button>
+                    <button class="topic-btn" data-filter="legal">Legal</button>
+                </div>
+            </div>
+
+            <!-- ARTICLES GRID -->
+            <div class="articles-grid" id="articles-grid">
+                <!-- Article 1: GDPR — Wide card (most important) -->
+                <a
+                    href="/blog/gdpr-pdf-metadata"
+                    class="article-card wide"
+                    data-topic="gdpr"
+                >
+                    <div
+                        class="article-card-accent"
+                        style="background:linear-gradient(90deg,#3a6fb0,#1a3050);"
+                    >
+                    </div>
+                    <div class="article-card-body">
+                        <div
+                            class="article-card-category"
+                            style="color:#3a6fb0;"
+                        >
+                            GDPR & Compliance
+                        </div>
+                        <div class="article-card-title">
+                            GDPR and PDF Metadata: What Every DPO Needs to Know
+                        </div>
+                        <div class="article-card-excerpt">
+                            PDF files shared by your organization may contain
+                            personal data in fields most people never see —
+                            author names, GPS coordinates, manager fields. Under
+                            GDPR Article 4(1), this is not a grey area. A
+                            compliance guide with real regulatory citations and
+                            a practical checklist.
+                        </div>
+                        <div
+                            style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;"
+                        >
+                            <span class="tag tag-live" style="font-size:9.5px;"
+                                >Expert</span
+                            >
+                            <span
+                                style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);"
+                                >9 min read</span
+                            >
+                            <span
+                                style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);"
+                                >· April 30, 2026</span
+                            >
+                        </div>
+                    </div>
+                    <div class="article-card-footer">
+                        <div
+                            style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-bottom:8px;"
+                        >
+                            Featured
+                        </div>
+                        <div class="article-card-read" style="font-size:13px;">
+                            Read
+                            <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                ><line x1="5" y1="12" x2="19" y2="12"
+                                ></line><polyline points="12 5 19 12 12 19"
+                                ></polyline></svg
+                            >
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Article 2: What is PDF metadata -->
+                <a
+                    href="/blog/what-is-pdf-metadata"
+                    class="article-card"
+                    data-topic="pdf"
+                >
+                    <div
+                        class="article-card-accent"
+                        style="background:var(--accent);"
+                    >
+                    </div>
+                    <div class="article-card-body">
+                        <div
+                            class="article-card-category"
+                            style="color:var(--accent);"
+                        >
+                            PDF Security
+                        </div>
+                        <div class="article-card-title">
+                            What Is PDF Metadata? Every Hidden Field Explained
+                        </div>
+                        <div class="article-card-excerpt">
+                            Every PDF you create contains invisible data — your
+                            name, company, GPS coordinates, and edit history.
+                            Most people never know it's there. A complete guide
+                            to all 23+ fields and their risk levels.
+                        </div>
+                    </div>
+                    <div class="article-card-footer">
+                        <div class="article-card-meta">
+                            <span>Apr 28</span>
+                            <span>·</span>
+                            <span>7 min</span>
+                        </div>
+                        <div class="article-card-read">Read →</div>
+                    </div>
+                </a>
+
+                <!-- Article 3: Remove metadata guide -->
+                <a
+                    href="/blog/pdf-metadata-lawyers"
+                    class="article-card"
+                    data-topic="legal"
+                >
+                    <div
+                        class="article-card-accent"
+                        style="background:var(--green);"
+                    >
+                    </div>
+                    <div class="article-card-body">
+                        <div
+                            class="article-card-category"
+                            style="color:var(--green);"
+                        >
+                            Legal & Professional
+                        </div>
+                        <div class="article-card-title">
+                            How to Remove Metadata from a PDF Before Sending
+                        </div>
+                        <div class="article-card-excerpt">
+                            A step-by-step guide for lawyers, freelancers, HR
+                            professionals, and anyone who sends sensitive
+                            documents. Four methods compared. Takes under two
+                            minutes.
+                        </div>
+                    </div>
+                    <div class="article-card-footer">
+                        <div class="article-card-meta">
+                            <span>Apr 29</span>
+                            <span>·</span>
+                            <span>6 min</span>
+                        </div>
+                        <div class="article-card-read">Read →</div>
+                    </div>
+                </a>
+            </div>
+            <!-- /articles-grid -->
+        </div>
+
+        <!-- ══ SECTION RULE ══ -->
+        <div class="section-rule" style="padding:0 40px;">
+            <div class="section-rule-line"></div>
+            <div class="section-rule-label">Coming next</div>
+            <div class="section-rule-line"></div>
+        </div>
+
+        <!-- ══ COMING SOON ══ -->
+        <div class="articles-section" id="coming" style="padding-top:40px;">
+            <div class="section-label">In the pipeline</div>
+            <h2 class="section-title">Next articles</h2>
+
+            <div class="coming-soon-grid">
+                {
+                    [
+                        {
+                            cat: "PDF Security",
+                            title: "How to View PDF Metadata on Mac, Windows & Linux",
+                            note: "Research in progress",
+                        },
+                        {
+                            cat: "Journalism",
+                            title: "How Investigative Journalists Use PDF Metadata to Verify Documents",
+                            note: "Research in progress",
+                        },
+                        {
+                            cat: "PDF Security",
+                            title: "What Metadata Does Adobe Acrobat Add to Your PDFs?",
+                            note: "Drafting",
+                        },
+                        {
+                            cat: "HR & Legal",
+                            title: "PDF Metadata in Employment Documents — What HR Teams Must Strip",
+                            note: "Drafting",
+                        },
+                        {
+                            cat: "GDPR & Compliance",
+                            title: "UK GDPR vs EU GDPR: Document Metadata Obligations Compared",
+                            note: "Planned",
+                        },
+                        {
+                            cat: "PDF Security",
+                            title: "PDF Metadata After Conversion — Word, Google Docs, LibreOffice",
+                            note: "Planned",
+                        },
+                    ].map((a) => (
+                        <div class="coming-card">
+                            <div class="coming-cat">{a.cat}</div>
+                            <div class="coming-title">{a.title}</div>
+                            <div class="coming-badge">{a.note}</div>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+
+        <!-- ══ NEWSLETTER ══ -->
+        <div class="newsletter-section">
+            <div class="newsletter-inner">
+                <div>
+                    <div
+                        style="font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#3a3a35;margin-bottom:16px;"
+                    >
+                        FileIntel Journal
+                    </div>
+                    <h2 class="newsletter-title">
+                        New articles,<br /><em>when they matter.</em>
+                    </h2>
+                    <p class="newsletter-desc">
+                        No weekly digests. No noise. We publish when we have
+                        something genuinely useful to say — typically one or two
+                        articles a month. Unsubscribe any time.
+                    </p>
+                </div>
+                <div class="newsletter-form">
+                    <div
+                        style="font-size:14px;color:#7a7a72;font-weight:300;line-height:1.6;margin-bottom:4px;"
+                    >
+                        Get notified when new articles are published. One email
+                        per article, nothing else.
+                    </div>
+                    <div class="newsletter-input-row">
+                        <input
+                            type="email"
+                            class="newsletter-input"
+                            placeholder="your@email.com"
+                            aria-label="Email address"
+                        />
+                        <button
+                            class="newsletter-submit"
+                            type="button"
+                            onclick="handleSubscribe(this)"
+                        >
+                            Subscribe
+                        </button>
+                    </div>
+                    <div class="newsletter-note">
+                        No spam. No tracking. We don't share your email with
+                        anyone.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ FOOTER ══ -->
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div
+                            class="nav-logo"
+                            style="background:#1a1a17;color:#5a5a52;"
+                        >
+                            Fi
+                        </div>
+                        <span
+                            style="color:#5a5a52;font-size:15px;font-weight:600;"
+                            >FileIntel</span
+                        >
+                    </div>
+                    <p>
+                        Private file tools for professionals. Everything runs in
+                        your browser. Nothing touches our servers.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <ul>
+                        <li>
+                            <a href="/pdf-metadata-remover"
+                                >PDF Metadata Remover</a
+                            >
+                        </li>
+                        <li><a href="/pdf-redactor">PDF Redactor</a></li>
+                        <li>
+                            <a href="/csv-deduplicator">CSV Deduplicator</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Blog</h4>
+                    <ul>
+                        <li>
+                            <a href="/blog/what-is-pdf-metadata"
+                                >What is PDF metadata?</a
+                            >
+                        </li>
+                        <li>
+                            <a href="/blog/pdf-metadata-lawyers"
+                                >Remove metadata guide</a
+                            >
+                        </li>
+                        <li>
+                            <a href="/blog/gdpr-pdf-metadata"
+                                >GDPR & PDF metadata</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li>
+                            <a
+                                href="https://github.com/yourusername/fileintel"
+                                target="_blank"
+                                rel="noopener">GitHub</a
+                            >
+                        </li>
+                        <li><a href="/blog">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span
+                    >© {new Date().getFullYear()} FileIntel. Built with privacy by
+                    design.</span
+                >
+                <span class="footer-mono">0 bytes sent to our servers</span>
+            </div>
+        </footer>
+
+        <script>
+            // ── Topic filter ──
+            const filterBtns = document.querySelectorAll(".topic-btn");
+            const articleCards = document.querySelectorAll(
+                ".article-card[data-topic]",
+            );
+
+            filterBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    filterBtns.forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    const filter = btn.dataset.filter;
+
+                    articleCards.forEach((card) => {
+                        const match =
+                            filter === "all" || card.dataset.topic === filter;
+                        card.style.display = match ? "" : "none";
+                        // Reset wide on single column
+                        if (match && filter !== "all") {
+                            card.classList.remove("wide");
+                        }
+                    });
+                });
+            });
+
+            // ── Newsletter subscribe ──
+            function handleSubscribe(btn) {
+                const input = btn.previousElementSibling;
+                const email = input.value.trim();
+
+                if (!email || !email.includes("@")) {
+                    input.style.borderColor = "var(--accent)";
+                    input.focus();
+                    setTimeout(() => (input.style.borderColor = ""), 2000);
+                    return;
+                }
+
+                btn.textContent = "✓ Subscribed";
+                btn.style.background = "#e8f2ec";
+                btn.style.color = "var(--green)";
+                btn.disabled = true;
+                input.disabled = true;
+                input.value = email;
+
+                // In production: POST to your email list endpoint
+                // fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) });
+            }
+        </script>
+    </body>
+</html>

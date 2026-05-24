@@ -92,6 +92,16 @@ a {
   color: inherit;
 }
 
+/* ─── SELECTION (UX) ─── */
+/* Professional, high-contrast selection for readability */
+::selection {
+  background: #46f80038; /* soft blue */
+}
+
+::-moz-selection {
+  background: #c8422a76;
+}
+
 button {
   font-family: var(--sans);
   cursor: pointer;
@@ -797,6 +807,64 @@ section {
   color: var(--ink);
   width: 25%;
   font-weight: 600;
+}
+
+/* ─── RESPONSIVE / FLUID LAYOUT ADJUSTMENTS ─── */
+
+/* Make container padding adapt to viewport width */
+.container {
+  padding: 0 clamp(16px, 4vw, 40px);
+}
+
+/* Graceful grid collapsing for smaller screens */
+.tools-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.blog-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Ensure architecture and other two-column layouts stack on small devices */
+.architecture-grid {
+  grid-template-columns: 1fr 1.4fr;
+  gap: 100px;
+}
+
+@media (max-width: 1024px) {
+  .tools-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .marquee-track { animation-duration: 28s; }
+  header { padding: clamp(48px, 6vw, 72px) 24px; }
+  section { padding: 56px 24px; }
+}
+
+@media (max-width: 640px) {
+  .nav { padding: 0 12px; }
+  .nav-links { gap: 6px; overflow: auto; }
+  .tools-grid, .blog-grid, .stats-grid { grid-template-columns: 1fr !important; }
+  .architecture-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .trust-row { justify-content: center; }
+  header { padding: 40px 16px; text-align: left; }
+  header h1 { text-align: left; }
+  .eyebrow { margin-bottom: 12px; }
+  .marquee-wrap { padding: 12px 0; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .announce { font-size: 12px; padding: 8px; }
+  .section-title { font-size: clamp(22px, 5vw, 32px); }
+  .section-sub { margin-bottom: 24px; max-width: 100%; }
+  .stat-box { padding: 24px; }
+  .trust-item { font-size: 12px; }
+}
+
+/* Improve touch targets on small devices */
+@media (max-width: 520px) {
+  .btn { padding: 12px 18px; font-size: 14px; }
+  .nav-logo { width: 28px; height: 28px; font-size: 13px; }
+  .nav-name { font-size: 14px; }
 }
 .result-value {
   font-family: var(--mono);

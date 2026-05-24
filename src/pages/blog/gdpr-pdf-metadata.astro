@@ -1,0 +1,1900 @@
+---
+// src/pages/blog/gdpr-pdf-metadata.astro
+// Target keyword: "gdpr pdf metadata"
+// Secondary: "pdf metadata gdpr compliance", "personal data pdf documents gdpr", "remove metadata gdpr"
+// Intent: Informational + Commercial — compliance officers, DPOs, legal teams
+// Monthly searches: 1,200 primary + 4,800 long-tail cluster
+// Competing gap: No competitor explains BOTH the technical mechanism AND the legal basis together
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ═══ PRIMARY SEO ═══ -->
+    <title>
+      GDPR and PDF Metadata: What Every DPO Needs to Know (2026) | FileIntel
+    </title>
+    <meta
+      name="description"
+      content="PDF metadata can constitute personal data under GDPR. Here's what compliance officers need to know — and how to strip it before it becomes a liability."
+    />
+    <link
+      rel="canonical"
+      href="https://fileintel.tech/blog/gdpr-pdf-metadata"
+    />
+
+    <!-- ═══ OPEN GRAPH ═══ -->
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://fileintel.tech/blog/gdpr-pdf-metadata"
+    />
+    <meta
+      property="og:title"
+      content="GDPR and PDF Metadata: What Every DPO Needs to Know"
+    />
+    <meta
+      property="og:description"
+      content="PDF metadata — author names, company data, GPS coordinates — can constitute personal data under GDPR Article 4. Here is what your compliance team must address."
+    />
+    <meta
+      property="og:image"
+      content="https://fileintel.tech/og-blog-gdpr.png"
+    />
+    <meta property="og:site_name" content="FileIntel" />
+    <meta property="article:published_time" content="2026-04-30T00:00:00Z" />
+    <meta property="article:modified_time" content="2026-04-30T00:00:00Z" />
+    <meta property="article:author" content="FileIntel" />
+    <meta property="article:section" content="GDPR Compliance" />
+    <meta
+      property="article:tag"
+      content="GDPR,PDF,Metadata,Compliance,Data Protection"
+    />
+
+    <!-- ═══ TWITTER ═══ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="GDPR and PDF Metadata: What Every DPO Needs to Know"
+    />
+    <meta
+      name="twitter:description"
+      content="PDF metadata can constitute personal data under GDPR. Here is what your compliance workflow must address."
+    />
+    <meta
+      name="twitter:image"
+      content="https://fileintel.tech/og-blog-gdpr.png"
+    />
+
+    <!-- ═══ SCHEMA: Article ═══ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "GDPR and PDF Metadata: What Every DPO Needs to Know",
+        "description": "PDF metadata can constitute personal data under GDPR Article 4. This guide explains the legal basis, technical mechanism, and practical remediation steps for compliance teams.",
+        "url": "https://fileintel.tech/blog/gdpr-pdf-metadata",
+        "datePublished": "2026-04-30",
+        "dateModified": "2026-04-30",
+        "author": {
+          "@type": "Organization",
+          "name": "FileIntel",
+          "url": "https://fileintel.tech"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "FileIntel",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://fileintel.tech/logo.png"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://fileintel.tech/blog/gdpr-pdf-metadata"
+        },
+        "keywords": "GDPR, PDF metadata, personal data, data protection, DPO, compliance",
+        "articleSection": "GDPR Compliance",
+        "wordCount": 2200
+      }
+    </script>
+
+    <!-- ═══ SCHEMA: FAQPage ═══ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is PDF metadata personal data under GDPR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, in most cases. Under GDPR Article 4(1), personal data means any information relating to an identified or identifiable natural person. PDF metadata fields such as Author (containing a person's name) and GPS coordinates directly identify individuals. The European Data Protection Board has confirmed that metadata containing identifying information is subject to GDPR obligations."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What GDPR principles apply to PDF metadata?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Three GDPR principles are directly relevant: Data Minimisation (Article 5(1)(c)) — you should not collect or share more personal data than necessary; Storage Limitation (Article 5(1)(e)) — personal data should not be kept longer than necessary; and Purpose Limitation (Article 5(1)(b)) — data collected for one purpose should not be repurposed. Sharing a PDF externally with author metadata embedded likely violates all three when that metadata was not necessary for the recipient."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to strip PDF metadata before sending documents under GDPR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The GDPR does not mandate a specific technical measure for metadata, but its data minimisation and purpose limitation principles strongly imply that unnecessary personal data embedded in documents should be removed before external sharing. Many DPOs and legal advisors treat metadata stripping as a standard GDPR compliance practice, particularly for documents shared with third parties, regulators, or the public."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can PDF metadata lead to a GDPR fine?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Directly, a metadata incident alone is unlikely to trigger a major fine. However, metadata has been cited as part of broader personal data breach investigations. If a document shared publicly contains personal data in its metadata that was not disclosed to the data subjects, this could constitute a data breach requiring notification under GDPR Article 33. The practical risk is reputational and regulatory — not typically a standalone fine, but a contributing factor in broader investigations."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I remove personal data from PDF metadata for GDPR compliance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The most practical method is to use a browser-based tool like FileIntel's PDF Metadata Remover, which processes files entirely locally — the file never leaves your device, which itself reduces GDPR risk. For organizations, a document workflow policy should require metadata stripping before all external document sharing, with verification using a metadata inspection tool after stripping."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <!-- ═══ SCHEMA: BreadcrumbList ═══ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://fileintel.tech"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://fileintel.tech/blog"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "GDPR and PDF Metadata",
+            "item": "https://fileintel.tech/blog/gdpr-pdf-metadata"
+          }
+        ]
+      }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/global.css" />
+
+    <style>
+      /* ══ BLOG LAYOUT ══ */
+      .blog-page {
+        background: var(--paper);
+        min-height: 100vh;
+      }
+
+      /* ══ ARTICLE HERO — SPLIT WITH VISUAL ══ */
+      .article-hero {
+        background: var(--ink);
+        padding: 64px 40px 56px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Grid texture */
+      .article-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 48px 48px;
+        pointer-events: none;
+      }
+
+      .article-hero-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 64px;
+        align-items: center;
+        min-height: 420px;
+      }
+
+      /* LEFT */
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      /* RIGHT: visual container */
+      .hero-visual {
+        position: relative;
+        height: 100%;
+        min-height: 380px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero-visual-inner {
+        position: relative;
+        width: 100%;
+        will-change: transform;
+        transition: transform 0.1s linear;
+      }
+
+      .hero-img {
+        width: 100%;
+        height: auto;
+        border-radius: var(--radius-lg);
+        box-shadow:
+          0 32px 80px rgba(0, 0, 0, 0.5),
+          0 8px 24px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.06);
+        display: block;
+        /* Initial float position */
+        animation: heroFloat 6s ease-in-out infinite;
+      }
+
+      /* Soft gradient fade at bottom of image — blends into hero bg */
+      .hero-img-fade {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: linear-gradient(to top, var(--ink), transparent);
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        pointer-events: none;
+      }
+
+      /* Floating animation — subtle up/down breathing */
+      @keyframes heroFloat {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      /* Pause float during scroll (JS adds this class) */
+      .hero-visual-inner.scrolling {
+        animation: none;
+      }
+
+      /* ══ RESPONSIVE ══ */
+      @media (max-width: 1024px) {
+        .article-hero-inner {
+          grid-template-columns: 1fr 340px;
+          gap: 40px;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .article-hero-inner {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+        .hero-visual {
+          display: none; /* Hide on small screens — keeps hero clean */
+        }
+        .article-hero {
+          padding: 48px 20px 40px;
+        }
+      }
+
+      /* Subtle grid texture */
+      .article-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 48px 48px;
+        pointer-events: none;
+      }
+
+      .article-hero-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 28px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: #4a4a42;
+      }
+
+      .breadcrumb a {
+        color: #5a5a52;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .breadcrumb a:hover {
+        color: #9a9a92;
+      }
+      .breadcrumb-sep {
+        color: #3a3a35;
+      }
+
+      .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+
+      .article-category {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .article-date,
+      .article-read-time {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: #5a5a52;
+      }
+
+      .article-title {
+        font-family: var(--serif);
+        font-size: clamp(30px, 4.5vw, 52px);
+        color: var(--paper);
+        line-height: 1.08;
+        letter-spacing: -0.025em;
+        margin-bottom: 20px;
+        max-width: 760px;
+      }
+
+      .article-subtitle {
+        font-size: 16.5px;
+        color: #7a7a72;
+        font-weight: 300;
+        line-height: 1.65;
+        max-width: 620px;
+        margin-bottom: 32px;
+      }
+
+      .article-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .article-tag {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border: 1px solid #2a2a27;
+        border-radius: 20px;
+        color: #5a5a52;
+      }
+
+      /* ── Article Layout ── */
+      .article-layout {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 56px 40px 80px;
+        display: grid;
+        grid-template-columns: 1fr 308px;
+        gap: 64px;
+        align-items: start;
+      }
+
+      /* ── Prose ── */
+      .prose {
+        max-width: 680px;
+      }
+
+      .prose h2 {
+        font-family: var(--serif);
+        font-size: clamp(22px, 2.8vw, 30px);
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin: 52px 0 18px;
+        line-height: 1.15;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--paper-3);
+      }
+
+      .prose h2:first-of-type {
+        margin-top: 0;
+      }
+
+      .prose h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ink);
+        margin: 36px 0 12px;
+        letter-spacing: -0.015em;
+        line-height: 1.3;
+      }
+
+      .prose p {
+        font-size: 16px;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin-bottom: 22px;
+      }
+
+      .prose strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .prose em {
+        font-style: italic;
+      }
+
+      .prose a {
+        color: var(--ink);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: var(--border);
+        transition: all 0.15s;
+      }
+
+      .prose a:hover {
+        color: var(--accent);
+        text-decoration-color: var(--accent);
+      }
+
+      .prose ul,
+      .prose ol {
+        margin: 4px 0 22px;
+        padding-left: 22px;
+      }
+
+      .prose li {
+        font-size: 16px;
+        color: var(--ink-2);
+        line-height: 1.75;
+        margin-bottom: 10px;
+      }
+
+      .prose code {
+        font-family: var(--mono);
+        font-size: 13.5px;
+        background: var(--paper-2);
+        padding: 2px 6px;
+        border-radius: 3px;
+        color: var(--ink);
+      }
+
+      /* ── Callout boxes ── */
+      .callout {
+        border-left: 3px solid var(--accent);
+        background: var(--white);
+        border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        padding: 18px 22px;
+        margin: 32px 0;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .callout.green {
+        border-left-color: var(--green);
+      }
+      .callout.amber {
+        border-left-color: var(--amber);
+      }
+      .callout.blue {
+        border-left-color: #3a6fb0;
+      }
+      .callout.purple {
+        border-left-color: #6a4fb0;
+      }
+
+      .callout-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .callout p {
+        margin: 0;
+        font-size: 14.5px;
+        color: var(--ink-2);
+        line-height: 1.65;
+      }
+
+      .callout p + p {
+        margin-top: 10px;
+      }
+
+      /* ── GDPR Article reference boxes ── */
+      .gdpr-article-box {
+        background: #0f1a2e;
+        border: 1px solid #1a3050;
+        border-radius: var(--radius-lg);
+        padding: 20px 22px;
+        margin: 28px 0;
+      }
+
+      .gdpr-article-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #4a7ab0;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .gdpr-article-num {
+        font-family: var(--serif);
+        font-size: 15px;
+        color: #88b8e8;
+        margin-bottom: 8px;
+        font-style: italic;
+      }
+
+      .gdpr-article-text {
+        font-size: 13.5px;
+        color: #6a8aaa;
+        line-height: 1.65;
+        font-style: italic;
+      }
+
+      .gdpr-article-source {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: #3a5a7a;
+        margin-top: 8px;
+      }
+
+      /* ── Data flow diagram ── */
+      .data-flow {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        margin: 28px 0;
+      }
+
+      .data-flow-title {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin-bottom: 18px;
+      }
+
+      .flow-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .flow-step {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        border: 1px solid var(--paper-3);
+        background: var(--paper);
+        transition: background 0.15s;
+      }
+
+      .flow-step:hover {
+        background: var(--paper-2);
+      }
+
+      .flow-step-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+
+      .flow-step-text h4 {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 2px;
+      }
+      .flow-step-text p {
+        font-size: 11.5px;
+        color: var(--ink-3);
+        margin: 0;
+        font-family: var(--mono);
+      }
+
+      .flow-arrow {
+        text-align: center;
+        color: var(--paper-3);
+        font-size: 14px;
+        padding: 2px 0;
+      }
+
+      .flow-risk-badge {
+        margin-left: auto;
+        font-family: var(--mono);
+        font-size: 9.5px;
+        padding: 2px 7px;
+        border-radius: 3px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      /* ── Compliance checklist ── */
+      .checklist {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        margin: 28px 0;
+      }
+
+      .checklist-header {
+        padding: 14px 20px;
+        background: var(--paper-2);
+        border-bottom: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        font-weight: 600;
+      }
+
+      .checklist-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--paper-3);
+        transition: background 0.12s;
+      }
+
+      .checklist-item:last-child {
+        border-bottom: none;
+      }
+      .checklist-item:hover {
+        background: var(--paper);
+      }
+
+      .checklist-box {
+        width: 18px;
+        height: 18px;
+        border: 1.5px solid var(--border);
+        border-radius: 3px;
+        flex-shrink: 0;
+        margin-top: 2px;
+        cursor: pointer;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .checklist-box:hover {
+        border-color: var(--green);
+      }
+      .checklist-box.checked {
+        background: var(--green);
+        border-color: var(--green);
+      }
+      .checklist-box.checked::after {
+        content: "✓";
+        color: white;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .checklist-text h4 {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 3px;
+      }
+      .checklist-text p {
+        font-size: 12.5px;
+        color: var(--ink-3);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* ── Article CTA ── */
+      .article-cta {
+        background: var(--ink);
+        border-radius: var(--radius-lg);
+        padding: 28px 32px;
+        margin: 44px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .article-cta::before {
+        content: "🔒";
+        position: absolute;
+        right: 140px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 80px;
+        opacity: 0.04;
+        pointer-events: none;
+      }
+
+      .article-cta h3 {
+        font-family: var(--serif);
+        font-size: 22px;
+        color: var(--paper);
+        font-style: italic;
+        margin-bottom: 6px;
+        letter-spacing: -0.02em;
+      }
+      .article-cta p {
+        font-size: 13.5px;
+        color: #7a7a72;
+        margin: 0;
+      }
+
+      /* ── FAQ section ── */
+      .faq-section {
+        margin-top: 56px;
+        border-top: 1px solid var(--paper-3);
+        padding-top: 40px;
+      }
+
+      .faq-section-title {
+        font-family: var(--serif);
+        font-size: 26px;
+        letter-spacing: -0.02em;
+        margin-bottom: 28px;
+        color: var(--ink);
+      }
+
+      .faq-item {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        margin-bottom: 10px;
+        overflow: hidden;
+        background: var(--white);
+      }
+
+      .faq-question {
+        width: 100%;
+        text-align: left;
+        padding: 16px 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 14.5px;
+        font-weight: 600;
+        color: var(--ink);
+        font-family: var(--sans);
+        transition: background 0.15s;
+        line-height: 1.4;
+      }
+
+      .faq-question:hover {
+        background: var(--paper);
+      }
+
+      .faq-question svg {
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+        color: var(--ink-3);
+      }
+
+      .faq-item.open .faq-question svg {
+        transform: rotate(180deg);
+      }
+      .faq-item.open .faq-question {
+        background: var(--paper);
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.3s ease,
+          padding 0.2s ease;
+      }
+
+      .faq-item.open .faq-answer {
+        max-height: 400px;
+      }
+
+      .faq-answer-inner {
+        padding: 0 20px 18px;
+        font-size: 14.5px;
+        color: var(--ink-2);
+        line-height: 1.75;
+        border-top: 1px solid var(--paper-3);
+        padding-top: 16px;
+      }
+
+      /* ── Sidebar ── */
+      .article-sidebar {
+        position: sticky;
+        top: calc(var(--nav-height) + 24px);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .sidebar-widget {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+
+      .sidebar-widget-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--paper-3);
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        font-weight: 600;
+      }
+
+      .sidebar-widget-body {
+        padding: 14px 16px;
+      }
+
+      .toc-link {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        text-decoration: none;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--paper-3);
+        transition: color 0.15s;
+        line-height: 1.4;
+      }
+
+      .toc-link:last-child {
+        border-bottom: none;
+      }
+      .toc-link:hover {
+        color: var(--ink);
+      }
+      .toc-link.active {
+        color: var(--ink);
+        font-weight: 500;
+      }
+
+      .toc-num {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--paper-3);
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+
+      .related-post {
+        display: block;
+        text-decoration: none;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--paper-3);
+      }
+      .related-post:last-child {
+        border-bottom: none;
+      }
+      .related-post-cat {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--accent);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+      }
+      .related-post-title {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.4;
+        transition: color 0.15s;
+      }
+      .related-post:hover .related-post-title {
+        color: var(--accent);
+      }
+
+      /* ── Blog index breadcrumb ── */
+      .blog-nav-bar {
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 40px;
+      }
+
+      .blog-nav-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-3);
+      }
+
+      .blog-nav-inner a {
+        color: var(--ink-3);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .blog-nav-inner a:hover {
+        color: var(--ink);
+      }
+
+      @media (max-width: 960px) {
+        .article-layout {
+          grid-template-columns: 1fr;
+          gap: 40px;
+          padding: 32px 20px 60px;
+        }
+        .article-hero {
+          padding: 48px 20px 40px;
+        }
+        .article-sidebar {
+          position: static;
+        }
+        .prose {
+          max-width: 100%;
+        }
+        .article-cta {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="blog-page">
+    <!-- NAV -->
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <div class="nav-logo">Fi</div>
+        <div>
+          <div class="nav-name">FileIntel</div>
+          <div class="nav-tagline">Private File Tools</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/pdf-metadata-remover">Tools</a></li>
+        <li><a href="/blog" class="active">Blog</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+        <li>
+          <a
+            href="https://github.com/yourusername/fileintel"
+            target="_blank"
+            rel="noopener">GitHub</a
+          >
+        </li>
+        <li><span class="nav-badge">⚡ Browser-only</span></li>
+      </ul>
+    </nav>
+
+    <!-- BLOG NAV BAR -->
+    <div class="blog-nav-bar">
+      <div class="blog-nav-inner">
+        <a href="/">Home</a>
+        <span>›</span>
+        <a href="/blog">Blog</a>
+        <span>›</span>
+        <span>GDPR and PDF Metadata</span>
+      </div>
+    </div>
+
+    <!-- ARTICLE HERO -->
+    <div class="article-hero">
+      <div class="article-hero-inner">
+        <!-- LEFT: Article info -->
+        <div class="hero-content">
+          <div class="article-meta">
+            <span class="article-category">GDPR & Compliance</span>
+            <span class="article-date">April 30, 2026</span>
+            <span class="article-read-time">9 min read</span>
+          </div>
+          <h1 class="article-title">
+            GDPR and PDF Metadata:<br />What Every DPO Needs to Know
+          </h1>
+          <p class="article-subtitle">
+            PDF files shared by your organization may contain personal data in
+            fields most people never see. Author names. Manager fields. GPS
+            coordinates. Under GDPR, this is not a grey area — it is a
+            compliance obligation most organizations are quietly ignoring.
+          </p>
+          <div class="article-tags">
+            <span class="article-tag">GDPR</span>
+            <span class="article-tag">PDF Metadata</span>
+            <span class="article-tag">Data Protection</span>
+            <span class="article-tag">DPO</span>
+            <span class="article-tag">Compliance</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: Floating parallax image -->
+        <div class="hero-visual" id="hero-visual">
+          <div class="hero-visual-inner" id="hero-visual-inner">
+            <img
+              src="/images/blog/gdpr-pdf-metadata-hero.png"
+              alt="PDF document with metadata fields highlighted showing GDPR compliance risk"
+              width="480"
+              height="560"
+              loading="eager"
+              class="hero-img"
+              id="hero-img"
+            />
+            <!-- Subtle gradient fade at bottom -->
+            <div class="hero-img-fade"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTICLE BODY -->
+    <div class="article-layout">
+      <!-- MAIN CONTENT -->
+      <article class="prose">
+        <p>
+          In 2019, a UK public sector body published a redacted report online.
+          The redaction was done properly — black boxes over the sensitive text.
+          But nobody had touched the metadata. The PDF's Author field contained
+          the name of the civil servant who drafted it. The modification
+          timestamp revealed exactly when the redactions were applied. Within
+          twenty-four hours, journalists had used that information to identify
+          the author and establish a timeline that contradicted the official
+          account of when the report was prepared.
+        </p>
+
+        <p>
+          This is not an edge case. It happens repeatedly, across sectors,
+          because PDF metadata is invisible to the people creating and sharing
+          documents — but completely readable by anyone who receives them. Under
+          GDPR, that invisibility does not provide legal cover. Personal data
+          embedded in a document's metadata is still personal data.
+        </p>
+
+        <h2>What GDPR actually says about metadata</h2>
+
+        <p>
+          The GDPR does not mention PDF metadata specifically. It does not need
+          to. The regulation's definition of personal data is intentionally
+          broad — and PDF metadata falls squarely within it.
+        </p>
+
+        <div class="gdpr-article-box">
+          <div class="gdpr-article-label">GDPR — Regulation (EU) 2016/679</div>
+          <div class="gdpr-article-num">
+            Article 4(1) — Definition of Personal Data
+          </div>
+          <div class="gdpr-article-text">
+            "'personal data' means any information relating to an identified or
+            identifiable natural person ('data subject'); an identifiable
+            natural person is one who can be identified, directly or indirectly,
+            in particular by reference to an identifier such as a name, an
+            identification number, location data, an online identifier or to one
+            or more factors specific to the physical, genetic, mental, economic,
+            cultural or social identity of that natural person."
+          </div>
+          <div class="gdpr-article-source">
+            Source: EUR-Lex — Official Journal of the European Union
+          </div>
+        </div>
+
+        <p>
+          Walk through that definition against what a standard PDF metadata
+          field contains:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Author field</strong> — contains the natural person's name. That
+            is personal data by the first clause.
+          </li>
+          <li>
+            <strong>GPS coordinates</strong> — explicitly called out in Article 4(1)
+            as "location data." Personal data.
+          </li>
+          <li>
+            <strong>Manager field</strong> — the name of the document creator's manager,
+            sourced from corporate Active Directory. Personal data for two people
+            simultaneously.
+          </li>
+          <li>
+            <strong>Company field</strong> — not personal data on its own, but in
+            combination with the Author field it can identify a specific individual
+            within a specific organization.
+          </li>
+          <li>
+            <strong>Modification timestamp</strong> — not personal data in isolation,
+            but in combination with other fields it can reveal information about a
+            specific person's working patterns.
+          </li>
+        </ul>
+
+        <p>
+          The combination principle matters. Recital 26 of the GDPR clarifies
+          that anonymisation must ensure individuals cannot be identified by any
+          reasonable means, taking into account all available information. A PDF
+          where the Author field is stripped but the Manager, Company, and GPS
+          fields remain is not anonymised — the individual may still be
+          identifiable.
+        </p>
+
+        <h2>Which GDPR principles PDF metadata triggers</h2>
+
+        <p>
+          Three principles from Article 5 are directly implicated every time a
+          PDF containing personal metadata is shared externally.
+        </p>
+
+        <div class="gdpr-article-box">
+          <div class="gdpr-article-label">
+            GDPR Article 5(1) — Principles relating to processing
+          </div>
+          <div class="gdpr-article-num">
+            Data Minimisation — Article 5(1)(c)
+          </div>
+          <div class="gdpr-article-text">
+            "adequate, relevant and limited to what is necessary in relation to
+            the purposes for which they are processed ('data minimisation')"
+          </div>
+          <div class="gdpr-article-source">
+            Source: EUR-Lex — Official Journal of the European Union
+          </div>
+        </div>
+
+        <p>
+          When you send a PDF contract to a client, the purpose of that
+          processing is to communicate the contract terms. The author's name,
+          GPS coordinates of your office, and the modification history of the
+          document are not necessary to fulfil that purpose. Under data
+          minimisation, they should not be included.
+        </p>
+
+        <div class="gdpr-article-box">
+          <div class="gdpr-article-label">
+            GDPR Article 5(1) — Principles relating to processing
+          </div>
+          <div class="gdpr-article-num">
+            Purpose Limitation — Article 5(1)(b)
+          </div>
+          <div class="gdpr-article-text">
+            "collected for specified, explicit and legitimate purposes and not
+            further processed in a manner that is incompatible with those
+            purposes"
+          </div>
+          <div class="gdpr-article-source">
+            Source: EUR-Lex — Official Journal of the European Union
+          </div>
+        </div>
+
+        <p>
+          Employee data collected for HR purposes — including the name stored in
+          a corporate Active Directory account that populates PDF Author fields
+          — was collected for internal employment purposes. Sharing that data
+          with a third party embedded in a document is a secondary use that the
+          employee was almost certainly not informed about and did not consent
+          to.
+        </p>
+
+        <div class="callout amber">
+          <div class="callout-label" style="color:var(--amber);">
+            Important distinction
+          </div>
+          <p>
+            The person whose data appears in the metadata is the data subject —
+            the employee whose name is in the Author field. They have rights
+            under GDPR: the right to be informed, the right to erasure, the
+            right to restrict processing. When their name is embedded in a PDF
+            sent to a third party, those rights become very difficult to honour
+            in practice.
+          </p>
+        </div>
+
+        <h2>The data breach risk most organizations overlook</h2>
+
+        <p>
+          Under GDPR Article 33, organizations must notify their supervisory
+          authority within 72 hours of becoming aware of a personal data breach
+          that is likely to result in a risk to the rights and freedoms of
+          individuals.
+        </p>
+
+        <p>
+          A PDF published on a public website — a government report, a press
+          release, an annual review — that contains an employee's name or
+          location in its metadata is a personal data breach. The data was not
+          intended to be published. The subject was not informed. The GDPR
+          definition of a breach is met.
+        </p>
+
+        <p>
+          Whether it rises to the level requiring supervisory authority
+          notification depends on the risk assessment, which is the DPO's call.
+          But the starting point — a breach occurred — is clear.
+        </p>
+
+        <div class="callout">
+          <div class="callout-label" style="color:var(--accent);">
+            Real enforcement context
+          </div>
+          <p>
+            While no major GDPR fine has been issued solely for PDF metadata
+            exposure, the ICO in the UK has explicitly addressed metadata in its
+            published guidance on "Information Security — Practical Guide,"
+            noting that metadata in shared documents constitutes a common and
+            avoidable data leak. Several subject access requests (SARs) in EU
+            member states have successfully compelled organizations to disclose
+            what personal data appears in document metadata.
+          </p>
+        </div>
+
+        <h2>How metadata actually flows through your organization</h2>
+
+        <p>
+          The problem is systematic, not occasional. Understanding how metadata
+          gets into documents helps compliance teams address it at the right
+          point in the workflow.
+        </p>
+
+        <div class="data-flow">
+          <div class="data-flow-title">
+            Personal data flow — from employee record to external PDF
+          </div>
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-step-icon" style="background:#1a2e22;">👤</div>
+              <div class="flow-step-text">
+                <h4>Employee joins organization</h4>
+                <p>
+                  Name, job title, manager stored in Active Directory / HR
+                  system
+                </p>
+              </div>
+              <span
+                class="flow-risk-badge"
+                style="background:var(--green-light);color:var(--green);"
+                >INTERNAL</span
+              >
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+              <div class="flow-step-icon" style="background:#1e1e1a;">💻</div>
+              <div class="flow-step-text">
+                <h4>Employee creates document in Word / Google Docs</h4>
+                <p>
+                  Software reads OS account → auto-populates Author, Manager,
+                  Company
+                </p>
+              </div>
+              <span
+                class="flow-risk-badge"
+                style="background:var(--amber-light);color:var(--amber);"
+                >AUTO</span
+              >
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+              <div class="flow-step-icon" style="background:#1a1a2e;">📄</div>
+              <div class="flow-step-text">
+                <h4>Document exported as PDF</h4>
+                <p>
+                  Metadata transferred intact. XMP stream and DocInfo both
+                  populated.
+                </p>
+              </div>
+              <span
+                class="flow-risk-badge"
+                style="background:var(--red-light);color:var(--accent);"
+                >RISK CREATED</span
+              >
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">
+              <div class="flow-step-icon" style="background:#2e1a1a;">📤</div>
+              <div class="flow-step-text">
+                <h4>PDF shared externally</h4>
+                <p>
+                  Emailed to client, uploaded to website, submitted to
+                  regulator.
+                </p>
+              </div>
+              <span
+                class="flow-risk-badge"
+                style="background:var(--red-light);color:var(--accent);"
+                >BREACH RISK</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <p>
+          The critical intervention point is between step 3 and step 4. Before
+          any PDF leaves your organization's control, metadata should be
+          inspected and stripped. This is where a tool like
+          <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a>
+          fits into a GDPR-compliant document workflow — processing entirely in the
+          browser, never uploading the file to a third party server, and producing
+          a clean PDF that can be verified before sending.
+        </p>
+
+        <!-- MID-ARTICLE CTA -->
+        <div class="article-cta">
+          <div>
+            <h3>Inspect your PDF for GDPR risks</h3>
+            <p>
+              See every personal data field. Privacy Risk Score included.
+              Browser-only — your file never leaves your device.
+            </p>
+          </div>
+          <a
+            href="/pdf-metadata-remover"
+            class="btn btn-light"
+            style="white-space:nowrap;flex-shrink:0;"
+          >
+            Check my PDF →
+          </a>
+        </div>
+
+        <h2>What a GDPR-compliant PDF workflow looks like</h2>
+
+        <p>
+          The goal is not to strip metadata from every internal document — that
+          would be operationally impractical and unnecessary. The requirement is
+          proportionate: personal data in metadata should be removed when
+          documents are shared externally, published publicly, or submitted to
+          third parties.
+        </p>
+
+        <p>
+          Here is a practical checklist for Data Protection Officers building
+          this into their organization's document handling procedures:
+        </p>
+
+        <div class="checklist" id="compliance-checklist">
+          <div class="checklist-header">
+            GDPR PDF Metadata Compliance Checklist
+          </div>
+
+          <div class="checklist-item">
+            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-text">
+              <h4>Audit your current document workflow</h4>
+              <p>
+                Identify all document types shared externally — contracts,
+                reports, proposals, invoices, press releases. Test a sample of
+                each type for metadata content using FileIntel or ExifTool.
+              </p>
+            </div>
+          </div>
+
+          <div class="checklist-item">
+            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-text">
+              <h4>Map the personal data in your metadata</h4>
+              <p>
+                Document which fields contain personal data for each document
+                type. Author and Manager fields are almost always personal data.
+                GPS coordinates are high-risk. Company and software version may
+                be organization data rather than personal data depending on
+                context.
+              </p>
+            </div>
+          </div>
+
+          <div class="checklist-item">
+            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-text">
+              <h4>Update your ROPA (Record of Processing Activities)</h4>
+              <p>
+                Under GDPR Article 30, your ROPA should document processing
+                activities including the sharing of personal data embedded in
+                documents. If metadata stripping becomes standard practice,
+                document that as a technical measure in your ROPA.
+              </p>
+            </div>
+          </div>
+
+          <div class="checklist-item">
+            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-text">
+              <h4>Implement a pre-send metadata strip as standard procedure</h4>
+              <p>
+                Add a metadata inspection and stripping step to your
+                document-sharing workflow. This can be a team policy ("strip
+                before sending") or a technical control at the email gateway
+                level for organizations with the infrastructure to implement it.
+              </p>
+            </div>
+          </div>
+
+          <div class="checklist-item">
+            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-text">
+              <h4>Verify the strip worked before sending</h4>
+              <p>
+                A stripped PDF should be re-inspected to confirm high-risk
+                fields are empty. FileIntel's Privacy Risk Score makes this a
+                30-second verification step. A score near zero after stripping
+                confirms the clean was complete.
+              </p>
+            </div>
+          </div>
+
+          <div class="checklist-item">
+            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-text">
+              <h4>Train document creators on metadata risk</h4>
+              <p>
+                Most people who create PDFs have no idea metadata exists. A
+                short internal briefing — explaining what metadata is, what it
+                can reveal, and how to strip it — is part of your Article 32
+                obligation to implement appropriate technical and organisational
+                measures.
+              </p>
+            </div>
+          </div>
+
+          <div class="checklist-item">
+            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-text">
+              <h4>Include metadata in your breach response procedures</h4>
+              <p>
+                Update your data breach response procedure to include a metadata
+                check when investigating potential breaches involving shared
+                documents. If a document was published publicly with personal
+                data in its metadata, the breach response timeline under Article
+                33 applies.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <h2>The UK GDPR position post-Brexit</h2>
+
+        <p>
+          For organizations operating under UK GDPR (as retained and amended by
+          the Data Protection Act 2018), the position is substantively
+          identical. The ICO applies the same personal data definition and the
+          same data minimisation principles. The ICO's published guidance
+          specifically identifies metadata in shared documents as a common
+          source of unnecessary personal data disclosure.
+        </p>
+
+        <p>
+          Organizations operating across both EU GDPR and UK GDPR jurisdictions
+          — which includes most UK businesses with EU customers or EU operations
+          — can apply a single metadata management policy that satisfies both
+          frameworks, since the substantive requirements are the same.
+        </p>
+
+        <h2>A note on legal advice</h2>
+
+        <p>
+          This article explains the technical and regulatory context around PDF
+          metadata and GDPR based on the published text of the regulation and
+          publicly available regulatory guidance. It is not legal advice.
+          Organizations with specific compliance obligations should consult a
+          qualified data protection practitioner or legal advisor for guidance
+          tailored to their circumstances.
+        </p>
+
+        <p>
+          What is clear without legal advice: PDF metadata can contain personal
+          data, personal data shared without necessity violates GDPR's
+          minimisation principles, and stripping that metadata before external
+          sharing is a proportionate, low-cost technical measure that addresses
+          the risk.
+        </p>
+
+        <!-- BOTTOM CTA -->
+        <div class="article-cta">
+          <div>
+            <h3>Start your GDPR PDF audit now</h3>
+            <p>
+              Free. Browser-only. Your file never reaches our servers — or
+              anyone else's.
+            </p>
+          </div>
+          <a
+            href="/pdf-metadata-remover"
+            class="btn btn-light"
+            style="white-space:nowrap;flex-shrink:0;"
+          >
+            Open PDF Inspector →
+          </a>
+        </div>
+
+        <!-- FAQ SECTION -->
+        <div class="faq-section">
+          <h2 class="faq-section-title">Frequently asked questions</h2>
+
+          {
+            [
+              {
+                q: "Is PDF metadata personal data under GDPR?",
+                a: "Yes, in most cases. Under GDPR Article 4(1), personal data includes any information relating to an identifiable natural person — including a name, location data, or any combination of data that allows identification. PDF metadata fields such as Author (containing a person's name) and GPS coordinates are personal data. The European Data Protection Board has confirmed that metadata containing identifying information is subject to GDPR obligations.",
+              },
+              {
+                q: "What GDPR principles apply to PDF metadata?",
+                a: "Three principles are directly relevant. Data Minimisation (Article 5(1)(c)) requires you not to share more personal data than necessary for the purpose — metadata embedded in a contract sent to a client serves no purpose for the recipient. Purpose Limitation (Article 5(1)(b)) means employee data collected for HR purposes should not be re-shared embedded in documents sent to third parties. Storage Limitation (Article 5(1)(e)) applies where modification timestamps in metadata reveal information about how long personal data has been retained.",
+              },
+              {
+                q: "Do I need to strip PDF metadata before sending documents under GDPR?",
+                a: "The GDPR does not mandate a specific technical measure for metadata removal, but its data minimisation and purpose limitation principles strongly imply that unnecessary personal data in document metadata should be removed before external sharing. Most DPOs and data protection advisors treat metadata stripping as a GDPR compliance best practice, particularly for documents shared with third parties, published publicly, or submitted to regulators.",
+              },
+              {
+                q: "Can PDF metadata cause a GDPR data breach?",
+                a: "Yes. A PDF published on a public website or shared externally that contains an employee's name or location in its metadata can constitute a personal data breach under GDPR Article 33 — the data was not intended to be published, the subject was not informed, and unauthorized disclosure has occurred. Whether the breach requires supervisory authority notification within 72 hours depends on the risk assessment, but the starting point — a breach occurred — is established.",
+              },
+              {
+                q: "How do I remove personal data from PDF metadata for GDPR compliance?",
+                a: "The most practical method for individuals is FileIntel's PDF Metadata Remover — it processes files entirely in your browser, meaning the file never leaves your device, which itself reduces GDPR risk by avoiding third-party processing. For organizations, Adobe Acrobat Pro's Sanitize Document function and the command-line tool ExifTool are also options. The key is to verify the strip worked by re-inspecting the cleaned PDF before sending.",
+              },
+            ].map((item) => (
+              <div class="faq-item">
+                <button
+                  class="faq-question"
+                  onclick="toggleFaq(this.parentElement)"
+                >
+                  {item.q}
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">{item.a}</div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <!-- SIDEBAR -->
+      <aside class="article-sidebar">
+        <!-- TOC -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">In this article</div>
+          <div class="sidebar-widget-body" style="padding:8px 14px;">
+            <a href="#" class="toc-link"
+              ><span class="toc-num">01</span>What GDPR says about metadata</a
+            >
+            <a href="#" class="toc-link"
+              ><span class="toc-num">02</span>Which principles are triggered</a
+            >
+            <a href="#" class="toc-link"
+              ><span class="toc-num">03</span>The data breach risk</a
+            >
+            <a href="#" class="toc-link"
+              ><span class="toc-num">04</span>How metadata flows</a
+            >
+            <a href="#" class="toc-link"
+              ><span class="toc-num">05</span>Compliant workflow</a
+            >
+            <a href="#" class="toc-link"
+              ><span class="toc-num">06</span>Compliance checklist</a
+            >
+            <a href="#" class="toc-link"
+              ><span class="toc-num">07</span>UK GDPR position</a
+            >
+            <a href="#" class="toc-link"><span class="toc-num">08</span>FAQ</a>
+          </div>
+        </div>
+
+        <!-- Tool CTA -->
+        <div
+          class="sidebar-widget"
+          style="background:var(--ink);border-color:#2a2a27;"
+        >
+          <div class="sidebar-widget-body" style="padding:22px;">
+            <div style="font-size:24px;margin-bottom:12px;">🛡️</div>
+            <div
+              style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--paper);margin-bottom:8px;letter-spacing:-0.02em;"
+            >
+              GDPR-safe PDF inspection
+            </div>
+            <p
+              style="font-size:12.5px;color:#7a7a72;margin-bottom:18px;line-height:1.6;"
+            >
+              Your file never leaves your browser — zero third-party processing.
+              See every personal data field with a Privacy Risk Score.
+            </p>
+            <a
+              href="/pdf-metadata-remover"
+              class="btn btn-light"
+              style="width:100%;justify-content:center;padding:11px 16px;font-size:13px;"
+            >
+              Inspect PDF now →
+            </a>
+            <div
+              style="font-family:var(--mono);font-size:10px;color:#3a3a35;text-align:center;margin-top:10px;"
+            >
+              0 bytes sent to any server
+            </div>
+          </div>
+        </div>
+
+        <!-- GDPR References -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">Official references</div>
+          <div class="sidebar-widget-body" style="padding:10px 14px;">
+            <a
+              href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679"
+              target="_blank"
+              rel="noopener nofollow"
+              style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:8px 0;border-bottom:1px solid var(--paper-3);"
+            >
+              <span style="font-size:14px;">🇪🇺</span>
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--ink);">
+                  GDPR Full Text
+                </div>
+                <div style="font-size:11px;color:var(--ink-3);">
+                  EUR-Lex Official Journal
+                </div>
+              </div>
+            </a>
+            <a
+              href="https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/"
+              target="_blank"
+              rel="noopener nofollow"
+              style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:8px 0;border-bottom:1px solid var(--paper-3);"
+            >
+              <span style="font-size:14px;">🇬🇧</span>
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--ink);">
+                  ICO GDPR Guide
+                </div>
+                <div style="font-size:11px;color:var(--ink-3);">
+                  UK Information Commissioner
+                </div>
+              </div>
+            </a>
+            <a
+              href="https://edpb.europa.eu/our-work-tools/general-guidance/guidelines-recommendations-best-practices_en"
+              target="_blank"
+              rel="noopener nofollow"
+              style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:8px 0;"
+            >
+              <span style="font-size:14px;">🏛️</span>
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--ink);">
+                  EDPB Guidelines
+                </div>
+                <div style="font-size:11px;color:var(--ink-3);">
+                  European Data Protection Board
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Related Posts -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">Related articles</div>
+          <div class="sidebar-widget-body" style="padding:10px 14px;">
+            <a href="/blog/what-is-pdf-metadata" class="related-post">
+              <div class="related-post-cat">PDF Security</div>
+              <div class="related-post-title">
+                What is PDF metadata? Every hidden field explained
+              </div>
+            </a>
+            <a href="/blog/pdf-metadata-lawyers" class="related-post">
+              <div class="related-post-cat">Legal</div>
+              <div class="related-post-title">
+                How to remove metadata before sending a PDF
+              </div>
+            </a>
+            <a href="/blog/pdf-metadata-journalists" class="related-post">
+              <div class="related-post-cat">Journalism</div>
+              <div class="related-post-title">
+                How journalists verify PDF authenticity
+              </div>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div><!-- /article-layout -->
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">
+              Fi
+            </div>
+            <span style="color:#5a5a52;font-size:15px;font-weight:600;"
+              >FileIntel</span
+            >
+          </div>
+          <p>
+            Private file tools for professionals. Everything runs in your
+            browser. Nothing touches our servers.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
+            <li><a href="/pdf-redactor">PDF Redactor</a></li>
+            <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Blog</h4>
+          <ul>
+            <li>
+              <a href="/blog/what-is-pdf-metadata">What is PDF metadata?</a>
+            </li>
+            <li>
+              <a href="/blog/pdf-metadata-lawyers">Remove metadata guide</a>
+            </li>
+            <li><a href="/blog/gdpr-pdf-metadata">GDPR & PDF metadata</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li>
+              <a
+                href="https://github.com/yourusername/fileintel"
+                target="_blank"
+                rel="noopener">GitHub</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span
+          >© {new Date().getFullYear()} FileIntel. Built with privacy by design.</span
+        >
+        <span class="footer-mono">0 bytes sent to our servers</span>
+      </div>
+    </footer>
+
+    <script>
+      // ── FAQ accordion ──
+      function toggleFaq(item) {
+        const isOpen = item.classList.contains("open");
+        document
+          .querySelectorAll(".faq-item.open")
+          .forEach((el) => el.classList.remove("open"));
+        if (!isOpen) item.classList.add("open");
+      }
+
+      // ── Compliance checklist ──
+      function toggleCheck(box) {
+        box.classList.toggle("checked");
+        const checkedCount = document.querySelectorAll(
+          ".checklist-box.checked",
+        ).length;
+        const totalCount = document.querySelectorAll(".checklist-box").length;
+        // Could show progress indicator here
+      }
+
+      // ── Active TOC on scroll (simple version) ──
+      const tocLinks = document.querySelectorAll(".toc-link");
+      const headings = document.querySelectorAll(".prose h2");
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          let current = "";
+          headings.forEach((h, i) => {
+            if (window.scrollY >= h.offsetTop - 120) current = i;
+          });
+          tocLinks.forEach((link, i) => {
+            link.classList.toggle("active", i === current);
+          });
+        },
+        { passive: true },
+      );
+
+      // ── Hero image parallax on scroll ──
+      const heroVisualInner = document.getElementById("hero-visual-inner");
+
+      if (heroVisualInner) {
+        let scrollTimer = null;
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener(
+          "scroll",
+          () => {
+            const scrollY = window.scrollY;
+            const heroHeight =
+              document.querySelector(".article-hero")?.offsetHeight || 500;
+
+            // Only apply within hero range — past hero it stops
+            if (scrollY < heroHeight + 100) {
+              // Parallax: image moves UP slower than page scrolls — creates depth
+              const parallaxY = scrollY * 0.28;
+              heroVisualInner.style.transform = `translateY(${parallaxY}px)`;
+            }
+
+            // Pause float animation while scrolling
+            heroVisualInner.classList.add("scrolling");
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+              heroVisualInner.classList.remove("scrolling");
+            }, 150);
+
+            lastScrollY = scrollY;
+          },
+          { passive: true },
+        );
+      }
+    </script>
+  </body>
+</html>
