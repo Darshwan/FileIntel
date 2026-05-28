@@ -1,0 +1,1699 @@
+---
+// src/pages/blog/view-pdf-metadata-mac-windows-linux.astro
+// Target keyword: "how to view pdf metadata" / "view pdf metadata mac"
+// Secondary: "check pdf metadata windows", "pdf metadata linux", "see pdf metadata"
+// Intent: Navigational + Informational — people want step-by-step for their specific OS
+// Monthly searches: 2,800+ primary cluster + 4,200 long-tail OS-specific
+// Gap competitors miss: No single article covers all three OSes with real screenshots
+// AND offers a browser-based fallback that works on all three simultaneously
+
+import Navbar from '../../components/Navbar.astro';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>How to View PDF Metadata on Mac, Windows & Linux (2026) | FileIntel</title>
+  <meta name="description" content="Step-by-step guide to viewing hidden PDF metadata on any operating system. See author names, GPS coordinates, edit history and more — free tools included." />
+  <link rel="canonical" href="https://fileintel.tech/blog/view-pdf-metadata-mac-windows-linux" />
+
+  <meta property="og:type"        content="article" />
+  <meta property="og:url"         content="https://fileintel.tech/blog/view-pdf-metadata-mac-windows-linux" />
+  <meta property="og:title"       content="How to View PDF Metadata on Mac, Windows & Linux (2026)" />
+  <meta property="og:description" content="See exactly what hidden data is inside any PDF — on Mac, Windows, or Linux. Free tools, real steps, no software required." />
+  <meta property="og:image"       content="https://fileintel.tech/og-blog-view-metadata.png" />
+  <meta property="article:published_time" content="2026-05-01T00:00:00Z" />
+  <meta property="article:author" content="FileIntel" />
+
+  <meta name="twitter:card"  content="summary_large_image" />
+  <meta name="twitter:title" content="How to View PDF Metadata on Mac, Windows & Linux" />
+  <meta name="twitter:description" content="Step-by-step guide for every OS. See hidden author names, GPS data, and edit history inside any PDF." />
+
+  <!-- Article Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to View PDF Metadata on Mac, Windows & Linux",
+    "description": "Step-by-step guide to viewing hidden PDF metadata on Mac, Windows, and Linux using free tools — including a browser-based option that works on all platforms.",
+    "url": "https://fileintel.tech/blog/view-pdf-metadata-mac-windows-linux",
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-01",
+    "author": { "@type": "Organization", "name": "FileIntel", "url": "https://fileintel.tech" },
+    "publisher": { "@type": "Organization", "name": "FileIntel" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://fileintel.tech/blog/view-pdf-metadata-mac-windows-linux" }
+  }
+  </script>
+
+  <!-- HowTo Schema — Google can show this as a rich result -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to View PDF Metadata on Any Platform",
+    "description": "View hidden metadata inside any PDF file — works on Mac, Windows, Linux, and all browsers.",
+    "totalTime": "PT1M",
+    "tool": [{ "@type": "HowToTool", "name": "FileIntel PDF Metadata Inspector" }],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Open FileIntel PDF Metadata Inspector",
+        "text": "Go to fileintel.tech/pdf-metadata-remover in any browser on any operating system.",
+        "url": "https://fileintel.tech/pdf-metadata-remover"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Upload your PDF",
+        "text": "Click the upload zone or drag and drop your PDF. Processing happens in your browser — the file never leaves your device."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Read the metadata",
+        "text": "FileIntel shows every metadata field with a Privacy Risk Score — author name, company, GPS coordinates, modification dates, and more."
+      }
+    ]
+  }
+  </script>
+
+  <!-- FAQPage Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I view PDF metadata on a Mac?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On Mac, open the PDF in Preview and go to Tools → Show Inspector → Info tab. This shows basic metadata fields. For full metadata including XMP data and GPS coordinates, use FileIntel's free browser-based PDF Metadata Inspector or the command-line tool exiftool installed via Homebrew."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I check PDF metadata on Windows?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On Windows, right-click the PDF file and select Properties → Details tab to see basic metadata. For full metadata, open it in Adobe Acrobat Reader and go to File → Properties → Description tab. For comprehensive metadata including hidden XMP fields, use FileIntel's free online PDF Metadata Inspector — no software installation required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best free tool to view PDF metadata?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FileIntel's PDF Metadata Inspector is the most comprehensive free tool — it runs entirely in your browser, shows 23+ metadata fields including XMP data, and provides a Privacy Risk Score showing which fields pose the highest risk. ExifTool is the best command-line option for power users on all platforms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I view PDF metadata without installing software?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. FileIntel's PDF Metadata Inspector runs entirely in your web browser — no installation, no account, no upload to a server. Your PDF is processed locally in your browser tab. It works on Mac, Windows, Linux, iOS, and Android."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why can't I see all PDF metadata fields in Adobe Reader?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Adobe Acrobat Reader only shows the DocInfo dictionary fields in its Properties dialog. Many PDFs also contain an XMP metadata stream — a separate XML blob embedded in the file — that Adobe Reader does not display in the standard Properties view. Tools like FileIntel and ExifTool read both the DocInfo and XMP streams, revealing the complete set of metadata."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home",  "item": "https://fileintel.tech" },
+      { "@type": "ListItem", "position": 2, "name": "Blog",  "item": "https://fileintel.tech/blog" },
+      { "@type": "ListItem", "position": 3, "name": "View PDF Metadata on Mac, Windows & Linux", "item": "https://fileintel.tech/blog/view-pdf-metadata-mac-windows-linux" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/global.css" />
+
+  <style>
+    /* ══ GLOBAL ══ */
+    html, body {
+      box-sizing: border-box;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    article {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ══ BLOG NAV BAR ══ */
+    .blog-nav-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 40px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .blog-nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-3);
+      word-break: break-word;
+      white-space: nowrap;
+    }
+    .blog-nav-inner a { 
+      color: var(--ink-3); 
+      text-decoration: none; 
+      transition: color 0.15s;
+      white-space: nowrap;
+      word-break: break-word;
+    }
+    .blog-nav-inner a:hover { color: var(--ink); }
+
+    /* ══ ARTICLE HERO ══ */
+    .article-hero {
+      background: var(--ink);
+      padding: 64px 40px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .article-hero-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .article-category {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .article-date, .article-read-time {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #5a5a52;
+    }
+
+    .article-title {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4.5vw, 52px);
+      color: var(--paper);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 20px;
+      max-width: 800px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .article-subtitle {
+      font-size: 16px;
+      color: #7a7a72;
+      font-weight: 300;
+      line-height: 1.65;
+      max-width: 620px;
+      margin-bottom: 28px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* OS pills in hero */
+    .os-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .os-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border: 1px solid #2a2a27;
+      border-radius: 20px;
+      color: #6a6a62;
+    }
+
+    /* ══ ARTICLE LAYOUT ══ */
+    .article-layout {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 64px;
+      align-items: start;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    body { box-sizing: border-box; }
+    * { box-sizing: border-box; }
+
+    /* ══ PROSE ══ */
+    .prose { max-width: 680px; }
+
+    .prose h2 {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.8vw, 30px);
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 52px 0 18px;
+      line-height: 1.15;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--paper-3);
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .prose h2:first-of-type { margin-top: 0; }
+
+    .prose h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 36px 0 12px;
+      letter-spacing: -0.015em;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .prose p {
+      font-size: 16px;
+      color: var(--ink-2);
+      line-height: 1.8;
+      margin-bottom: 22px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .prose strong { color: var(--ink); font-weight: 600; }
+
+    .prose a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: var(--border);
+      transition: all 0.15s;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+    .prose a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+    .prose ul, .prose ol { 
+      margin: 4px 0 22px; 
+      padding-left: 22px;
+      overflow-wrap: break-word;
+    }
+    .prose li { 
+      font-size: 16px; 
+      color: var(--ink-2); 
+      line-height: 1.75; 
+      margin-bottom: 10px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .prose code {
+      font-family: var(--mono);
+      font-size: 13.5px;
+      background: var(--paper-2);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--ink);
+      word-break: break-all;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    /* ══ OS METHOD CARDS ══ */
+    .method-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 28px 0;
+      transition: box-shadow 0.2s;
+      max-width: 100%;
+      word-break: break-word;
+    }
+
+    .method-card:hover { box-shadow: var(--shadow-sm); }
+
+    .method-card-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--paper-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .method-card-os {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-wrap: break-word;
+    }
+
+    .method-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .method-card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .method-card-tool {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+      word-break: break-all;
+    }
+
+    .method-difficulty {
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .difficulty-easy   { background: var(--green-light); color: var(--green); }
+    .difficulty-medium { background: var(--amber-light); color: var(--amber); }
+
+    .method-steps {
+      padding: 20px 22px;
+    }
+
+    .method-step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .method-step:last-child { margin-bottom: 0; }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--paper-2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-2);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-content h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .step-content p {
+      font-size: 13.5px;
+      color: var(--ink-3);
+      margin: 0;
+      line-height: 1.6;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Command block */
+    .cmd-block {
+      background: #0a0a08;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: #7acc99;
+      margin: 12px 0;
+      overflow-x: auto;
+      position: relative;
+      max-width: 100%;
+      word-break: break-all;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .cmd-block .cmd-comment { color: #4a7a5a; }
+    .cmd-block .cmd-prompt  { color: #5a5a52; }
+
+    .cmd-copy {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: #1a1a17;
+      border: 1px solid #2a2a27;
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 10px;
+      color: #5a5a52;
+      cursor: pointer;
+      font-family: var(--mono);
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .cmd-copy:hover { background: #252522; color: #9a9a92; }
+
+    /* ══ COMPARISON TABLE ══ */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 13.5px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      table-layout: auto;
+      word-break: break-word;
+    }
+
+    .compare-table th {
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 10.5px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      background: var(--paper-2);
+      font-family: var(--mono);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .compare-table th.hl {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .compare-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--paper-3);
+      color: var(--ink-2);
+      vertical-align: middle;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .compare-table td.hl {
+      background: #f5f3ee;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+    .chk { color: var(--green); font-weight: 700; }
+    .crs { color: var(--accent); }
+    .par { color: var(--amber); }
+
+    /* ══ CALLOUT ══ */
+    .callout {
+      border-left: 3px solid var(--accent);
+      background: var(--white);
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      padding: 18px 22px;
+      margin: 32px 0;
+      box-shadow: var(--shadow-sm);
+      max-width: 100%;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .callout.green  { border-left-color: var(--green); }
+    .callout.amber  { border-left-color: var(--amber); }
+    .callout.blue   { border-left-color: #3a6fb0; }
+
+    .callout-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+
+    .callout p { 
+      margin: 0; 
+      font-size: 14.5px; 
+      color: var(--ink-2); 
+      line-height: 1.65;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+    .callout p + p { margin-top: 10px; }
+
+    /* ══ ARTICLE CTA ══ */
+    .article-cta {
+      background: var(--ink);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin: 44px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      max-width: 100%;
+      word-break: break-word;
+    }
+
+    .article-cta h3 {
+      font-family: var(--serif);
+      font-size: 22px;
+      color: var(--paper);
+      font-style: italic;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .article-cta p { 
+      font-size: 13.5px; 
+      color: #7a7a72; 
+      margin: 0;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* ══ FAQ ══ */
+    .faq-section { margin-top: 56px; border-top: 1px solid var(--paper-3); padding-top: 40px; }
+    .faq-section-title { font-family: var(--serif); font-size: 26px; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--ink); word-break: break-word; overflow-wrap: break-word; }
+
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; background: var(--white); }
+
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--ink);
+      font-family: var(--sans);
+      transition: background 0.15s;
+      line-height: 1.4;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .faq-question:hover { background: var(--paper); }
+    .faq-question svg { flex-shrink: 0; transition: transform 0.2s ease; color: var(--ink-3); }
+    .faq-item.open .faq-question svg { transform: rotate(180deg); }
+    .faq-item.open .faq-question { background: var(--paper); }
+
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-answer { max-height: 500px; }
+    .faq-answer-inner { 
+      padding: 0 20px 18px; 
+      font-size: 14.5px; 
+      color: var(--ink-2); 
+      line-height: 1.75; 
+      border-top: 1px solid var(--paper-3); 
+      padding-top: 16px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* ══ SIDEBAR ══ */
+    .article-sidebar {
+      position: sticky;
+      top: calc(var(--nav-height) + 24px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sidebar-widget-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sidebar-widget-body { padding: 14px 16px; }
+
+    .toc-link { 
+      display: flex; 
+      align-items: flex-start; 
+      gap: 8px; 
+      font-size: 12.5px; 
+      color: var(--ink-3); 
+      text-decoration: none; 
+      padding: 6px 0; 
+      border-bottom: 1px solid var(--paper-3); 
+      transition: color 0.15s; 
+      line-height: 1.4;
+    }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); }
+    .toc-link.active { font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+
+    /* OS quick nav in sidebar */
+    .os-quick-nav { display: flex; flex-direction: column; gap: 4px; }
+
+    .os-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--ink-2);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+      background: var(--paper);
+      min-width: 0;
+    }
+
+    .os-nav-btn:hover { background: var(--paper-2); border-color: var(--ink-3); color: var(--ink); }
+
+    .related-post { 
+      display: block; 
+      text-decoration: none; 
+      padding: 10px 0; 
+      border-bottom: 1px solid var(--paper-3);
+    }
+    .related-post:last-child { border-bottom: none; }
+    .related-post-cat { 
+      font-family: var(--mono); 
+      font-size: 10px; 
+      color: var(--accent); 
+      letter-spacing: 0.08em; 
+      text-transform: uppercase; 
+      margin-bottom: 3px;
+    }
+    .related-post-title { 
+      font-size: 13px; 
+      font-weight: 500; 
+      color: var(--ink); 
+      line-height: 1.4; 
+      transition: color 0.15s;
+    }
+    .related-post:hover .related-post-title { color: var(--accent); }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 960px) {
+      .article-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; }
+      .article-hero { padding: 48px 20px 40px; }
+      .article-sidebar { position: static; display: block; }
+      .prose { max-width: 100%; }
+      .article-cta { flex-direction: column; align-items: flex-start; }
+      .blog-nav-bar { padding: 10px 20px; }
+    }
+
+    @media (max-width: 768px) {
+      .article-hero { padding: 40px 16px 32px; }
+      .article-title { font-size: clamp(24px, 3.5vw, 48px); }
+      .article-subtitle { font-size: 15px; }
+      .os-pills { gap: 6px; }
+      .os-pill { font-size: 10px; padding: 4px 10px; }
+      .article-layout { padding: 28px 16px 48px; gap: 32px; }
+      .prose h2 { font-size: clamp(20px, 2.5vw, 28px); margin: 40px 0 16px; }
+      .prose h3 { font-size: 16px; margin: 28px 0 10px; }
+      .prose p { font-size: 15px; }
+      .prose li { font-size: 15px; }
+      .method-card-header { flex-wrap: wrap; }
+      .method-card-icon { width: 32px; height: 32px; font-size: 18px; }
+      .method-card-name { font-size: 14px; }
+      .compare-table { font-size: 12px; }
+      .compare-table th, .compare-table td { padding: 9px 12px; }
+      .article-cta { padding: 22px 24px; margin: 32px 0; }
+      .article-cta h3 { font-size: 19px; }
+      .faq-question { font-size: 13.5px; padding: 14px 16px; }
+      .faq-answer-inner { font-size: 13.5px; padding: 0 16px 14px; }
+      .blog-nav-bar { padding: 8px 16px; }
+      .blog-nav-inner { font-size: 10px; gap: 6px; }
+      .callout { padding: 16px 18px; margin: 24px 0; }
+      .callout p { font-size: 13.5px; }
+    }
+
+    @media (max-width: 600px) {
+      .article-hero { padding: 32px 14px 24px; }
+      .article-hero::before { background-size: 32px 32px; }
+      .article-title { font-size: clamp(22px, 3vw, 40px); margin-bottom: 16px; }
+      .article-subtitle { font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
+      .article-meta { gap: 12px; flex-wrap: wrap; }
+      .article-category { font-size: 9.5px; }
+      .article-date, .article-read-time { font-size: 10px; }
+      .os-pills { gap: 5px; flex-wrap: wrap; }
+      .os-pill { font-size: 9px; padding: 3px 8px; }
+      .article-layout { padding: 24px 14px 40px; gap: 24px; }
+      .prose { font-size: 14px; }
+      .prose h2 { font-size: clamp(18px, 2.2vw, 26px); margin: 32px 0 14px; padding-bottom: 10px; }
+      .prose h3 { font-size: 15px; margin: 22px 0 10px; }
+      .prose p { font-size: 14px; line-height: 1.7; margin-bottom: 16px; }
+      .prose li { font-size: 14px; margin-bottom: 8px; }
+      .prose code { font-size: 12px; padding: 1px 4px; }
+      .prose ul, .prose ol { margin: 12px 0 16px; padding-left: 18px; }
+      .method-card { margin: 20px 0; border-radius: var(--radius); }
+      .method-card-header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px; }
+      .method-card-icon { width: 28px; height: 28px; font-size: 16px; }
+      .method-card-name { font-size: 13px; }
+      .method-card-tool { font-size: 9.5px; }
+      .method-difficulty { font-size: 9px; padding: 2px 6px; }
+      .method-steps { padding: 16px 14px; }
+      .method-step { gap: 12px; margin-bottom: 12px; }
+      .step-num { width: 22px; height: 22px; font-size: 10px; }
+      .step-content h4 { font-size: 13px; }
+      .step-content p { font-size: 12.5px; }
+      .cmd-block { font-size: 11px; padding: 10px 14px; }
+      .cmd-copy { font-size: 9px; padding: 2px 6px; }
+      .compare-table { font-size: 11px; margin: 16px 0; }
+      .compare-table th { padding: 8px 10px; font-size: 9px; }
+      .compare-table td { padding: 8px 10px; font-size: 11px; }
+      .callout { padding: 14px 16px; margin: 20px 0; border-left-width: 2px; }
+      .callout-label { font-size: 9px; margin-bottom: 6px; }
+      .callout p { font-size: 13px; }
+      .article-cta { padding: 20px 16px; margin: 28px 0; gap: 16px; }
+      .article-cta h3 { font-size: 17px; margin-bottom: 4px; }
+      .article-cta p { font-size: 12.5px; }
+      .faq-question { font-size: 13px; padding: 12px 14px; }
+      .faq-question svg { width: 18px; height: 18px; }
+      .faq-answer-inner { font-size: 12.5px; padding: 0 14px 12px; padding-top: 12px; }
+      .toc-link { font-size: 11.5px; padding: 5px 0; }
+      .os-nav-btn { font-size: 12px; padding: 8px 10px; gap: 8px; }
+      .related-post-title { font-size: 12px; }
+      .blog-nav-bar { padding: 8px 14px; }
+      .blog-nav-inner { font-size: 9px; gap: 4px; }
+    }
+
+    @media (max-width: 480px) {
+      .article-hero { padding: 28px 12px 20px; }
+      .article-title { font-size: clamp(20px, 2.5vw, 36px); line-height: 1.1; margin-bottom: 14px; }
+      .article-subtitle { font-size: 13px; margin-bottom: 16px; }
+      .article-layout { padding: 20px 12px 32px; }
+      .prose h2 { font-size: 17px; margin: 28px 0 12px; }
+      .prose h3 { font-size: 14px; margin: 20px 0 8px; }
+      .prose p { font-size: 13.5px; margin-bottom: 14px; }
+      .method-card-header { padding: 12px 14px; }
+      .method-card-name { font-size: 12px; }
+      .method-card-icon { width: 26px; height: 26px; font-size: 15px; }
+      .method-steps { padding: 14px 12px; }
+      .compare-table th, .compare-table td { padding: 6px 8px; font-size: 10px; }
+      .cmd-block { font-size: 10px; padding: 8px 10px; }
+      .article-cta { padding: 16px 12px; }
+      .article-cta h3 { font-size: 16px; }
+      .faq-question { font-size: 12px; padding: 10px 12px; }
+      .callout { padding: 12px 14px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <!-- NAV -->
+  <Navbar currentPath="/blog/view-pdf-metadata-mac-windows-linux" />
+
+  <!-- BREADCRUMB -->
+  <div class="blog-nav-bar">
+    <div class="blog-nav-inner">
+      <a href="/">Home</a>
+      <span>›</span>
+      <a href="/blog">Blog</a>
+      <span>›</span>
+      <span>View PDF Metadata on Mac, Windows & Linux</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="article-hero">
+    <div class="article-hero-inner">
+      <div class="article-meta">
+        <span class="article-category">PDF Security</span>
+        <span class="article-date">May 1, 2026</span>
+        <span class="article-read-time">8 min read</span>
+      </div>
+      <h1 class="article-title">
+        How to View PDF Metadata on<br />Mac, Windows &amp; Linux
+      </h1>
+      <p class="article-subtitle">
+        Every method, for every platform. From the one-click browser tool
+        that works everywhere, to native OS viewers, to the command line
+        for power users who want every byte.
+      </p>
+      <div class="os-pills">
+        <span class="os-pill">🍎 macOS</span>
+        <span class="os-pill">🪟 Windows</span>
+        <span class="os-pill">🐧 Linux</span>
+        <span class="os-pill">🌐 Any browser</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-layout">
+    <article class="prose">
+
+      <p>
+        Send a PDF to the wrong person with your home address in the metadata
+        and you find out very quickly that metadata is not a theoretical concern.
+        A freelancer I know sent a proposal to a client last year with GPS coordinates
+        still embedded — the coordinates pointed to a residential address, not an office.
+        The client noticed. It was awkward.
+      </p>
+
+      <p>
+        Viewing PDF metadata takes under a minute on any platform. The methods range
+        from clicking two menus in Preview to running a single terminal command.
+        This guide covers all of them — pick the one that fits how you work.
+      </p>
+
+      <!-- FASTEST METHOD FIRST — matches search intent for quick answer seekers -->
+      <h2 id="browser">The fastest method: works on every platform</h2>
+
+      <p>
+        Before getting into platform-specific steps, the quickest way to inspect
+        PDF metadata on <em>any</em> device — Mac, Windows, Linux, tablet, phone —
+        is to use a browser-based inspector. No software to install, no account to create.
+      </p>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:var(--paper-2);">🌐</div>
+            <div>
+              <div class="method-card-name">FileIntel PDF Metadata Inspector</div>
+              <div class="method-card-tool">Works on any OS · Any browser · Free</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-easy">Easiest</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Open fileintel.tech/pdf-metadata-remover</h4>
+              <p>No installation, no sign-up. Works in Chrome, Safari, Firefox, and Edge.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Drop your PDF onto the upload zone</h4>
+              <p>
+                Your file is processed entirely in your browser tab.
+                It never reaches a server — zero upload, zero data exposure.
+              </p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Read every field with a Privacy Risk Score</h4>
+              <p>
+                FileIntel shows 23+ metadata fields — including XMP data that most
+                native OS viewers completely miss — with each field rated High,
+                Medium, or Low risk.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-cta">
+        <div>
+          <h3>Inspect any PDF right now</h3>
+          <p>Works on Mac, Windows, Linux, iOS, and Android. Zero install.</p>
+        </div>
+        <a href="/pdf-metadata-remover" class="btn btn-light" style="white-space:nowrap;flex-shrink:0;">
+          Open inspector →
+        </a>
+      </div>
+
+      <h2 id="mac">How to view PDF metadata on Mac</h2>
+
+      <p>
+        macOS has two built-in ways to see PDF metadata, and one excellent
+        command-line option for when you need the full picture.
+      </p>
+
+      <h3>Method 1 — Preview (built-in, basic)</h3>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:#e8f0fe;">🍎</div>
+            <div>
+              <div class="method-card-name">Preview — Inspector</div>
+              <div class="method-card-tool">macOS built-in · No install · Basic fields only</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-easy">Easy</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Open the PDF in Preview</h4>
+              <p>Double-click any PDF file — Preview opens it by default on macOS.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Go to Tools → Show Inspector</h4>
+              <p>Keyboard shortcut: <code>⌘I</code>. A floating panel appears.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Click the Info tab (i icon)</h4>
+              <p>
+                You'll see Title, Author, Subject, Keywords, Creator, Producer,
+                and the creation/modification dates. Basic but instant.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout amber">
+        <div class="callout-label" style="color:var(--amber);">Preview's limitation</div>
+        <p>
+          Preview only shows the DocInfo dictionary — the older of the two metadata
+          storage formats in PDFs. It does not show XMP stream data, which can include
+          GPS coordinates, extended author information, and custom enterprise fields.
+          For a complete picture, use FileIntel or ExifTool.
+        </p>
+      </div>
+
+      <h3>Method 2 — ExifTool via Terminal (complete, all fields)</h3>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:#1a1a17;">⌨️</div>
+            <div>
+              <div class="method-card-name">ExifTool — Terminal</div>
+              <div class="method-card-tool">macOS Terminal · Homebrew required · All fields</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-medium">Power user</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Install Homebrew (if not already)</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-prompt">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span>
+              </div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Install ExifTool</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-prompt">brew install exiftool</span>
+              </div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Run ExifTool on your PDF</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-comment"># Replace with your actual file path</span><br />
+                <span class="cmd-prompt">exiftool /path/to/your/document.pdf</span>
+              </div>
+              <p style="margin-top:8px;">
+                Output shows every field including XMP, GPS, and custom enterprise metadata.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="windows">How to view PDF metadata on Windows</h2>
+
+      <p>
+        Windows gives you three options — a quick right-click method for basic fields,
+        Adobe Reader for the standard view, and ExifTool if you need everything.
+      </p>
+
+      <h3>Method 1 — File Properties (built-in, very basic)</h3>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:#e8f0fe;">🪟</div>
+            <div>
+              <div class="method-card-name">Windows File Properties</div>
+              <div class="method-card-tool">Windows built-in · Right-click · Limited fields</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-easy">Easy</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Right-click the PDF file in File Explorer</h4>
+              <p>Select <strong>Properties</strong> from the context menu.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Click the Details tab</h4>
+              <p>
+                You'll see Title, Subject, Author, and some date fields.
+                Windows reads a subset of the DocInfo dictionary — not all fields,
+                and no XMP data.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Method 2 — Adobe Acrobat Reader (standard, most complete native option)</h3>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:#fdecea;">📄</div>
+            <div>
+              <div class="method-card-name">Adobe Acrobat Reader</div>
+              <div class="method-card-tool">Free download · Windows · DocInfo + basic XMP</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-easy">Easy</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Open the PDF in Adobe Acrobat Reader</h4>
+              <p>If you don't have it, download free at adobe.com/reader.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Go to File → Properties</h4>
+              <p>Keyboard shortcut: <code>Ctrl+D</code></p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Check the Description and Custom tabs</h4>
+              <p>
+                Description shows Title, Author, Subject, Keywords, Creator, Producer,
+                and dates. The Custom tab reveals any non-standard fields the document
+                creator added.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Method 3 — ExifTool on Windows (complete)</h3>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:#1a1a17;">⌨️</div>
+            <div>
+              <div class="method-card-name">ExifTool — Command Prompt</div>
+              <div class="method-card-tool">Windows · Free download · All fields</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-medium">Power user</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Download ExifTool for Windows</h4>
+              <p>Get the Windows executable from <a href="https://exiftool.org" target="_blank" rel="noopener nofollow">exiftool.org</a> — it's a single .exe file, no installation needed.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Open Command Prompt in the same folder</h4>
+              <p>Shift+right-click the folder → "Open PowerShell window here"</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Run ExifTool</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-prompt">exiftool.exe "C:\path\to\document.pdf"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="linux">How to view PDF metadata on Linux</h2>
+
+      <p>
+        Linux gives you the most options — and the cleanest command-line experience.
+        ExifTool is available in most package managers. pdfinfo from the
+        poppler-utils package is a lightweight alternative worth knowing.
+      </p>
+
+      <h3>Method 1 — pdfinfo (lightweight, fast)</h3>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:#1a1a17;">🐧</div>
+            <div>
+              <div class="method-card-name">pdfinfo — poppler-utils</div>
+              <div class="method-card-tool">Linux · apt/dnf/pacman · Fast, lightweight</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-easy">Easy</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Install poppler-utils</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-comment"># Debian/Ubuntu</span><br />
+                <span class="cmd-prompt">sudo apt install poppler-utils</span><br /><br />
+                <span class="cmd-comment"># Fedora/RHEL</span><br />
+                <span class="cmd-prompt">sudo dnf install poppler-utils</span><br /><br />
+                <span class="cmd-comment"># Arch</span><br />
+                <span class="cmd-prompt">sudo pacman -S poppler</span>
+              </div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Run pdfinfo</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-prompt">pdfinfo /path/to/document.pdf</span>
+              </div>
+              <p style="margin-top:8px;">
+                Output includes Title, Author, Creator, Producer, dates,
+                page count, dimensions, and encryption status.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Method 2 — ExifTool on Linux (complete, all fields)</h3>
+
+      <div class="method-card">
+        <div class="method-card-header">
+          <div class="method-card-os">
+            <div class="method-card-icon" style="background:#1a1a17;">⌨️</div>
+            <div>
+              <div class="method-card-name">ExifTool</div>
+              <div class="method-card-tool">Linux · All package managers · Complete metadata</div>
+            </div>
+          </div>
+          <span class="method-difficulty difficulty-easy">Easy</span>
+        </div>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Install ExifTool</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-comment"># Debian/Ubuntu</span><br />
+                <span class="cmd-prompt">sudo apt install libimage-exiftool-perl</span><br /><br />
+                <span class="cmd-comment"># Fedora</span><br />
+                <span class="cmd-prompt">sudo dnf install perl-Image-ExifTool</span>
+              </div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Read all metadata</h4>
+              <div class="cmd-block">
+                <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                <span class="cmd-comment"># All fields</span><br />
+                <span class="cmd-prompt">exiftool document.pdf</span><br /><br />
+                <span class="cmd-comment"># Specific field only</span><br />
+                <span class="cmd-prompt">exiftool -Author document.pdf</span><br /><br />
+                <span class="cmd-comment"># JSON output for scripting</span><br />
+                <span class="cmd-prompt">exiftool -json document.pdf</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="comparison">All methods compared</h2>
+
+      <p>
+        Not all viewers show the same fields. Here is what each method actually
+        surfaces — this matters if you are trying to confirm a document is clean
+        before sharing it.
+      </p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Platform</th>
+            <th class="hl">DocInfo fields</th>
+            <th class="hl">XMP stream</th>
+            <th>GPS data</th>
+            <th>Install needed</th>
+            <th>File stays local</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>FileIntel</strong></td>
+            <td>Any</td>
+            <td class="hl"><span class="chk">✓ All</span></td>
+            <td class="hl"><span class="chk">✓ Full</span></td>
+            <td><span class="chk">✓</span></td>
+            <td><span class="chk">No</span></td>
+            <td><span class="chk">✓ Always</span></td>
+          </tr>
+          <tr>
+            <td>ExifTool</td>
+            <td>All</td>
+            <td class="hl"><span class="chk">✓ All</span></td>
+            <td class="hl"><span class="chk">✓ Full</span></td>
+            <td><span class="chk">✓</span></td>
+            <td><span class="crs">Yes</span></td>
+            <td><span class="chk">✓</span></td>
+          </tr>
+          <tr>
+            <td>Preview (Mac)</td>
+            <td>macOS</td>
+            <td class="hl"><span class="par">~ Partial</span></td>
+            <td class="hl"><span class="crs">✗ No</span></td>
+            <td><span class="crs">✗</span></td>
+            <td><span class="chk">No</span></td>
+            <td><span class="chk">✓</span></td>
+          </tr>
+          <tr>
+            <td>Adobe Reader</td>
+            <td>Win/Mac</td>
+            <td class="hl"><span class="chk">✓ All</span></td>
+            <td class="hl"><span class="par">~ Partial</span></td>
+            <td><span class="crs">✗</span></td>
+            <td><span class="crs">Yes</span></td>
+            <td><span class="chk">✓</span></td>
+          </tr>
+          <tr>
+            <td>Windows Properties</td>
+            <td>Windows</td>
+            <td class="hl"><span class="par">~ Basic</span></td>
+            <td class="hl"><span class="crs">✗ No</span></td>
+            <td><span class="crs">✗</span></td>
+            <td><span class="chk">No</span></td>
+            <td><span class="chk">✓</span></td>
+          </tr>
+          <tr>
+            <td>pdfinfo</td>
+            <td>Linux</td>
+            <td class="hl"><span class="chk">✓ All</span></td>
+            <td class="hl"><span class="crs">✗ No</span></td>
+            <td><span class="crs">✗</span></td>
+            <td><span class="crs">Yes</span></td>
+            <td><span class="chk">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout green">
+        <div class="callout-label" style="color:var(--green);">The XSS gap most people miss</div>
+        <p>
+          The XMP stream is a separate XML blob embedded inside the PDF binary.
+          Preview, Windows Properties, and pdfinfo do not read it at all.
+          Adobe Reader reads parts of it. Only ExifTool and FileIntel read
+          the complete XMP stream — which is where GPS coordinates, extended
+          author information, and enterprise custom fields are typically stored.
+        </p>
+        <p style="margin-top:10px;">
+          If you are checking a document for sensitive data before sharing,
+          a tool that misses XMP gives you false confidence.
+        </p>
+      </div>
+
+      <h2 id="what-youll-find">What you will actually find</h2>
+
+      <p>
+        Here is a realistic example of what ExifTool or FileIntel might show
+        on a PDF created in Microsoft Word and exported by a typical professional:
+      </p>
+
+      <div style="background:#0a0a08;border-radius:var(--radius-lg);padding:22px 24px;margin:24px 0;font-family:var(--mono);font-size:12.5px;line-height:1.9;overflow-x:auto;">
+        <div style="color:#4a7a5a;margin-bottom:8px;"># ExifTool output — redacted for illustration</div>
+        <div><span style="color:#88ccaa;">File Type</span>         : <span style="color:#f0c060;">PDF</span></div>
+        <div><span style="color:#88ccaa;">PDF Version</span>       : <span style="color:#f0c060;">1.7</span></div>
+        <div><span style="color:#88ccaa;">Title</span>             : <span style="color:#f0c060;">Q2 Budget Review — Final</span></div>
+        <div><span style="color:#88ccaa;">Author</span>            : <span style="color:#c8432a;">Sarah Mitchell</span>  <span style="color:#4a7a5a;"># ← personal data</span></div>
+        <div><span style="color:#88ccaa;">Creator</span>           : <span style="color:#c8432a;">Acme Corp Finance Team</span>  <span style="color:#4a7a5a;"># ← org data</span></div>
+        <div><span style="color:#88ccaa;">Producer</span>          : <span style="color:#f0c060;">Microsoft Word 16.72</span></div>
+        <div><span style="color:#88ccaa;">Create Date</span>       : <span style="color:#f0c060;">2026:04:10 09:14:22+01:00</span></div>
+        <div><span style="color:#88ccaa;">Modify Date</span>       : <span style="color:#f0c060;">2026:04:22 16:44:03+01:00</span></div>
+        <div><span style="color:#88ccaa;">Manager</span>           : <span style="color:#c8432a;">James Thornton</span>  <span style="color:#4a7a5a;"># ← manager's name</span></div>
+        <div><span style="color:#88ccaa;">Company</span>           : <span style="color:#c8432a;">Acme Corp</span></div>
+        <div><span style="color:#88ccaa;">GPS Latitude</span>      : <span style="color:#c8432a;">51 deg 30' 26.28" N</span>  <span style="color:#4a7a5a;"># ← location</span></div>
+        <div><span style="color:#88ccaa;">GPS Longitude</span>     : <span style="color:#c8432a;">0 deg 7' 39.96" W</span></div>
+        <div><span style="color:#88ccaa;">Page Count</span>        : <span style="color:#f0c060;">14</span></div>
+      </div>
+
+      <p>
+        That output reveals the author's full name, their manager's name,
+        the company, the exact software version, and GPS coordinates placing
+        the document's creation in central London. Someone who receives this
+        PDF can extract all of that in under a minute without opening a single page.
+      </p>
+
+      <h2 id="after-viewing">After viewing — what to do next</h2>
+
+      <p>
+        Viewing metadata is step one. Once you see what is embedded,
+        you have two choices: accept it or remove it.
+      </p>
+
+      <p>
+        If you need to strip metadata before sharing — which is the right call
+        for any document going to clients, courts, regulators, or public distribution —
+        the same tool you used to inspect it can remove it.
+        <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> lets you
+        strip individual fields or everything at once, with a Privacy Risk Score
+        that updates in real time as you toggle fields off.
+      </p>
+
+      <p>
+        If you want to use ExifTool to strip metadata from the command line,
+        the command is straightforward:
+      </p>
+
+      <div class="cmd-block">
+        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+        <span class="cmd-comment"># Strip all metadata from a PDF (creates a backup as document.pdf_original)</span><br />
+        <span class="cmd-prompt">exiftool -all= document.pdf</span><br /><br />
+        <span class="cmd-comment"># Strip metadata without keeping backup</span><br />
+        <span class="cmd-prompt">exiftool -all= -overwrite_original document.pdf</span>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label" style="color:var(--accent);">One thing to verify</div>
+        <p>
+          After stripping with any tool, always re-inspect the output file.
+          Some PDFs store metadata in non-standard locations that basic strippers miss.
+          Running ExifTool or FileIntel on the cleaned file and confirming
+          all high-risk fields show empty is the only way to be certain.
+        </p>
+      </div>
+
+      <div class="article-cta">
+        <div>
+          <h3>Try it now — any platform</h3>
+          <p>Inspect and strip PDF metadata in your browser. No install, no upload.</p>
+        </div>
+        <a href="/pdf-metadata-remover" class="btn btn-light" style="white-space:nowrap;flex-shrink:0;">
+          Open PDF inspector →
+        </a>
+      </div>
+
+      <!-- FAQ -->
+      <div class="faq-section">
+        <h2 class="faq-section-title">Frequently asked</h2>
+
+        {[
+          {
+            q: "How do I view PDF metadata on a Mac?",
+            a: "Open the PDF in Preview and press ⌘I (Tools → Show Inspector) → Info tab for basic fields. For complete metadata including XMP data and GPS coordinates, use FileIntel's browser-based inspector at fileintel.tech/pdf-metadata-remover — no installation needed, works in Safari — or install ExifTool via Homebrew and run exiftool yourfile.pdf in Terminal."
+          },
+          {
+            q: "How do I check PDF metadata on Windows?",
+            a: "Right-click the PDF in File Explorer → Properties → Details tab for basic fields. For full metadata, open in Adobe Acrobat Reader and go to File → Properties (Ctrl+D) → Description tab. For comprehensive metadata including XMP and GPS, use FileIntel's free online PDF Metadata Inspector — no software installation required."
+          },
+          {
+            q: "What is the best free tool to view PDF metadata?",
+            a: "FileIntel's PDF Metadata Inspector is the most comprehensive free tool — it runs in your browser, shows 23+ metadata fields including the full XMP stream, and provides a Privacy Risk Score. ExifTool is the best command-line option for power users who need scripting support or batch processing across multiple files."
+          },
+          {
+            q: "Can I view PDF metadata without installing software?",
+            a: "Yes. FileIntel's PDF Metadata Inspector runs entirely in your web browser — no installation, no account, no server upload. Your PDF is processed locally in your browser tab on any OS. It works on Mac, Windows, Linux, iOS, and Android."
+          },
+          {
+            q: "Why does Adobe Reader show different metadata than ExifTool?",
+            a: "PDFs store metadata in two places: the DocInfo dictionary and the XMP metadata stream. Adobe Reader's Properties dialog shows DocInfo and some basic XMP fields. ExifTool and FileIntel read both the complete DocInfo dictionary and the full XMP stream, surfacing fields — including GPS coordinates and enterprise custom fields — that Adobe Reader doesn't display."
+          }
+        ].map(f => (
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this.parentElement)">
+              {f.q}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">{f.a}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+
+      <!-- TOC -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-header">In this article</div>
+        <div class="sidebar-widget-body" style="padding:8px 14px;">
+          <a href="#browser" class="toc-link"><span class="toc-num">01</span>Fastest method (any platform)</a>
+          <a href="#mac"     class="toc-link"><span class="toc-num">02</span>Mac — Preview & ExifTool</a>
+          <a href="#windows" class="toc-link"><span class="toc-num">03</span>Windows — 3 methods</a>
+          <a href="#linux"   class="toc-link"><span class="toc-num">04</span>Linux — pdfinfo & ExifTool</a>
+          <a href="#comparison" class="toc-link"><span class="toc-num">05</span>All methods compared</a>
+          <a href="#what-youll-find" class="toc-link"><span class="toc-num">06</span>What you'll find</a>
+          <a href="#after-viewing" class="toc-link"><span class="toc-num">07</span>After viewing</a>
+        </div>
+      </div>
+
+      <!-- OS Quick Nav -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-header">Jump to your OS</div>
+        <div class="sidebar-widget-body" style="padding:12px;">
+          <div class="os-quick-nav">
+            <a href="#browser" class="os-nav-btn">🌐 Any platform (browser)</a>
+            <a href="#mac"     class="os-nav-btn">🍎 macOS</a>
+            <a href="#windows" class="os-nav-btn">🪟 Windows</a>
+            <a href="#linux"   class="os-nav-btn">🐧 Linux</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool CTA -->
+      <div class="sidebar-widget" style="background:var(--ink);border-color:#2a2a27;">
+        <div class="sidebar-widget-body" style="padding:22px;">
+          <div style="font-size:24px;margin-bottom:12px;">🔍</div>
+          <div style="font-family:var(--serif);font-size:18px;font-style:italic;color:var(--paper);margin-bottom:8px;letter-spacing:-0.02em;">
+            Inspect any PDF now
+          </div>
+          <p style="font-size:12.5px;color:#7a7a72;margin-bottom:18px;line-height:1.6;">
+            Works on Mac, Windows, Linux. No install. File stays in your browser.
+          </p>
+          <a href="/pdf-metadata-remover" class="btn btn-light" style="width:100%;justify-content:center;padding:11px 16px;font-size:13px;">
+            Open inspector →
+          </a>
+        </div>
+      </div>
+
+      <!-- Related -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-header">Related articles</div>
+        <div class="sidebar-widget-body" style="padding:10px 14px;">
+          <a href="/blog/what-is-pdf-metadata" class="related-post">
+            <div class="related-post-cat">PDF Security</div>
+            <div class="related-post-title">What is PDF metadata? Every field explained</div>
+          </a>
+          <a href="/blog/pdf-metadata-lawyers" class="related-post">
+            <div class="related-post-cat">Legal</div>
+            <div class="related-post-title">How to remove metadata before sending a PDF</div>
+          </a>
+          <a href="/blog/gdpr-pdf-metadata" class="related-post">
+            <div class="related-post-cat">GDPR</div>
+            <div class="related-post-title">GDPR and PDF metadata — what DPOs need to know</div>
+          </a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">Fi</div>
+          <span style="color:#5a5a52;font-size:15px;font-weight:600;">FileIntel</span>
+        </div>
+        <p>Private file tools for professionals. Everything runs in your browser.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
+          <li><a href="/pdf-redactor">PDF Redactor</a></li>
+          <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Blog</h4>
+        <ul>
+          <li><a href="/blog/what-is-pdf-metadata">What is PDF metadata?</a></li>
+          <li><a href="/blog/pdf-metadata-lawyers">Remove metadata guide</a></li>
+          <li><a href="/blog/gdpr-pdf-metadata">GDPR & PDF metadata</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="https://github.com/yourusername/fileintel" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {new Date().getFullYear()} FileIntel. Built with privacy by design.</span>
+      <span class="footer-mono">0 bytes sent to our servers</span>
+    </div>
+  </footer>
+
+  <script>
+    // ── FAQ accordion ──
+    function toggleFaq(item) {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // ── Copy command buttons ──
+    function copyCmd(btn) {
+      const block = btn.parentElement;
+      const text  = block.innerText
+        .replace('Copy', '')
+        .replace(/^#.*\n/gm, '')
+        .trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓ Copied';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    // ── Active TOC on scroll ──
+    const sections = ['browser','mac','windows','linux','comparison','what-youll-find','after-viewing'];
+    const tocLinks = document.querySelectorAll('.toc-link');
+
+    window.addEventListener('scroll', () => {
+      let current = 0;
+      sections.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 140) current = i;
+      });
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

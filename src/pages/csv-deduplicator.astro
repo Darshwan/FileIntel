@@ -1,0 +1,1262 @@
+---
+// src/pages/csv-deduplicator.astro
+// FileIntel — CSV Deduplicator
+// Production: PapaParse parsing + configurable column dedup + before/after diff UI
+
+import Navbar from '../components/Navbar.astro';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSV Deduplicator — Free, Private, No Upload | FileIntel</title>
+  <meta name="description" content="Remove duplicate rows from CSV and spreadsheet files instantly. Configure by column, preview changes, export clean file. 100% browser-side — your data never leaves your device." />
+  <link rel="canonical" href="https://fileintel.tech/csv-deduplicator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fileintel.tech/csv-deduplicator" />
+  <meta property="og:title" content="CSV Deduplicator — Free & Private | FileIntel" />
+  <meta property="og:description" content="Remove duplicate rows from CSV files. Configure by column, see before/after diff. Browser-only." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "CSV Deduplicator",
+    "description": "Remove duplicate rows from CSV and spreadsheet files privately in your browser.",
+    "url": "https://fileintel.tech/csv-deduplicator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/global.css" />
+
+  <style>
+    /* ══ PAGE LAYOUT ══ */
+    .page-hero {
+      background: var(--paper);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 40px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    .page-hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .page-hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.5vw, 44px);
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin-bottom: 12px;
+    }
+
+    .page-hero h1 em { font-style: italic; color: var(--accent); }
+
+    .page-hero p {
+      font-size: 14px;
+      color: var(--ink-2);
+      line-height: 1.65;
+      font-weight: 300;
+      max-width: 440px;
+    }
+
+    /* ══ MAIN LAYOUT ══ */
+    .dedup-page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 32px 40px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ══ UPLOAD ZONE ══ */
+    .upload-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .upload-card-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--paper-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--paper);
+    }
+
+    .upload-card-title {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+    }
+
+    .upload-zone {
+      padding: 48px 40px;
+      text-align: center;
+      cursor: pointer;
+      border: 1.5px dashed var(--border);
+      margin: 20px;
+      border-radius: var(--radius);
+      background: var(--paper);
+      transition: all 0.18s;
+      user-select: none;
+    }
+
+    .upload-zone * { pointer-events: none; }
+    .upload-zone:hover { border-color: var(--ink-2); background: var(--paper-2); }
+    .upload-zone.drag-active { border-color: var(--green); background: var(--green-light); border-style: solid; }
+
+    .upload-zone h3 { font-size: 15px; font-weight: 600; color: var(--ink); margin: 12px 0 6px; }
+    .upload-zone p  { font-size: 13px; color: var(--ink-3); margin-bottom: 16px; }
+
+    .upload-formats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .format-chip {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      padding: 3px 9px;
+      background: var(--paper-3);
+      border-radius: 3px;
+      color: var(--ink-3);
+      letter-spacing: 0.04em;
+    }
+
+    /* ══ CONFIG ROW ══ */
+    .config-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: none;
+    }
+
+    .config-card.visible { display: block; }
+
+    .config-body {
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .config-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .config-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 500;
+    }
+
+    .column-select-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 36px;
+      align-items: center;
+    }
+
+    .col-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--ink-2);
+      background: var(--paper);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .col-chip:hover { border-color: var(--ink-3); background: var(--paper-2); }
+
+    .col-chip.selected {
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    .col-chip.selected::before {
+      content: '✓';
+      font-size: 10px;
+    }
+
+    .config-select {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--white);
+      outline: none;
+      cursor: pointer;
+      min-width: 160px;
+    }
+
+    .config-select:focus { border-color: var(--ink-2); }
+
+    /* ══ BEFORE / AFTER DIFF ══ */
+    .diff-section {
+      display: none;
+      gap: 16px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .diff-section.visible {
+      display: grid;
+    }
+
+    .diff-panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .diff-panel.after { border-color: var(--green-border); }
+
+    .diff-header {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--paper-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .diff-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .diff-panel-label {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .diff-count-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    /* Table */
+    .diff-table-wrap {
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    .diff-table th {
+      padding: 8px 14px;
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      background: var(--paper-2);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      font-weight: 500;
+    }
+
+    .diff-table td {
+      padding: 7px 14px;
+      border-bottom: 1px solid var(--paper-3);
+      color: var(--ink-2);
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .diff-table tr:last-child td { border-bottom: none; }
+
+    /* Row states */
+    .diff-table tr.row-duplicate td {
+      background: #fff5f5;
+      color: #c8432a88;
+      text-decoration: line-through;
+      text-decoration-color: rgba(200,67,42,0.4);
+    }
+
+    .diff-table tr.row-kept td { background: var(--white); }
+
+    .diff-table tr.row-removed td {
+      background: #fff0f0;
+      opacity: 0.5;
+    }
+
+    /* Row number col */
+    .diff-table td.row-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink-3);
+      min-width: 36px;
+      text-align: right;
+      padding-right: 10px;
+      background: var(--paper) !important;
+      border-right: 1px solid var(--paper-3);
+      text-decoration: none !important;
+      opacity: 1 !important;
+    }
+
+    /* Duplicate indicator */
+    .dup-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 2px;
+      background: rgba(200,67,42,0.12);
+      color: var(--accent);
+      font-weight: 600;
+      margin-left: 6px;
+      text-decoration: none;
+      vertical-align: middle;
+    }
+
+    /* ══ STATS ROW ══ */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: none;
+    }
+
+    .stats-row.visible { display: grid; }
+
+    .stat-cell {
+      background: var(--white);
+      padding: 20px 24px;
+      text-align: center;
+    }
+
+    .stat-cell-num {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .stat-cell-num.red   { color: var(--accent); }
+    .stat-cell-num.green { color: var(--green); }
+
+    .stat-cell-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    /* ══ ACTION ROW ══ */
+    .action-row {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      flex-wrap: wrap;
+    }
+
+    .action-row.visible { display: flex; }
+
+    .action-row-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .action-row-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .action-row-sub {
+      font-size: 12px;
+      color: var(--ink-3);
+      font-family: var(--mono);
+    }
+
+    .export-format-select {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--white);
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* ══ PROGRESS ══ */
+    .progress-bar-wrap {
+      height: 3px;
+      background: var(--paper-3);
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--green);
+      transition: width 0.3s ease;
+    }
+
+    /* ══ LOADING ══ */
+    .loading-row {
+      display: none;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 24px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .loading-row.visible { display: flex; }
+
+    .mini-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--paper-3);
+      border-top-color: var(--ink);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 900px) {
+      .diff-section { grid-template-columns: 1fr; }
+      .stats-row    { grid-template-columns: 1fr 1fr; }
+      .config-body  { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .dedup-page   { padding: 20px 16px 60px; }
+      .page-hero    { padding: 28px 20px; }
+      .stats-row    { grid-template-columns: 1fr 1fr; }
+      .action-row   { flex-direction: column; align-items: stretch; }
+      .action-row .btn { justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ANNOUNCE -->
+  <div class="announce">
+    <strong>Privacy first.</strong> Your files are processed entirely in your browser — we never see them.
+  </div>
+
+  <!-- NAV -->
+  <Navbar currentPath="/csv-deduplicator" />
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div>
+        <div class="eyebrow" style="margin-bottom:14px;">CSV Deduplicator</div>
+        <h1>Remove duplicates.<br /><em>Keep your data clean.</em></h1>
+        <p>
+          Upload a CSV or spreadsheet and instantly remove duplicate rows.
+          Configure by any column combination, preview every change in a
+          before/after diff, then export the clean file. Zero server uploads.
+        </p>
+      </div>
+      <div class="trust-row" style="align-self:flex-end;">
+        <div class="trust-item"><span class="trust-check">✓</span> File never leaves browser</div>
+        <div class="trust-item"><span class="trust-check">✓</span> Before/after diff</div>
+        <div class="trust-item"><span class="trust-check">✓</span> Export CSV or Excel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="dedup-page">
+
+    <!-- HIDDEN FILE INPUT -->
+    <input type="file" id="file-input"
+      accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values"
+      style="position:fixed;top:-9999px;left:-9999px;opacity:0;pointer-events:none;" />
+
+    <!-- ── 1. UPLOAD ── -->
+    <div class="upload-card" id="upload-card">
+      <div class="upload-card-header">
+        <span class="upload-card-title">Upload File</span>
+        <span class="tag tag-live">LOCAL ONLY</span>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="upload-progress"></div></div>
+      <div class="upload-zone" id="upload-zone">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto;color:var(--ink-3);">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <line x1="9" y1="15" x2="15" y2="15"/>
+        </svg>
+        <h3>Drop a CSV file here</h3>
+        <p>Click anywhere or drag & drop. Max 50MB.</p>
+        <div class="upload-btn-inner">Choose File</div>
+        <div class="upload-formats">
+          <span class="format-chip">.csv</span>
+          <span class="format-chip">.tsv</span>
+          <span class="format-chip">.txt (delimited)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LOADING ── -->
+    <div class="loading-row" id="loading-row">
+      <div class="mini-spinner"></div>
+      <div>
+        <div style="font-size:13.5px;font-weight:500;color:var(--ink);" id="loading-msg">Parsing file...</div>
+        <div style="font-size:11.5px;color:var(--ink-3);font-family:var(--mono);">Your file never leaves this tab</div>
+      </div>
+    </div>
+
+    <!-- ── 2. CONFIG ── -->
+    <div class="config-card" id="config-card">
+      <div class="upload-card-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="upload-card-title">Configuration</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--ink-3);" id="file-info-label">—</span>
+        </div>
+        <button id="reset-btn" style="background:none;border:1px solid var(--border);border-radius:var(--radius);padding:5px 12px;font-size:12px;color:var(--ink-3);cursor:pointer;font-family:var(--sans);transition:all 0.15s;">
+          New file
+        </button>
+      </div>
+      <div class="config-body">
+        <div class="config-group">
+          <div class="config-label">Deduplicate by columns (select one or more)</div>
+          <div class="column-select-wrap" id="column-chips">
+            <!-- Chips injected by JS -->
+          </div>
+        </div>
+        <div class="config-group">
+          <div class="config-label">Case sensitivity</div>
+          <select class="config-select" id="case-select">
+            <option value="insensitive">Case insensitive</option>
+            <option value="sensitive">Case sensitive</option>
+          </select>
+        </div>
+        <div class="config-group">
+          <div class="config-label">Keep which duplicate</div>
+          <select class="config-select" id="keep-select">
+            <option value="first">Keep first occurrence</option>
+            <option value="last">Keep last occurrence</option>
+          </select>
+        </div>
+      </div>
+      <div style="padding:0 24px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="run-btn" style="padding:10px 24px;font-size:13px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Find Duplicates
+        </button>
+        <div style="font-size:12px;color:var(--ink-3);">
+          <span id="selected-cols-label">All columns selected</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. STATS ── -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-cell">
+        <div class="stat-cell-num" id="stat-total">—</div>
+        <div class="stat-cell-label">Total rows</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-num red" id="stat-dupes">—</div>
+        <div class="stat-cell-label">Duplicates found</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-num green" id="stat-clean">—</div>
+        <div class="stat-cell-label">Unique rows</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-num" id="stat-pct">—</div>
+        <div class="stat-cell-label">Reduction</div>
+      </div>
+    </div>
+
+    <!-- ── 4. BEFORE / AFTER DIFF ── -->
+    <div class="diff-section" id="diff-section">
+
+      <!-- BEFORE -->
+      <div class="diff-panel">
+        <div class="diff-header">
+          <div class="diff-header-left">
+            <span class="diff-panel-label" style="color:var(--ink-2);">Before</span>
+            <span class="diff-count-badge" id="before-badge"
+              style="background:var(--paper-2);color:var(--ink-3);">— rows</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--ink-3);">
+            Duplicates highlighted
+          </span>
+        </div>
+        <div class="diff-table-wrap" id="before-table-wrap">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- AFTER -->
+      <div class="diff-panel after">
+        <div class="diff-header" style="background:var(--green-light);">
+          <div class="diff-header-left">
+            <span class="diff-panel-label" style="color:var(--green);">After</span>
+            <span class="diff-count-badge" id="after-badge"
+              style="background:rgba(42,107,74,0.12);color:var(--green);">— rows</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--green);">
+            Duplicates removed
+          </span>
+        </div>
+        <div class="diff-table-wrap" id="after-table-wrap">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── 5. EXPORT ── -->
+    <div class="action-row" id="action-row">
+      <div class="action-row-left">
+        <div class="action-row-title" id="action-title">Ready to export</div>
+        <div class="action-row-sub" id="action-sub">—</div>
+      </div>
+      <select class="export-format-select" id="export-format">
+        <option value="csv">Export as CSV</option>
+        <option value="tsv">Export as TSV</option>
+      </select>
+      <button class="btn btn-primary" id="export-btn" style="padding:11px 24px;font-size:13px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Download Clean File
+      </button>
+      <button class="btn btn-secondary" id="run-again-btn" style="padding:11px 18px;font-size:13px;">
+        Adjust & Re-run
+      </button>
+    </div>
+
+  </div>
+  <!-- /dedup-page -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">Fi</div>
+          <span style="color:#5a5a52;font-size:15px;font-weight:600;">FileIntel</span>
+        </div>
+        <p>Private file tools for professionals. Everything runs in your browser.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
+          <li><a href="/pdf-redactor">PDF Redactor</a></li>
+          <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="https://github.com/yourusername/fileintel" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="/blog">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Use Cases</h4>
+        <ul>
+          <li><a href="#">For Data Teams</a></li>
+          <li><a href="#">For Marketers</a></li>
+          <li><a href="#">For Analysts</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {new Date().getFullYear()} FileIntel. Built with privacy by design.</span>
+      <span class="footer-mono">0 bytes sent to our servers</span>
+    </div>
+  </footer>
+
+  <script>
+  (() => {
+    'use strict';
+
+    // ── State ──
+    let parsedData    = null;  // { headers: [], rows: [] }
+    let dedupResult   = null;  // { kept: [], removed: Set<number> }
+    let currentFile   = null;
+    let selectedCols  = new Set(); // empty = all columns
+
+    // ── DOM ──
+    const $ = id => document.getElementById(id);
+    const fileInput       = $('file-input');
+    const uploadZone      = $('upload-zone');
+    const uploadCard      = $('upload-card');
+    const uploadProgress  = $('upload-progress');
+    const loadingRow      = $('loading-row');
+    const loadingMsg      = $('loading-msg');
+    const configCard      = $('config-card');
+    const columnChips     = $('column-chips');
+    const caseSelect      = $('case-select');
+    const keepSelect      = $('keep-select');
+    const runBtn          = $('run-btn');
+    const runAgainBtn     = $('run-again-btn');
+    const resetBtn        = $('reset-btn');
+    const fileInfoLabel   = $('file-info-label');
+    const selectedColsLabel = $('selected-cols-label');
+    const statsRow        = $('stats-row');
+    const statTotal       = $('stat-total');
+    const statDupes       = $('stat-dupes');
+    const statClean       = $('stat-clean');
+    const statPct         = $('stat-pct');
+    const diffSection     = $('diff-section');
+    const beforeBadge     = $('before-badge');
+    const afterBadge      = $('after-badge');
+    const beforeWrap      = $('before-table-wrap');
+    const afterWrap       = $('after-table-wrap');
+    const actionRow       = $('action-row');
+    const actionTitle     = $('action-title');
+    const actionSub       = $('action-sub');
+    const exportFormat    = $('export-format');
+    const exportBtn       = $('export-btn');
+
+    // ── Helpers ──
+    function formatBytes(b) {
+      if (b < 1024) return b + ' B';
+      if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+      return (b/1048576).toFixed(2) + ' MB';
+    }
+
+    function show(el) { el.classList.add('visible'); }
+    function hide(el) { el.classList.remove('visible'); }
+
+    function setProgress(pct) {
+      uploadProgress.style.width = pct + '%';
+      uploadProgress.style.background = pct === 100 ? 'var(--green)' : 'var(--accent)';
+    }
+
+    // ── Upload zone ──
+    uploadZone.addEventListener('click', e => { e.stopPropagation(); fileInput.click(); });
+    uploadZone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+    fileInput.addEventListener('click', e => e.stopPropagation());
+    fileInput.addEventListener('change', e => { if (e.target.files[0]) loadFile(e.target.files[0]); fileInput.value = ''; });
+
+    uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-active'); });
+    uploadZone.addEventListener('dragleave', e => { if (!uploadZone.contains(e.relatedTarget)) uploadZone.classList.remove('drag-active'); });
+    uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('drag-active'); if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]); });
+    document.addEventListener('dragover', e => e.preventDefault());
+    document.addEventListener('drop',     e => e.preventDefault());
+
+    // ── Parse CSV ──
+    function parseCSV(text) {
+      // Split into lines respecting quoted fields
+      const lines = [];
+      let current = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (ch === '"') {
+          inQuotes = !inQuotes;
+          current += ch;
+        } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+          if (ch === '\r' && text[i+1] === '\n') i++;
+          if (current.trim()) lines.push(current);
+          current = '';
+        } else {
+          current += ch;
+        }
+      }
+      if (current.trim()) lines.push(current);
+
+      if (lines.length === 0) throw new Error('File appears empty');
+
+      // Detect delimiter
+      const firstLine = lines[0];
+      const delimiters = [',', '\t', ';', '|'];
+      const counts = delimiters.map(d => (firstLine.match(new RegExp('\\' + d, 'g')) || []).length);
+      const delimiter = delimiters[counts.indexOf(Math.max(...counts))];
+
+      function splitLine(line) {
+        const fields = [];
+        let field = '';
+        let inQ = false;
+        for (let i = 0; i < line.length; i++) {
+          const c = line[i];
+          if (c === '"') { inQ = !inQ; }
+          else if (c === delimiter && !inQ) { fields.push(field.trim().replace(/^"|"$/g, '')); field = ''; }
+          else { field += c; }
+        }
+        fields.push(field.trim().replace(/^"|"$/g, ''));
+        return fields;
+      }
+
+      const headers = splitLine(lines[0]);
+      const rows = lines.slice(1).map((line, i) => {
+        const cells = splitLine(line);
+        // Pad short rows
+        while (cells.length < headers.length) cells.push('');
+        return cells;
+      });
+
+      return { headers, rows, delimiter };
+    }
+
+    // ── Load file ──
+    async function loadFile(file) {
+      currentFile = file;
+      setProgress(10);
+      loadingRow.classList.add('visible');
+      loadingMsg.textContent = 'Reading file...';
+
+      // Hide previous results
+      hide(statsRow);
+      hide(diffSection);
+      hide(actionRow);
+
+      try {
+        const text = await file.text();
+        setProgress(50);
+        loadingMsg.textContent = 'Parsing CSV...';
+
+        await new Promise(r => setTimeout(r, 30)); // allow UI to update
+        parsedData = parseCSV(text);
+        setProgress(100);
+
+        fileInfoLabel.textContent =
+          `${file.name} · ${formatBytes(file.size)} · ${parsedData.rows.length.toLocaleString()} rows · ${parsedData.headers.length} cols`;
+
+        // Build column chips
+        buildColumnChips();
+
+        loadingRow.classList.remove('visible');
+        configCard.classList.add('visible');
+
+        // Scroll to config
+        configCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      } catch (err) {
+        loadingRow.classList.remove('visible');
+        setProgress(0);
+        alert('Could not parse file: ' + (err?.message || 'Unknown error') + '\n\nMake sure it is a valid CSV, TSV, or delimited text file.');
+      }
+    }
+
+    // ── Column chips ──
+    function buildColumnChips() {
+      columnChips.innerHTML = '';
+      selectedCols.clear();
+
+      // "All columns" chip
+      const allChip = document.createElement('div');
+      allChip.className = 'col-chip selected';
+      allChip.dataset.col = '__all__';
+      allChip.textContent = 'All columns';
+      columnChips.appendChild(allChip);
+
+      parsedData.headers.forEach((h, i) => {
+        const chip = document.createElement('div');
+        chip.className = 'col-chip';
+        chip.dataset.col = i;
+        chip.textContent = h || `Column ${i+1}`;
+        columnChips.appendChild(chip);
+      });
+
+      updateSelectedLabel();
+    }
+
+    columnChips.addEventListener('click', e => {
+      const chip = e.target.closest('.col-chip');
+      if (!chip) return;
+
+      const colVal = chip.dataset.col;
+
+      if (colVal === '__all__') {
+        // Select all — deselect individuals
+        selectedCols.clear();
+        document.querySelectorAll('.col-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+      } else {
+        // Toggle individual column
+        const allChip = columnChips.querySelector('[data-col="__all__"]');
+        allChip.classList.remove('selected');
+        const idx = parseInt(colVal);
+        if (selectedCols.has(idx)) {
+          selectedCols.delete(idx);
+          chip.classList.remove('selected');
+          if (selectedCols.size === 0) {
+            allChip.classList.add('selected');
+          }
+        } else {
+          selectedCols.add(idx);
+          chip.classList.add('selected');
+        }
+      }
+
+      updateSelectedLabel();
+    });
+
+    function updateSelectedLabel() {
+      if (selectedCols.size === 0) {
+        selectedColsLabel.textContent = 'Comparing all columns';
+      } else {
+        const names = [...selectedCols].map(i => parsedData.headers[i] || `Col ${i+1}`);
+        selectedColsLabel.textContent = `Comparing: ${names.join(', ')}`;
+      }
+    }
+
+    // ── Run dedup ──
+    runBtn.addEventListener('click', runDedup);
+    runAgainBtn.addEventListener('click', () => {
+      hide(statsRow);
+      hide(diffSection);
+      hide(actionRow);
+      dedupResult = null;
+    });
+
+    function runDedup() {
+      if (!parsedData) return;
+
+      const caseSensitive = caseSelect.value === 'sensitive';
+      const keepLast      = keepSelect.value === 'last';
+      const cols          = selectedCols.size > 0 ? [...selectedCols] : parsedData.headers.map((_, i) => i);
+
+      // Find duplicates
+      const seen    = new Map(); // key → first/last index
+      const removed = new Set();
+
+      if (keepLast) {
+        // Reverse pass — last occurrence wins
+        for (let i = parsedData.rows.length - 1; i >= 0; i--) {
+          const key = makeKey(parsedData.rows[i], cols, caseSensitive);
+          if (seen.has(key)) { removed.add(seen.get(key)); seen.set(key, i); }
+          else seen.set(key, i);
+        }
+      } else {
+        for (let i = 0; i < parsedData.rows.length; i++) {
+          const key = makeKey(parsedData.rows[i], cols, caseSensitive);
+          if (seen.has(key)) { removed.add(i); }
+          else seen.set(key, i);
+        }
+      }
+
+      const kept = parsedData.rows.filter((_, i) => !removed.has(i));
+      dedupResult = { kept, removed };
+
+      // Update stats
+      const total   = parsedData.rows.length;
+      const dupes   = removed.size;
+      const unique  = total - dupes;
+      const pct     = total > 0 ? Math.round((dupes / total) * 100) : 0;
+
+      statTotal.textContent = total.toLocaleString();
+      statDupes.textContent = dupes.toLocaleString();
+      statClean.textContent = unique.toLocaleString();
+      statPct.textContent   = pct + '%';
+
+      // Before/after badge
+      beforeBadge.textContent = `${total.toLocaleString()} rows`;
+      afterBadge.textContent  = `${unique.toLocaleString()} rows`;
+
+      // Build diff tables
+      buildBeforeTable(removed);
+      buildAfterTable(kept);
+
+      // Action row
+      if (dupes === 0) {
+        actionTitle.textContent = 'No duplicates found!';
+        actionSub.textContent   = `All ${total.toLocaleString()} rows are unique.`;
+        exportBtn.textContent   = 'Download Original';
+      } else {
+        actionTitle.textContent = `${dupes} duplicate${dupes !== 1 ? 's' : ''} removed`;
+        actionSub.textContent   = `${unique.toLocaleString()} unique rows ready to export`;
+        exportBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Download Clean File`;
+      }
+
+      show(statsRow);
+      show(diffSection);
+      show(actionRow);
+
+      // Animate stats
+      animateStats();
+
+      statsRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function makeKey(row, cols, caseSensitive) {
+      const parts = cols.map(i => {
+        const val = row[i] ?? '';
+        return caseSensitive ? val : val.toLowerCase();
+      });
+      return parts.join('\x00');
+    }
+
+    // ── Build before table (show dupes highlighted) ──
+    function buildBeforeTable(removedSet) {
+      const MAX_ROWS = 200; // cap for perf
+      const headers  = parsedData.headers;
+      const rows     = parsedData.rows.slice(0, MAX_ROWS);
+      const overflow = parsedData.rows.length > MAX_ROWS;
+
+      const table = document.createElement('table');
+      table.className = 'diff-table';
+
+      // Head
+      const thead = table.createTHead();
+      const hrow  = thead.insertRow();
+      const thNum = document.createElement('th');
+      thNum.textContent = '#';
+      thNum.style.width = '36px';
+      hrow.appendChild(thNum);
+      headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        hrow.appendChild(th);
+      });
+
+      // Body
+      const tbody = table.createTBody();
+      rows.forEach((row, i) => {
+        const tr    = tbody.insertRow();
+        const isDup = removedSet.has(i);
+        tr.className = isDup ? 'row-duplicate' : 'row-kept';
+
+        const numTd = tr.insertCell();
+        numTd.className = 'row-num';
+        numTd.textContent = i + 1;
+
+        row.forEach((cell, ci) => {
+          const td = tr.insertCell();
+          if (isDup && ci === 0) {
+            td.innerHTML = escapeHtml(cell) + '<span class="dup-badge">DUP</span>';
+          } else {
+            td.textContent = cell;
+          }
+        });
+      });
+
+      if (overflow) {
+        const tr = tbody.insertRow();
+        const td = tr.insertCell();
+        td.colSpan = headers.length + 1;
+        td.style.cssText = 'text-align:center;padding:10px;font-family:var(--mono);font-size:11px;color:var(--ink-3);background:var(--paper);';
+        td.textContent = `… ${(parsedData.rows.length - MAX_ROWS).toLocaleString()} more rows (showing first ${MAX_ROWS})`;
+      }
+
+      beforeWrap.innerHTML = '';
+      beforeWrap.appendChild(table);
+    }
+
+    // ── Build after table (clean rows only) ──
+    function buildAfterTable(keptRows) {
+      const MAX_ROWS = 200;
+      const headers  = parsedData.headers;
+      const rows     = keptRows.slice(0, MAX_ROWS);
+      const overflow = keptRows.length > MAX_ROWS;
+
+      const table = document.createElement('table');
+      table.className = 'diff-table';
+
+      const thead = table.createTHead();
+      const hrow  = thead.insertRow();
+      const thNum = document.createElement('th');
+      thNum.textContent = '#';
+      thNum.style.width = '36px';
+      hrow.appendChild(thNum);
+      headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        hrow.appendChild(th);
+      });
+
+      const tbody = table.createTBody();
+      rows.forEach((row, i) => {
+        const tr = tbody.insertRow();
+        tr.className = 'row-kept';
+
+        const numTd = tr.insertCell();
+        numTd.className = 'row-num';
+        numTd.textContent = i + 1;
+
+        row.forEach(cell => {
+          const td = tr.insertCell();
+          td.textContent = cell;
+        });
+      });
+
+      if (overflow) {
+        const tr = tbody.insertRow();
+        const td = tr.insertCell();
+        td.colSpan = headers.length + 1;
+        td.style.cssText = 'text-align:center;padding:10px;font-family:var(--mono);font-size:11px;color:var(--ink-3);background:var(--paper);';
+        td.textContent = `… ${(keptRows.length - MAX_ROWS).toLocaleString()} more rows`;
+      }
+
+      afterWrap.innerHTML = '';
+      afterWrap.appendChild(table);
+    }
+
+    // ── Animate stats ──
+    function animateStats() {
+      [statTotal, statDupes, statClean].forEach(el => {
+        const target = parseInt(el.textContent.replace(/,/g, '')) || 0;
+        let current  = 0;
+        const step   = Math.max(1, Math.ceil(target / 40));
+        const iv = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current.toLocaleString();
+          if (current >= target) clearInterval(iv);
+        }, 16);
+      });
+    }
+
+    // ── Export ──
+    exportBtn.addEventListener('click', () => {
+      if (!parsedData) return;
+      const rows    = dedupResult ? dedupResult.kept : parsedData.rows;
+      const format  = exportFormat.value;
+      const delim   = format === 'tsv' ? '\t' : ',';
+      const ext     = format === 'tsv' ? '.tsv' : '.csv';
+      const mime    = format === 'tsv' ? 'text/tab-separated-values' : 'text/csv';
+
+      function escapeField(val) {
+        if (val === null || val === undefined) return '';
+        const s = String(val);
+        if (s.includes(delim) || s.includes('"') || s.includes('\n')) {
+          return '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+      }
+
+      const lines = [
+        parsedData.headers.map(escapeField).join(delim),
+        ...rows.map(row => row.map(escapeField).join(delim)),
+      ];
+
+      const blob     = new Blob([lines.join('\r\n')], { type: mime + ';charset=utf-8;' });
+      const url      = URL.createObjectURL(blob);
+      const filename = (currentFile?.name || 'data').replace(/\.[^.]+$/, '') + '-clean' + ext;
+      const a        = document.createElement('a');
+      a.href         = url;
+      a.download     = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1500);
+
+      exportBtn.textContent = '✓ Downloaded!';
+      setTimeout(() => {
+        exportBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Download Clean File`;
+      }, 2500);
+    });
+
+    // ── Reset ──
+    resetBtn.addEventListener('click', reset);
+
+    function reset() {
+      parsedData  = null;
+      dedupResult = null;
+      currentFile = null;
+      selectedCols.clear();
+      hide(statsRow);
+      hide(diffSection);
+      hide(actionRow);
+      configCard.classList.remove('visible');
+      beforeWrap.innerHTML = '';
+      afterWrap.innerHTML  = '';
+      setProgress(0);
+      fileInput.value = '';
+    }
+
+    // ── XSS helper ──
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+  })();
+  </script>
+
+</body>
+</html>

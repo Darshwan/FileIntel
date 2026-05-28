@@ -1,0 +1,694 @@
+---
+// Responsive Navigation Component
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const toolLinks = [
+  { label: 'PDF Metadata Remover', href: '/pdf-metadata-remover', icon: '📄' },
+  { label: 'Secure PDF Merger', href: '/pdf-merger', icon: '📑' },
+  { label: 'PDF Redactor', href: '/pdf-redactor', icon: '✏️' },
+  { label: 'CSV Deduplicator', href: '/csv-deduplicator', icon: '📊' },
+];
+
+const contentLinks = [
+  { label: 'Blog', href: '/blog', icon: '📰' },
+  { label: 'Privacy Policy', href: '/privacy', icon: '🔒' },
+];
+
+const isHomepage = currentPath === '/';
+const isToolActive = toolLinks.some(link => currentPath === link.href || currentPath.startsWith(link.href));
+const isBlogActive = currentPath.startsWith('/blog');
+---
+
+<nav class="nav">
+  <!-- Brand -->
+  <a href="/" class="nav-brand">
+    <div class="nav-logo">Fi</div>
+    <div class="nav-brand-text">
+      <div class="nav-name">FileIntel</div>
+      <div class="nav-tagline">Private Tools</div>
+    </div>
+  </a>
+
+  <!-- Desktop Navigation -->
+  <div class="nav-desktop">
+    <!-- Tools Dropdown -->
+    <div class="nav-dropdown">
+      <button class={`nav-dropdown-trigger ${isToolActive ? 'active' : ''}`} data-dropdown="tools" aria-haspopup="true">
+        Tools
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <div class="nav-dropdown-menu" data-dropdown-menu="tools">
+        {toolLinks.map((link) => {
+          return (
+            <a href={link.href} class="nav-dropdown-item">
+              <span class="nav-dropdown-icon">{link.icon}</span>
+              <div>
+                <div class="nav-dropdown-label">{link.label}</div>
+              </div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-dropdown-arrow">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Blog Link -->
+    <a href="/blog" class={`nav-link ${isBlogActive ? 'active' : ''}`}>
+      Blog
+    </a>
+
+    <!-- Divider -->
+    <div class="nav-divider"></div>
+
+    <!-- Privacy Link -->
+    <a href="/privacy" class="nav-link nav-link-secondary">
+      Privacy
+    </a>
+  </div>
+
+  <!-- Mobile Menu Button -->
+  <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span class="hamburger">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </span>
+  </button>
+</nav>
+
+<!-- Mobile Navigation Drawer -->
+<div class="nav-drawer" id="nav-drawer">
+  <!-- Mobile Brand -->
+  <div class="nav-drawer-header">
+    <div class="nav-drawer-brand">
+      <div class="nav-logo-small">Fi</div>
+      <div>
+        <div class="nav-drawer-name">FileIntel</div>
+        <div class="nav-drawer-tagline">Private Tools</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="nav-drawer-content">
+    <!-- Tools Section -->
+    <div class="nav-drawer-section">
+      <div class="nav-drawer-section-title">Tools</div>
+      <ul class="nav-drawer-list">
+        {toolLinks.map((link) => {
+          const isActive = currentPath === link.href || currentPath.startsWith(link.href);
+          return (
+            <li>
+              <a 
+                href={link.href} 
+                class={`nav-drawer-link ${isActive ? 'active' : ''}`}
+              >
+                <span class="nav-drawer-link-icon">{link.icon}</span>
+                {link.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+
+    <!-- Content Section -->
+    <div class="nav-drawer-section">
+      <div class="nav-drawer-section-title">Content</div>
+      <ul class="nav-drawer-list">
+        {contentLinks.map((link) => {
+          const isActive = currentPath === link.href || currentPath.startsWith(link.href);
+          return (
+            <li>
+              <a 
+                href={link.href} 
+                class={`nav-drawer-link ${isActive ? 'active' : ''}`}
+              >
+                <span class="nav-drawer-link-icon">{link.icon}</span>
+                {link.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer Backdrop -->
+<div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+
+<script>
+  // Dropdown functionality
+  const dropdownTriggers = document.querySelectorAll('[data-dropdown]');
+  
+  dropdownTriggers.forEach((trigger) => {
+    const dropdownName = trigger.getAttribute('data-dropdown');
+    const dropdownMenu = document.querySelector(`[data-dropdown-menu="${dropdownName}"]`);
+    
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = dropdownMenu?.classList.contains('open');
+      
+      // Close all other dropdowns
+      document.querySelectorAll('.nav-dropdown-menu').forEach((menu) => {
+        menu.classList.remove('open');
+      });
+      document.querySelectorAll('[data-dropdown]').forEach((t) => {
+        t.setAttribute('aria-expanded', 'false');
+      });
+      
+      // Toggle current dropdown
+      if (!isOpen) {
+        dropdownMenu?.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-dropdown]') && !e.target.closest('.nav-dropdown-menu')) {
+      document.querySelectorAll('.nav-dropdown-menu').forEach((menu) => {
+        menu.classList.remove('open');
+      });
+      document.querySelectorAll('[data-dropdown]').forEach((trigger) => {
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  // Mobile Menu Toggle
+  const toggle = document.getElementById('nav-mobile-toggle');
+  const drawer = document.getElementById('nav-drawer');
+  const backdrop = document.getElementById('nav-drawer-backdrop');
+  const drawerLinks = document.querySelectorAll('.nav-drawer-link');
+
+  function closeDrawer() {
+    drawer?.classList.remove('open');
+    backdrop?.classList.remove('open');
+    toggle?.setAttribute('aria-expanded', 'false');
+  }
+
+  function openDrawer() {
+    drawer?.classList.add('open');
+    backdrop?.classList.add('open');
+    toggle?.setAttribute('aria-expanded', 'true');
+  }
+
+  function toggleDrawer() {
+    const isOpen = drawer?.classList.contains('open');
+    if (isOpen) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
+  }
+
+  toggle?.addEventListener('click', toggleDrawer);
+  backdrop?.addEventListener('click', closeDrawer);
+
+  // Close drawer when a link is clicked
+  drawerLinks.forEach((link) => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // Close drawer on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeDrawer();
+    }
+  });
+</script>
+
+<style>
+  /* ══ NAVBAR CONTAINER ══ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 243, 238, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 var(--space-10);
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+
+  /* ══ BRAND ══ */
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-brand:hover {
+    opacity: 0.8;
+  }
+
+  .nav-logo {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--paper);
+    font-family: var(--serif);
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    box-shadow: 0 2px 8px rgba(15, 15, 13, 0.1);
+  }
+
+  .nav-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .nav-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .nav-tagline {
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  /* ══ DESKTOP NAVIGATION ══ */
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-left: auto;
+  }
+
+  /* ══ DROPDOWN ══ */
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-trigger {
+    background: none;
+    border: none;
+    color: var(--ink-2);
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+
+  .nav-dropdown-trigger:hover {
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+
+  .nav-dropdown-trigger.active,
+  .nav-dropdown-trigger[aria-expanded="true"] {
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+
+  .nav-dropdown-trigger svg {
+    transition: transform 0.3s ease;
+  }
+
+  .nav-dropdown-trigger[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown Menu */
+  .nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    min-width: 240px;
+    padding: 8px;
+    margin-top: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    box-shadow: 0 8px 32px rgba(15, 15, 13, 0.12);
+  }
+
+  .nav-dropdown-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: all 0.15s ease;
+    font-size: 13px;
+    border: 1px solid transparent;
+  }
+
+  .nav-dropdown-item:hover {
+    background: var(--paper-2);
+    color: var(--ink);
+    border-color: var(--border);
+  }
+
+  .nav-dropdown-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .nav-dropdown-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: inherit;
+  }
+
+  .nav-dropdown-arrow {
+    margin-left: auto;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-dropdown-item:hover .nav-dropdown-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+
+  /* ══ NAV LINKS ══ */
+  .nav-link {
+    color: var(--ink-2);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    font-size: 13.5px;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .nav-link:hover {
+    background: var(--paper-2);
+    color: var(--ink);
+  }
+
+  .nav-link.active {
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+
+  .nav-link-secondary {
+    color: var(--ink-3);
+  }
+
+  .nav-link-secondary:hover {
+    color: var(--ink-2);
+  }
+
+  /* ══ NAV DIVIDER ══ */
+  .nav-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--paper-3);
+    margin: 0 var(--space-2);
+  }
+
+  /* ══ MOBILE TOGGLE ══ */
+  .nav-mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 101;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .hamburger-line {
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    transition: all 0.3s ease;
+    display: block;
+    border-radius: 1px;
+  }
+
+  .nav-mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+  }
+
+  .nav-mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+
+  /* ══ MOBILE DRAWER ══ */
+  .nav-drawer {
+    position: fixed;
+    top: var(--nav-height);
+    right: -100%;
+    width: 100%;
+    max-width: 280px;
+    height: calc(100vh - var(--nav-height));
+    background: var(--paper);
+    border-left: 1px solid var(--border);
+    z-index: 99;
+    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-drawer.open {
+    right: 0;
+  }
+
+  .nav-drawer-header {
+    padding: var(--space-4) var(--space-10);
+    border-bottom: 1px solid var(--paper-3);
+    flex-shrink: 0;
+  }
+
+  .nav-drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo-small {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--paper);
+    font-family: var(--serif);
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 600;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(15, 15, 13, 0.1);
+  }
+
+  .nav-drawer-name {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .nav-drawer-tagline {
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .nav-drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-4) 0;
+  }
+
+  /* ══ DRAWER SECTIONS ══ */
+  .nav-drawer-section {
+    padding: 0;
+    margin-bottom: var(--space-6);
+  }
+
+  .nav-drawer-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .nav-drawer-section-title {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+    padding: var(--space-3) var(--space-10);
+    margin-bottom: var(--space-2);
+  }
+
+  /* ══ DRAWER LINKS ══ */
+  .nav-drawer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px var(--space-10);
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-drawer-link:hover {
+    background: var(--paper-2);
+    color: var(--ink);
+  }
+
+  .nav-drawer-link.active {
+    background: var(--paper-2);
+    color: var(--ink);
+    border-left-color: var(--accent);
+  }
+
+  .nav-drawer-link-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ══ DRAWER BACKDROP ══ */
+  .nav-drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    z-index: 98;
+    transition: background 0.3s ease;
+    pointer-events: none;
+  }
+
+  .nav-drawer-backdrop.open {
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+  }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 768px) {
+    .nav {
+      padding: 0 var(--space-6);
+      gap: var(--space-4);
+    }
+
+    .nav-desktop {
+      display: none;
+    }
+
+    .nav-mobile-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-brand-text {
+      gap: 1px;
+    }
+
+    .nav-name {
+      font-size: 14px;
+    }
+
+    .nav-tagline {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nav {
+      padding: 0 var(--space-4);
+      height: 52px;
+    }
+
+    .nav-logo {
+      width: 32px;
+      height: 32px;
+      font-size: 12px;
+    }
+
+    .nav-name {
+      font-size: 13px;
+    }
+
+    .nav-tagline {
+      font-size: 9px;
+    }
+
+    .nav-drawer {
+      max-width: 100%;
+    }
+  }
+</style>

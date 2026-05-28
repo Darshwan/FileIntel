@@ -95,11 +95,11 @@ a {
 /* ─── SELECTION (UX) ─── */
 /* Professional, high-contrast selection for readability */
 ::selection {
-  background: #46f80038; /* soft blue */
+  background: #f526021c; /* soft blue */
 }
 
 ::-moz-selection {
-  background: #c8422a76;
+  background: #f526021c;
 }
 
 button {
@@ -1376,4 +1376,72 @@ section {
   header { padding-left: 20px; padding-right: 20px; }
   .architecture-grid { gap: 24px; }
   .section-sub { max-width: 100%; }
+}
+
+/* ─── RESPONSIVE NAVBAR OVERRIDES ─── */
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 var(--space-6);
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-mobile-toggle {
+    display: flex;
+  }
+
+  .nav-name {
+    font-size: 14px;
+  }
+
+  .nav-tagline {
+    font-size: 10px;
+  }
+
+  .tool-hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+
+  .announce {
+    padding: 8px var(--space-4);
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav {
+    padding: 0 var(--space-4);
+    height: 52px;
+  }
+
+  .nav-logo {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .nav-name {
+    font-size: 13px;
+  }
+
+  .nav-drawer {
+    max-width: 100%;
+  }
+
+  .tool-hero {
+    padding: 32px 16px;
+  }
+
+  .section-title {
+    font-size: clamp(24px, 3vw, 44px);
+  }
+
+  .announce {
+    padding: 8px var(--space-3);
+    font-size: 11px;
+  }
 }

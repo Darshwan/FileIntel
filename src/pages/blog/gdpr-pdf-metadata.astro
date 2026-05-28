@@ -5,6 +5,8 @@
 // Intent: Informational + Commercial — compliance officers, DPOs, legal teams
 // Monthly searches: 1,200 primary + 4,800 long-tail cluster
 // Competing gap: No competitor explains BOTH the technical mechanism AND the legal basis together
+
+import Navbar from '../../components/Navbar.astro';
 ---
 
 <!doctype html>
@@ -436,6 +438,11 @@
         line-height: 1.15;
         padding-bottom: 12px;
         border-bottom: 1px solid var(--paper-3);
+      }
+
+      .prose h2,
+      .faq-section-title {
+        scroll-margin-top: calc(var(--nav-height) + 24px);
       }
 
       .prose h2:first-of-type {
@@ -924,7 +931,7 @@
       .toc-num {
         font-family: var(--mono);
         font-size: 10px;
-        color: var(--paper-3);
+        color: var(--ink-3);
         flex-shrink: 0;
         padding-top: 2px;
       }
@@ -1009,29 +1016,7 @@
 
   <body class="blog-page">
     <!-- NAV -->
-    <nav class="nav">
-      <a href="/" class="nav-brand">
-        <div class="nav-logo">Fi</div>
-        <div>
-          <div class="nav-name">FileIntel</div>
-          <div class="nav-tagline">Private File Tools</div>
-        </div>
-      </a>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/pdf-metadata-remover">Tools</a></li>
-        <li><a href="/blog" class="active">Blog</a></li>
-        <li><a href="/privacy">Privacy</a></li>
-        <li>
-          <a
-            href="https://github.com/yourusername/fileintel"
-            target="_blank"
-            rel="noopener">GitHub</a
-          >
-        </li>
-        <li><span class="nav-badge">⚡ Browser-only</span></li>
-      </ul>
-    </nav>
+    <Navbar currentPath="/blog/gdpr-pdf-metadata" />
 
     <!-- BLOG NAV BAR -->
     <div class="blog-nav-bar">
@@ -1114,7 +1099,7 @@
           embedded in a document's metadata is still personal data.
         </p>
 
-        <h2>What GDPR actually says about metadata</h2>
+        <h2 id="what-gdpr-actually-says-about-metadata">What GDPR actually says about metadata</h2>
 
         <p>
           The GDPR does not mention PDF metadata specifically. It does not need
@@ -1181,7 +1166,7 @@
           identifiable.
         </p>
 
-        <h2>Which GDPR principles PDF metadata triggers</h2>
+        <h2 id="which-gdpr-principles-pdf-metadata-triggers">Which GDPR principles PDF metadata triggers</h2>
 
         <p>
           Three principles from Article 5 are directly implicated every time a
@@ -1252,7 +1237,7 @@
           </p>
         </div>
 
-        <h2>The data breach risk most organizations overlook</h2>
+        <h2 id="the-data-breach-risk-most-organizations-overlook">The data breach risk most organizations overlook</h2>
 
         <p>
           Under GDPR Article 33, organizations must notify their supervisory
@@ -1290,7 +1275,7 @@
           </p>
         </div>
 
-        <h2>How metadata actually flows through your organization</h2>
+        <h2 id="how-metadata-actually-flows-through-your-organization">How metadata actually flows through your organization</h2>
 
         <p>
           The problem is systematic, not occasional. Understanding how metadata
@@ -1397,7 +1382,7 @@
           </a>
         </div>
 
-        <h2>What a GDPR-compliant PDF workflow looks like</h2>
+        <h2 id="what-a-gdpr-compliant-pdf-workflow-looks-like">What a GDPR-compliant PDF workflow looks like</h2>
 
         <p>
           The goal is not to strip metadata from every internal document — that
@@ -1511,7 +1496,7 @@
           </div>
         </div>
 
-        <h2>The UK GDPR position post-Brexit</h2>
+        <h2 id="the-uk-gdpr-position-post-brexit">The UK GDPR position post-Brexit</h2>
 
         <p>
           For organizations operating under UK GDPR (as retained and amended by
@@ -1529,7 +1514,7 @@
           frameworks, since the substantive requirements are the same.
         </p>
 
-        <h2>A note on legal advice</h2>
+        <h2 id="a-note-on-legal-advice">A note on legal advice</h2>
 
         <p>
           This article explains the technical and regulatory context around PDF
@@ -1568,7 +1553,7 @@
 
         <!-- FAQ SECTION -->
         <div class="faq-section">
-          <h2 class="faq-section-title">Frequently asked questions</h2>
+          <h2 id="frequently-asked-questions" class="faq-section-title">Frequently asked questions</h2>
 
           {
             [
@@ -1625,28 +1610,28 @@
         <div class="sidebar-widget">
           <div class="sidebar-widget-header">In this article</div>
           <div class="sidebar-widget-body" style="padding:8px 14px;">
-            <a href="#" class="toc-link"
+            <a href="#what-gdpr-actually-says-about-metadata" class="toc-link"
               ><span class="toc-num">01</span>What GDPR says about metadata</a
             >
-            <a href="#" class="toc-link"
+            <a href="#which-gdpr-principles-pdf-metadata-triggers" class="toc-link"
               ><span class="toc-num">02</span>Which principles are triggered</a
             >
-            <a href="#" class="toc-link"
+            <a href="#the-data-breach-risk-most-organizations-overlook" class="toc-link"
               ><span class="toc-num">03</span>The data breach risk</a
             >
-            <a href="#" class="toc-link"
+            <a href="#how-metadata-actually-flows-through-your-organization" class="toc-link"
               ><span class="toc-num">04</span>How metadata flows</a
             >
-            <a href="#" class="toc-link"
+            <a href="#what-a-gdpr-compliant-pdf-workflow-looks-like" class="toc-link"
               ><span class="toc-num">05</span>Compliant workflow</a
             >
             <a href="#" class="toc-link"
               ><span class="toc-num">06</span>Compliance checklist</a
             >
-            <a href="#" class="toc-link"
+            <a href="#the-uk-gdpr-position-post-brexit" class="toc-link"
               ><span class="toc-num">07</span>UK GDPR position</a
             >
-            <a href="#" class="toc-link"><span class="toc-num">08</span>FAQ</a>
+            <a href="#frequently-asked-questions" class="toc-link"><span class="toc-num">08</span>FAQ</a>
           </div>
         </div>
 
@@ -1826,7 +1811,7 @@
 
     <script>
       // ── FAQ accordion ──
-      function toggleFaq(item) {
+      function toggleFaq(item: HTMLElement) {
         const isOpen = item.classList.contains("open");
         document
           .querySelectorAll(".faq-item.open")
@@ -1835,7 +1820,7 @@
       }
 
       // ── Compliance checklist ──
-      function toggleCheck(box) {
+      function toggleCheck(box: HTMLElement) {
         box.classList.toggle("checked");
         const checkedCount = document.querySelectorAll(
           ".checklist-box.checked",
@@ -1845,28 +1830,38 @@
       }
 
       // ── Active TOC on scroll (simple version) ──
-      const tocLinks = document.querySelectorAll(".toc-link");
-      const headings = document.querySelectorAll(".prose h2");
-
-      window.addEventListener(
-        "scroll",
-        () => {
-          let current = "";
-          headings.forEach((h, i) => {
-            if (window.scrollY >= h.offsetTop - 120) current = i;
-          });
-          tocLinks.forEach((link, i) => {
-            link.classList.toggle("active", i === current);
-          });
-        },
-        { passive: true },
+      const tocLinks = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>(".toc-link"),
       );
+      const headings = Array.from(
+        document.querySelectorAll<HTMLElement>(".prose h2[id]"),
+      );
+
+      const updateActiveTocLink = () => {
+        let currentId = headings[0]?.id ?? "";
+
+        headings.forEach((heading) => {
+          if (window.scrollY >= heading.offsetTop - 120) {
+            currentId = heading.id;
+          }
+        });
+
+        tocLinks.forEach((link) => {
+          const targetId = link.getAttribute("href")?.slice(1) ?? "";
+          link.classList.toggle("active", targetId === currentId);
+        });
+      };
+
+      window.addEventListener("scroll", updateActiveTocLink, {
+        passive: true,
+      });
+      updateActiveTocLink();
 
       // ── Hero image parallax on scroll ──
       const heroVisualInner = document.getElementById("hero-visual-inner");
 
       if (heroVisualInner) {
-        let scrollTimer = null;
+        let scrollTimer: ReturnType<typeof window.setTimeout> | null = null;
         let lastScrollY = window.scrollY;
 
         window.addEventListener(
@@ -1874,7 +1869,8 @@
           () => {
             const scrollY = window.scrollY;
             const heroHeight =
-              document.querySelector(".article-hero")?.offsetHeight || 500;
+              (document.querySelector(".article-hero") as HTMLElement | null)
+                ?.offsetHeight || 500;
 
             // Only apply within hero range — past hero it stops
             if (scrollY < heroHeight + 100) {
@@ -1885,8 +1881,10 @@
 
             // Pause float animation while scrolling
             heroVisualInner.classList.add("scrolling");
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(() => {
+            if (scrollTimer) {
+              window.clearTimeout(scrollTimer);
+            }
+            scrollTimer = window.setTimeout(() => {
               heroVisualInner.classList.remove("scrolling");
             }, 150);
 

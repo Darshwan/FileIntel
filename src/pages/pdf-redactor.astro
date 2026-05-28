@@ -2,6 +2,8 @@
 // src/pages/pdf-redactor.astro
 // FileIntel — PDF Redactor
 // Production: PDF.js rendering + canvas overlay + keyword search + pdf-lib flatten
+
+import Navbar from '../components/Navbar.astro';
 ---
 
 <!doctype html>
@@ -649,336 +651,185 @@
         </div>
 
         <!-- NAV -->
-            <!-- NAV -->
-    <style>
-      /* ── Dropdown ── */
-      .nav-dropdown {
-        position: relative;
-      }
+        <!-- NAV -->
+        <style>
+            /* ── Dropdown ── */
+            .nav-dropdown {
+                position: relative;
+            }
 
-      .nav-dropdown-trigger {
-        font-size: 13.5px;
-        color: var(--ink-2);
-        text-decoration: none;
-        padding: 6px 14px;
-        border-radius: var(--radius);
-        transition: all 0.15s;
-        font-weight: 400;
-        cursor: pointer;
-        background: none;
-        border: none;
-        font-family: var(--sans);
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
+            .nav-dropdown-trigger {
+                font-size: 13.5px;
+                color: var(--ink-2);
+                text-decoration: none;
+                padding: 6px 14px;
+                border-radius: var(--radius);
+                transition: all 0.15s;
+                font-weight: 400;
+                cursor: pointer;
+                background: none;
+                border: none;
+                font-family: var(--sans);
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
 
-      .nav-dropdown-trigger:hover {
-        background: var(--paper-2);
-        color: var(--ink);
-      }
+            .nav-dropdown-trigger:hover {
+                background: var(--paper-2);
+                color: var(--ink);
+            }
 
-      .nav-dropdown-trigger svg {
-        transition: transform 0.2s ease;
-        flex-shrink: 0;
-      }
+            .nav-dropdown-trigger svg {
+                transition: transform 0.2s ease;
+                flex-shrink: 0;
+            }
 
-      .nav-dropdown:hover .nav-dropdown-trigger svg,
-      .nav-dropdown.open .nav-dropdown-trigger svg {
-        transform: rotate(180deg);
-      }
+            .nav-dropdown:hover .nav-dropdown-trigger svg,
+            .nav-dropdown.open .nav-dropdown-trigger svg {
+                transform: rotate(180deg);
+            }
 
-      .nav-dropdown-menu {
-        position: absolute;
-        top: calc(100% + 8px);
-        left: 50%;
-        transform: translateX(-50%) translateY(-4px);
-        width: 280px;
-        background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-lg);
-        opacity: 0;
-        pointer-events: none;
-        transition:
-          opacity 0.18s ease,
-          transform 0.18s ease;
-        z-index: 200;
-        overflow: hidden;
-      }
+            .nav-dropdown-menu {
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 50%;
+                transform: translateX(-50%) translateY(-4px);
+                width: 280px;
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-lg);
+                opacity: 0;
+                pointer-events: none;
+                transition:
+                    opacity 0.18s ease,
+                    transform 0.18s ease;
+                z-index: 200;
+                overflow: hidden;
+            }
 
-      .nav-dropdown:hover .nav-dropdown-menu,
-      .nav-dropdown.open .nav-dropdown-menu {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0);
-      }
+            .nav-dropdown:hover .nav-dropdown-menu,
+            .nav-dropdown.open .nav-dropdown-menu {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateX(-50%) translateY(0);
+            }
 
-      .dropdown-header {
-        padding: 10px 14px 8px;
-        font-family: var(--mono);
-        font-size: 10px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--ink-3);
-        border-bottom: 1px solid var(--paper-3);
-      }
+            .dropdown-header {
+                padding: 10px 14px 8px;
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--ink-3);
+                border-bottom: 1px solid var(--paper-3);
+            }
 
-      .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 11px 14px;
-        text-decoration: none;
-        color: var(--ink);
-        transition: background 0.12s;
-        border-bottom: 1px solid var(--paper-3);
-      }
+            .dropdown-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 11px 14px;
+                text-decoration: none;
+                color: var(--ink);
+                transition: background 0.12s;
+                border-bottom: 1px solid var(--paper-3);
+            }
 
-      .dropdown-item:last-child {
-        border-bottom: none;
-      }
-      .dropdown-item:hover {
-        background: var(--paper);
-      }
+            .dropdown-item:last-child {
+                border-bottom: none;
+            }
+            .dropdown-item:hover {
+                background: var(--paper);
+            }
 
-      .dropdown-item-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: var(--radius);
-        background: var(--paper-2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 15px;
-        flex-shrink: 0;
-        transition: background 0.12s;
-      }
+            .dropdown-item-icon {
+                width: 32px;
+                height: 32px;
+                border-radius: var(--radius);
+                background: var(--paper-2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                flex-shrink: 0;
+                transition: background 0.12s;
+            }
 
-      .dropdown-item:hover .dropdown-item-icon {
-        background: var(--paper-3);
-      }
+            .dropdown-item:hover .dropdown-item-icon {
+                background: var(--paper-3);
+            }
 
-      .dropdown-item-text {
-        flex: 1;
-        min-width: 0;
-      }
+            .dropdown-item-text {
+                flex: 1;
+                min-width: 0;
+            }
 
-      .dropdown-item-name {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--ink);
-        margin-bottom: 2px;
-        letter-spacing: -0.01em;
-      }
+            .dropdown-item-name {
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--ink);
+                margin-bottom: 2px;
+                letter-spacing: -0.01em;
+            }
 
-      .dropdown-item-desc {
-        font-size: 11px;
-        color: var(--ink-3);
-        line-height: 1.4;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+            .dropdown-item-desc {
+                font-size: 11px;
+                color: var(--ink-3);
+                line-height: 1.4;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
-      .dropdown-item-badge {
-        font-family: var(--mono);
-        font-size: 9.5px;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-weight: 600;
-        flex-shrink: 0;
-      }
+            .dropdown-item-badge {
+                font-family: var(--mono);
+                font-size: 9.5px;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-weight: 600;
+                flex-shrink: 0;
+            }
 
-      .badge-live {
-        background: var(--green-light);
-        color: var(--green);
-      }
-      .badge-soon {
-        background: var(--paper-3);
-        color: var(--ink-3);
-      }
+            .badge-live {
+                background: var(--green-light);
+                color: var(--green);
+            }
+            .badge-soon {
+                background: var(--paper-3);
+                color: var(--ink-3);
+            }
 
-      .dropdown-footer {
-        padding: 9px 14px;
-        background: var(--paper);
-        border-top: 1px solid var(--paper-3);
-        font-size: 11.5px;
-        color: var(--ink-3);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+            .dropdown-footer {
+                padding: 9px 14px;
+                background: var(--paper);
+                border-top: 1px solid var(--paper-3);
+                font-size: 11.5px;
+                color: var(--ink-3);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
 
-      .dropdown-footer a {
-        font-size: 11.5px;
-        color: var(--ink-2);
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.15s;
-      }
+            .dropdown-footer a {
+                font-size: 11.5px;
+                color: var(--ink-2);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.15s;
+            }
 
-      .dropdown-footer a:hover {
-        color: var(--ink);
-      }
-    </style>
+            .dropdown-footer a:hover {
+                color: var(--ink);
+            }
+        </style>
 
-    <nav class="nav">
-      <a href="/" class="nav-brand">
-        <div class="nav-logo">Fi</div>
-        <div>
-          <div class="nav-name">FileIntel</div>
-          <div class="nav-tagline">Private File Tools</div>
-        </div>
-      </a>
-
-      <ul class="nav-links">
-        <li><a href="/" class="active">Home</a></li>
-
-        <!-- TOOLS DROPDOWN -->
-        <li class="nav-dropdown" id="tools-dropdown">
-          <button
-            class="nav-dropdown-trigger"
-            id="tools-trigger"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Tools
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-
-          <div class="nav-dropdown-menu" role="menu">
-            <div class="dropdown-header">Available tools</div>
-
-            <a
-              href="/pdf-metadata-remover"
-              class="dropdown-item"
-              role="menuitem"
-            >
-              <div class="dropdown-item-icon">🔍</div>
-              <div class="dropdown-item-text">
-                <div class="dropdown-item-name">PDF Metadata Remover</div>
-                <div class="dropdown-item-desc">
-                  Strip hidden author, GPS & company data
-                </div>
-              </div>
-              <span class="dropdown-item-badge badge-live">Live</span>
-            </a>
-
-            <a href="/pdf-redactor" class="dropdown-item" role="menuitem">
-              <div class="dropdown-item-icon">✏️</div>
-              <div class="dropdown-item-text">
-                <div class="dropdown-item-name">PDF Redactor</div>
-                <div class="dropdown-item-desc">
-                  Draw boxes or keyword-redact text
-                </div>
-              </div>
-              <span class="dropdown-item-badge badge-live">Live</span>
-            </a>
-
-            <a href="/csv-deduplicator" class="dropdown-item" role="menuitem">
-              <div class="dropdown-item-icon">🗂</div>
-              <div class="dropdown-item-text">
-                <div class="dropdown-item-name">CSV Deduplicator</div>
-                <div class="dropdown-item-desc">
-                  Remove duplicate rows from spreadsheets
-                </div>
-              </div>
-              <span class="dropdown-item-badge badge-live">Live</span>
-            </a>
-
-            <a
-              href="#"
-              class="dropdown-item"
-              style="opacity:0.5;pointer-events:none;"
-              role="menuitem"
-              aria-disabled="true"
-            >
-              <div class="dropdown-item-icon">🔐</div>
-              <div class="dropdown-item-text">
-                <div class="dropdown-item-name">PDF Merger</div>
-                <div class="dropdown-item-desc">
-                  Combine PDFs without uploading
-                </div>
-              </div>
-              <span class="dropdown-item-badge badge-soon">Soon</span>
-            </a>
-
-            <a
-              href="#"
-              class="dropdown-item"
-              style="opacity:0.5;pointer-events:none;"
-              role="menuitem"
-              aria-disabled="true"
-            >
-              <div class="dropdown-item-icon">🧹</div>
-              <div class="dropdown-item-text">
-                <div class="dropdown-item-name">Image EXIF Cleaner</div>
-                <div class="dropdown-item-desc">
-                  Strip GPS & camera data from photos
-                </div>
-              </div>
-              <span class="dropdown-item-badge badge-soon">Soon</span>
-            </a>
-
-            <div class="dropdown-footer">
-              <span>All tools run in your browser</span>
-              <a href="/#tools">View all →</a>
-            </div>
-          </div>
-        </li>
-
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/privacy">Privacy</a></li>
-        <li>
-          <a
-            href="https://github.com/yourusername/fileintel"
-            target="_blank"
-            rel="noopener">GitHub</a
-          >
-        </li>
-        <li><span class="nav-badge">⚡ Browser-only</span></li>
-      </ul>
-    </nav>
-
-    <script>
-      // Click toggle for keyboard/mobile users
-      const dropdown = document.getElementById("tools-dropdown");
-      const trigger = document.getElementById("tools-trigger");
-
-      trigger.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpen = dropdown.classList.toggle("open");
-        trigger.setAttribute("aria-expanded", isOpen);
-      });
-
-      // Close when clicking outside
-      document.addEventListener("click", () => {
-        dropdown.classList.remove("open");
-        trigger.setAttribute("aria-expanded", "false");
-      });
-
-      // Close on Escape
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          dropdown.classList.remove("open");
-          trigger.setAttribute("aria-expanded", "false");
-        }
-      });
-    </script>
+        <Navbar currentPath="/pdf-redactor" />
 
         <!-- PAGE HERO -->
         <div
-            style="background:var(--ink);border-bottom:1px solid #1e1e1a;padding:48px 40px 40px;"
+            style="background:var(--paper);border-bottom:1px solid var(--border);padding:48px 40px 40px;"
         >
             <div style="max-width:var(--max-width);margin:0 auto;">
                 <div
@@ -987,7 +838,7 @@
                     <!-- LEFT: COPY -->
                     <div style="flex:1;min-width:280px;">
                         <div
-                            style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#5a5a52;border:1px solid #2a2a27;padding:4px 12px;border-radius:20px;margin-bottom:20px;"
+                            style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--border);padding:4px 12px;border-radius:20px;margin-bottom:20px;"
                         >
                             <span
                                 style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;"
@@ -996,7 +847,7 @@
                         </div>
 
                         <h1
-                            style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);letter-spacing:-0.02em;line-height:1.07;margin-bottom:16px;color:var(--paper);"
+                            style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);letter-spacing:-0.02em;line-height:1.07;margin-bottom:16px;color:var(--ink);"
                         >
                             Permanently remove<br /><em
                                 style="font-style:italic;color:var(--accent);"
@@ -1005,7 +856,7 @@
                         </h1>
 
                         <p
-                            style="font-size:14.5px;color:#7a7a72;font-weight:300;max-width:460px;line-height:1.65;margin-bottom:28px;"
+                            style="font-size:14.5px;color:var(--ink-2);font-weight:300;max-width:460px;line-height:1.65;margin-bottom:28px;"
                         >
                             Draw redaction boxes directly on the page or search
                             by keyword to redact every match at once. Text is
@@ -1014,19 +865,19 @@
                         </p>
 
                         <div style="display:flex;gap:20px;flex-wrap:wrap;">
-                            <div class="trust-item" style="color:#5a5a52;">
+                            <div class="trust-item" style="color:var(--ink-2);">
                                 <span
                                     style="color:var(--green);font-weight:700;"
                                     >✓</span
                                 >&nbsp; Text permanently removed
                             </div>
-                            <div class="trust-item" style="color:#5a5a52;">
+                            <div class="trust-item" style="color:var(--ink-2);">
                                 <span
                                     style="color:var(--green);font-weight:700;"
                                     >✓</span
                                 >&nbsp; File never leaves browser
                             </div>
-                            <div class="trust-item" style="color:#5a5a52;">
+                            <div class="trust-item" style="color:var(--ink-2);">
                                 <span
                                     style="color:var(--green);font-weight:700;"
                                     >✓</span
@@ -1057,15 +908,15 @@
                                     d: "Text permanently removed",
                                 },
                             ].map((s) => (
-                                <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:#191915;border-radius:var(--radius);">
-                                    <span style="font-family:var(--serif);font-size:20px;font-style:italic;color:#676767;line-height:1;flex-shrink:0;padding-top:2px;">
+                                <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);">
+                                    <span style="font-family:var(--serif);font-size:20px;font-style:italic;color:var(--ink-3);line-height:1;flex-shrink:0;padding-top:2px;">
                                         {s.n}
                                     </span>
                                     <div>
-                                        <div style="font-size:13px;font-weight:600;color:var(--paper);margin-bottom:2px;">
+                                        <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px;">
                                             {s.t}
                                         </div>
-                                        <div style="font-size:11.5px;color:#4a4a42;font-family:var(--mono);">
+                                        <div style="font-size:11.5px;color:var(--ink-2);font-family:var(--mono);">
                                             {s.d}
                                         </div>
                                     </div>
@@ -1466,7 +1317,121 @@
                 </div>
             </main>
         </div><!-- /redactor-page -->
+        <div
+            class="diff-reveal"
+            id="redactor-diff"
+            style="display:none;max-width:var(--max-width);margin:0 auto;padding:0 40px 64px;"
+        >
+            <div class="diff-reveal-header">
+                <div>
+                    <div class="section-label">Redaction summary</div>
+                    <div class="diff-reveal-title">Before & After</div>
+                </div>
+                <div class="diff-reveal-sub" id="redactor-diff-summary">
+                    — zones applied
+                </div>
+            </div>
 
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <!-- BEFORE panel -->
+                <div class="diff-reveal-panel">
+                    <div class="diff-reveal-panel-head">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <span class="diff-panel-name before"
+                                >Before redaction</span
+                            >
+                            <span
+                                class="diff-panel-count before"
+                                id="rd-before-count">—</span
+                            >
+                        </div>
+                        <span
+                            style="font-family:var(--mono);font-size:10px;color:var(--ink-3);"
+                            >Original content visible</span
+                        >
+                    </div>
+                    <!-- Mini canvas showing page thumbnail BEFORE -->
+                    <div style="padding:16px;">
+                        <div
+                            class="redactor-diff-canvas-wrap"
+                            id="rd-before-wrap"
+                        >
+                            <canvas
+                                id="rd-before-canvas"
+                                style="max-width:100%;"></canvas>
+                            <div
+                                class="redactor-diff-overlay-label"
+                                style="background:rgba(15,15,13,0.6);color:var(--paper);"
+                            >
+                                Original
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFTER panel -->
+                <div class="diff-reveal-panel panel-after">
+                    <div
+                        class="diff-reveal-panel-head"
+                        style="background:var(--green-light);"
+                    >
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <span class="diff-panel-name after"
+                                >After redaction</span
+                            >
+                            <span
+                                class="diff-panel-count after"
+                                id="rd-after-count">—</span
+                            >
+                        </div>
+                        <span
+                            style="font-family:var(--mono);font-size:10px;color:var(--green);"
+                            >Sensitive content removed</span
+                        >
+                    </div>
+                    <!-- Mini canvas showing page thumbnail AFTER with boxes drawn -->
+                    <div style="padding:16px;">
+                        <div
+                            class="redactor-diff-canvas-wrap"
+                            id="rd-after-wrap"
+                        >
+                            <canvas id="rd-after-canvas" style="max-width:100%;"
+                            ></canvas>
+                            <div
+                                class="redactor-diff-overlay-label"
+                                style="background:rgba(42,107,74,0.8);color:white;"
+                            >
+                                Redacted
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zones applied list -->
+            <div
+                style="margin-top:12px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;"
+            >
+                <div
+                    style="padding:11px 18px;border-bottom:1px solid var(--paper-3);background:var(--paper);display:flex;align-items:center;justify-content:space-between;"
+                >
+                    <span
+                        style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600;"
+                    >
+                        Redaction zones applied
+                    </span>
+                    <span
+                        style="font-family:var(--mono);font-size:10.5px;color:var(--green);font-weight:600;"
+                        id="rd-zones-count"
+                    >
+                        — zones
+                    </span>
+                </div>
+                <div class="zones-summary" id="rd-zones-list">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
         <!-- FOOTER -->
         <footer class="footer">
             <div class="footer-inner">
@@ -1667,6 +1632,101 @@
                     loadingState.style.display = "none";
                     canvasToolbar.style.display = "flex";
                     canvasContainer.style.display = "flex";
+                }
+
+                async function renderRedactorDiff(appliedZones, pageNum) {
+                    const diffEl = document.getElementById("redactor-diff");
+                    if (!diffEl || !pdfDoc) return;
+
+                    diffEl.style.display = "block";
+
+                    const THUMB_SCALE = 0.5;
+                    const page = await pdfDoc.getPage(pageNum || 1);
+                    const vp = page.getViewport({ scale: THUMB_SCALE });
+
+                    // ── BEFORE canvas ──
+                    const beforeCanvas =
+                        document.getElementById("rd-before-canvas");
+                    const beforeCtx = beforeCanvas.getContext("2d");
+                    beforeCanvas.width = vp.width;
+                    beforeCanvas.height = vp.height;
+                    await page.render({
+                        canvasContext: beforeCtx,
+                        viewport: vp,
+                    }).promise;
+
+                    // ── AFTER canvas — render page then draw redaction boxes ──
+                    const afterCanvas =
+                        document.getElementById("rd-after-canvas");
+                    const afterCtx = afterCanvas.getContext("2d");
+                    afterCanvas.width = vp.width;
+                    afterCanvas.height = vp.height;
+                    await page.render({ canvasContext: afterCtx, viewport: vp })
+                        .promise;
+
+                    // Draw zones on the after canvas
+                    const pageZones = appliedZones.filter(
+                        (z) => z.page === (pageNum || 1),
+                    );
+                    pageZones.forEach((zone) => {
+                        // Scale from full resolution to thumbnail
+                        const scaleRatio = THUMB_SCALE / currentScale;
+                        afterCtx.fillStyle = zone.color;
+                        afterCtx.fillRect(
+                            zone.x * scaleRatio,
+                            zone.y * scaleRatio,
+                            zone.w * scaleRatio,
+                            zone.h * scaleRatio,
+                        );
+                    });
+
+                    // ── Counts ──
+                    document.getElementById("rd-before-count").textContent =
+                        "Page 1 shown";
+                    document.getElementById("rd-after-count").textContent =
+                        `${pageZones.length} zone${pageZones.length !== 1 ? "s" : ""} on this page`;
+                    document.getElementById("rd-zones-count").textContent =
+                        `${appliedZones.length} zone${appliedZones.length !== 1 ? "s" : ""}`;
+                    document.getElementById(
+                        "redactor-diff-summary",
+                    ).textContent =
+                        `${appliedZones.length} redaction${appliedZones.length !== 1 ? "s" : ""} applied across ${new Set(appliedZones.map((z) => z.page)).size} page${new Set(appliedZones.map((z) => z.page)).size !== 1 ? "s" : ""}`;
+
+                    // ── Zones list ──
+                    const list = document.getElementById("rd-zones-list");
+                    list.innerHTML = "";
+                    const byPage = {};
+                    appliedZones.forEach((z) => {
+                        if (!byPage[z.page]) byPage[z.page] = [];
+                        byPage[z.page].push(z);
+                    });
+
+                    Object.keys(byPage)
+                        .sort((a, b) => a - b)
+                        .forEach((pg) => {
+                            const header = document.createElement("div");
+                            header.style.cssText =
+                                "font-family:var(--mono);font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;padding:6px 18px 3px;";
+                            header.textContent = `Page ${pg}`;
+                            list.appendChild(header);
+
+                            byPage[pg].forEach((z, i) => {
+                                const row = document.createElement("div");
+                                row.className = "zone-summary-row";
+                                row.innerHTML = `
+        <div class="zone-color-dot" style="background:${z.color === "#ffffff" || z.color === "#f5f3ee" ? "#ccc" : z.color};"></div>
+        <span style="flex:1;">${z.source === "keyword" ? '"' + z.keyword + '"' : "Drawn zone " + (i + 1)}</span>
+        <span style="color:var(--ink-3);">${Math.round(z.w)}×${Math.round(z.h)}px</span>
+        <span class="diff-field-status status-removed">Removed</span>
+      `;
+                                list.appendChild(row);
+                            });
+                        });
+
+                    diffEl.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                    });
                 }
 
                 // ── Render PDF page ──
@@ -2370,6 +2430,7 @@
                         applyBtn.disabled = false;
                         applyBtn.textContent = "Apply & Download";
                     }
+                    await renderRedactorDiff(redactZones, currentPage);
                 });
 
                 // ── Load PDF ──
