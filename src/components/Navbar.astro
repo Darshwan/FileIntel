@@ -1,694 +1,999 @@
 ---
-// Responsive Navigation Component
+// src/components/Navbar.astro
+// FileIntel — Universal Navbar Component
+// Usage: import Navbar from '../components/Navbar.astro'
+//        <Navbar activePage="home" /> 
+// activePage values: "home" | "tools" | "blog" | "privacy"
+
 interface Props {
-  currentPath?: string;
+  activePage?: string;
 }
 
-const { currentPath = '/' } = Astro.props;
+const { activePage = '' } = Astro.props;
 
-const toolLinks = [
-  { label: 'PDF Metadata Remover', href: '/pdf-metadata-remover', icon: '📄' },
-  { label: 'Secure PDF Merger', href: '/pdf-merger', icon: '📑' },
-  { label: 'PDF Redactor', href: '/pdf-redactor', icon: '✏️' },
-  { label: 'CSV Deduplicator', href: '/csv-deduplicator', icon: '📊' },
-];
-
-const contentLinks = [
-  { label: 'Blog', href: '/blog', icon: '📰' },
-  { label: 'Privacy Policy', href: '/privacy', icon: '🔒' },
-];
-
-const isHomepage = currentPath === '/';
-const isToolActive = toolLinks.some(link => currentPath === link.href || currentPath.startsWith(link.href));
-const isBlogActive = currentPath.startsWith('/blog');
 ---
 
-<nav class="nav">
-  <!-- Brand -->
-  <a href="/" class="nav-brand">
-    <div class="nav-logo">Fi</div>
-    <div class="nav-brand-text">
-      <div class="nav-name">FileIntel</div>
-      <div class="nav-tagline">Private Tools</div>
-    </div>
-  </a>
+<!-- ══ NAV ══ -->
+<nav class="fi-nav" id="fi-nav" role="navigation" aria-label="Main navigation">
+  <div class="fi-nav-inner">
 
-  <!-- Desktop Navigation -->
-  <div class="nav-desktop">
-    <!-- Tools Dropdown -->
-    <div class="nav-dropdown">
-      <button class={`nav-dropdown-trigger ${isToolActive ? 'active' : ''}`} data-dropdown="tools" aria-haspopup="true">
-        Tools
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </button>
-      <div class="nav-dropdown-menu" data-dropdown-menu="tools">
-        {toolLinks.map((link) => {
-          return (
-            <a href={link.href} class="nav-dropdown-item">
-              <span class="nav-dropdown-icon">{link.icon}</span>
-              <div>
-                <div class="nav-dropdown-label">{link.label}</div>
-              </div>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-dropdown-arrow">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-          );
-        })}
+    <!-- LOGO -->
+    <a href="/" class="fi-logo" aria-label="FileIntel home">
+      <div class="fi-logo-mark" aria-hidden="true">
+        <span class="fi-logo-letter">Fi</span>
       </div>
+      <div class="fi-logo-text">
+        <span class="fi-logo-name">FileIntel</span>
+        <span class="fi-logo-sub">Private File Tools</span>
+      </div>
+    </a>
+
+    <!-- CENTER LINKS -->
+    <ul class="fi-links" role="list">
+
+      <li>
+        <a href="/" class={`fi-link ${activePage === 'home' ? 'active' : ''}`}>
+          Home
+        </a>
+      </li>
+
+      <!-- TOOLS DROPDOWN -->
+      <li class="fi-dropdown-wrap" id="tools-dd-wrap">
+        <button
+          class={`fi-link ${activePage === 'tools' ? 'active' : ''}`}
+          id="tools-dd-trigger"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="tools-dropdown"
+        >
+          Tools
+          <svg class="fi-link-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="fi-dropdown" id="tools-dropdown" role="menu">
+
+          <div class="fi-dd-header">Available tools</div>
+
+          <a href="/pdf-metadata-remover" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-icon">🔍</div>
+            <div class="fi-dd-text">
+              <div class="fi-dd-name">PDF Metadata Remover</div>
+              <div class="fi-dd-desc">Inspect & strip hidden author, GPS data</div>
+            </div>
+            <span class="fi-dd-badge badge-live">Live</span>
+          </a>
+
+          <a href="/pdf-redactor" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-icon">✏️</div>
+            <div class="fi-dd-text">
+              <div class="fi-dd-name">PDF Redactor</div>
+              <div class="fi-dd-desc">Draw boxes or keyword-redact text</div>
+            </div>
+            <span class="fi-dd-badge badge-live">Live</span>
+          </a>
+
+          <a href="/pdf-merger" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-icon">🔗</div>
+            <div class="fi-dd-text">
+              <div class="fi-dd-name">PDF Merger</div>
+              <div class="fi-dd-desc">Combine PDFs, drag to reorder</div>
+            </div>
+            <span class="fi-dd-badge badge-live">Live</span>
+          </a>
+
+          <a href="/csv-deduplicator" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-icon">🗂</div>
+            <div class="fi-dd-text">
+              <div class="fi-dd-name">CSV Deduplicator</div>
+              <div class="fi-dd-desc">Remove duplicate rows from spreadsheets</div>
+            </div>
+            <span class="fi-dd-badge badge-live">Live</span>
+          </a>
+
+          <a href="#" class="fi-dd-item" role="menuitem" aria-disabled="true" style="opacity:0.45;pointer-events:none;">
+            <div class="fi-dd-icon">🧹</div>
+            <div class="fi-dd-text">
+              <div class="fi-dd-name">Image EXIF Cleaner</div>
+              <div class="fi-dd-desc">Strip GPS & camera data from photos</div>
+            </div>
+            <span class="fi-dd-badge badge-soon">Soon</span>
+          </a>
+
+          <div class="fi-dd-footer">
+            <span class="fi-dd-footer-note">Browser-only processing</span>
+            <a href="/#tools" class="fi-dd-footer-link">View all →</a>
+          </div>
+
+        </div>
+      </li>
+
+      <li>
+        <a href="/blog" class={`fi-link ${activePage === 'blog' ? 'active' : ''}`}>
+          Blog
+        </a>
+      </li>
+
+      <li>
+        <a href="/privacy" class={`fi-link ${activePage === 'privacy' ? 'active' : ''}`}>
+          Privacy
+        </a>
+      </li>
+
+    </ul>
+
+    <!-- RIGHT ACTIONS -->
+    <div class="fi-actions">
+
+      <div class="fi-privacy-badge" aria-label="Browser-only processing">
+        <span class="fi-privacy-badge-dot" aria-hidden="true"></span>
+        Browser-only
+      </div>
+
+      <a
+        href="https://github.com/yourusername/fileintel"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="fi-github"
+        aria-label="View source on GitHub"
+        title="GitHub"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </a>
+
+      <!-- HAMBURGER (mobile) -->
+      <button
+        class="fi-hamburger"
+        id="fi-hamburger"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="fi-mobile-menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
     </div>
 
-    <!-- Blog Link -->
-    <a href="/blog" class={`nav-link ${isBlogActive ? 'active' : ''}`}>
-      Blog
-    </a>
-
-    <!-- Divider -->
-    <div class="nav-divider"></div>
-
-    <!-- Privacy Link -->
-    <a href="/privacy" class="nav-link nav-link-secondary">
-      Privacy
-    </a>
   </div>
-
-  <!-- Mobile Menu Button -->
-  <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
-    <span class="hamburger">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </span>
-  </button>
 </nav>
 
-<!-- Mobile Navigation Drawer -->
-<div class="nav-drawer" id="nav-drawer">
-  <!-- Mobile Brand -->
-  <div class="nav-drawer-header">
-    <div class="nav-drawer-brand">
-      <div class="nav-logo-small">Fi</div>
+<!-- ══ MOBILE MENU ══ -->
+<div class="fi-mobile-menu" id="fi-mobile-menu" aria-label="Mobile navigation" role="dialog" aria-modal="true">
+
+  <!-- Nav links -->
+  <div class="fi-mobile-section">
+    <div class="fi-mobile-section-label">Navigate</div>
+    <a href="/"       class={`fi-mobile-link ${activePage === 'home'    ? 'active' : ''}`}>Home      <span class="fi-mobile-link-arrow">›</span></a>
+    <a href="/blog"   class={`fi-mobile-link ${activePage === 'blog'    ? 'active' : ''}`}>Blog      <span class="fi-mobile-link-arrow">›</span></a>
+    <a href="/privacy"class={`fi-mobile-link ${activePage === 'privacy' ? 'active' : ''}`}>Privacy   <span class="fi-mobile-link-arrow">›</span></a>
+    <a href="https://github.com/yourusername/fileintel" target="_blank" rel="noopener" class="fi-mobile-link">
+      GitHub
+      <span class="fi-mobile-link-arrow">↗</span>
+    </a>
+  </div>
+
+  <!-- Tools list -->
+  <div class="fi-mobile-section">
+    <div class="fi-mobile-section-label">Tools</div>
+
+    <a href="/pdf-metadata-remover" class="fi-mobile-tool">
+      <div class="fi-mobile-tool-icon">🔍</div>
       <div>
-        <div class="nav-drawer-name">FileIntel</div>
-        <div class="nav-drawer-tagline">Private Tools</div>
+        <div class="fi-mobile-tool-name">PDF Metadata Remover</div>
+        <div class="fi-mobile-tool-desc">Inspect & strip hidden data</div>
       </div>
-    </div>
+      <span class="fi-mobile-tool-badge badge-live">Live</span>
+    </a>
+
+    <a href="/pdf-redactor" class="fi-mobile-tool">
+      <div class="fi-mobile-tool-icon">✏️</div>
+      <div>
+        <div class="fi-mobile-tool-name">PDF Redactor</div>
+        <div class="fi-mobile-tool-desc">Draw boxes or keyword-redact</div>
+      </div>
+      <span class="fi-mobile-tool-badge badge-live">Live</span>
+    </a>
+
+    <a href="/pdf-merger" class="fi-mobile-tool">
+      <div class="fi-mobile-tool-icon">🔗</div>
+      <div>
+        <div class="fi-mobile-tool-name">PDF Merger</div>
+        <div class="fi-mobile-tool-desc">Combine PDFs, drag to reorder</div>
+      </div>
+      <span class="fi-mobile-tool-badge badge-live">Live</span>
+    </a>
+
+    <a href="/csv-deduplicator" class="fi-mobile-tool">
+      <div class="fi-mobile-tool-icon">🗂</div>
+      <div>
+        <div class="fi-mobile-tool-name">CSV Deduplicator</div>
+        <div class="fi-mobile-tool-desc">Remove duplicate rows</div>
+      </div>
+      <span class="fi-mobile-tool-badge badge-live">Live</span>
+    </a>
+
+    <a href="#" class="fi-mobile-tool" style="opacity:0.4;pointer-events:none;">
+      <div class="fi-mobile-tool-icon">🧹</div>
+      <div>
+        <div class="fi-mobile-tool-name">Image EXIF Cleaner</div>
+        <div class="fi-mobile-tool-desc">Coming soon</div>
+      </div>
+      <span class="fi-mobile-tool-badge badge-soon">Soon</span>
+    </a>
   </div>
 
-  <!-- Mobile Menu -->
-  <div class="nav-drawer-content">
-    <!-- Tools Section -->
-    <div class="nav-drawer-section">
-      <div class="nav-drawer-section-title">Tools</div>
-      <ul class="nav-drawer-list">
-        {toolLinks.map((link) => {
-          const isActive = currentPath === link.href || currentPath.startsWith(link.href);
-          return (
-            <li>
-              <a 
-                href={link.href} 
-                class={`nav-drawer-link ${isActive ? 'active' : ''}`}
-              >
-                <span class="nav-drawer-link-icon">{link.icon}</span>
-                {link.label}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-
-    <!-- Content Section -->
-    <div class="nav-drawer-section">
-      <div class="nav-drawer-section-title">Content</div>
-      <ul class="nav-drawer-list">
-        {contentLinks.map((link) => {
-          const isActive = currentPath === link.href || currentPath.startsWith(link.href);
-          return (
-            <li>
-              <a 
-                href={link.href} 
-                class={`nav-drawer-link ${isActive ? 'active' : ''}`}
-              >
-                <span class="nav-drawer-link-icon">{link.icon}</span>
-                {link.label}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+  <!-- CTA buttons -->
+  <div class="fi-mobile-actions">
+    <a href="/pdf-metadata-remover" class="fi-mobile-action-btn primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Try the tools — free
+    </a>
+    <a href="/blog" class="fi-mobile-action-btn secondary">Read the blog →</a>
   </div>
+
+  <!-- Trust note -->
+  <div class="fi-mobile-trust">
+    <span class="fi-mobile-trust-dot"></span>
+    All tools process files in your browser — zero server uploads
+  </div>
+
 </div>
 
-<!-- Drawer Backdrop -->
-<div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
-
 <script>
-  // Dropdown functionality
-  const dropdownTriggers = document.querySelectorAll('[data-dropdown]');
-  
-  dropdownTriggers.forEach((trigger) => {
-    const dropdownName = trigger.getAttribute('data-dropdown');
-    const dropdownMenu = document.querySelector(`[data-dropdown-menu="${dropdownName}"]`);
-    
-    trigger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = dropdownMenu?.classList.contains('open');
-      
-      // Close all other dropdowns
-      document.querySelectorAll('.nav-dropdown-menu').forEach((menu) => {
-        menu.classList.remove('open');
-      });
-      document.querySelectorAll('[data-dropdown]').forEach((t) => {
-        t.setAttribute('aria-expanded', 'false');
-      });
-      
-      // Toggle current dropdown
-      if (!isOpen) {
-        dropdownMenu?.classList.add('open');
-        trigger.setAttribute('aria-expanded', 'true');
+  (() => {
+    'use strict';
+
+    const nav        = document.getElementById('fi-nav');
+    const hamburger  = document.getElementById('fi-hamburger');
+    const mobileMenu = document.getElementById('fi-mobile-menu');
+    const toolsWrap  = document.getElementById('tools-dd-wrap');
+    const toolsTrigger = document.getElementById('tools-dd-trigger');
+
+    // ── Scroll shadow ──
+    const onScroll = () => {
+      nav?.classList.toggle('scrolled', window.scrollY > 24);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ── Mobile menu toggle ──
+    let menuOpen = false;
+
+    function openMenu() {
+      menuOpen = true;
+      hamburger?.classList.add('open');
+      mobileMenu?.classList.add('open');
+      hamburger?.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      menuOpen = false;
+      hamburger?.classList.remove('open');
+      mobileMenu?.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    hamburger?.addEventListener('click', () => {
+      menuOpen ? closeMenu() : openMenu();
+    });
+
+    // Close mobile menu on link click
+    mobileMenu?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeMenu();
+        closeDropdown();
       }
     });
-  });
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('[data-dropdown]') && !e.target.closest('.nav-dropdown-menu')) {
-      document.querySelectorAll('.nav-dropdown-menu').forEach((menu) => {
-        menu.classList.remove('open');
-      });
-      document.querySelectorAll('[data-dropdown]').forEach((trigger) => {
-        trigger.setAttribute('aria-expanded', 'false');
-      });
+
+    // ── Desktop dropdown click toggle ──
+    let dropdownOpen = false;
+
+    function openDropdown() {
+      dropdownOpen = true;
+      toolsWrap?.classList.add('open');
+      toolsTrigger?.setAttribute('aria-expanded', 'true');
     }
-  });
 
-  // Mobile Menu Toggle
-  const toggle = document.getElementById('nav-mobile-toggle');
-  const drawer = document.getElementById('nav-drawer');
-  const backdrop = document.getElementById('nav-drawer-backdrop');
-  const drawerLinks = document.querySelectorAll('.nav-drawer-link');
-
-  function closeDrawer() {
-    drawer?.classList.remove('open');
-    backdrop?.classList.remove('open');
-    toggle?.setAttribute('aria-expanded', 'false');
-  }
-
-  function openDrawer() {
-    drawer?.classList.add('open');
-    backdrop?.classList.add('open');
-    toggle?.setAttribute('aria-expanded', 'true');
-  }
-
-  function toggleDrawer() {
-    const isOpen = drawer?.classList.contains('open');
-    if (isOpen) {
-      closeDrawer();
-    } else {
-      openDrawer();
+    function closeDropdown() {
+      dropdownOpen = false;
+      toolsWrap?.classList.remove('open');
+      toolsTrigger?.setAttribute('aria-expanded', 'false');
     }
-  }
 
-  toggle?.addEventListener('click', toggleDrawer);
-  backdrop?.addEventListener('click', closeDrawer);
+    toolsTrigger?.addEventListener('click', e => {
+      e.stopPropagation();
+      dropdownOpen ? closeDropdown() : openDropdown();
+    });
 
-  // Close drawer when a link is clicked
-  drawerLinks.forEach((link) => {
-    link.addEventListener('click', closeDrawer);
-  });
+    // Close dropdown on outside click
+    document.addEventListener('click', e => {
+      if (dropdownOpen && !toolsWrap?.contains(e.target as Node)) {
+        closeDropdown();
+      }
+    });
 
-  // Close drawer on escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeDrawer();
-    }
-  });
+    // Close dropdown when leaving the wrap area (mouse)
+    toolsWrap?.addEventListener('mouseleave', () => {
+      // Only close if not keyboard-opened
+      if (!toolsTrigger?.matches(':focus-within')) {
+        closeDropdown();
+      }
+    });
+
+    // Open on hover too for mouse users
+    toolsWrap?.addEventListener('mouseenter', () => {
+      openDropdown();
+    });
+
+    // ── Focus trap for mobile menu ── 
+    mobileMenu?.addEventListener('keydown', e => {
+      if (!menuOpen) return;
+      if (e.key !== 'Tab') return;
+      const focusable = mobileMenu.querySelectorAll('a, button');
+      const first = focusable[0] as HTMLElement;
+      const last  = focusable[focusable.length - 1] as HTMLElement;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+  })();
 </script>
 
 <style>
-  /* ══ NAVBAR CONTAINER ══ */
-  .nav {
+  /* ════════════════════════════════════════
+     FILEINTEL NAVBAR
+     Aesthetic: Editorial restraint.
+     Warm paper tones, ink type, hairline borders.
+     The nav feels like the masthead of a serious publication.
+  ════════════════════════════════════════ */
+
+  /* ── Tokens (mirrors global.css) ── */
+  :root {
+    --nav-h:        58px;
+    --nav-bg:       rgba(245, 243, 238, 0.94);
+    --nav-border:   #d4d1c8;
+    --ink:          #0f0f0d;
+    --ink-2:        #3a3a35;
+    --ink-3:        #7a7a72;
+    --paper:        #f5f3ee;
+    --paper-2:      #eceae3;
+    --paper-3:      #e2dfd6;
+    --accent:       #c8432a;
+    --green:        #2a6b4a;
+    --green-light:  #e8f2ec;
+    --green-border: #b8ddc8;
+    --border:       #d4d1c8;
+    --white:        #fafaf8;
+    --serif:        'Instrument Serif', Georgia, serif;
+    --mono:         'DM Mono', 'Courier New', monospace;
+    --sans:         'Geist', system-ui, sans-serif;
+    --radius:       4px;
+    --radius-lg:    8px;
+    --shadow-nav:   0 1px 0 var(--nav-border), 0 4px 24px rgba(15,15,13,0.06);
+    --shadow-dd:    0 8px 32px rgba(15,15,13,0.12), 0 2px 8px rgba(15,15,13,0.06), 0 0 0 1px var(--border);
+  }
+
+  /* ── Root nav element ── */
+  .fi-nav {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(245, 243, 238, 0.94);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 var(--space-10);
-    height: var(--nav-height);
+    z-index: 200;
+    height: var(--nav-h);
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: var(--shadow-nav);
+    display: flex;
+    align-items: center;
+    font-family: var(--sans);
+  }
+
+  /* Progress indicator — thin accent line at top */
+  .fi-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .fi-nav.scrolled::before { opacity: 1; }
+
+  /* ── Inner layout ── */
+  .fi-nav-inner {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-8);
+    gap: 0;
+    height: 100%;
   }
 
-  /* ══ BRAND ══ */
-  .nav-brand {
+  /* ── LOGO ── */
+  .fi-logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
     text-decoration: none;
-    color: var(--ink);
     flex-shrink: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .nav-brand:hover {
-    opacity: 0.8;
-  }
-
-  .nav-logo {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--paper);
-    font-family: var(--serif);
-    font-size: 14px;
-    font-style: italic;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    box-shadow: 0 2px 8px rgba(15, 15, 13, 0.1);
-  }
-
-  .nav-brand-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .nav-name {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    line-height: 1.1;
     color: var(--ink);
+    transition: opacity 0.15s;
   }
 
-  .nav-tagline {
-    font-size: 11px;
-    color: var(--ink-3);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 500;
-    line-height: 1;
-  }
+  .fi-logo:hover { opacity: 0.8; }
 
-  /* ══ DESKTOP NAVIGATION ══ */
-  .nav-desktop {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    margin-left: auto;
-  }
-
-  /* ══ DROPDOWN ══ */
-  .nav-dropdown {
-    position: relative;
-  }
-
-  .nav-dropdown-trigger {
-    background: none;
-    border: none;
-    color: var(--ink-2);
-    font-size: 13.5px;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: inherit;
-  }
-
-  .nav-dropdown-trigger:hover {
-    color: var(--ink);
-    background: var(--paper-2);
-  }
-
-  .nav-dropdown-trigger.active,
-  .nav-dropdown-trigger[aria-expanded="true"] {
-    color: var(--ink);
-    background: var(--paper-2);
-  }
-
-  .nav-dropdown-trigger svg {
-    transition: transform 0.3s ease;
-  }
-
-  .nav-dropdown-trigger[aria-expanded="true"] svg {
-    transform: rotate(180deg);
-  }
-
-  /* Dropdown Menu */
-  .nav-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    min-width: 240px;
-    padding: 8px;
-    margin-top: 6px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-    box-shadow: 0 8px 32px rgba(15, 15, 13, 0.12);
-  }
-
-  .nav-dropdown-menu.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .nav-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    color: var(--ink-2);
-    text-decoration: none;
-    border-radius: var(--radius);
-    transition: all 0.15s ease;
-    font-size: 13px;
-    border: 1px solid transparent;
-  }
-
-  .nav-dropdown-item:hover {
-    background: var(--paper-2);
-    color: var(--ink);
-    border-color: var(--border);
-  }
-
-  .nav-dropdown-icon {
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-
-  .nav-dropdown-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: inherit;
-  }
-
-  .nav-dropdown-arrow {
-    margin-left: auto;
-    opacity: 0.5;
-    transition: opacity 0.2s ease;
-  }
-
-  .nav-dropdown-item:hover .nav-dropdown-arrow {
-    opacity: 1;
-    transform: translateX(2px);
-  }
-
-  /* ══ NAV LINKS ══ */
-  .nav-link {
-    color: var(--ink-2);
-    text-decoration: none;
-    padding: 8px 12px;
-    border-radius: var(--radius);
-    transition: all 0.2s ease;
-    font-size: 13.5px;
-    font-weight: 500;
-    display: inline-block;
-  }
-
-  .nav-link:hover {
-    background: var(--paper-2);
-    color: var(--ink);
-  }
-
-  .nav-link.active {
-    color: var(--ink);
-    background: var(--paper-2);
-  }
-
-  .nav-link-secondary {
-    color: var(--ink-3);
-  }
-
-  .nav-link-secondary:hover {
-    color: var(--ink-2);
-  }
-
-  /* ══ NAV DIVIDER ══ */
-  .nav-divider {
-    width: 1px;
-    height: 20px;
-    background: var(--paper-3);
-    margin: 0 var(--space-2);
-  }
-
-  /* ══ MOBILE TOGGLE ══ */
-  .nav-mobile-toggle {
-    display: none;
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    z-index: 101;
-  }
-
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .hamburger-line {
-    width: 22px;
-    height: 2px;
+  .fi-logo-mark {
+    width: 30px;
+    height: 30px;
     background: var(--ink);
-    transition: all 0.3s ease;
-    display: block;
-    border-radius: 1px;
-  }
-
-  .nav-mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
-  }
-
-  .nav-mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
-    opacity: 0;
-  }
-
-  .nav-mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
-  }
-
-  /* ══ MOBILE DRAWER ══ */
-  .nav-drawer {
-    position: fixed;
-    top: var(--nav-height);
-    right: -100%;
-    width: 100%;
-    max-width: 280px;
-    height: calc(100vh - var(--nav-height));
-    background: var(--paper);
-    border-left: 1px solid var(--border);
-    z-index: 99;
-    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .nav-drawer.open {
-    right: 0;
-  }
-
-  .nav-drawer-header {
-    padding: var(--space-4) var(--space-10);
-    border-bottom: 1px solid var(--paper-3);
-    flex-shrink: 0;
-  }
-
-  .nav-drawer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .nav-logo-small {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
-    border-radius: 6px;
+    border-radius: var(--radius);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--paper);
-    font-family: var(--serif);
-    font-size: 12px;
-    font-style: italic;
-    font-weight: 600;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(15, 15, 13, 0.1);
+    position: relative;
+    overflow: hidden;
   }
 
-  .nav-drawer-name {
-    font-size: 14px;
+  /* Subtle diagonal accent on logo mark */
+  .fi-logo-mark::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    opacity: 0.7;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+
+  .fi-logo-letter {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--paper);
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fi-logo-text { display: flex; flex-direction: column; gap: 0; }
+
+  .fi-logo-name {
+    font-size: 14.5px;
     font-weight: 600;
-    line-height: 1.1;
+    letter-spacing: -0.4px;
+    line-height: 1.15;
+    color: var(--ink);
   }
 
-  .nav-drawer-tagline {
-    font-size: 10px;
-    color: var(--ink-3);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  .nav-drawer-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: var(--space-4) 0;
-  }
-
-  /* ══ DRAWER SECTIONS ══ */
-  .nav-drawer-section {
-    padding: 0;
-    margin-bottom: var(--space-6);
-  }
-
-  .nav-drawer-section:last-child {
-    margin-bottom: 0;
-  }
-
-  .nav-drawer-section-title {
-    font-size: 10px;
+  .fi-logo-sub {
+    font-family: var(--mono);
+    font-size: 9.5px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-3);
-    font-weight: 600;
-    padding: var(--space-3) var(--space-10);
-    margin-bottom: var(--space-2);
+    line-height: 1;
   }
 
-  /* ══ DRAWER LINKS ══ */
-  .nav-drawer-list {
+  /* ── CENTER: LINKS ── */
+  .fi-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
     list-style: none;
     margin: 0;
     padding: 0;
+    height: 100%;
   }
 
-  .nav-drawer-link {
+  .fi-links > li {
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px var(--space-10);
+    position: relative;
+  }
+
+  /* Standard link */
+  .fi-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+    padding: 0 14px;
+    font-size: 13.5px;
+    font-weight: 400;
     color: var(--ink-2);
     text-decoration: none;
-    font-size: 13.5px;
+    letter-spacing: -0.01em;
+    transition: color 0.15s;
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--sans);
+  }
+
+  /* Bottom indicator — slides in on hover/active */
+  .fi-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 14px;
+    right: 14px;
+    height: 1.5px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fi-link:hover { color: var(--ink); }
+  .fi-link:hover::after { transform: scaleX(1); }
+
+  .fi-link.active {
+    color: var(--ink);
     font-weight: 500;
-    transition: all 0.15s ease;
-    border-left: 3px solid transparent;
   }
 
-  .nav-drawer-link:hover {
-    background: var(--paper-2);
-    color: var(--ink);
-  }
+  .fi-link.active::after { transform: scaleX(1); }
 
-  .nav-drawer-link.active {
-    background: var(--paper-2);
-    color: var(--ink);
-    border-left-color: var(--accent);
-  }
-
-  .nav-drawer-link-icon {
-    font-size: 16px;
+  /* Dropdown chevron */
+  .fi-link-chevron {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s ease;
+    color: var(--ink-3);
     flex-shrink: 0;
   }
 
-  /* ══ DRAWER BACKDROP ══ */
-  .nav-drawer-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0);
-    z-index: 98;
-    transition: background 0.3s ease;
+  .fi-dropdown-wrap:hover .fi-link-chevron,
+  .fi-dropdown-wrap.open  .fi-link-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ── DROPDOWN ── */
+  .fi-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    width: 300px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-dd);
+    opacity: 0;
     pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    overflow: hidden;
   }
 
-  .nav-drawer-backdrop.open {
-    background: rgba(0, 0, 0, 0.5);
+  .fi-dropdown-wrap:hover .fi-dropdown,
+  .fi-dropdown-wrap.open  .fi-dropdown {
+    opacity: 1;
     pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
   }
 
-  /* ══ RESPONSIVE ══ */
-  @media (max-width: 768px) {
-    .nav {
-      padding: 0 var(--space-6);
-      gap: var(--space-4);
-    }
+  /* Dropdown header */
+  .fi-dd-header {
+    padding: 10px 16px 8px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--paper-3);
+    font-weight: 500;
+  }
 
-    .nav-desktop {
-      display: none;
-    }
+  /* Dropdown item */
+  .fi-dd-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: background 0.12s;
+    border-bottom: 1px solid var(--paper-3);
+    position: relative;
+  }
 
-    .nav-mobile-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  .fi-dd-item:last-of-type { border-bottom: none; }
+  .fi-dd-item:hover { background: var(--paper); }
 
-    .nav-brand-text {
-      gap: 1px;
-    }
+  /* Hover accent line on left */
+  .fi-dd-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
 
-    .nav-name {
-      font-size: 14px;
-    }
+  .fi-dd-item:hover::before { opacity: 1; }
 
-    .nav-tagline {
-      font-size: 10px;
-    }
+  .fi-dd-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius);
+    background: var(--paper-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background 0.12s;
+  }
+
+  .fi-dd-item:hover .fi-dd-icon { background: var(--paper-3); }
+
+  .fi-dd-text { flex: 1; min-width: 0; }
+
+  .fi-dd-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+
+  .fi-dd-desc {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fi-dd-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .badge-live { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+  .badge-soon { background: var(--paper-3); color: var(--ink-3); }
+
+  /* Dropdown footer */
+  .fi-dd-footer {
+    padding: 9px 16px;
+    background: var(--paper);
+    border-top: 1px solid var(--paper-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .fi-dd-footer-note {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .fi-dd-footer-note::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  .fi-dd-footer-link {
+    font-size: 11.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+
+  .fi-dd-footer-link:hover { color: var(--ink); }
+
+  /* ── RIGHT: ACTIONS ── */
+  .fi-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  /* Privacy badge */
+  .fi-privacy-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--green);
+    background: var(--green-light);
+    border: 1px solid var(--green-border);
+    padding: 4px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .fi-privacy-badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    animation: breathe 2.5s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  /* GitHub link */
+  .fi-github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: all 0.15s;
+    background: var(--white);
+  }
+
+  .fi-github:hover {
+    border-color: var(--ink-2);
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+
+  /* ── MOBILE HAMBURGER ── */
+  .fi-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4.5px;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .fi-hamburger:hover { border-color: var(--ink-2); background: var(--paper-2); }
+
+  .fi-hamburger span {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: var(--ink-2);
+    border-radius: 1px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+  }
+
+  /* Hamburger → X animation */
+  .fi-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .fi-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .fi-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* ── MOBILE MENU ── */
+  .fi-mobile-menu {
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--paper);
+    z-index: 190;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-bottom: 40px;
+  }
+
+  .fi-mobile-menu.open { transform: translateX(0); }
+
+  /* Mobile menu sections */
+  .fi-mobile-section {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .fi-mobile-section-label {
+    padding: 14px 24px 8px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+
+  /* Mobile link */
+  .fi-mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--paper-3);
+    transition: background 0.12s;
+    letter-spacing: -0.01em;
+  }
+
+  .fi-mobile-link:last-child { border-bottom: none; }
+  .fi-mobile-link:hover { background: var(--paper-2); }
+  .fi-mobile-link.active { color: var(--accent); }
+
+  .fi-mobile-link-arrow {
+    font-size: 16px;
+    color: var(--ink-3);
+    font-weight: 300;
+  }
+
+  /* Mobile tool item */
+  .fi-mobile-tool {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 24px;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid var(--paper-3);
+    transition: background 0.12s;
+  }
+
+  .fi-mobile-tool:last-child { border-bottom: none; }
+  .fi-mobile-tool:hover { background: var(--paper-2); }
+
+  .fi-mobile-tool-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius);
+    background: var(--white);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .fi-mobile-tool-name  { font-size:13.5px; font-weight:600; color:var(--ink); margin-bottom:2px; }
+  .fi-mobile-tool-desc  { font-size:11.5px; color:var(--ink-3); }
+
+  .fi-mobile-tool-badge {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* Mobile bottom actions */
+  .fi-mobile-actions {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .fi-mobile-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    font-family: var(--sans);
+    transition: all 0.15s;
+    letter-spacing: -0.01em;
+  }
+
+  .fi-mobile-action-btn.primary {
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+  }
+
+  .fi-mobile-action-btn.primary:hover { background: #1e1e1a; }
+
+  .fi-mobile-action-btn.secondary {
+    background: var(--white);
+    color: var(--ink-2);
+    border: 1px solid var(--border);
+  }
+
+  .fi-mobile-action-btn.secondary:hover { border-color: var(--ink-3); color: var(--ink); }
+
+  /* Mobile trust note */
+  .fi-mobile-trust {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    background: var(--green-light);
+    border-top: 1px solid var(--green-border);
+    margin-top: 4px;
+  }
+
+  .fi-mobile-trust-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    animation: breathe 2.5s ease-in-out infinite;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .fi-links, .fi-privacy-badge, .fi-github { display: none; }
+    .fi-hamburger { display: flex; }
+    .fi-nav-inner { padding: 0 20px; }
   }
 
   @media (max-width: 480px) {
-    .nav {
-      padding: 0 var(--space-4);
-      height: 52px;
-    }
-
-    .nav-logo {
-      width: 32px;
-      height: 32px;
-      font-size: 12px;
-    }
-
-    .nav-name {
-      font-size: 13px;
-    }
-
-    .nav-tagline {
-      font-size: 9px;
-    }
-
-    .nav-drawer {
-      max-width: 100%;
-    }
+    .fi-logo-text { display: none; }
+    .fi-logo-mark { width: 32px; height: 32px; }
   }
 </style>

@@ -10,6 +10,17 @@ const {
   schema,
   currentPath,
 } = Astro.props;
+
+// Map currentPath to activePage
+const getActivePage = (path: string) => {
+  if (path === '/' || path === '/home') return 'home';
+  if (path?.startsWith('/blog')) return 'blog';
+  if (path === '/privacy') return 'privacy';
+  if (['/pdf-metadata-remover', '/pdf-merger', '/pdf-redactor', '/csv-deduplicator'].includes(path)) return 'tools';
+  return '';
+};
+
+const activePage = getActivePage(currentPath);
 ---
 
 <!doctype html>
@@ -29,7 +40,7 @@ const {
   </head>
   <body>
     <!-- Navigation -->
-    <Navbar currentPath={currentPath} />
+    <Navbar activePage={activePage} />
 
     <!-- Main Content -->
     <main>

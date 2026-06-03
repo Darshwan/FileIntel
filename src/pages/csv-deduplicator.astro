@@ -36,11 +36,11 @@ import Navbar from '../components/Navbar.astro';
   <link rel="stylesheet" href="/styles/global.css" />
 
   <style>
-    /* ══ PAGE LAYOUT ══ */
+    /* ══ PAGE HERO ══ */
     .page-hero {
       background: var(--paper);
-      border-bottom: 1px solid var(--border);
       padding: 40px 40px 36px;
+      border-bottom: 1px solid var(--border);
       position: relative;
       overflow: hidden;
     }
@@ -526,7 +526,7 @@ import Navbar from '../components/Navbar.astro';
   </div>
 
   <!-- NAV -->
-  <Navbar currentPath="/csv-deduplicator" />
+  <Navbar activePage="tools" />
 
   <!-- PAGE HERO -->
   <div class="page-hero">

@@ -2,6 +2,8 @@
 // src/pages/pdf-merger.astro
 // FileIntel — Secure PDF Merger
 // Features: drag-to-reorder, page thumbnails, metadata editor, before/after summary, pdf-lib merge
+
+import Navbar from '../components/Navbar.astro';
 ---
 
 <!doctype html>
@@ -38,8 +40,8 @@
     /* ══ PAGE HERO ══ */
     .page-hero {
       background: var(--paper);
-      padding: 36px 40px 32px;
-      border-bottom: 1px solid #e8e8e0;
+      padding: 40px 40px 36px;
+      border-bottom: 1px solid var(--border);
       position: relative;
       overflow: hidden;
     }
@@ -48,7 +50,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-image: radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px);
       background-size: 28px 28px;
       pointer-events: none;
     }
@@ -59,23 +61,23 @@
       position: relative;
       z-index: 1;
       display: flex;
-      align-items: flex-end;
+      align-items: flex-start;
       justify-content: space-between;
-      gap: 32px;
+      gap: 40px;
       flex-wrap: wrap;
     }
 
     .page-hero h1 {
       font-family: var(--serif);
-      font-size: clamp(26px, 3.5vw, 42px);
-      color: var(--ink1);
+      font-size: clamp(28px, 3.5vw, 44px);
+      color: var(--ink);
       letter-spacing: -0.02em;
       line-height: 1.08;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .page-hero h1 em { font-style: italic; color: var(--accent); }
-    .page-hero p { font-size: 13.5px; color: #6a6a62; line-height: 1.6; font-weight: 300; max-width: 420px; }
+    .page-hero p { font-size: 14px; color: var(--ink-2); line-height: 1.65; font-weight: 300; max-width: 440px; }
 
     /* ══ MAIN LAYOUT ══ */
     .merger-page {
@@ -852,29 +854,13 @@
   </div>
 
   <!-- NAV -->
-  <nav class="nav">
-    <a href="/" class="nav-brand">
-      <div class="nav-logo">Fi</div>
-      <div>
-        <div class="nav-name">FileIntel</div>
-        <div class="nav-tagline">Private File Tools</div>
-      </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/pdf-metadata-remover">Tools</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/privacy">Privacy</a></li>
-      <li><a href="https://github.com/yourusername/fileintel" target="_blank" rel="noopener">GitHub</a></li>
-      <li><span class="nav-badge">⚡ Browser-only</span></li>
-    </ul>
-  </nav>
+  <Navbar activePage="tools" />
 
   <!-- PAGE HERO -->
   <div class="page-hero">
     <div class="page-hero-inner">
       <div>
-        <div class="eyebrow" style="margin-bottom:12px;">Secure PDF Merger</div>
+        <div class="eyebrow" style="margin-bottom:14px;">Secure PDF Merger</div>
         <h1>Combine PDFs.<br /><em>Privately.</em></h1>
         <p>Drag to reorder files, set custom output metadata, preview page thumbnails, then download the merged result. Zero server uploads — ever.</p>
       </div>

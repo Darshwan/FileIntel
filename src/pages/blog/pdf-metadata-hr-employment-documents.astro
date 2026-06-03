@@ -6,6 +6,7 @@
 // Monthly searches: 3,400+ combined cluster
 // Competitor gap: No article addresses BOTH sides — sender (HR) AND recipient (job seeker)
 // High RPM: US employment/HR audience = $12-18 RPM
+import Navbar from '../../components/Navbar.astro';
 ---
 
 <!doctype html>
@@ -435,8 +436,11 @@
     .faq-item.open .faq-question svg { transform:rotate(180deg); }
     .faq-item.open .faq-question { background:var(--paper); }
     .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
-    .faq-item.open .faq-answer { max-height:500px; }
+    .faq-item.open .faq-answer { max-height:1000px; }
     .faq-answer-inner { padding:0 20px 18px; font-size:14.5px; color:var(--ink-2); line-height:1.75; border-top:1px solid var(--paper-3); padding-top:16px; }
+
+    /* ── Scroll Progress Bar ── */
+    .scroll-progress { position:fixed; top:58px; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%); z-index:99; transform-origin:left; transform:scaleX(0); box-shadow:0 1px 3px rgba(200, 67, 42, 0.3); }
 
     /* ── Sidebar ── */
     .article-sidebar { position:sticky; top:calc(var(--nav-height) + 24px); display:flex; flex-direction:column; gap:16px; }
@@ -473,23 +477,7 @@
 <body>
 
   <!-- NAV -->
-  <nav class="nav">
-    <a href="/" class="nav-brand">
-      <div class="nav-logo">Fi</div>
-      <div>
-        <div class="nav-name">FileIntel</div>
-        <div class="nav-tagline">Private File Tools</div>
-      </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/pdf-metadata-remover">Tools</a></li>
-      <li><a href="/blog" class="active">Blog</a></li>
-      <li><a href="/privacy">Privacy</a></li>
-      <li><a href="https://github.com/yourusername/fileintel" target="_blank" rel="noopener">GitHub</a></li>
-      <li><span class="nav-badge">⚡ Browser-only</span></li>
-    </ul>
-  </nav>
+  <Navbar activePage="blog" />
 
   <!-- BREADCRUMB -->
   <div class="blog-nav-bar">
@@ -1068,6 +1056,23 @@
   </footer>
 
   <script>
+    // ── Scroll progress bar ──
+    (function() {
+      const progressBar = document.createElement('div');
+      progressBar.className = 'scroll-progress';
+      document.body.insertBefore(progressBar, document.body.firstChild);
+
+      const updateProgress = () => {
+        const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = window.scrollY;
+        const scrollPercent = windowHeight > 0 ? scrolled / windowHeight : 0;
+        progressBar.style.transform = `scaleX(${scrollPercent})`;
+      };
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    })();
+
     function toggleFaq(item) {
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));

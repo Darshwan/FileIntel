@@ -81,7 +81,7 @@ import Navbar from '../../components/Navbar.astro';
 
             .bg-line {
                 position: absolute;
-                background: rgba(255, 255, 255, 0.035);
+                background: rgba(255, 255, 255, 0.1);
             }
 
             .bg-line-1 {
@@ -138,7 +138,7 @@ import Navbar from '../../components/Navbar.astro';
                 font-size: 10.5px;
                 letter-spacing: 0.14em;
                 text-transform: uppercase;
-                color: #3a3a35;
+                color: #777;
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -260,7 +260,7 @@ import Navbar from '../../components/Navbar.astro';
                 font-size: 9px;
                 letter-spacing: 0.1em;
                 text-transform: uppercase;
-                color: #3a3a35;
+                color: #888;
             }
 
             .hero-stat-divider {
@@ -725,7 +725,7 @@ import Navbar from '../../components/Navbar.astro';
                 font-size: 10px;
                 letter-spacing: 0.1em;
                 text-transform: uppercase;
-                color: var(--ink-3);
+                color: #c8432a;
             }
 
             .coming-title {
@@ -1157,7 +1157,8 @@ import Navbar from '../../components/Navbar.astro';
             }
         </style>
 
-        <Navbar currentPath="/blog" />
+        <!-- ══ NAVBAR ══ -->
+        <Navbar activePage="blog" />
 
         <!-- ══ HERO ══ -->
         <div class="blog-hero">
@@ -1389,7 +1390,7 @@ import Navbar from '../../components/Navbar.astro';
                     </div>
                 </a>
 
-                <!-- Article 3: View PDF Metadata guide -->
+                <!-- Article 2: View PDF Metadata guide -->
                 <a
                     href="/blog/view-pdf-metadata-mac-windows-linux"
                     class="article-card"
@@ -1422,44 +1423,6 @@ import Navbar from '../../components/Navbar.astro';
                             <span>May 1</span>
                             <span>·</span>
                             <span>8 min</span>
-                        </div>
-                        <div class="article-card-read">Read →</div>
-                    </div>
-                </a>
-
-                <!-- Article 4: Remove metadata guide (placeholder) -->
-                <a
-                    href="/blog/pdf-metadata-lawyers"
-                    class="article-card"
-                    data-topic="legal"
-                >
-                    <div
-                        class="article-card-accent"
-                        style="background:var(--green);"
-                    >
-                    </div>
-                    <div class="article-card-body">
-                        <div
-                            class="article-card-category"
-                            style="color:var(--green);"
-                        >
-                            Legal & Professional
-                        </div>
-                        <div class="article-card-title">
-                            How to Remove Metadata from a PDF Before Sending
-                        </div>
-                        <div class="article-card-excerpt">
-                            A step-by-step guide for lawyers, freelancers, HR
-                            professionals, and anyone who sends sensitive
-                            documents. Four methods compared. Takes under two
-                            minutes.
-                        </div>
-                    </div>
-                    <div class="article-card-footer">
-                        <div class="article-card-meta">
-                            <span>Apr 29</span>
-                            <span>·</span>
-                            <span>6 min</span>
                         </div>
                         <div class="article-card-read">Read →</div>
                     </div>
@@ -1522,11 +1485,6 @@ import Navbar from '../../components/Navbar.astro';
                 {
                     [
                         {
-                            cat: "PDF Security",
-                            title: "How to View PDF Metadata on Mac, Windows & Linux",
-                            note: "Research in progress",
-                        },
-                        {
                             cat: "Journalism",
                             title: "How Investigative Journalists Use PDF Metadata to Verify Documents",
                             note: "Research in progress",
@@ -1555,7 +1513,7 @@ import Navbar from '../../components/Navbar.astro';
                         <div class="coming-card">
                             <div class="coming-cat">{a.cat}</div>
                             <div class="coming-title">{a.title}</div>
-                            <div class="coming-badge">{a.note}</div>
+                            <div class="coming-badge">{a.note}</div>     
                         </div>
                     ))
                 }

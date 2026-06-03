@@ -54,6 +54,48 @@ import Navbar from '../components/Navbar.astro';
         <link rel="stylesheet" href="/styles/global.css" />
 
         <style>
+            /* ══ PAGE HERO ══ */
+            .page-hero {
+                background: var(--paper);
+                padding: 40px 40px 36px;
+                border-bottom: 1px solid var(--border);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .page-hero::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px);
+                background-size: 28px 28px;
+                pointer-events: none;
+            }
+
+            .page-hero-inner {
+                max-width: var(--max-width);
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .page-hero h1 {
+                font-family: var(--serif);
+                font-size: clamp(28px, 3.5vw, 44px);
+                color: var(--ink);
+                letter-spacing: -0.02em;
+                line-height: 1.08;
+                margin-bottom: 12px;
+            }
+
+            .page-hero h1 em { font-style: italic; color: var(--accent); }
+            .page-hero p { font-size: 14px; color: var(--ink-2); line-height: 1.65; font-weight: 300; max-width: 440px; }
+
             /* ══ PAGE LAYOUT ══ */
             .redactor-page {
                 max-width: var(--max-width);
@@ -825,66 +867,23 @@ import Navbar from '../components/Navbar.astro';
             }
         </style>
 
-        <Navbar currentPath="/pdf-redactor" />
+        <Navbar activePage="tools" />
 
         <!-- PAGE HERO -->
-        <div
-            style="background:var(--paper);border-bottom:1px solid var(--border);padding:48px 40px 40px;"
-        >
-            <div style="max-width:var(--max-width);margin:0 auto;">
-                <div
-                    style="display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;"
-                >
-                    <!-- LEFT: COPY -->
-                    <div style="flex:1;min-width:280px;">
-                        <div
-                            style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--border);padding:4px 12px;border-radius:20px;margin-bottom:20px;"
-                        >
-                            <span
-                                style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;"
-                            ></span>
-                            PDF Redactor
-                        </div>
-
-                        <h1
-                            style="font-family:var(--serif);font-size:clamp(32px,4vw,52px);letter-spacing:-0.02em;line-height:1.07;margin-bottom:16px;color:var(--ink);"
-                        >
-                            Permanently remove<br /><em
-                                style="font-style:italic;color:var(--accent);"
-                                >sensitive text.</em
-                            >
-                        </h1>
-
-                        <p
-                            style="font-size:14.5px;color:var(--ink-2);font-weight:300;max-width:460px;line-height:1.65;margin-bottom:28px;"
-                        >
-                            Draw redaction boxes directly on the page or search
-                            by keyword to redact every match at once. Text is
-                            flattened and irrecoverable — not just visually
-                            covered.
-                        </p>
-
-                        <div style="display:flex;gap:20px;flex-wrap:wrap;">
-                            <div class="trust-item" style="color:var(--ink-2);">
-                                <span
-                                    style="color:var(--green);font-weight:700;"
-                                    >✓</span
-                                >&nbsp; Text permanently removed
-                            </div>
-                            <div class="trust-item" style="color:var(--ink-2);">
-                                <span
-                                    style="color:var(--green);font-weight:700;"
-                                    >✓</span
-                                >&nbsp; File never leaves browser
-                            </div>
-                            <div class="trust-item" style="color:var(--ink-2);">
-                                <span
-                                    style="color:var(--green);font-weight:700;"
-                                    >✓</span
-                                >&nbsp; Free, no account
-                            </div>
-                        </div>
-                    </div>
+        <div class="page-hero">
+            <div class="page-hero-inner">
+                <div>
+                    <div class="eyebrow" style="margin-bottom:14px;">PDF Redactor</div>
+                    <h1>
+                        Permanently remove<br /><em>sensitive text.</em>
+                    </h1>
+                    <p>
+                        Draw redaction boxes directly on the page or search
+                        by keyword to redact every match at once. Text is
+                        flattened and irrecoverable — not just visually
+                        covered.
+                    </p>
+                </div>
 
                     <!-- RIGHT: HOW IT WORKS MINI STEPS -->
                     <div

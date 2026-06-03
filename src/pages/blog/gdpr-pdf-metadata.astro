@@ -738,6 +738,7 @@ import Navbar from '../../components/Navbar.astro';
         color: white;
         font-size: 11px;
         font-weight: 700;
+        line-height: 1;
       }
 
       .checklist-text h4 {
@@ -757,7 +758,7 @@ import Navbar from '../../components/Navbar.astro';
       .article-cta {
         background: var(--ink);
         border-radius: var(--radius-lg);
-        padding: 28px 32px;
+        padding: 0px 32px 28px 32px;
         margin: 44px 0;
         display: flex;
         align-items: center;
@@ -861,7 +862,7 @@ import Navbar from '../../components/Navbar.astro';
       }
 
       .faq-item.open .faq-answer {
-        max-height: 400px;
+        max-height: 1000px;
       }
 
       .faq-answer-inner {
@@ -871,6 +872,21 @@ import Navbar from '../../components/Navbar.astro';
         line-height: 1.75;
         border-top: 1px solid var(--paper-3);
         padding-top: 16px;
+      }
+
+      /* ── Scroll Progress Bar ── */
+      .scroll-progress {
+        width: 100%;
+        position: fixed;
+        top: 58px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%);
+        z-index: 99;
+        transform-origin: left;
+        transform: scaleX(0);
+        box-shadow: 0 1px 3px rgba(200, 67, 42, 0.3);
       }
 
       /* ── Sidebar ── */
@@ -1016,7 +1032,7 @@ import Navbar from '../../components/Navbar.astro';
 
   <body class="blog-page">
     <!-- NAV -->
-    <Navbar currentPath="/blog/gdpr-pdf-metadata" />
+    <Navbar activePage="blog" />
 
     <!-- BLOG NAV BAR -->
     <div class="blog-nav-bar">
@@ -1358,7 +1374,7 @@ import Navbar from '../../components/Navbar.astro';
           The critical intervention point is between step 3 and step 4. Before
           any PDF leaves your organization's control, metadata should be
           inspected and stripped. This is where a tool like
-          <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a>
+          <a href="/pdf-metadata-remover">PDF Metadata Remover</a>
           fits into a GDPR-compliant document workflow — processing entirely in the
           browser, never uploading the file to a third party server, and producing
           a clean PDF that can be verified before sending.
@@ -1398,12 +1414,16 @@ import Navbar from '../../components/Navbar.astro';
         </p>
 
         <div class="checklist" id="compliance-checklist">
-          <div class="checklist-header">
+          <div class="checklist-header" id="checklist-header">
             GDPR PDF Metadata Compliance Checklist
           </div>
 
           <div class="checklist-item">
-            <div class="checklist-box" onclick="toggleCheck(this)"></div>
+            <div class="checklist-box"
+     role="checkbox"
+     aria-checked="false"
+     tabindex="0">
+</div>
             <div class="checklist-text">
               <h4>Audit your current document workflow</h4>
               <p>
@@ -1580,8 +1600,7 @@ import Navbar from '../../components/Navbar.astro';
             ].map((item) => (
               <div class="faq-item">
                 <button
-                  class="faq-question"
-                  onclick="toggleFaq(this.parentElement)"
+                  class="faq-question""
                 >
                   {item.q}
                   <svg
@@ -1625,7 +1644,7 @@ import Navbar from '../../components/Navbar.astro';
             <a href="#what-a-gdpr-compliant-pdf-workflow-looks-like" class="toc-link"
               ><span class="toc-num">05</span>Compliant workflow</a
             >
-            <a href="#" class="toc-link"
+            <a href="#checklist-header" class="toc-link"
               ><span class="toc-num">06</span>Compliance checklist</a
             >
             <a href="#the-uk-gdpr-position-post-brexit" class="toc-link"
@@ -1727,22 +1746,20 @@ import Navbar from '../../components/Navbar.astro';
         <div class="sidebar-widget">
           <div class="sidebar-widget-header">Related articles</div>
           <div class="sidebar-widget-body" style="padding:10px 14px;">
-            <a href="/blog/what-is-pdf-metadata" class="related-post">
+            <a href="/blog/view-pdf-metadata-mac-windows-linux" class="related-post">
               <div class="related-post-cat">PDF Security</div>
               <div class="related-post-title">
-                What is PDF metadata? Every hidden field explained
+                How to View PDF Metadata on
+Mac, Windows & Linux
+
               </div>
             </a>
-            <a href="/blog/pdf-metadata-lawyers" class="related-post">
-              <div class="related-post-cat">Legal</div>
+            <a href="/blog/pdf-metadata-hr-employment-documents" class="related-post">
+              <div class="related-post-cat">HR & Employment</div>
               <div class="related-post-title">
-                How to remove metadata before sending a PDF
-              </div>
-            </a>
-            <a href="/blog/pdf-metadata-journalists" class="related-post">
-              <div class="related-post-cat">Journalism</div>
-              <div class="related-post-title">
-                How journalists verify PDF authenticity
+                PDF Metadata in HR & Employment Documents:
+What Both Sides Need to Know
+
               </div>
             </a>
           </div>
@@ -1810,24 +1827,110 @@ import Navbar from '../../components/Navbar.astro';
     </footer>
 
     <script>
-      // ── FAQ accordion ──
-      function toggleFaq(item: HTMLElement) {
-        const isOpen = item.classList.contains("open");
-        document
-          .querySelectorAll(".faq-item.open")
-          .forEach((el) => el.classList.remove("open"));
-        if (!isOpen) item.classList.add("open");
-      }
+      // ── Scroll progress bar ──
+      (function () {
+  const progressBar = document.createElement("div");
 
-      // ── Compliance checklist ──
-      function toggleCheck(box: HTMLElement) {
-        box.classList.toggle("checked");
-        const checkedCount = document.querySelectorAll(
-          ".checklist-box.checked",
-        ).length;
-        const totalCount = document.querySelectorAll(".checklist-box").length;
-        // Could show progress indicator here
+  progressBar.className = "scroll-progress";
+
+  document.body.insertBefore(
+    progressBar,
+    document.body.firstChild
+  );
+
+  const updateProgress = () => {
+    const windowHeight =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    const scrolled = window.scrollY;
+
+    const scrollPercent =
+      windowHeight > 0
+        ? scrolled / windowHeight
+        : 0;
+
+    progressBar.style.transform =
+      `scaleX(${scrollPercent})`;
+  };
+
+  window.addEventListener(
+    "scroll",
+    updateProgress,
+    { passive: true }
+  );
+
+  updateProgress();
+})();
+
+      // ── FAQ accordion ──
+      document.querySelectorAll(".faq-question").forEach((button) => {
+  button.addEventListener("click", () => {
+    const item = button.parentElement;
+    if (!item) return;
+
+    const isOpen = item.classList.contains("open");
+
+    document.querySelectorAll(".faq-item.open").forEach((el) => {
+      el.classList.remove("open");
+    });
+
+    if (!isOpen) {
+      item.classList.add("open");
+    }
+  });
+});
+
+  // ── Compliance checklist ──
+  const checklistContainer = document.getElementById("compliance-checklist");
+
+  const totalCount = checklistContainer
+    ? checklistContainer.querySelectorAll(".checklist-box").length
+    : 0;
+
+  function toggleCheck(box: HTMLElement) {
+    // 1. Toggle visual state
+    box.classList.toggle("checked");
+
+    // 2. Accessibility
+    const isChecked = box.classList.contains("checked");
+
+    box.setAttribute(
+      "aria-checked",
+      isChecked ? "true" : "false"
+    );
+
+    // 3. Progress
+    const checkedCount =
+      document.querySelectorAll(".checklist-box.checked").length;
+
+    updateProgressBar(checkedCount, totalCount);
+  }
+
+  // Attach click listeners
+  const checklistBoxes =
+    document.querySelectorAll<HTMLElement>(".checklist-box");
+
+  checklistBoxes.forEach((box) => {
+    // Mouse click
+    box.addEventListener("click", () => {
+      toggleCheck(box);
+    });
+
+    // Keyboard accessibility
+    box.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleCheck(box);
       }
+    });
+  });
+
+
+function updateProgressBar(checked: number, total: number) {
+  // Your progress UI logic here (e.g., "3 of 7 completed")
+  console.log(`${checked} of ${total} tasks completed`);
+}
 
       // ── Active TOC on scroll (simple version) ──
       const tocLinks = Array.from(

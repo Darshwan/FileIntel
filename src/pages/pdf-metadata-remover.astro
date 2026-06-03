@@ -86,16 +86,47 @@ import Navbar from '../components/Navbar.astro';
     <link rel="stylesheet" href="/styles/global.css" />
 
     <style>
-      /* ══ TOOL HERO ══ */
-      .tool-hero {
+      /* ══ PAGE HERO ══ */
+      .page-hero {
+        background: var(--paper);
+        padding: 40px 40px 36px;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px);
+        background-size: 28px 28px;
+        pointer-events: none;
+      }
+
+      .page-hero-inner {
         max-width: var(--max-width);
         margin: 0 auto;
-        padding: 72px 40px 64px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 72px;
-        align-items: start;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 40px;
+        flex-wrap: wrap;
       }
+
+      .page-hero h1 {
+        font-family: var(--serif);
+        font-size: clamp(28px, 3.5vw, 44px);
+        color: var(--ink);
+        letter-spacing: -0.02em;
+        line-height: 1.08;
+        margin-bottom: 12px;
+      }
+
+      .page-hero h1 em { font-style: italic; color: var(--accent); }
+      .page-hero p { font-size: 14px; color: var(--ink-2); line-height: 1.65; font-weight: 300; max-width: 440px; }
 
       /* ══ TOOL PANEL ══ */
       .tool-panel {
@@ -895,29 +926,25 @@ import Navbar from '../components/Navbar.astro';
     </div>
 
     <!-- NAV -->
-    <Navbar currentPath="/pdf-metadata-remover" />
+    <Navbar activePage="tools" />
 
-    <!-- HERO SPLIT -->
-    <div class="tool-hero">
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero-inner">
       <!-- LEFT: COPY -->
       <div>
-        <div class="eyebrow accent">PDF Metadata Inspector & Remover</div>
 
-        <h1
-          style="font-family:var(--serif);font-size:clamp(36px,5vw,54px);line-height:1.07;letter-spacing:-0.02em;margin-bottom:18px;"
-        >
-          Strip <em style="font-style:italic;color:var(--accent);"
-            >hidden data</em
-          ><br />before you send.
-        </h1>
-
-        <p
-          style="font-size:15.5px;color:var(--ink-2);line-height:1.65;margin-bottom:28px;font-weight:300;"
-        >
-          Every PDF you create contains invisible metadata — your name, company,
-          software version, edit history, and sometimes GPS coordinates. Inspect
-          and clean it in seconds, privately.
-        </p>
+        <div>
+          <div class="eyebrow" style="margin-bottom:14px;">PDF Metadata Inspector & Remover</div>
+          <h1>
+            Strip <em>hidden data</em><br />before you send.
+          </h1>
+          <p>
+            Every PDF you create contains invisible metadata — your name, company,
+            software version, edit history, and sometimes GPS coordinates. Inspect
+            and clean it in seconds, privately.
+          </p>
+        </div>
 
         <div
           style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:28px;"
@@ -1230,7 +1257,9 @@ import Navbar from '../components/Navbar.astro';
       </div>
       <!-- /tool-panel -->
     </div>
-    <!-- /tool-hero -->
+      </div>
+    </div>
+    <!-- /hero -->
     <div class="diff-reveal" id="metadata-diff" style="padding:0;margin:0;">
       <!-- Inside the tool panel — compact version -->
       <div style="border-top:1px solid var(--paper-3);">
