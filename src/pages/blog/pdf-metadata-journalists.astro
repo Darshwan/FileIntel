@@ -1,0 +1,498 @@
+---
+import Navbar from '../../components/Navbar.astro';
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>PDF Metadata & Journalist Source Protection | FileIntel</title>
+        <meta
+            name="description"
+            content="How investigative journalists use PDF metadata to verify documents, protect sources, and maintain anonymity. Guide to viewing, analyzing, and stripping sensitive metadata."
+        />
+        <link rel="canonical" href="https://fileintel.tech/blog/pdf-metadata-journalists" />
+
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://fileintel.tech/blog/pdf-metadata-journalists" />
+        <meta
+            property="og:title"
+            content="PDF Metadata & Journalist Source Protection | FileIntel"
+        />
+        <meta
+            property="og:description"
+            content="How investigative journalists use PDF metadata to verify documents and protect sources."
+        />
+        <meta property="og:image" content="https://fileintel.tech/og-blog.png" />
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "NewsArticle",
+                "headline": "How Investigative Journalists Use PDF Metadata to Verify Documents",
+                "description": "Guide for journalists on using PDF metadata for document verification and protecting source anonymity.",
+                "image": "https://fileintel.tech/og-blog.png",
+                "datePublished": "2026-05-15",
+                "author": {
+                    "@type": "Organization",
+                    "name": "FileIntel"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "FileIntel",
+                    "url": "https://fileintel.tech"
+                }
+            }
+        </script>
+
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="stylesheet" href="/styles/global.css" />
+
+        <style>
+            /* ══ PAGE HERO ══ */
+            .page-hero {
+                background: var(--paper);
+                padding: 60px 40px;
+                border-bottom: 1px solid var(--border);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .page-hero::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient(circle, rgba(0,0,0,0.02) 1px, transparent 1px);
+                background-size: 28px 28px;
+                pointer-events: none;
+            }
+
+            .page-hero-inner {
+                max-width: 800px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+            }
+
+            .page-hero h1 {
+                font-family: var(--serif);
+                font-size: clamp(32px, 5vw, 48px);
+                color: var(--ink);
+                letter-spacing: -0.02em;
+                line-height: 1.15;
+                margin-bottom: 20px;
+            }
+
+            .page-hero-meta {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                flex-wrap: wrap;
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--ink-3);
+                letter-spacing: 0.08em;
+            }
+
+            .page-hero-meta span {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            /* ══ ARTICLE LAYOUT ══ */
+            .article-wrapper {
+                max-width: 900px;
+                margin: 0 auto;
+                padding: 60px 40px;
+                display: grid;
+                grid-template-columns: 1fr 240px;
+                gap: 40px;
+            }
+
+            /* ══ ARTICLE CONTENT ══ */
+            .article-content {
+                font-family: var(--sans);
+                font-size: 16px;
+                line-height: 1.75;
+                color: var(--ink);
+            }
+
+            .article-content h2 {
+                font-family: var(--serif);
+                font-size: 28px;
+                margin-top: 48px;
+                margin-bottom: 16px;
+                letter-spacing: -0.015em;
+                color: var(--ink);
+            }
+
+            .article-content h3 {
+                font-family: var(--serif);
+                font-size: 20px;
+                margin-top: 32px;
+                margin-bottom: 12px;
+                letter-spacing: -0.01em;
+                color: var(--ink);
+            }
+
+            .article-content p {
+                margin-bottom: 20px;
+            }
+
+            .article-content ul, .article-content ol {
+                margin: 20px 0 20px 24px;
+            }
+
+            .article-content li {
+                margin-bottom: 10px;
+            }
+
+            .article-content a {
+                color: var(--ink);
+                text-decoration: underline;
+                text-decoration-color: var(--accent);
+                text-underline-offset: 3px;
+                transition: color 0.15s;
+            }
+
+            .article-content a:hover {
+                color: var(--accent);
+            }
+
+            .highlight-box {
+                background: var(--paper);
+                border-left: 4px solid var(--accent);
+                padding: 20px 24px;
+                margin: 24px 0;
+                border-radius: 4px;
+            }
+
+            .highlight-box strong {
+                color: var(--ink);
+            }
+
+            /* ══ SIDEBAR ══ */
+            .article-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .sidebar-widget {
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                overflow: hidden;
+            }
+
+            .sidebar-widget-header {
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--ink-3);
+                padding: 12px 14px;
+                border-bottom: 1px solid var(--paper-3);
+                background: var(--paper);
+                font-weight: 600;
+            }
+
+            .sidebar-widget-body {
+                padding: 20px;
+            }
+
+            .related-post {
+                display: block;
+                padding: 12px 0;
+                border-bottom: 1px solid var(--paper-3);
+                text-decoration: none;
+                color: inherit;
+                transition: color 0.15s;
+            }
+
+            .related-post:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .related-post:hover {
+                color: var(--accent);
+            }
+
+            .related-post-cat {
+                font-family: var(--mono);
+                font-size: 9px;
+                color: var(--ink-3);
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+            }
+
+            .related-post-title {
+                font-size: 13px;
+                line-height: 1.5;
+                font-weight: 500;
+            }
+
+            /* ══ CTA BOX ══ */
+            .cta-box {
+                background: linear-gradient(135deg, var(--ink) 0%, #2a2a27 100%);
+                padding: 28px;
+                border-radius: var(--radius-lg);
+                color: var(--paper);
+            }
+
+            .cta-box-title {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                letter-spacing: -0.01em;
+            }
+
+            .cta-box-desc {
+                font-size: 13px;
+                line-height: 1.6;
+                color: #9c9b93;
+                margin-bottom: 16px;
+            }
+
+            .cta-box a {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 16px;
+                background: var(--paper);
+                color: var(--ink);
+                border-radius: 4px;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 600;
+                transition: all 0.15s;
+            }
+
+            .cta-box a:hover {
+                background: var(--white);
+                transform: translateY(-1px);
+            }
+
+            /* ══ FOOTER ══ */
+            .footer {
+                border-top: 1px solid var(--border);
+                background: var(--white);
+                padding: 56px 40px;
+            }
+
+            .footer-inner {
+                max-width: 1160px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                gap: 32px;
+            }
+
+            .footer-brand p {
+                font-size: 13px;
+                color: var(--ink-3);
+                line-height: 1.6;
+                margin-top: 12px;
+            }
+
+            .footer-col h4 {
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: var(--ink);
+                margin-bottom: 14px;
+            }
+
+            .footer-col ul {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .footer-col a {
+                font-size: 13px;
+                color: var(--ink-3);
+                text-decoration: none;
+                transition: color 0.15s;
+            }
+
+            .footer-col a:hover {
+                color: var(--ink);
+            }
+
+            /* ══ RESPONSIVE ══ */
+            @media (max-width: 900px) {
+                .article-wrapper {
+                    grid-template-columns: 1fr;
+                    gap: 32px;
+                    padding: 40px 20px;
+                }
+
+                .page-hero {
+                    padding: 40px 20px;
+                }
+
+                .article-sidebar {
+                    display: none;
+                }
+            }
+
+            @media (max-width: 600px) {
+                .page-hero {
+                    padding: 32px 20px;
+                }
+
+                .page-hero h1 {
+                    font-size: 28px;
+                    margin-bottom: 16px;
+                }
+
+                .footer-inner {
+                    grid-template-columns: 1fr;
+                    gap: 24px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- NAV -->
+        <Navbar activePage="blog" />
+
+        <!-- PAGE HERO -->
+        <div class="page-hero">
+            <div class="page-hero-inner">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+                    <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Journalism</span>
+                </div>
+                <h1>How Investigative Journalists Use PDF Metadata to Verify Documents</h1>
+                <div class="page-hero-meta">
+                    <span>May 15, 2026</span>
+                    <span>•</span>
+                    <span>6 min read</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARTICLE -->
+        <div class="article-wrapper">
+            <article class="article-content">
+                <p>
+                    In investigative journalism, metadata hidden in PDF documents can reveal critical information about document provenance, editing history, and authorship. Understanding how to read and interpret PDF metadata is a skill that separates rigorous verification from speculation.
+                </p>
+
+                <h2>Why PDF Metadata Matters in Journalism</h2>
+                <p>
+                    When a source provides a leaked document, PDF metadata tells the story of its creation. The modification dates, author name, editing software, and revision count can help answer crucial questions: Is this document authentic? Has it been edited since publication? Who originally created it?
+                </p>
+
+                <div class="highlight-box">
+                    <strong>Key Finding:</strong> PDF metadata can expose author identity even when documents are anonymized in other ways. Journalists must remove metadata before publishing sensitive source material.
+                </div>
+
+                <h2>What Metadata Can Tell You</h2>
+                <p>Common fields to examine when verifying documents:</p>
+                <ul>
+                    <li><strong>Author/Creator:</strong> The person or system that created the file</li>
+                    <li><strong>Subject & Keywords:</strong> Clues about document classification or internal purpose</li>
+                    <li><strong>Creation Date:</strong> When the document was originally made</li>
+                    <li><strong>Modification History:</strong> How many times edited and by whom (in some PDFs)</li>
+                    <li><strong>Producer:</strong> Software used to create or modify the PDF</li>
+                    <li><strong>Company/Organization:</strong> Corporate metadata embedded by the authoring organization</li>
+                </ul>
+
+                <h2>Protecting Your Sources</h2>
+                <p>
+                    Before publishing any document provided by a source, always strip metadata. Even when a source believes they've been careful, embedded metadata can compromise anonymity.
+                </p>
+                <p>
+                    FileIntel's PDF Metadata Remover inspects every metadata field in seconds and removes all author identification, timestamps, and software traces with a single click—no server uploads, no logging, 100% private.
+                </p>
+
+                <h2>Best Practices</h2>
+                <ul>
+                    <li>Always inspect metadata before publishing—treat it as part of your source verification checklist</li>
+                    <li>Remove metadata from documents before publication using a verified tool</li>
+                    <li>Document the metadata you find as part of your verification notes (for internal use only)</li>
+                    <li>Remember: metadata removal is not the same as redaction. Use redaction for sensitive content within the document itself</li>
+                </ul>
+
+                <p style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border);font-size:14px;color:var(--ink-3);">
+                    <strong>Have questions about protecting documents?</strong> Read our guide on <a href="/blog/view-pdf-metadata-mac-windows-linux">how to view PDF metadata on every platform</a>, or use <a href="/pdf-metadata-remover">FileIntel's free metadata inspector</a> to check your documents now.
+                </p>
+            </article>
+
+            <aside class="article-sidebar">
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-header">Quick links</div>
+                    <div class="sidebar-widget-body">
+                        <a href="/pdf-metadata-remover" style="display:flex;align-items:center;gap:8px;padding:12px;background:var(--paper);border-radius:6px;text-decoration:none;font-weight:600;color:var(--ink);margin-bottom:10px;transition:all 0.15s;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            Try PDF Metadata Remover
+                        </a>
+                        <p style="font-size:12px;color:var(--ink-3);line-height:1.6;">Free, private inspection and removal. Your files never leave your browser.</p>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-header">Related articles</div>
+                    <div class="sidebar-widget-body" style="padding:10px 14px;">
+                        <a href="/blog/gdpr-pdf-metadata" class="related-post">
+                            <div class="related-post-cat">GDPR & Compliance</div>
+                            <div class="related-post-title">GDPR and PDF Metadata: What Every DPO Needs to Know</div>
+                        </a>
+                        <a href="/blog/view-pdf-metadata-mac-windows-linux" class="related-post">
+                            <div class="related-post-cat">PDF Security</div>
+                            <div class="related-post-title">How to View PDF Metadata on Mac, Windows & Linux</div>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">Fi</div>
+                        <span style="color:#5a5a52;font-size:15px;font-weight:600;">FileIntel</span>
+                    </div>
+                    <p>Private file tools for professionals. Everything runs in your browser. Nothing touches our servers.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <ul>
+                        <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
+                        <li><a href="/pdf-redactor">PDF Redactor</a></li>
+                        <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
+                        <li><a href="/pdf-merger">PDF Merger</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Blog</h4>
+                    <ul>
+                        <li><a href="/blog">All articles</a></li>
+                        <li><a href="/blog/gdpr-pdf-metadata">GDPR Guide</a></li>
+                        <li><a href="/blog/view-pdf-metadata-mac-windows-linux">View Metadata Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="https://github.com/Darshwan/FileIntel" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a href="/">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

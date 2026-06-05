@@ -1217,7 +1217,7 @@ import Navbar from '../../components/Navbar.astro';
                 <div class="hero-bottom">
                     <div class="hero-stats">
                         <div class="hero-stat">
-                            <div class="hero-stat-num">4</div>
+                            <div class="hero-stat-num">6</div>
                             <div class="hero-stat-label">Articles</div>
                         </div>
                         <div class="hero-stat-divider"></div>
@@ -1283,12 +1283,12 @@ import Navbar from '../../components/Navbar.astro';
                 <a href="#legal" class="topic-cell">
                     <div class="topic-cell-icon">⚖️</div>
                     <div class="topic-cell-name">Legal & Professional</div>
-                    <div class="topic-cell-count">1 article</div>
+                    <div class="topic-cell-count">2 articles</div>
                 </a>
                 <a href="#hr" class="topic-cell">
                     <div class="topic-cell-icon">👥</div>
                     <div class="topic-cell-name">HR & Employment</div>
-                    <div class="topic-cell-count">1 article</div>
+                    <div class="topic-cell-count">2 articles</div>
                 </a>
             </div>
         </div>
@@ -1465,6 +1465,119 @@ import Navbar from '../../components/Navbar.astro';
                         <div class="article-card-read">Read →</div>
                     </div>
                 </a>
+
+                <!-- Article 6: PDF Metadata vs Redactor -->
+                <a
+                    href="/blog/pdf-metadata-vs-redactor"
+                    class="article-card"
+                    data-topic="pdf"
+                >
+                    <div
+                        class="article-card-accent"
+                        style="background:linear-gradient(90deg,#6b5d4f,#3d3530);"
+                    >
+                    </div>
+                    <div class="article-card-body">
+                        <div
+                            class="article-card-category"
+                            style="color:#8b7c5f;"
+                        >
+                            PDF Security
+                        </div>
+                        <div class="article-card-title">
+                            PDF Metadata Removal vs Redaction: When to Use Each
+                        </div>
+                        <div class="article-card-excerpt">
+                            Removing metadata and redacting content serve
+                            different security purposes. Understand when each
+                            technique is appropriate for your documents.
+                        </div>
+                    </div>
+                    <div class="article-card-footer">
+                        <div class="article-card-meta">
+                            <span>May 3</span>
+                            <span>·</span>
+                            <span>6 min</span>
+                        </div>
+                        <div class="article-card-read">Read →</div>
+                    </div>
+                </a>
+
+                <!-- Article 7: Journalists and Document Verification -->
+                <a
+                    href="/blog/pdf-metadata-journalists"
+                    class="article-card"
+                    data-topic="legal"
+                >
+                    <div
+                        class="article-card-accent"
+                        style="background:linear-gradient(90deg,#5a7c9c,#3a4f6b);"
+                    >
+                    </div>
+                    <div class="article-card-body">
+                        <div
+                            class="article-card-category"
+                            style="color:#5a7c9c;"
+                        >
+                            Legal & Professional
+                        </div>
+                        <div class="article-card-title">
+                            How Investigative Journalists Use PDF Metadata to Verify Documents
+                        </div>
+                        <div class="article-card-excerpt">
+                            Journalists use PDF metadata to verify source
+                            authenticity, trace document origins, and protect
+                            source anonymity. Learn the verification techniques
+                            used by investigative reporters.
+                        </div>
+                    </div>
+                    <div class="article-card-footer">
+                        <div class="article-card-meta">
+                            <span>May 4</span>
+                            <span>·</span>
+                            <span>7 min</span>
+                        </div>
+                        <div class="article-card-read">Read →</div>
+                    </div>
+                </a>
+
+                <!-- Article 8: Freelancers and Metadata Protection -->
+                <a
+                    href="/blog/pdf-metadata-freelancers-proposals-contracts"
+                    class="article-card"
+                    data-topic="legal"
+                >
+                    <div
+                        class="article-card-accent"
+                        style="background:linear-gradient(90deg,#8c6a3f,#5a4a2a);"
+                    >
+                    </div>
+                    <div class="article-card-body">
+                        <div
+                            class="article-card-category"
+                            style="color:#a8835f;"
+                        >
+                            Legal & Professional
+                        </div>
+                        <div class="article-card-title">
+                            Why Freelancers Must Strip Metadata from Proposals & Contracts
+                        </div>
+                        <div class="article-card-excerpt">
+                            Proposals, contracts, and invoices contain metadata
+                            that reveals pricing, business strategies, and
+                            sensitive workflows. A practical guide for freelancers
+                            to protect their business information.
+                        </div>
+                    </div>
+                    <div class="article-card-footer">
+                        <div class="article-card-meta">
+                            <span>May 5</span>
+                            <span>·</span>
+                            <span>6 min</span>
+                        </div>
+                        <div class="article-card-read">Read →</div>
+                    </div>
+                </a>
             </div>
             <!-- /articles-grid -->
         </div>
@@ -1485,18 +1598,8 @@ import Navbar from '../../components/Navbar.astro';
                 {
                     [
                         {
-                            cat: "Journalism",
-                            title: "How Investigative Journalists Use PDF Metadata to Verify Documents",
-                            note: "Research in progress",
-                        },
-                        {
                             cat: "PDF Security",
                             title: "What Metadata Does Adobe Acrobat Add to Your PDFs?",
-                            note: "Drafting",
-                        },
-                        {
-                            cat: "HR & Legal",
-                            title: "PDF Metadata in Employment Documents — What HR Teams Must Strip",
                             note: "Drafting",
                         },
                         {
@@ -1629,7 +1732,7 @@ import Navbar from '../../components/Navbar.astro';
                         <li><a href="/privacy">Privacy Policy</a></li>
                         <li>
                             <a
-                                href="https://github.com/yourusername/fileintel"
+                                href="https://github.com/Darshwan/FileIntel"
                                 target="_blank"
                                 rel="noopener">GitHub</a
                             >
