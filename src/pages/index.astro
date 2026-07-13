@@ -2,6 +2,7 @@
 // src/pages/index.astro
 // FileIntel — Homepage
 
+import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
 
 const tools = [
@@ -44,11 +45,11 @@ const tools = [
   {
     icon: "✂️",
     tag: "soon",
-    tagLabel: "Coming soon",
+    tagLabel: "Live",
     name: "PDF Page Splitter",
     desc: "Extract specific pages or split a PDF into individual files. No 5-page limits, no watermarks, no payment wall.",
-    href: "#",
-    dim: true,
+    href: "/pdf-splitter",
+    dim: false,
   },
   {
     icon: "🧹",
@@ -115,7 +116,7 @@ const marqueeItems = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary SEO -->
-    <title>FileIntel — Private File Tools for Professionals</title>
+    <title>FileIntel</title>
     <meta
       name="description"
       content="Inspect, clean, and transform your files privately. PDF metadata removal, redaction, and more. Everything runs in your browser — your files never leave your device."
@@ -537,65 +538,6 @@ const marqueeItems = [
     </section>
 
     <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">
-              Fi
-            </div>
-            <span style="color:#A1A1AA;font-size:15px;font-weight:600;"
-              >FileIntel</span
-            >
-          </div>
-          <p>
-            Private file tools for professionals. Everything runs in your
-            browser. Nothing touches our servers.
-          </p>
-        </div>
-        <div class="footer-col">
-          <h4>Tools</h4>
-          <ul>
-            <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
-            <li><a href="/pdf-redactor">PDF Redactor</a></li>
-            <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
-            <li><a href="/pdf-merger">PDF Merger</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="/privacy">Privacy Policy</a></li>
-            <li><a href="/#why">How it works</a></li>
-            <li>
-              <a
-                href="https://github.com/Darshwan/FileIntel"
-                target="_blank"
-                rel="noopener">GitHub</a>
-            </li>
-            <li><a href="/blog">Blog</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Use Cases</h4>
-          <ul>
-            <li><a href="/blog/pdf-metadata-lawyers">For Lawyers</a></li>
-            <li>
-              <a href="/blog/pdf-metadata-journalists">For Journalists</a>
-            </li>
-            <li>
-              <a href="/blog/pdf-metadata-freelancers">For Freelancers</a>
-            </li>
-            <li><a href="/blog/gdpr-pdf-metadata">For Compliance</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span
-          >© {new Date().getFullYear()} FileIntel. Built with privacy by design.</span
-        >
-        <span class="footer-mono">0 bytes sent to our servers</span>
-      </div>
-    </footer>
+    <Footer />
   </body>
 </html>
