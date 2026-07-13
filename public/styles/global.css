@@ -476,15 +476,15 @@ section {
 /* ─── FOOTER ─── */
 .footer {
   background: #0a0a08;
-  padding: 52px var(--space-10) 32px;
+  padding: 52px 40px;
   color: #5a5a52;
 }
 
 .footer-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-12);
   margin-bottom: var(--space-12);
 }
