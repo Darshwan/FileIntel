@@ -130,6 +130,24 @@ const { activePage = '' } = Astro.props;
         </a>
       </li>
 
+      <li>
+        <a href="/about" class={`fi-link ${activePage === 'about' ? 'active' : ''}`}>
+          About
+        </a>
+      </li>
+
+      <li>
+        <a href="/contact" class={`fi-link ${activePage === 'contact' ? 'active' : ''}`}>
+          Contact
+        </a>
+      </li>
+
+      <li>
+        <a href="/terms" class={`fi-link ${activePage === 'terms' ? 'active' : ''}`}>
+          Terms of Use
+        </a>
+      </li>
+
     </ul>
 
     <!-- RIGHT ACTIONS -->

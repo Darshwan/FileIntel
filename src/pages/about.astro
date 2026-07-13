@@ -1,52 +1,1029 @@
 ---
-import TrustPageShell from '../components/TrustPageShell.astro';
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+
+// src/pages/about.astro
 ---
 
-<TrustPageShell
-  title="About FileIntel"
-  description="FileIntel builds private, browser-side file tools for professionals who need to inspect, clean, and share documents without upload risk."
-  canonical="https://fileintel.me/about"
-  currentPath="/about"
-  eyebrow="About"
-  subtitle="FileIntel is built for people who handle sensitive files every day and need tools that stay local, transparent, and fast."
->
-  <section class="trust-section">
-    <h2 class="trust-section-title">What FileIntel is</h2>
-    <p class="trust-section-copy">
-      FileIntel is a small suite of document tools designed around one rule: your files should stay on your device unless you explicitly choose otherwise. The site focuses on PDF privacy, redaction, metadata removal, and related workflows for lawyers, compliance teams, journalists, freelancers, and anyone else who shares documents for a living.
-    </p>
-    <p class="trust-section-copy">
-      The products are intentionally narrow. Each tool solves one job well, with a clear interface and no account wall, because professional workflows usually need speed and predictability more than feature bloat.
-    </p>
-  </section>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | FileIntel</title>
+    <meta
+      name="description"
+      content="FileIntel is a suite of private file tools built for professionals. No uploads, no accounts, no servers watching your documents."
+    />
+    <link rel="canonical" href="https://fileintel.me/about" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">How it works</h2>
-    <ul class="trust-list">
-      <li><strong>Browser-side processing.</strong> FileIntel tools run in JavaScript inside your browser. Documents are read locally and processed on the page.</li>
-      <li><strong>No account required.</strong> You do not need to sign up, verify an email, or create a profile to use the tools.</li>
-      <li><strong>Clear privacy posture.</strong> The site is built to make it obvious what is happening with your file and what is not.</li>
-      <li><strong>Practical content.</strong> The blog exists to explain the problems the tools solve, not to fill space with generic SEO copy.</li>
-    </ul>
-  </section>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">Why the site exists</h2>
-    <p class="trust-section-copy">
-      Most file utilities were built for casual consumers or enterprise suites. FileIntel targets the gap in between: people who need trustworthy document handling, but do not want to install heavy software or upload sensitive files to a third-party server just to remove metadata or redact text.
-    </p>
-    <div class="trust-note">
-      If you need to verify what is exposed in a PDF before you send it, FileIntel is meant to be a fast first stop, not a replacement for your own legal, compliance, or security process.
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #0f0f0d;
+        --ink-2: #3a3a35;
+        --ink-3: #7a7a72;
+        --paper: #f5f3ee;
+        --paper-2: #eceae3;
+        --paper-3: #e2dfd6;
+        --accent: #c8432a;
+        --green: #2a6b4a;
+        --green-light: #e8f2ec;
+        --green-border: #b8ddc8;
+        --amber: #b06820;
+        --amber-light: #fef3e2;
+        --border: #d4d1c8;
+        --white: #fafaf8;
+        --serif: "Instrument Serif", Georgia, serif;
+        --mono: "DM Mono", "Courier New", monospace;
+        --sans: "Geist", system-ui, sans-serif;
+        --radius: 4px;
+        --radius-lg: 8px;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.6;
+      }
+          .announce { padding: 8px; }
+
+      .title {
+        font-weight: bold;
+        letter-spacing: 0.09rem;
+        font-size: 2rem;
+      }
+      .nav {
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        padding: 0 40px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .nav-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .nav-logo-mark {
+        width: 28px;
+        height: 28px;
+        background: var(--ink);
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--paper);
+      }
+      .nav-logo-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1.1;
+      }
+      .nav-logo-sub {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--ink-3);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 13px;
+        color: var(--ink-2);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+      .nav-badge {
+        font-family: var(--mono);
+        font-size: 10px;
+        background: var(--green-light);
+        color: var(--green);
+        border: 1px solid var(--green-border);
+        padding: 3px 8px;
+        border-radius: 3px;
+      }
+      @media (max-width: 700px) {
+        .nav-links {
+          display: none;
+        }
+        .nav {
+          padding: 0 20px;
+        }
+      }
+
+      .hero {
+        background: var(--ink);
+        padding: 64px 40px 56px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 48px 48px;
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 18px;
+      }
+      .hero-title {
+        font-family: var(--serif);
+        font-size: clamp(30px, 4.5vw, 52px);
+        color: var(--paper);
+        line-height: 1.08;
+        letter-spacing: -0.025em;
+        margin-bottom: 20px;
+      }
+      .hero-sub {
+        font-size: 16px;
+        color: #7a7a72;
+        max-width: 520px;
+        line-height: 1.65;
+      }
+      @media (max-width: 700px) {
+        .hero {
+          padding: 40px 20px 36px;
+        }
+      }
+
+      .page-wrap {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 56px 40px 80px;
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 64px;
+      }
+      @media (max-width: 960px) {
+        .page-wrap {
+          grid-template-columns: 1fr;
+          padding: 32px 20px 60px;
+        }
+      }
+
+      .prose h2 {
+        font-family: var(--serif);
+        font-size: clamp(20px, 2.5vw, 26px);
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin: 12px 0 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--paper-3);
+      }
+      .prose p {
+        font-size: 15.5px;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin-bottom: 18px;
+      }
+      .prose a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(200, 67, 42, 0.3);
+      }
+      .prose a:hover {
+        border-bottom-color: var(--accent);
+      }
+      .prose strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .founder-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        margin: 32px 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .founder-avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 5%;
+        object-fit: cover;
+        overflow: hidden;
+      }
+      .founder-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+      .founder-role {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .founder-bio {
+        font-size: 13.5px;
+        color: var(--ink-3);
+        line-height: 1.5;
+      }
+
+      .values-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 24px 0;
+      }
+      @media (max-width: 600px) {
+        .values-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .value-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 18px 20px;
+      }
+      .value-icon {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .value-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .value-desc {
+        font-size: 13px;
+        color: var(--ink-3);
+        line-height: 1.55;
+      }
+      .contact-list {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        padding: 14px 16px;
+
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+
+        color: var(--ink);
+        text-decoration: none;
+
+        transition: all 0.18s ease;
+      }
+
+      .contact-item:hover {
+        background: var(--paper-2);
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .contact-item svg {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+      }
+
+      .contact-label {
+        width: 90px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      .contact-value {
+        color: var(--ink-3);
+        word-break: break-word;
+      }
+
+      .contact-note {
+        margin-top: 16px;
+        color: var(--ink-3);
+        font-size: 14px;
+      }
+
+      @media (max-width: 640px) {
+        .contact-item {
+          flex-wrap: wrap;
+          align-items: flex-start;
+        }
+
+        .contact-label {
+          width: 100%;
+          margin-bottom: 2px;
+        }
+      }
+      .sidebar {
+        position: sticky;
+        top: 58px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      @media (max-width: 960px) {
+        .sidebar {
+          position: static;
+        }
+      }
+      .sidebar-widget {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+      .sidebar-widget-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--paper-3);
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        font-weight: 600;
+      }
+      .sidebar-widget-body {
+        padding: 14px 16px;
+      }
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ink-2);
+        text-decoration: none;
+        padding: 7px 0;
+        border-bottom: 1px solid var(--paper-3);
+        transition: color 0.15s;
+      }
+      .sidebar-link:last-child {
+        border-bottom: none;
+      }
+      .sidebar-link:hover {
+        color: var(--accent);
+      }
+      .tools-sidebar {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+      }
+
+      .tool-sidebar-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+
+        padding: 12px 16px;
+        text-decoration: none;
+        color: var(--ink);
+
+        border-bottom: 1px solid var(--paper-3);
+        transition:
+          background 0.18s ease,
+          color 0.18s ease;
+      }
+
+      .tool-sidebar-link:last-child {
+        border-bottom: none;
+      }
+
+      .tool-sidebar-link:hover {
+        background: var(--paper-2);
+      }
+
+      .tool-sidebar-link span:first-child {
+        font-size: 13px;
+        font-family: var(--mono);
+        line-height: 1.35;
+      }
+      .tool-row-status {
+        font-size: 11px;
+      }
+      .tool-row-status.live {
+        color: var(--green);
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .stat-box {
+        background: var(--paper-2);
+        border-radius: var(--radius);
+        padding: 12px;
+        text-align: center;
+      }
+      .stat-num {
+        font-weight: bold;
+        font-size: 20px;
+        font-family: var(--sans);
+      }
+      .stat-label {
+        font-size: 11px;
+        color: var(--ink-3);
+        margin-top: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="reading-progress"
+      aria-hidden="true"
+      style="position:fixed;top:0;left:0;width:0%;height:3px;background:var(--accent);z-index:9999;transition:width 0.08s linear;border-radius:0 2px 2px 0;pointer-events:none;"
+    >
     </div>
-  </section>
+    <!-- ANNOUNCE -->
+    <div class="announce">
+      New: <a href="/pdf-metadata-remover"
+        ><strong>PDF Privacy Risk Score</strong></a
+      > — instantly see your document's privacy risk before stripping. →
+    </div>
+    <Navbar activePage="/about" />
 
-  <div slot="sidebar">
-    <ul class="trust-link-list">
-      <li><a href="/contact">Contact <span>email</span></a></li>
-      <li><a href="/privacy">Privacy Policy <span>policy</span></a></li>
-      <li><a href="/terms">Terms <span>site rules</span></a></li>
-      <li><a href="/cookie-policy">Cookie Policy <span>cookies</span></a></li>
-      <li><a href="/blog">Blog <span>guides</span></a></li>
-    </ul>
-  </div>
-</TrustPageShell>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">About</div>
+        <h1 class="hero-title">
+          Built because privacy shouldn't require trust
+        </h1>
+        <p class="hero-sub">
+          FileIntel started with a simple question: why do PDF tools need to see
+          your files at all? They don't. So we built ones that don't.
+        </p>
+      </div>
+    </section>
+
+    <div class="page-wrap">
+      <div class="prose">
+        <h2 id="story" class="title">The story</h2>
+        <p>
+          Most online file tools work the same way: you upload your document to
+          their server, they process it, and send it back. That means your
+          contracts, your legal filings, your client proposals — all passing
+          through someone else's infrastructure, logged, potentially stored,
+          potentially readable.
+        </p>
+        <p>
+          FileIntel does none of that. Every tool runs entirely in your browser
+          using JavaScript. Your files are read into memory locally, processed
+          locally, and downloaded locally. Nothing travels across the internet
+          to us. We don't have servers that receive files because we
+          deliberately chose not to build them.
+        </p>
+        <p>
+          The result is a set of professional document tools that are genuinely
+          private — not "private" as a marketing claim, but private as a
+          technical fact you can verify yourself.
+        </p>
+
+        <h2 id="founder" class="title">The founder</h2>
+        <div class="founder-card">
+          <div class="founder-avatar">
+            <img src="/images/darshan.png" alt="Darshan Lamichhane" />
+          </div>
+          <div>
+            <div class="founder-name">Darshan Lamichhane</div>
+            <div class="founder-role">
+              Founder &amp; Developer &middot; Nepal
+            </div>
+            <div class="founder-bio">
+              Building FileIntel as an independent project. Focused on
+              privacy-first tools for professionals who handle sensitive
+              documents daily.
+            </div>
+          </div>
+        </div>
+        <p>
+          FileIntel is an independent project — not a startup, not VC-backed,
+          not optimising for growth metrics. It exists because the tools should
+          exist. The source code is on <a
+            href="https://github.com/Darshwan/fileintel"
+            target="_blank"
+            rel="noopener">GitHub</a
+          >. You can read every line.
+        </p>
+
+        <h2 id="values" class="title">What we stand for</h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                image-rendering="optimizeQuality"
+                fill-rule="evenodd"
+                width="24"
+                height="24"
+                clip-rule="evenodd"
+                viewBox="0 0 498 512.17"
+                ><path
+                  d="M232.21 0c86.9 55.08 165.4 81.14 232.78 74.98 3.67 74.22-2.36 138.96-17.12 194.7-10-4.08-20.68-6.52-31.7-7 11.57-46.07 16.23-99.25 13.23-159.92-57.04 5.22-123.5-16.84-197.06-63.48C168.68 88.73 103 103.21 36.04 99.7c-2.97 113.09 16.9 198.24 55.29 260.18 28.38-23.73 76.71-20.15 99.6-51.62 1.65-2.43 2.41-3.74 2.39-4.81-.01-.56-24.83-31-27.06-34.55-5.85-9.3-16.8-21.93-16.8-32.82 0-6.15 4.85-14.17 11.8-15.96-.54-9.22-.91-18.57-.91-27.84 0-5.47.1-11.01.3-16.43.3-3.44.94-4.95 1.85-8.27a58.537 58.537 0 0 1 26.13-33.18c4.43-2.8 9.25-4.98 14.19-6.77 8.96-3.27 4.62-17.43 14.46-17.65 22.99-.59 60.81 19.51 75.54 35.48 9.39 10.38 14.75 21.92 15.07 35.92l-.93 40.27c4.08 1 8.66 4.19 9.66 8.28 3.15 12.71-10.04 28.53-16.18 38.64-5.65 9.33-27.26 34.79-27.28 35-.1 1.09.46 2.47 1.94 4.69 10.53 14.48 26.44 21.54 43.3 27.25-1.87 6.71-3.07 13.64-3.53 20.74-1.76 1.23-3.4 2.6-4.91 4.11l-.1.1c-6.73 6.75-10.93 16.04-10.93 26.26v93.19c-20.32 12.65-42.28 23.4-65.81 32.26C82.71 457.27-6.26 322.77.34 71.37 79.43 75.51 157.03 58.41 232.21 0zm105.67 375.54h3.88v-11.95c0-19.96 7.87-38.16 20.55-51.39 12.79-13.33 30.44-21.6 49.88-21.6s37.11 8.27 49.88 21.6c12.69 13.23 20.56 31.42 20.56 51.39v11.95h3.88c6.32 0 11.49 5.18 11.49 11.5v113.63c0 6.33-5.17 11.5-11.49 11.5H337.88c-6.33 0-11.49-5.17-11.49-11.5V387.04c-.01-6.32 5.16-11.5 11.49-11.5zm65.2 73.48-11.96 31.34h42.13l-11.08-31.77c7.04-3.62 11.85-10.95 11.85-19.41 0-12.06-9.77-21.82-21.84-21.82-12.05 0-21.82 9.76-21.82 21.82 0 8.8 5.21 16.38 12.72 19.84zm-39.57-73.48h97.35v-11.95c0-14.2-5.53-27.06-14.43-36.34-8.81-9.19-20.93-14.9-34.24-14.9-13.31 0-25.44 5.71-34.24 14.9-8.91 9.28-14.44 22.14-14.44 36.34v11.95z"
+                ></path></svg
+              >
+            </div>
+            <div class="value-title">Privacy by design</div>
+            <div class="value-desc">
+              Not a checkbox. A technical constraint we built around from the
+              start.
+            </div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                image-rendering="optimizeQuality"
+                fill-rule="evenodd"
+                width="24"
+                height="24"
+                clip-rule="evenodd"
+                viewBox="0 0 512 472.37"
+                ><path
+                  fill-rule="nonzero"
+                  d="M145.33 172.6l57.21-.75c2.76-.04 5.33.74 7.51 2.1 11.85 6.86 23.04 14.67 33.45 23.48 5.86 4.97 11.53 10.28 16.99 15.96 19.67-30.56 43.04-61.58 67.52-90.78 31.9-38.04 65.91-73.2 96.22-100.37 2.65-2.37 5.97-3.53 9.26-3.53l44.22-.07c7.7 0 13.95 6.25 13.95 13.95 0 3.86-1.56 7.34-4.09 9.87-40.58 45.12-82.2 96.78-119.92 149.72-34.92 49.02-66.55 99.17-90.93 146.26-3.52 6.83-11.92 9.51-18.75 5.99a13.796 13.796 0 01-6.23-6.5c-13.36-28.57-29.28-54.8-48.23-78.2-18.93-23.37-41-44.09-66.69-61.72-6.35-4.33-7.98-13-3.65-19.35 2.82-4.14 7.49-6.27 12.16-6.06zM62.55 0h270.16c-19.14 19.72-35.72 38.96-49.97 57.45H62.55c-1.42 0-2.71.57-3.64 1.46a5.27 5.27 0 00-1.46 3.64v347.26c0 1.34.6 2.6 1.54 3.55.96.95 2.23 1.56 3.56 1.56h386.89c1.29 0 2.55-.62 3.52-1.58.97-.97 1.59-2.24 1.59-3.53V213.59c20.82-8.61 40.4-17.48 57.45-25.81v222.03c0 17.14-7.11 32.82-18.43 44.14-11.33 11.33-26.99 18.42-44.13 18.42H62.55c-17.13 0-32.83-7.06-44.17-18.4C7.08 442.67 0 427.03 0 409.81V62.55C0 45.4 7.04 29.78 18.35 18.46l.11-.11C29.78 7.04 45.4 0 62.55 0z"
+                ></path></svg
+              >
+            </div>
+            <div class="value-title">Verifiable claims</div>
+            <div class="value-desc">
+              Everything we say about how our tools work can be confirmed in
+              DevTools or source code.
+            </div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">
+              <!--?xml version="1.0" encoding="utf-8"?-->
+              <svg
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 102.85 122.88"
+                width="24"
+                height="24"
+                style="enable-background:new 0 0 102.85 122.88"
+                xml:space="preserve"
+                ><style type="text/css">
+                  .st0 {
+                    fill-rule: evenodd;
+                    clip-rule: evenodd;
+                  }
+                </style><g
+                  ><path
+                    class="st0"
+                    d="M56.91,20.32C67.15,21.4,76.5,25.5,84.05,31.7l5.21-5.44c1.06-1.11,2.84-1.13,3.95-0.06l3.5,3.4 c1.1,1.07,1.12,2.84,0.06,3.94l-5.35,5.58c7.15,8.83,11.44,20.08,11.44,32.32c0,28.4-23.03,51.43-51.43,51.43 C23.03,122.88,0,99.85,0,71.45C0,58.63,4.7,46.9,12.46,37.89l-6.02-5.66c-1.12-1.05-1.15-2.83-0.09-3.94l3.37-3.53 c1.06-1.11,2.83-1.14,3.94-0.09l6.41,6.03c7.81-6.02,17.39-9.84,27.83-10.54V9h-9.9c-1.32,0-2.4-1.08-2.4-2.4V2.4 c0-1.32,1.08-2.4,2.4-2.4h28.8c1.32,0,2.4,1.08,2.4,2.4v4.2c0,1.32-1.08,2.4-2.4,2.4h-9.9V20.32L56.91,20.32z M47.24,52.63h4.39 c0.8,0,1.46,0.66,1.46,1.46v18.35h13.51c0.8,0,1.46,0.66,1.46,1.46v4.39c0,0.8-0.66,1.46-1.46,1.46H45.78V77.6v-5.16V54.09 C45.78,53.28,46.44,52.63,47.24,52.63L47.24,52.63z M51.43,29.69c23.06,0,41.76,18.7,41.76,41.76c0,23.06-18.7,41.76-41.76,41.76 c-23.06,0-41.76-18.7-41.76-41.76C9.67,48.39,28.37,29.69,51.43,29.69L51.43,29.69z"
+                  ></path></g
+                ></svg
+              >
+            </div>
+            <div class="value-title">No friction</div>
+            <div class="value-desc">
+              No accounts, no sign-ups, no paywalls. Open the tool and use it.
+            </div>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">
+              <!--?xml version="1.0" encoding="utf-8"?-->
+              <svg
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                viewBox="0 0 122.88 99.83"
+                width="24"
+                height="24"
+                style="enable-background:new 0 0 122.88 99.83"
+                xml:space="preserve"
+                ><style type="text/css">
+                  .st0 {
+                    fill-rule: evenodd;
+                    clip-rule: evenodd;
+                  }
+                </style><g
+                  ><path
+                    class="st0"
+                    d="M8.79,17.04h10.27v82.79H8.79C3.95,99.83,0,95.88,0,91.04V25.82C0,20.99,3.95,17.04,8.79,17.04L8.79,17.04z M52.34,0h17.49c5.44,0,9.89,4.45,9.89,9.89v5.28h-6.3v-5.3c0-1.91-1.56-3.47-3.47-3.47H52.22c-1.91,0-3.47,1.56-3.47,3.47v5.3 h-6.3V9.89C42.45,4.45,46.9,0,52.34,0L52.34,0z M24.28,17.04h73.15v82.79H24.28V17.04L24.28,17.04z M102.65,17.04h11.44 c4.83,0,8.79,3.95,8.79,8.79v65.22c0,4.83-3.95,8.79-8.79,8.79h-11.44V17.04L102.65,17.04z"
+                  ></path></g
+                ></svg
+              >
+            </div>
+            <div class="value-title">Professional grade</div>
+            <div class="value-desc">
+              Built for lawyers, journalists, freelancers, and compliance teams
+              — not casual use.
+            </div>
+          </div>
+        </div>
+
+        <h2 id="contact" class="title">Get in touch</h2>
+
+        <p>
+          Questions, feedback, bug reports, or just want to say hello? I'd love
+          to hear from you.
+        </p>
+
+        <div class="contact-list">
+          <a href="mailto:lamichhane3848@gmail.com" class="contact-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              fill="none"
+              viewBox="0 0 192 192"
+              ><path
+                fill="url(#a)"
+                d="M146 44h38v110c0 6.627-5.373 12-12 12h-20a6 6 0 0 1-6-6z"
+              ></path><path
+                fill="#fc413d"
+                d="M46 44H8v110c0 6.627 5.373 12 12 12h20a6 6 0 0 0 6-6z"
+              ></path><path
+                fill="url(#b)"
+                d="M39.226 30.456c-8.033-6.752-20.018-5.714-26.77 2.319-6.752 8.032-5.714 20.017 2.319 26.77l76.078 63.949a8 8 0 0 0 10.295 0l76.078-63.95c8.032-6.752 9.07-18.737 2.318-26.77-6.752-8.032-18.737-9.07-26.769-2.318L96 78.18z"
+              ></path><defs
+                ><linearGradient
+                  id="a"
+                  x1="165"
+                  x2="165"
+                  y1="44"
+                  y2="166"
+                  gradientUnits="userSpaceOnUse"
+                  ><stop stop-color="#60d673"></stop><stop
+                    offset=".17"
+                    stop-color="#42c868"></stop><stop
+                    offset=".39"
+                    stop-color="#0ebc5f"></stop><stop
+                    offset=".62"
+                    stop-color="#00a9bb"></stop><stop
+                    offset=".86"
+                    stop-color="#3c90ff"></stop><stop
+                    offset="1"
+                    stop-color="#3186ff"></stop></linearGradient
+                ><linearGradient
+                  id="b"
+                  x1="8"
+                  x2="184"
+                  y1="46.13"
+                  y2="46.13"
+                  gradientUnits="userSpaceOnUse"
+                  ><stop offset=".08" stop-color="#ff63a0"></stop><stop
+                    offset=".3"
+                    stop-color="#fc413d"></stop><stop
+                    offset=".5"
+                    stop-color="#fc413d"></stop><stop
+                    offset=".65"
+                    stop-color="#fc413d"></stop><stop
+                    offset=".72"
+                    stop-color="#fc5c30"></stop><stop
+                    offset=".86"
+                    stop-color="#feb10c"></stop><stop
+                    offset=".91"
+                    stop-color="#fec700"></stop><stop
+                    offset=".96"
+                    stop-color="#ffdb0f"></stop></linearGradient
+                ></defs
+              ></svg
+            >
+            <span class="contact-label">Email</span>
+            <span class="contact-value">lamichhane3848@gmail.com</span>
+          </a>
+
+          <a
+            href="https://www.facebook.com/darshan.lamichhane.39"
+            target="_blank"
+            rel="noopener"
+            class="contact-item"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              shape-rendering="geometricPrecision"
+              text-rendering="geometricPrecision"
+              image-rendering="optimizeQuality"
+              fill-rule="evenodd"
+              width="12"
+              height="12"
+              clip-rule="evenodd"
+              viewBox="0 0 509 509"
+              ><g fill-rule="nonzero"
+                ><path
+                  fill="#0866FF"
+                  d="M509 254.5C509 113.94 395.06 0 254.5 0S0 113.94 0 254.5C0 373.86 82.17 474 193.02 501.51V332.27h-52.48V254.5h52.48v-33.51c0-86.63 39.2-126.78 124.24-126.78 16.13 0 43.95 3.17 55.33 6.33v70.5c-6.01-.63-16.44-.95-29.4-.95-41.73 0-57.86 15.81-57.86 56.91v27.5h83.13l-14.28 77.77h-68.85v174.87C411.35 491.92 509 384.62 509 254.5z"
+                ></path><path
+                  fill="#fff"
+                  d="M354.18 332.27l14.28-77.77h-83.13V227c0-41.1 16.13-56.91 57.86-56.91 12.96 0 23.39.32 29.4.95v-70.5c-11.38-3.16-39.2-6.33-55.33-6.33-85.04 0-124.24 40.16-124.24 126.78v33.51h-52.48v77.77h52.48v169.24c19.69 4.88 40.28 7.49 61.48 7.49 10.44 0 20.72-.64 30.83-1.86V332.27h68.85z"
+                ></path></g
+              ></svg
+            >
+            <span class="contact-label">Facebook</span>
+            <span class="contact-value">@darshan.lamichhane.39</span>
+          </a>
+
+          <a
+            href="https://github.com/Darshwan"
+            target="_blank"
+            rel="noopener"
+            class="contact-item"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              shape-rendering="geometricPrecision"
+              text-rendering="geometricPrecision"
+              image-rendering="optimizeQuality"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              viewBox="0 0 640 640"
+              ><path
+                d="M319.988 7.973C143.293 7.973 0 151.242 0 327.96c0 141.392 91.678 261.298 218.826 303.63 16.004 2.964 21.886-6.957 21.886-15.414 0-7.63-.319-32.835-.449-59.552-89.032 19.359-107.8-37.772-107.8-37.772-14.552-36.993-35.529-46.831-35.529-46.831-29.032-19.879 2.209-19.442 2.209-19.442 32.126 2.245 49.04 32.954 49.04 32.954 28.56 48.922 74.883 34.76 93.131 26.598 2.882-20.681 11.15-34.807 20.315-42.803-71.08-8.067-145.797-35.516-145.797-158.14 0-34.926 12.52-63.485 32.965-85.88-3.33-8.078-14.291-40.606 3.083-84.674 0 0 26.87-8.61 88.029 32.8 25.512-7.075 52.878-10.642 80.056-10.76 27.2.118 54.614 3.673 80.162 10.76 61.076-41.386 87.922-32.8 87.922-32.8 17.398 44.08 6.485 76.631 3.154 84.675 20.516 22.394 32.93 50.953 32.93 85.879 0 122.907-74.883 149.93-146.117 157.856 11.481 9.921 21.733 29.398 21.733 59.233 0 42.792-.366 77.28-.366 87.804 0 8.516 5.764 18.473 21.992 15.354 127.076-42.354 218.637-162.274 218.637-303.582 0-176.695-143.269-319.988-320-319.988l-.023.107z"
+              ></path></svg
+            >
+            <span class="contact-label">GitHub</span>
+            <span class="contact-value">github.com/Darshwan</span>
+          </a>
+        </div>
+
+        <p class="contact-note">I usually reply within a few days.</p>
+      </div>
+
+      <aside class="sidebar">
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">At a glance</div>
+          <div class="sidebar-widget-body">
+            <div class="stat-grid">
+              <div class="stat-box">
+                <span class="stat-num">5</span><div class="stat-label">
+                  Live tools
+                </div>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num">0</span><div class="stat-label">
+                  Bytes uploaded
+                </div>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num">0</span><div class="stat-label">
+                  Accounts needed
+                </div>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num">100%</span><div class="stat-label">
+                  Browser-only
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">Quick links</div>
+          <div class="sidebar-widget-body">
+            <a href="/privacy" class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                image-rendering="optimizeQuality"
+                fill-rule="evenodd"
+                width="12"
+                height="12"
+                clip-rule="evenodd"
+                viewBox="0 0 512 472.37"
+                ><path
+                  fill-rule="nonzero"
+                  d="M145.33 172.6l57.21-.75c2.76-.04 5.33.74 7.51 2.1 11.85 6.86 23.04 14.67 33.45 23.48 5.86 4.97 11.53 10.28 16.99 15.96 19.67-30.56 43.04-61.58 67.52-90.78 31.9-38.04 65.91-73.2 96.22-100.37 2.65-2.37 5.97-3.53 9.26-3.53l44.22-.07c7.7 0 13.95 6.25 13.95 13.95 0 3.86-1.56 7.34-4.09 9.87-40.58 45.12-82.2 96.78-119.92 149.72-34.92 49.02-66.55 99.17-90.93 146.26-3.52 6.83-11.92 9.51-18.75 5.99a13.796 13.796 0 01-6.23-6.5c-13.36-28.57-29.28-54.8-48.23-78.2-18.93-23.37-41-44.09-66.69-61.72-6.35-4.33-7.98-13-3.65-19.35 2.82-4.14 7.49-6.27 12.16-6.06zM62.55 0h270.16c-19.14 19.72-35.72 38.96-49.97 57.45H62.55c-1.42 0-2.71.57-3.64 1.46a5.27 5.27 0 00-1.46 3.64v347.26c0 1.34.6 2.6 1.54 3.55.96.95 2.23 1.56 3.56 1.56h386.89c1.29 0 2.55-.62 3.52-1.58.97-.97 1.59-2.24 1.59-3.53V213.59c20.82-8.61 40.4-17.48 57.45-25.81v222.03c0 17.14-7.11 32.82-18.43 44.14-11.33 11.33-26.99 18.42-44.13 18.42H62.55c-17.13 0-32.83-7.06-44.17-18.4C7.08 442.67 0 427.03 0 409.81V62.55C0 45.4 7.04 29.78 18.35 18.46l.11-.11C29.78 7.04 45.4 0 62.55 0z"
+                ></path></svg
+              > Privacy Policy</a
+            >
+            <a href="/terms" class="sidebar-link"
+              ><!--?xml version="1.0" encoding="utf-8"?-->
+              <svg
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="12"
+                height="12"
+                viewBox="0 0 104.69 122.88"
+                style="enable-background:new 0 0 104.69 122.88"
+                xml:space="preserve"
+                ><g
+                  ><path
+                    d="M31.54,86.95c-1.74,0-3.16-1.43-3.16-3.19c0-1.76,1.41-3.19,3.16-3.19h20.5c1.74,0,3.16,1.43,3.16,3.19 c0,1.76-1.41,3.19-3.16,3.19H31.54L31.54,86.95z M31.54,42.27c-1.74,0-3.15-1.41-3.15-3.15c0-1.74,1.41-3.15,3.15-3.15h41.61 c1.74,0,3.15,1.41,3.15,3.15c0,1.74-1.41,3.15-3.15,3.15H31.54L31.54,42.27z M66.57,108.66c-1.36-1.08-1.59-3.06-0.5-4.42 c1.08-1.36,3.06-1.59,4.42-0.5l9.57,7.59l18.21-22.27c1.1-1.35,3.09-1.54,4.43-0.44c1.35,1.1,1.54,3.09,0.44,4.43l-20.17,24.67l0,0 c-1.09,1.33-3.04,1.54-4.39,0.47L66.57,108.66L66.57,108.66z M56.85,116.58c1.74,0,3.15,1.41,3.15,3.15c0,1.74-1.41,3.15-3.15,3.15 H7.33c-2.02,0-3.85-0.82-5.18-2.15C0.82,119.4,0,117.57,0,115.55V7.33c0-2.02,0.82-3.85,2.15-5.18C3.48,0.82,5.31,0,7.33,0h90.02 c2.02,0,3.85,0.82,5.18,2.15c1.33,1.33,2.15,3.16,2.15,5.18V72.6c0,1.74-1.41,3.15-3.15,3.15c-1.74,0-3.15-1.41-3.15-3.15V7.33 c0-0.28-0.12-0.54-0.3-0.73c-0.19-0.19-0.45-0.3-0.73-0.3H7.33c-0.28,0-0.54,0.12-0.73,0.3C6.42,6.8,6.3,7.05,6.3,7.33v108.21 c0,0.28,0.12,0.54,0.3,0.73c0.19,0.19,0.45,0.3,0.73,0.3H56.85L56.85,116.58z M31.54,64.59c-1.74,0-3.15-1.41-3.15-3.15 c0-1.74,1.41-3.15,3.15-3.15h41.61c1.74,0,3.15,1.41,3.15,3.15c0,1.74-1.41,3.15-3.15,3.15H31.54L31.54,64.59z"
+                  ></path></g
+                ></svg
+              > Terms of Use</a
+            >
+            <a href="/contact" class="sidebar-link"
+              ><!--?xml version="1.0" encoding="utf-8"?-->
+              <svg
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="12"
+                height="12"
+                viewBox="0 0 118.875 122.877"
+                enable-background="new 0 0 118.875 122.877"
+                xml:space="preserve"
+                ><g
+                  ><path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M1.432,20.714c9.427,6.476,18.779,12.989,26.673,21.375 C23.58,62.076,41.64,78.045,58.111,87.453c6.448,3.683,9.298,6.265,16.476,5.024l28.268,27.696 C49.657,138.039-10.045,63.084,1.432,20.714L1.432,20.714z M81.874,85.356l6.201-6.298c1.788-1.819,4.74-1.842,6.559-0.053 l22.862,22.509c1.818,1.789,1.841,4.741,0.053,6.559l-6.203,6.299c-1.789,1.818-4.741,1.841-6.56,0.052L81.924,91.915 C80.105,90.127,80.083,87.175,81.874,85.356L81.874,85.356z M7.004,7.467l4.5-5.464c1.929-2.342,5.425-2.68,7.767-0.751 l23.405,19.281c2.342,1.931,2.677,5.425,0.75,7.77l-4.502,5.461c-1.93,2.345-5.425,2.68-7.768,0.751L7.755,15.234 C5.413,13.305,5.073,9.809,7.004,7.467L7.004,7.467z"
+                  ></path></g
+                ></svg
+              > Contact</a
+            >
+            <a href="/blog" class="sidebar-link"
+              ><!--?xml version="1.0" encoding="utf-8"?-->
+              <svg
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="12"
+                height="12"
+                viewBox="0 0 122.88 118.3"
+                style="enable-background:new 0 0 122.88 118.3"
+                xml:space="preserve"
+                ><style type="text/css">
+                  .st0 {
+                    fill-rule: evenodd;
+                    clip-rule: evenodd;
+                  }
+                </style><g
+                  ><path
+                    class="st0"
+                    d="M7.51,0h107.85c2.05,0,3.93,0.85,5.29,2.21v0l0.01,0.01l0.01,0.01l0.01,0.01c1.36,1.37,2.2,3.24,2.2,5.29 v103.28c0,2.07-0.85,3.95-2.21,5.31c-1.36,1.36-3.24,2.21-5.31,2.21H7.51c-2.05,0-3.93-0.84-5.3-2.21l-0.01-0.01l-0.01-0.01 l-0.01-0.01c-1.36-1.37-2.2-3.24-2.2-5.29V7.51C0,5.44,0.84,3.56,2.2,2.2c0.08-0.08,0.16-0.16,0.25-0.23C3.79,0.75,5.57,0,7.51,0 L7.51,0z M65.79,98.75c-1.58,0-2.86-1.39-2.86-3.11c0-1.72,1.28-3.11,2.86-3.11h35.22c1.58,0,2.86,1.39,2.86,3.11 c0,1.72-1.28,3.11-2.86,3.11H65.79L65.79,98.75z M20.82,98.75c-1.56,0-2.83-1.39-2.83-3.11c0-1.72,1.27-3.11,2.83-3.11h32.65 c1.56,0,2.83,1.39,2.83,3.11c0,1.72-1.27,3.11-2.83,3.11H20.82L20.82,98.75z M19.69,85.16c-1.56,0-2.83-1.39-2.83-3.11 c0-1.72,1.27-3.11,2.83-3.11h32.65c1.56,0,2.83,1.39,2.83,3.11c0,1.72-1.27,3.11-2.83,3.11H19.69L19.69,85.16z M65.79,85.16 c-1.58,0-2.86-1.39-2.86-3.11c0-1.72,1.28-3.11,2.86-3.11h35.22c1.58,0,2.86,1.39,2.86,3.11c0,1.72-1.28,3.11-2.86,3.11H65.79 L65.79,85.16z M17.59,34.77h85.94v33.65H17.59V34.77L17.59,34.77z M116.09,26.93c-0.24,0.04-0.48,0.06-0.72,0.06H7.51 c-0.25,0-0.49-0.02-0.72-0.06v83.86c0,0.2,0.08,0.38,0.2,0.51l0,0l0.01,0.01c0.13,0.13,0.3,0.2,0.51,0.2h107.85 c0.19,0,0.37-0.08,0.51-0.22c0.13-0.13,0.22-0.31,0.22-0.51V26.93L116.09,26.93z M50.12,9.7c2.7,0,4.88,2.19,4.88,4.88 s-2.19,4.88-4.88,4.88s-4.88-2.19-4.88-4.88S47.43,9.7,50.12,9.7L50.12,9.7z M33.05,9.7c2.7,0,4.88,2.19,4.88,4.88 s-2.19,4.88-4.88,4.88c-2.7,0-4.88-2.19-4.88-4.88S30.36,9.7,33.05,9.7L33.05,9.7z M15.99,9.7c2.7,0,4.88,2.19,4.88,4.88 s-2.19,4.88-4.88,4.88c-2.7,0-4.88-2.19-4.88-4.88S13.29,9.7,15.99,9.7L15.99,9.7z"
+                  ></path></g
+                ></svg
+              > Blog</a
+            >
+            <a
+              href="https://github.com/yourusername/fileintel"
+              target="_blank"
+              rel="noopener"
+              class="sidebar-link"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                image-rendering="optimizeQuality"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                viewBox="0 0 640 640"
+                ><path
+                  d="M319.988 7.973C143.293 7.973 0 151.242 0 327.96c0 141.392 91.678 261.298 218.826 303.63 16.004 2.964 21.886-6.957 21.886-15.414 0-7.63-.319-32.835-.449-59.552-89.032 19.359-107.8-37.772-107.8-37.772-14.552-36.993-35.529-46.831-35.529-46.831-29.032-19.879 2.209-19.442 2.209-19.442 32.126 2.245 49.04 32.954 49.04 32.954 28.56 48.922 74.883 34.76 93.131 26.598 2.882-20.681 11.15-34.807 20.315-42.803-71.08-8.067-145.797-35.516-145.797-158.14 0-34.926 12.52-63.485 32.965-85.88-3.33-8.078-14.291-40.606 3.083-84.674 0 0 26.87-8.61 88.029 32.8 25.512-7.075 52.878-10.642 80.056-10.76 27.2.118 54.614 3.673 80.162 10.76 61.076-41.386 87.922-32.8 87.922-32.8 17.398 44.08 6.485 76.631 3.154 84.675 20.516 22.394 32.93 50.953 32.93 85.879 0 122.907-74.883 149.93-146.117 157.856 11.481 9.921 21.733 29.398 21.733 59.233 0 42.792-.366 77.28-.366 87.804 0 8.516 5.764 18.473 21.992 15.354 127.076-42.354 218.637-162.274 218.637-303.582 0-176.695-143.269-319.988-320-319.988l-.023.107z"
+                ></path></svg
+              > GitHub</a
+            >
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">Tools</div>
+
+          <div class="sidebar-widget-body tools-sidebar">
+            <a href="/pdf-metadata-remover" class="tool-sidebar-link">
+              <span>PDF Metadata Remover</span>
+              <span class="tool-row-status live">Live</span>
+            </a>
+
+            <a href="/pdf-redactor" class="tool-sidebar-link">
+              <span>PDF Redactor</span>
+              <span class="tool-row-status live">Live</span>
+            </a>
+
+            <a href="/pdf-merger" class="tool-sidebar-link">
+              <span>PDF Merger</span>
+              <span class="tool-row-status live">Live</span>
+            </a>
+
+            <a href="/pdf-splitter" class="tool-sidebar-link">
+              <span>PDF Splitter</span>
+              <span class="tool-row-status live">Live</span>
+            </a>
+
+            <a href="/csv-deduplicator" class="tool-sidebar-link">
+              <span>CSV Deduplicator</span>
+              <span class="tool-row-status live">Live</span>
+            </a>
+
+            <a href="#" class="tool-sidebar-link">
+              <span>Image EXIF Cleaner</span>
+              <span class="tool-row-status soon">Soon</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <Footer />
+    <script>
+  
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+ window.addEventListener(
+        "scroll",
+        () => {
+          let current = 0;
+          sections.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (el && window.scrollY >= el.offsetTop - 140) current = i;
+          });
+          tocLinks.forEach((l, i) =>
+            l.classList.toggle("active", i === current),
+          );
+        },
+        { passive: true },
+      );
+</script>
+  </body>
+</html>

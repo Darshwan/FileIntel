@@ -1,57 +1,231 @@
 ---
-import TrustPageShell from '../components/TrustPageShell.astro';
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+
+// src/pages/contact.astro
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | FileIntel</title>
+  <meta name="description" content="Get in touch with FileIntel. Questions, feedback, bug reports, or partnership enquiries." />
+  <link rel="canonical" href="https://fileintel.me/contact" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="styles/global.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    .announce { padding: 8px; }
+    .hero { background: var(--ink); padding: 64px 40px 56px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 52px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; }
+    .hero-sub { font-size: 16px; color: #7a7a72; max-width: 520px; line-height: 1.65; }
+    @media (max-width: 700px) { .hero { padding: 40px 20px 36px; } }
 
-<TrustPageShell
-  title="Contact FileIntel"
-  description="Contact FileIntel for support, privacy questions, press inquiries, or partnership requests."
-  canonical="https://fileintel.me/contact"
-  currentPath="/contact"
-  eyebrow="Contact"
-  subtitle="Use this page for support, policy questions, press requests, or general feedback about the site and tools."
->
-  <section class="trust-section">
-    <h2 class="trust-section-title">How to reach us</h2>
-    <p class="trust-section-copy">
-      The quickest way to contact FileIntel is by email. For privacy, policy, billing, or general site questions, write to <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>.
-    </p>
-    <p class="trust-section-copy">
-      If you are reporting a bug, include the page you were using, the browser or operating system you tested on, and the exact step where the issue happened. That makes it much easier to reproduce and fix.
-    </p>
-  </section>
+    .page-wrap { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 340px; gap: 64px; }
+    @media (max-width: 960px) { .page-wrap { grid-template-columns: 1fr; padding: 32px 20px 60px; } }
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">What to contact us about</h2>
-    <ul class="trust-list">
-      <li><strong>Tool support.</strong> Something failed, exported incorrectly, or looked different than expected.</li>
-      <li><strong>Privacy questions.</strong> You want clarification about local processing, analytics, or policies.</li>
-      <li><strong>Press or partnerships.</strong> You are asking about coverage, collaboration, or licensing.</li>
-      <li><strong>Compliance review.</strong> Your team needs a clearer explanation of how the site handles documents and cookies.</li>
-    </ul>
-  </section>
+    .contact-form { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; }
+    .form-title { font-family: var(--serif); font-size: 24px; color: var(--ink); margin-bottom: 6px; letter-spacing: 0.02em; }
+    .form-sub { font-size: 13.5px; color: var(--ink-3); margin-bottom: 28px; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--sans); font-size: 14px; color: var(--ink); background: var(--paper); transition: border-color 0.15s; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--accent); }
+    .form-textarea { resize: vertical; min-height: 140px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .submit-btn { width: 100%; padding: 13px; background: var(--ink); color: var(--paper); border: none; border-radius: var(--radius-lg); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: background 0.15s; margin-top: 8px; }
+    .submit-btn:hover { background: #1a1a17; }
+    .form-note { font-size: 12px; color: var(--ink-3); text-align: center; margin-top: 10px; font-family: var(--mono); }
+    .success-msg { display: none; background: var(--green-light); border: 1px solid var(--green-border); border-radius: var(--radius-lg); padding: 16px 20px; font-size: 14px; color: var(--green); margin-top: 16px; }
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">Response expectations</h2>
-    <p class="trust-section-copy">
-      Messages are normally answered within a few business days. If the note is about a clear bug or policy correction, it gets priority over general inquiries.
-    </p>
-  </section>
+    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .contact-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+    .contact-card-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .contact-method { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
+    .contact-method:last-child { border-bottom: none; }
+    .contact-method-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .contact-method-label { font-size: 11px; font-family: var(--sans); color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+    .contact-method-value { font-size: 13.5px; color: var(--ink); }
+    .contact-method-value a { color: var(--accent); text-decoration: none; }
+    .contact-method-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+    .response-card { background: var(--paper-2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; }
+    .response-card p { font-size: 13px; color: var(--ink-3); line-height: 1.6; }
+    .response-card strong { color: var(--ink); }
+  </style>
+</head>
+<body>
 
-  <div slot="sidebar">
-    <div class="trust-card">
-      <div class="trust-card-label">Email</div>
-      <p class="trust-section-copy" style="margin:0;">
-        <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>
-      </p>
+<div id="reading-progress" aria-hidden="true" style="position:fixed;top:0;left:0;width:0%;height:3px;background:var(--accent);z-index:9999;transition:width 0.08s linear;border-radius:0 2px 2px 0;pointer-events:none;"></div>
+<!-- ANNOUNCE -->
+    <div class="announce">
+      New: <a href="/pdf-metadata-remover"
+        ><strong>PDF Privacy Risk Score</strong></a
+      > — instantly see your document's privacy risk before stripping. →
     </div>
-    <div class="trust-card">
-      <div class="trust-card-label">Also see</div>
-      <ul class="trust-link-list">
-        <li><a href="/about">About <span>company</span></a></li>
-        <li><a href="/privacy">Privacy Policy <span>policy</span></a></li>
-        <li><a href="/terms">Terms <span>rules</span></a></li>
-        <li><a href="/cookie-policy">Cookie Policy <span>cookies</span></a></li>
-      </ul>
-    </div>
+
+<Navbar activePage="/contact"/>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Contact</div>
+    <h1 class="hero-title">Get in touch</h1>
+    <p class="hero-sub">Bug reports, feedback, partnerships, or general questions. We read everything and respond within a few days.</p>
   </div>
-</TrustPageShell>
+</section>
+
+<div class="page-wrap">
+
+  <div class="contact-form">
+    <div class="form-title">Send a message</div>
+    <p class="form-sub">Or email directly at <a href="mailto:lamichhane3848@gmail.com" style="color:var(--accent);">lamichhane3848@gmail.com</a></p>
+
+    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="name">Your name</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="jane@example.com" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="subject">Subject</label>
+        <select class="form-select" id="subject" name="subject">
+          <option value="bug">Bug report</option>
+          <option value="feedback">Feedback</option>
+          <option value="partnership">Partnership / advertising</option>
+          <option value="privacy">Privacy question</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="message">Message</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send message</button>
+      <p class="form-note">We respond within 2&ndash;5 business days</p>
+    </form>
+    <div class="success-msg" id="success-msg">&#10003; Message sent. We'll get back to you within a few days.</div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="contact-card">
+      <div class="contact-card-title">&#9993; Direct contact</div>
+      <div class="contact-method">
+        <div class="contact-method-icon">&#128235;</div>
+        <div>
+          <div class="contact-method-label">Email</div>
+          <div class="contact-method-value"><a href="mailto:lamichhane3848@gmail.com">lamichhane3848@gmail.com</a></div>
+          <div class="contact-method-sub">Best for detailed questions</div>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">&#128279;</div>
+        <div>
+          <div class="contact-method-label">GitHub</div>
+          <div class="contact-method-value"><a href="https://github.com/yourusername/fileintel" target="_blank" rel="noopener">github.com/fileintel</a></div>
+          <div class="contact-method-sub">Bug reports &amp; source code</div>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">&#127758;</div>
+        <div>
+          <div class="contact-method-label">Location</div>
+          <div class="contact-method-value">Nepal</div>
+          <div class="contact-method-sub">NPT (UTC+5:45)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="response-card">
+      <p><strong>Response time:</strong> 2&ndash;5 business days for general enquiries. Bug reports are prioritised and usually addressed faster.</p>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-title">&#128203; Common questions</div>
+      <div class="contact-method">
+        <div>
+          <div class="contact-method-label">Is FileIntel really free?</div>
+          <div class="contact-method-sub" style="font-size:13px; color:var(--ink-2); margin-top:4px;">Yes. All tools are free with no page limits or watermarks.</div>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div>
+          <div class="contact-method-label">Do you store my files?</div>
+          <div class="contact-method-sub" style="font-size:13px; color:var(--ink-2); margin-top:4px;">No. Everything runs in your browser. We never receive your files.</div>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div>
+          <div class="contact-method-label">Can I request a feature?</div>
+          <div class="contact-method-sub" style="font-size:13px; color:var(--ink-2); margin-top:4px;">Yes — use the form or open a GitHub issue.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<Footer />
+
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+
+  // Form submission
+  const form = document.getElementById('contact-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.submit-btn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      } else {
+        btn.textContent = 'Send message';
+        btn.disabled = false;
+        alert('Something went wrong. Please email us directly.');
+      }
+    } catch {
+      btn.textContent = 'Send message';
+      btn.disabled = false;
+      alert('Something went wrong. Please email us directly.');
+    }
+  });
+</script>
+</body>
+</html>

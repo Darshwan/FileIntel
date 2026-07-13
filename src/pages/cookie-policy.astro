@@ -1,60 +1,213 @@
 ---
-import TrustPageShell from '../components/TrustPageShell.astro';
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+
+// src/pages/cookie-policy.astro
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Policy | FileIntel</title>
+  <meta name="description" content="FileIntel Cookie Policy. We use minimal cookies. Here's exactly what they are and how to control them." />
+  <link rel="canonical" href="https://fileintel.me/cookie-policy" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    .announce { padding: 8px; }
+    .hero { background: var(--ink); padding: 64px 40px 56px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 52px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; }
+    .hero-sub { font-size: 16px; color: #7a7a72; max-width: 520px; line-height: 1.65; }
+    .hero-meta { margin-top: 28px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; }
+    @media (max-width: 700px) { .hero { padding: 40px 20px 36px; } }
+    .page-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 260px; gap: 64px; }
+    @media (max-width: 960px) { .page-layout { grid-template-columns: 1fr; padding: 32px 20px 60px; } .sidebar { position: static !important; } }
+    .prose h2 { font-family: var(--serif); font-size: clamp(20px, 2.5vw, 26px); letter-spacing: -0.02em; color: var(--ink); margin: 48px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--paper-3); }
+    .prose p { font-size: 15.5px; color: var(--ink-2); line-height: 1.8; margin-bottom: 18px; }
+    .prose ul { padding-left: 20px; margin-bottom: 18px; }
+    .prose li { font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 6px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .effective-tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--border); border-radius: 3px; padding: 4px 10px; margin-bottom: 32px; }
+    .cookie-table { width: 100%; border-collapse: collapse; font-size: 13.5px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 20px 0; }
+    .cookie-table th { padding: 10px 16px; text-align: left; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); font-family: var(--mono); border-bottom: 1px solid var(--border); }
+    .cookie-table td { padding: 11px 16px; border-bottom: 1px solid var(--paper-3); color: var(--ink-2); vertical-align: top; line-height: 1.5; }
+    .cookie-table tr:last-child td { border-bottom: none; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; }
+    .pill-essential { background: var(--green-light); color: var(--green); }
+    .pill-ads { background: var(--amber-light); color: var(--amber); }
+    .callout { border-left: 3px solid var(--green); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 16px 20px; margin: 28px 0; }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; color: var(--green); }
+    .callout p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+    .sidebar { position: sticky; top: calc(56px + 24px); display: flex; flex-direction: column; gap: 16px; }
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sidebar-widget-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sidebar-widget-body { padding: 14px 16px; }
+    .toc-link { display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+  </style>
+</head>
+<body>
+<div id="reading-progress" aria-hidden="true" style="position:fixed;top:0;left:0;width:0%;height:3px;background:var(--accent);z-index:9999;transition:width 0.08s linear;border-radius:0 2px 2px 0;pointer-events:none;"></div>
+<!-- ANNOUNCE -->
+    <div class="announce">
+      New: <a href="/pdf-metadata-remover"
+        ><strong>PDF Privacy Risk Score</strong></a
+      > — instantly see your document's privacy risk before stripping. →
+    </div>
+<Navbar />
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Legal</div>
+    <h1 class="hero-title">Cookie Policy</h1>
+    <p class="hero-sub">We use minimal cookies. This page explains exactly what they are, who sets them, and how to control them.</p>
+    <div class="hero-meta">Last updated: June 2026</div>
+  </div>
+</section>
+<div class="page-layout">
+  <div>
+    <div class="effective-tag">&#128197; Effective: 1 June 2026</div>
+    <div class="prose">
 
-<TrustPageShell
-  title="Cookie Policy"
-  description="How FileIntel uses cookies, browser storage, analytics, and advertising-related identifiers."
-  canonical="https://fileintel.me/cookie-policy"
-  currentPath="/cookie-policy"
-  eyebrow="Cookie Policy"
-  subtitle="This page explains what cookies and similar technologies may be used on FileIntel, including what happens if ad products are enabled."
->
-  <section class="trust-section">
-    <h2 class="trust-section-title">What cookies are used now</h2>
-    <p class="trust-section-copy">
-      FileIntel does not use cookies for account login, shopping carts, or social profiles. The site may use only a minimal number of cookies or similar identifiers that are necessary for security, performance, or platform delivery.
-    </p>
-    <p class="trust-section-copy">
-      Any analytics we use are intended to be privacy-respecting and low impact. They are not meant to build a personal profile of you across the web.
-    </p>
-  </section>
+      <div class="callout">
+        <div class="callout-label">&#10003; Short version</div>
+        <p>FileIntel sets no tracking or advertising cookies of its own. The cookies that may be present are from Cloudflare (security) and Google AdSense (advertising). You can opt out of AdSense personalisation at any time.</p>
+      </div>
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">Advertising cookies and AdSense</h2>
-    <p class="trust-section-copy">
-      If FileIntel enables Google AdSense or other ad products in the future, Google and its partners may use cookies or similar identifiers to serve and measure ads. Where required by law, consent will be requested before those cookies are set.
-    </p>
-    <p class="trust-section-copy">
-      The exact cookies and vendors may vary by region, consent status, and the type of ad delivery being used. This page should be updated if the ad stack changes.
-    </p>
-  </section>
+      <h2 id="what-are-cookies">What are cookies</h2>
+      <p>Cookies are small text files stored in your browser by websites you visit. They serve different purposes: some are essential for the site to work, others track your behaviour for advertising or analytics.</p>
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">Your choices</h2>
-    <ul class="trust-list">
-      <li><strong>Browser settings.</strong> You can block or delete cookies through your browser controls.</li>
-      <li><strong>Consent controls.</strong> If consent-based advertising is enabled, you can accept or reject optional cookies where required.</li>
-      <li><strong>Policy review.</strong> Revisit this page and the Privacy Policy when the site changes in a material way.</li>
-    </ul>
-  </section>
+      <h2 id="cookies-we-use">Cookies on FileIntel</h2>
+      <p>Here is the complete list of cookies that may be present when you use FileIntel:</p>
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">Third-party services</h2>
-    <p class="trust-section-copy">
-      Some external services, such as hosting, fonts, analytics, or ad platforms, may set their own cookies or similar technologies subject to their own policies. FileIntel does not control those external policies.
-    </p>
-  </section>
+      <table class="cookie-table">
+        <thead>
+          <tr>
+            <th>Cookie</th>
+            <th>Set by</th>
+            <th>Purpose</th>
+            <th>Duration</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>__cf_bm</code></td>
+            <td>Cloudflare</td>
+            <td>Bot management and security. Distinguishes humans from automated traffic.</td>
+            <td>30 minutes</td>
+            <td><span class="pill pill-essential">Essential</span></td>
+          </tr>
+          <tr>
+            <td><code>_ga</code>, <code>_gid</code></td>
+            <td>Google (if analytics enabled)</td>
+            <td>Anonymous analytics. Page views and session data. No personal identification.</td>
+            <td>Up to 2 years</td>
+            <td><span class="pill pill-essential">Analytics</span></td>
+          </tr>
+          <tr>
+            <td>AdSense cookies</td>
+            <td>Google AdSense</td>
+            <td>Serve and measure advertisements. May personalise ads based on your browsing history.</td>
+            <td>Up to 13 months</td>
+            <td><span class="pill pill-ads">Advertising</span></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div slot="sidebar">
-    <div class="trust-card">
-      <div class="trust-card-label">More policies</div>
-      <ul class="trust-link-list">
-        <li><a href="/privacy">Privacy Policy <span>data</span></a></li>
-        <li><a href="/terms">Terms <span>rules</span></a></li>
-        <li><a href="/contact">Contact <span>email</span></a></li>
-        <li><a href="/about">About <span>company</span></a></li>
+      <h2 id="adsense">Google AdSense and advertising cookies</h2>
+      <p>FileIntel displays advertisements served by Google AdSense. Google uses cookies to serve ads based on your prior visits to this and other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to FileIntel and/or other sites on the internet.</p>
+      <p>You may opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>. You can also opt out of a third-party vendor's use of cookies for personalised advertising by visiting <a href="https://www.aboutads.info" target="_blank" rel="noopener">aboutads.info</a>.</p>
+
+      <h2 id="control">How to control cookies</h2>
+      <p>You can control and delete cookies through your browser settings. All major browsers allow you to:</p>
+      <ul>
+        <li>See what cookies are stored and delete them individually</li>
+        <li>Block third-party cookies</li>
+        <li>Block cookies from specific sites</li>
+        <li>Block all cookies (note: this may break some site functionality)</li>
       </ul>
+      <p>Instructions for the most common browsers:</p>
+      <ul>
+        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+        <li><a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+        <li><a href="https://support.apple.com/en-gb/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Apple Safari</a></li>
+        <li><a href="https://support.microsoft.com/en-us/windows/manage-cookies-in-microsoft-edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
+      </ul>
+
+      <h2 id="gdpr">Cookie consent and GDPR</h2>
+      <p>If you are visiting from the EU or UK, non-essential cookies (including AdSense advertising cookies) require your consent under GDPR and the UK Privacy and Electronic Communications Regulations (PECR). Our cookie consent banner allows you to accept or decline non-essential cookies when you first visit the site.</p>
+      <p>You can change your cookie preferences at any time by clearing your browser cookies and revisiting the site.</p>
+
+      <h2 id="changes">Changes to this policy</h2>
+      <p>We'll update this page if we add new cookies or change how existing ones work. The current version is always at <a href="https://fileintel.me/cookie-policy">fileintel.me/cookie-policy</a>.</p>
+
+      <h2 id="contact">Contact</h2>
+      <p>Cookie questions: <a href="mailto:lamichhane3848@gmail.com">lamichhane3848@gmail.com</a></p>
     </div>
   </div>
-</TrustPageShell>
+  <aside class="sidebar">
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">On this page</div>
+      <div class="sidebar-widget-body">
+        <a href="#what-are-cookies" class="toc-link"><span class="toc-num">01</span> What are cookies</a>
+        <a href="#cookies-we-use" class="toc-link"><span class="toc-num">02</span> Cookies we use</a>
+        <a href="#adsense" class="toc-link"><span class="toc-num">03</span> Google AdSense</a>
+        <a href="#control" class="toc-link"><span class="toc-num">04</span> How to control</a>
+        <a href="#gdpr" class="toc-link"><span class="toc-num">05</span> GDPR consent</a>
+        <a href="#changes" class="toc-link"><span class="toc-num">06</span> Changes</a>
+        <a href="#contact" class="toc-link"><span class="toc-num">07</span> Contact</a>
+      </div>
+    </div>
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">Related</div>
+      <div class="sidebar-widget-body">
+        <a href="/privacy" class="toc-link"><span class="toc-num">&#128274;</span> Privacy Policy</a>
+        <a href="/terms" class="toc-link"><span class="toc-num">&#128203;</span> Terms of Use</a>
+        <a href="/contact" class="toc-link"><span class="toc-num">&#9993;</span> Contact us</a>
+      </div>
+    </div>
+  </aside>
+</div>
+<Footer />
+<script>
+  
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+  const sections = ['what-are-cookies','cookies-we-use','adsense','control','gdpr','changes','contact'];
+  const tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => { const el = document.getElementById(id); if (el && window.scrollY >= el.offsetTop - 140) current = i; });
+    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+  }, { passive: true });
+</script>
+</body>
+</html>

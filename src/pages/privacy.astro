@@ -4,303 +4,889 @@ import Navbar from "../components/Navbar.astro";
 
 // src/pages/privacy.astro
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy | FileIntel</title>
-  <meta name="description" content="FileIntel processes nothing. Your files never leave your device. Here's exactly how that works." />
-  <link rel="canonical" href="https://fileintel.me/privacy" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" href="/styles/global.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
-      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
-      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
-      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
-      --border: #d4d1c8; --white: #fafaf8;
-      --serif: 'Instrument Serif', Georgia, serif;
-      --mono: 'DM Mono', 'Courier New', monospace;
-      --sans: 'Geist', system-ui, sans-serif;
-      --radius: 4px; --radius-lg: 8px;
-    }
-    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy | FileIntel</title>
+    <meta
+      name="description"
+      content="FileIntel processes nothing. Your files never leave your device. Here's exactly how that works."
+    />
+    <link rel="canonical" href="https://fileintel.me/privacy" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #0f0f0d;
+        --ink-2: #3a3a35;
+        --ink-3: #7a7a72;
+        --paper: #f5f3ee;
+        --paper-2: #eceae3;
+        --paper-3: #e2dfd6;
+        --accent: #c8432a;
+        --green: #2a6b4a;
+        --green-light: #e8f2ec;
+        --green-border: #b8ddc8;
+        --amber: #b06820;
+        --amber-light: #fef3e2;
+        --border: #d4d1c8;
+        --white: #fafaf8;
+        --serif: "Instrument Serif", Georgia, serif;
+        --mono: "DM Mono", "Courier New", monospace;
+        --sans: "Geist", system-ui, sans-serif;
+        --radius: 4px;
+        --radius-lg: 8px;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.6;
+      }
+      .announce {
+        padding: 8px;
+      }
 
-    /* NAV */
-    .nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; position: sticky; top: 0; z-index: 100; }
-    .nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo-mark { width: 28px; height: 28px; background: var(--ink); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--paper); }
-    .nav-logo-text { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.1; }
-    .nav-logo-sub { font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; }
-    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
-    .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: color 0.15s; }
-    .nav-links a:hover { color: var(--ink); }
-    .nav-badge { font-family: var(--mono); font-size: 10px; background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); padding: 3px 8px; border-radius: 3px; }
-    @media (max-width: 700px) { .nav-links { display: none; } .nav { padding: 0 20px; } }
+      /* NAV */
+      .nav {
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        padding: 0 40px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .nav-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .nav-logo-mark {
+        width: 28px;
+        height: 28px;
+        background: var(--ink);
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--paper);
+      }
+      .nav-logo-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1.1;
+      }
+      .nav-logo-sub {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--ink-3);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 13px;
+        color: var(--ink-2);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+      .nav-badge {
+        font-family: var(--mono);
+        font-size: 10px;
+        background: var(--green-light);
+        color: var(--green);
+        border: 1px solid var(--green-border);
+        padding: 3px 8px;
+        border-radius: 3px;
+      }
+      @media (max-width: 700px) {
+        .nav-links {
+          display: none;
+        }
+        .nav {
+          padding: 0 20px;
+        }
+      }
 
-    /* HERO */
-    .hero { background: var(--ink); padding: 64px 40px 56px; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
-    .hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
-    .hero-eyebrow { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
-    .hero-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 52px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; }
-    .hero-sub { font-size: 16px; color: #7a7a72; max-width: 520px; line-height: 1.65; }
-    .hero-meta { margin-top: 28px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; }
-    @media (max-width: 700px) { .hero { padding: 40px 20px 36px; } }
+      /* HERO */
+      .hero {
+        background: var(--ink);
+        padding: 64px 40px 56px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 48px 48px;
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 18px;
+      }
+      .hero-title {
+        font-family: var(--serif);
+        font-size: clamp(30px, 4.5vw, 52px);
+        color: var(--paper);
+        line-height: 1.08;
+        letter-spacing: -0.025em;
+        margin-bottom: 20px;
+      }
+      .hero-sub {
+        font-size: 16px;
+        color: #7a7a72;
+        max-width: 520px;
+        line-height: 1.65;
+      }
+      .hero-meta {
+        margin-top: 28px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        color: #4a4a42;
+      }
+      @media (max-width: 700px) {
+        .hero {
+          padding: 40px 20px 36px;
+        }
+      }
 
-    /* LAYOUT */
-    .page-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 280px; gap: 64px; align-items: start; }
-    @media (max-width: 960px) { .page-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; } .sidebar { position: static !important; } }
-    @media (max-width: 700px) { .page-layout { padding: 24px 20px 60px; } }
+      /* LAYOUT */
+      .page-layout {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 56px 40px 80px;
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 64px;
+        align-items: start;
+      }
+      @media (max-width: 960px) {
+        .page-layout {
+          grid-template-columns: 1fr;
+          gap: 40px;
+          padding: 32px 20px 60px;
+        }
+        .sidebar {
+          position: static !important;
+        }
+      }
+      @media (max-width: 700px) {
+        .page-layout {
+          padding: 24px 20px 60px;
+        }
+      }
 
-    /* PROSE */
-    .prose h2 { font-family: var(--serif); font-size: clamp(20px, 2.5vw, 26px); letter-spacing: -0.02em; color: var(--ink); margin: 48px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--paper-3); }
-    .prose p { font-size: 15.5px; color: var(--ink-2); line-height: 1.8; margin-bottom: 18px; }
-    .prose ul { padding-left: 20px; margin-bottom: 18px; }
-    .prose li { font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 6px; }
-    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); }
-    .prose a:hover { border-bottom-color: var(--accent); }
-    .prose strong { color: var(--ink); font-weight: 600; }
-    .prose code { font-family: var(--mono); font-size: 12.5px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; }
+      /* PROSE */
+      .prose h2 {
+        font-family: var(--serif);
+        font-size: clamp(20px, 2.5vw, 26px);
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin: 48px 0 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--paper-3);
+      }
+      .prose p {
+        font-size: 15.5px;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin-bottom: 18px;
+      }
+      .prose ul {
+        padding-left: 20px;
+        margin-bottom: 18px;
+      }
+      .prose li {
+        font-size: 15px;
+        color: var(--ink-2);
+        line-height: 1.75;
+        margin-bottom: 6px;
+      }
+      .prose a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(200, 67, 42, 0.3);
+      }
+      .prose a:hover {
+        border-bottom-color: var(--accent);
+      }
+      .prose strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .prose code {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        background: var(--paper-2);
+        border: 1px solid var(--border);
+        padding: 1px 6px;
+        border-radius: 3px;
+      }
 
-    /* ZERO DATA CARD */
-    .zero-card { background: var(--ink); border-radius: var(--radius-lg); padding: 28px 28px 24px; margin-bottom: 36px; }
-    .zero-card-title { font-family: var(--serif); font-size: 20px; color: var(--paper); font-style: italic; margin-bottom: 16px; letter-spacing: -0.02em; }
-    .zero-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
-    .zero-row:last-child { border-bottom: none; }
-    .zero-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-    .zero-text { font-size: 13.5px; color: #7a7a72; line-height: 1.55; }
-    .zero-text strong { color: var(--paper); font-weight: 500; }
+      /* ZERO DATA CARD */
+      .zero-card {
+        background: var(--ink);
+        border-radius: var(--radius-lg);
+        padding: 28px 28px 24px;
+        margin-bottom: 36px;
+      }
+      .zero-card-title {
+        font-family: var(--serif);
+        font-size: 20px;
+        color: var(--paper);
+        font-style: italic;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+      }
+      .zero-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .zero-row:last-child {
+        border-bottom: none;
+      }
+      .zero-icon {
+        font-size: 14px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .zero-text {
+        font-size: 13.5px;
+        color: #7a7a72;
+        line-height: 1.55;
+      }
+      .zero-text strong {
+        color: var(--paper);
+        font-weight: 500;
+      }
 
-    /* CALLOUT */
-    .callout { border-left: 3px solid var(--green); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 16px 20px; margin: 28px 0; }
-    .callout.amber { border-left-color: var(--amber); }
-    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; color: var(--green); }
-    .callout.amber .callout-label { color: var(--amber); }
-    .callout p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+      /* CALLOUT */
+      .callout {
+        border-left: 3px solid var(--green);
+        background: var(--white);
+        border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        padding: 16px 20px;
+        margin: 28px 0;
+      }
+      .callout.amber {
+        border-left-color: var(--amber);
+      }
+      .callout-label {
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: var(--green);
+      }
+      .callout.amber .callout-label {
+        color: var(--amber);
+      }
+      .callout p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--ink-2);
+        line-height: 1.65;
+      }
 
-    /* SIDEBAR */
-    .sidebar { position: sticky; top: calc(56px + 24px); display: flex; flex-direction: column; gap: 16px; }
-    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    .sidebar-widget-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
-    .sidebar-widget-body { padding: 14px 16px; }
-    .toc-link { display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
-    .toc-link:last-child { border-bottom: none; }
-    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
-    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
-    .contact-widget { background: var(--paper-2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; }
-    .contact-widget h4 { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
-    .contact-widget p { font-size: 12.5px; color: var(--ink-3); line-height: 1.55; margin-bottom: 10px; }
-    .contact-widget a { font-size: 12.5px; color: var(--accent); text-decoration: none; font-weight: 500; }
+      /* SIDEBAR */
+      .sidebar {
+        position: sticky;
+        top: calc(56px + 24px);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .sidebar-widget {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+      .sidebar-widget-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--paper-3);
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        font-weight: 600;
+      }
+      .sidebar-widget-body {
+        padding: 14px 16px;
+      }
+      .toc-link {
+        display: flex;
+        gap: 8px;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        text-decoration: none;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--paper-3);
+        transition: color 0.15s;
+        line-height: 1.4;
+      }
+      .toc-link:last-child {
+        border-bottom: none;
+      }
+      .toc-link:hover,
+      .toc-link.active {
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .toc-num {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--paper-3);
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+      .contact-widget {
+        background: var(--paper-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 18px;
+      }
+      .contact-widget h4 {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .contact-widget p {
+        font-size: 12.5px;
+        color: var(--ink-3);
+        line-height: 1.55;
+        margin-bottom: 10px;
+      }
+      .contact-widget a {
+        font-size: 12.5px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+      }
 
-    /* EFFECTIVE DATE TAG */
-    .effective-tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--border); border-radius: 3px; padding: 4px 10px; margin-bottom: 32px; }
+      /* EFFECTIVE DATE TAG */
+      .effective-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-3);
+        background: var(--paper-2);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        padding: 4px 10px;
+        margin-bottom: 32px;
+      }
 
-    /* FOOTER */
-    footer { background: var(--ink); color: var(--paper); padding: 56px 40px 40px; margin-top: 80px; }
-    .footer-inner { max-width: 1160px; margin: 0 auto; }
-    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .footer-logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 10px; }
-    .footer-tagline { font-size: 13px; color: #5a5a52; line-height: 1.6; }
-    .footer-col h4 { font-size: 11px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a52; margin-bottom: 14px; }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { font-size: 13px; color: #7a7a72; text-decoration: none; transition: color 0.15s; }
-    .footer-col a:hover { color: var(--paper); }
-    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; font-family: var(--mono); font-size: 11px; color: #3a3a35; flex-wrap: wrap; gap: 12px; }
-    @media (max-width: 700px) { footer { padding: 40px 20px 32px; } .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; } }
-  </style>
-</head>
-<body>
+      /* FOOTER */
+      footer {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 56px 40px 40px;
+        margin-top: 80px;
+      }
+      .footer-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+      }
+      .footer-top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .footer-logo {
+        font-family: var(--mono);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--paper);
+        margin-bottom: 10px;
+      }
+      .footer-tagline {
+        font-size: 13px;
+        color: #5a5a52;
+        line-height: 1.6;
+      }
+      .footer-col h4 {
+        font-size: 11px;
+        font-family: var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #5a5a52;
+        margin-bottom: 14px;
+      }
+      .footer-col ul {
+        list-style: none;
+      }
+      .footer-col li {
+        margin-bottom: 10px;
+      }
+      .footer-col a {
+        font-size: 13px;
+        color: #7a7a72;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .footer-col a:hover {
+        color: var(--paper);
+      }
+      .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 28px;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: #3a3a35;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      @media (max-width: 700px) {
+        footer {
+          padding: 40px 20px 32px;
+        }
+        .footer-top {
+          grid-template-columns: 1fr 1fr;
+          gap: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="reading-progress"
+      aria-hidden="true"
+      style="position:fixed;top:0;left:0;width:0%;height:3px;background:var(--accent);z-index:9999;transition:width 0.08s linear;border-radius:0 2px 2px 0;pointer-events:none;"
+    >
+    </div>
+    <!-- ANNOUNCE -->
+    <div class="announce">
+      New: <a href="/pdf-metadata-remover"
+        ><strong>PDF Privacy Risk Score</strong></a
+      > — instantly see your document's privacy risk before stripping. →
+    </div>
+    <Navbar activePage="/privacy" />
 
-<div id="reading-progress" aria-hidden="true" style="position:fixed;top:0;left:0;width:0%;height:3px;background:var(--accent);z-index:9999;transition:width 0.08s linear;border-radius:0 2px 2px 0;pointer-events:none;"></div>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">Legal</div>
+        <h1 class="hero-title">Privacy Policy</h1>
+        <p class="hero-sub">
+          The short version: your files never leave your device. We don't see
+          them, store them, or touch them. This page explains everything else.
+        </p>
+        <div class="hero-meta">Last updated: June 2026</div>
+      </div>
+    </section>
 
-<Navbar activePage="/privacy" />
+    <div class="page-layout">
+      <div>
+        <div class="effective-tag">&#128197; Effective date: 1 June 2026</div>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Legal</div>
-    <h1 class="hero-title">Privacy Policy</h1>
-    <p class="hero-sub">The short version: your files never leave your device. We don't see them, store them, or touch them. This page explains everything else.</p>
-    <div class="hero-meta">Last updated: June 2026</div>
-  </div>
-</section>
+        <!-- ZERO DATA CARD -->
+        <div class="zero-card">
+          <div class="zero-card-title">
+            What FileIntel does — and doesn't do
+          </div>
+          <div class="zero-row">
+            <div class="zero-icon">&#10003;</div>
+            <div class="zero-text">
+              <strong>Your files are processed locally.</strong> Every tool on FileIntel
+              runs in your browser using JavaScript. Nothing is uploaded to our servers
+              because we don't have servers that receive files.
+            </div>
+          </div>
+          <div class="zero-row">
+            <div class="zero-icon">&#10003;</div>
+            <div class="zero-text">
+              <strong>We don't store your documents.</strong> When you close or refresh
+              the tab, the file is gone. We have no copy. Nobody does.
+            </div>
+          </div>
+          <div class="zero-row">
+            <div class="zero-icon">&#10003;</div>
+            <div class="zero-text">
+              <strong>We don't sell data.</strong> We have no user accounts, no profiles,
+              nothing to sell.
+            </div>
+          </div>
+          <div class="zero-row">
+            <div class="zero-icon">&#10003;</div>
+            <div class="zero-text">
+              <strong>No sign-up required.</strong> No email, no name, no account.
+              You open the tool and use it.
+            </div>
+          </div>
+        </div>
 
-<div class="page-layout">
-  <div>
+        <div class="prose">
+          <h2 id="what-we-collect">What we collect</h2>
 
-    <div class="effective-tag">
-      &#128197; Effective date: 1 June 2026
+          <p>Almost nothing. Here's the complete list.</p>
+
+          <p>
+            <strong>Analytics (anonymous).</strong> We use privacy-respecting analytics
+            to understand which tools and pages are used most. This tells us things
+            like "the PDF Metadata Remover had 400 visits today." It does not tell
+            us who you are, what files you processed, or where you came from specifically.
+            No cookies are set for this. No cross-site tracking.
+          </p>
+
+          <p>
+            <strong>Server logs.</strong> Like every website, our hosting provider
+            (Cloudflare Pages) logs basic request data — IP address, browser type,
+            pages visited, timestamp. These logs are used for security and performance
+            monitoring. They're not linked to any user profile. Cloudflare's data
+            handling is governed by <a
+              href="https://www.cloudflare.com/privacypolicy/"
+              target="_blank"
+              rel="noopener">their privacy policy</a
+            >.
+          </p>
+
+          <p>
+            That's it. We don't run advertising trackers. We don't use Google
+            Analytics. We don't embed third-party widgets that phone home.
+          </p>
+
+          <h2 id="your-files">Your files</h2>
+
+          <p>
+            Every tool on FileIntel — PDF Metadata Remover, PDF Redactor, CSV
+            Deduplicator, PDF Merger, PDF Splitter — runs entirely client-side.
+            When you drop a file into the tool, the browser reads it into memory
+            using the File API. The processing happens in your browser using
+            JavaScript libraries loaded from public CDNs. The output file is
+            generated locally and downloaded directly to your device.
+          </p>
+
+          <p>
+            At no point does your file travel across the internet to us. We have
+            no infrastructure to receive it. If you're skeptical, open DevTools
+            → Network tab while using any tool. You'll see no outbound requests
+            carrying your file data.
+          </p>
+
+          <div class="callout">
+            <div class="callout-label">&#10003; Verifiable</div>
+            <p>
+              Our source code is on GitHub. You can inspect every tool to
+              confirm it does exactly what we say. If you find something that
+              contradicts this policy, please tell us.
+            </p>
+          </div>
+
+          <h2 id="cdn-libraries">CDN libraries</h2>
+
+          <p>
+            Our tools load JavaScript libraries from Cloudflare's CDN —
+            specifically PDF.js, pdf-lib, and JSZip. When your browser requests
+            these files, Cloudflare's servers see your IP address as part of a
+            standard HTTPS request. This is identical to any website that loads
+            a font or script from a third party. The libraries themselves run
+            locally once loaded — they don't transmit your data anywhere.
+          </p>
+
+          <h2 id="cookies">Cookies</h2>
+
+          <p>
+            We don't set cookies for tracking or advertising. Cloudflare may set
+            a minimal session cookie for security purposes (bot detection). This
+            doesn't identify you personally and expires when you close your
+            browser.
+          </p>
+
+          <h2 id="third-parties">Third parties</h2>
+
+          <p>FileIntel uses the following third-party services:</p>
+
+          <ul>
+            <li>
+              <strong>Cloudflare Pages</strong> — hosting and CDN. Processes request
+              metadata as described above.
+            </li>
+            <li>
+              <strong>Google Fonts</strong> — serves Instrument Serif and DM Mono.
+              Your browser requests these fonts from Google's servers. If this concerns
+              you, you can self-host the fonts locally.
+            </li>
+            <li>
+              <strong>Cloudflare CDN</strong> — serves PDF.js, pdf-lib, and JSZip
+              libraries.
+            </li>
+          </ul>
+
+          <p>
+            We don't use advertising networks, affiliate trackers, social media
+            pixels, or any other third-party data collection.
+          </p>
+
+          <h2 id="gdpr">GDPR and UK GDPR</h2>
+
+          <p>
+            FileIntel is designed with data minimisation as a core principle,
+            not a compliance checkbox. We collect the minimum data necessary to
+            operate the site. For EU and UK visitors:
+          </p>
+
+          <ul>
+            <li>
+              The lawful basis for processing server logs is legitimate interest
+              (security and performance monitoring).
+            </li>
+            <li>
+              Anonymous analytics data doesn't constitute personal data
+              processing under GDPR Article 4(1) — there's no identified or
+              identifiable natural person.
+            </li>
+            <li>
+              Your files are never processed by us. We're not a data processor
+              in relation to your documents — we never receive them.
+            </li>
+          </ul>
+
+          <p>
+            For questions about your data rights under GDPR or UK GDPR, contact
+            us at the address below. Given the minimal data we hold, most
+            requests will be resolved by confirming we hold nothing identifiable
+            about you.
+          </p>
+
+          <div class="callout amber">
+            <div class="callout-label">Note</div>
+            <p>
+              If you're using FileIntel to process documents containing other
+              people's personal data — which is common for lawyers, HR teams,
+              and compliance professionals — your organisation's own GDPR
+              obligations apply to how you handle those documents. Our <a
+                href="/blog/gdpr-pdf-metadata">GDPR and PDF metadata guide</a
+              > covers this in detail.
+            </p>
+          </div>
+
+          <h2 id="children">Children</h2>
+
+          <p>
+            FileIntel is intended for professional use. We don't knowingly
+            collect data from anyone under 16. If you believe a minor has used
+            the site and you have concerns, contact us.
+          </p>
+
+          <h2 id="changes">Changes to this policy</h2>
+
+          <p>
+            If we make material changes to this policy, we'll update the date at
+            the top and note what changed. The current version is always at <a
+              href="https://fileintel.me/privacy">fileintel.me/privacy</a
+            >. We won't email you about changes because we don't have your
+            email.
+          </p>
+
+          <h2 id="contact">Contact</h2>
+
+          <p>
+            Questions about this policy or your data: <a
+              href="mailto:privacy@fileintel.me">privacy@fileintel.me</a
+            >
+          </p>
+
+          <p>We'll respond within 5 business days.</p>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">On this page</div>
+          <div class="sidebar-widget-body">
+            <a href="#what-we-collect" class="toc-link"
+              ><span class="toc-num">01</span> What we collect</a
+            >
+            <a href="#your-files" class="toc-link"
+              ><span class="toc-num">02</span> Your files</a
+            >
+            <a href="#cdn-libraries" class="toc-link"
+              ><span class="toc-num">03</span> CDN libraries</a
+            >
+            <a href="#cookies" class="toc-link"
+              ><span class="toc-num">04</span> Cookies</a
+            >
+            <a href="#third-parties" class="toc-link"
+              ><span class="toc-num">05</span> Third parties</a
+            >
+            <a href="#gdpr" class="toc-link"
+              ><span class="toc-num">06</span> GDPR & UK GDPR</a
+            >
+            <a href="#children" class="toc-link"
+              ><span class="toc-num">07</span> Children</a
+            >
+            <a href="#changes" class="toc-link"
+              ><span class="toc-num">08</span> Changes</a
+            >
+            <a href="#contact" class="toc-link"
+              ><span class="toc-num">09</span> Contact</a
+            >
+          </div>
+        </div>
+
+        <div class="contact-widget">
+          <h4>Privacy questions?</h4>
+          <p>
+            We'll respond within 5 business days. Given how little we collect,
+            most answers are short.
+          </p>
+          <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-header">Related reading</div>
+          <div class="sidebar-widget-body">
+            <a
+              href="/blog/gdpr-pdf-metadata"
+              style="display:block;text-decoration:none;padding:8px 0;border-bottom:1px solid var(--paper-3);"
+            >
+              <div
+                style="font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;"
+              >
+                Compliance
+              </div>
+              <div
+                style="font-size:13px;font-weight:500;color:var(--ink);line-height:1.4;"
+              >
+                GDPR and PDF metadata
+              </div>
+            </a>
+            <a
+              href="/blog/redaction-vs-metadata-removal"
+              style="display:block;text-decoration:none;padding:8px 0;"
+            >
+              <div
+                style="font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;"
+              >
+                Privacy
+              </div>
+              <div
+                style="font-size:13px;font-weight:500;color:var(--ink);line-height:1.4;"
+              >
+                Redaction vs metadata removal
+              </div>
+            </a>
+          </div>
+        </div>
+      </aside>
     </div>
 
-    <!-- ZERO DATA CARD -->
-    <div class="zero-card">
-      <div class="zero-card-title">What FileIntel does — and doesn't do</div>
-      <div class="zero-row">
-        <div class="zero-icon">&#10003;</div>
-        <div class="zero-text"><strong>Your files are processed locally.</strong> Every tool on FileIntel runs in your browser using JavaScript. Nothing is uploaded to our servers because we don't have servers that receive files.</div>
-      </div>
-      <div class="zero-row">
-        <div class="zero-icon">&#10003;</div>
-        <div class="zero-text"><strong>We don't store your documents.</strong> When you close or refresh the tab, the file is gone. We have no copy. Nobody does.</div>
-      </div>
-      <div class="zero-row">
-        <div class="zero-icon">&#10003;</div>
-        <div class="zero-text"><strong>We don't sell data.</strong> We have no user accounts, no profiles, nothing to sell.</div>
-      </div>
-      <div class="zero-row">
-        <div class="zero-icon">&#10003;</div>
-        <div class="zero-text"><strong>No sign-up required.</strong> No email, no name, no account. You open the tool and use it.</div>
-      </div>
-    </div>
+    <Footer />
 
-    <div class="prose">
+    <script>
+      document.getElementById("footer-year").textContent =
+        new Date().getFullYear();
 
-      <h2 id="what-we-collect">What we collect</h2>
+      const bar = document.getElementById("reading-progress");
+      window.addEventListener(
+        "scroll",
+        () => {
+          const docH =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+          bar.style.width = Math.min(pct, 100) + "%";
+          bar.style.background = pct >= 99 ? "var(--green)" : "var(--accent)";
+        },
+        { passive: true },
+      );
 
-      <p>Almost nothing. Here's the complete list.</p>
-
-      <p><strong>Analytics (anonymous).</strong> We use privacy-respecting analytics to understand which tools and pages are used most. This tells us things like "the PDF Metadata Remover had 400 visits today." It does not tell us who you are, what files you processed, or where you came from specifically. No cookies are set for this. No cross-site tracking.</p>
-
-      <p><strong>Server logs.</strong> Like every website, our hosting provider (Cloudflare Pages) logs basic request data — IP address, browser type, pages visited, timestamp. These logs are used for security and performance monitoring. They're not linked to any user profile. Cloudflare's data handling is governed by <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">their privacy policy</a>.</p>
-
-      <p>That's it. We don't run advertising trackers. We don't use Google Analytics. We don't embed third-party widgets that phone home.</p>
-
-      <h2 id="your-files">Your files</h2>
-
-      <p>Every tool on FileIntel — PDF Metadata Remover, PDF Redactor, CSV Deduplicator, PDF Merger, PDF Splitter — runs entirely client-side. When you drop a file into the tool, the browser reads it into memory using the File API. The processing happens in your browser using JavaScript libraries loaded from public CDNs. The output file is generated locally and downloaded directly to your device.</p>
-
-      <p>At no point does your file travel across the internet to us. We have no infrastructure to receive it. If you're skeptical, open DevTools → Network tab while using any tool. You'll see no outbound requests carrying your file data.</p>
-
-      <div class="callout">
-        <div class="callout-label">&#10003; Verifiable</div>
-        <p>Our source code is on GitHub. You can inspect every tool to confirm it does exactly what we say. If you find something that contradicts this policy, please tell us.</p>
-      </div>
-
-      <h2 id="cdn-libraries">CDN libraries</h2>
-
-      <p>Our tools load JavaScript libraries from Cloudflare's CDN — specifically PDF.js, pdf-lib, and JSZip. When your browser requests these files, Cloudflare's servers see your IP address as part of a standard HTTPS request. This is identical to any website that loads a font or script from a third party. The libraries themselves run locally once loaded — they don't transmit your data anywhere.</p>
-
-      <h2 id="cookies">Cookies</h2>
-
-      <p>We don't set cookies for tracking or advertising. Cloudflare may set a minimal session cookie for security purposes (bot detection). This doesn't identify you personally and expires when you close your browser.</p>
-
-      <h2 id="third-parties">Third parties</h2>
-
-      <p>FileIntel uses the following third-party services:</p>
-
-      <ul>
-        <li><strong>Cloudflare Pages</strong> — hosting and CDN. Processes request metadata as described above.</li>
-        <li><strong>Google Fonts</strong> — serves Instrument Serif and DM Mono. Your browser requests these fonts from Google's servers. If this concerns you, you can self-host the fonts locally.</li>
-        <li><strong>Cloudflare CDN</strong> — serves PDF.js, pdf-lib, and JSZip libraries.</li>
-      </ul>
-
-      <p>We don't use advertising networks, affiliate trackers, social media pixels, or any other third-party data collection.</p>
-
-      <h2 id="gdpr">GDPR and UK GDPR</h2>
-
-      <p>FileIntel is designed with data minimisation as a core principle, not a compliance checkbox. We collect the minimum data necessary to operate the site. For EU and UK visitors:</p>
-
-      <ul>
-        <li>The lawful basis for processing server logs is legitimate interest (security and performance monitoring).</li>
-        <li>Anonymous analytics data doesn't constitute personal data processing under GDPR Article 4(1) — there's no identified or identifiable natural person.</li>
-        <li>Your files are never processed by us. We're not a data processor in relation to your documents — we never receive them.</li>
-      </ul>
-
-      <p>For questions about your data rights under GDPR or UK GDPR, contact us at the address below. Given the minimal data we hold, most requests will be resolved by confirming we hold nothing identifiable about you.</p>
-
-      <div class="callout amber">
-        <div class="callout-label">Note</div>
-        <p>If you're using FileIntel to process documents containing other people's personal data — which is common for lawyers, HR teams, and compliance professionals — your organisation's own GDPR obligations apply to how you handle those documents. Our <a href="/blog/gdpr-pdf-metadata">GDPR and PDF metadata guide</a> covers this in detail.</p>
-      </div>
-
-      <h2 id="children">Children</h2>
-
-      <p>FileIntel is intended for professional use. We don't knowingly collect data from anyone under 16. If you believe a minor has used the site and you have concerns, contact us.</p>
-
-      <h2 id="changes">Changes to this policy</h2>
-
-      <p>If we make material changes to this policy, we'll update the date at the top and note what changed. The current version is always at <a href="https://fileintel.me/privacy">fileintel.me/privacy</a>. We won't email you about changes because we don't have your email.</p>
-
-      <h2 id="contact">Contact</h2>
-
-      <p>Questions about this policy or your data: <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a></p>
-
-      <p>We'll respond within 5 business days.</p>
-
-    </div>
-  </div>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-widget">
-      <div class="sidebar-widget-header">On this page</div>
-      <div class="sidebar-widget-body">
-        <a href="#what-we-collect" class="toc-link"><span class="toc-num">01</span> What we collect</a>
-        <a href="#your-files" class="toc-link"><span class="toc-num">02</span> Your files</a>
-        <a href="#cdn-libraries" class="toc-link"><span class="toc-num">03</span> CDN libraries</a>
-        <a href="#cookies" class="toc-link"><span class="toc-num">04</span> Cookies</a>
-        <a href="#third-parties" class="toc-link"><span class="toc-num">05</span> Third parties</a>
-        <a href="#gdpr" class="toc-link"><span class="toc-num">06</span> GDPR & UK GDPR</a>
-        <a href="#children" class="toc-link"><span class="toc-num">07</span> Children</a>
-        <a href="#changes" class="toc-link"><span class="toc-num">08</span> Changes</a>
-        <a href="#contact" class="toc-link"><span class="toc-num">09</span> Contact</a>
-      </div>
-    </div>
-
-    <div class="contact-widget">
-      <h4>Privacy questions?</h4>
-      <p>We'll respond within 5 business days. Given how little we collect, most answers are short.</p>
-      <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>
-    </div>
-
-    <div class="sidebar-widget">
-      <div class="sidebar-widget-header">Related reading</div>
-      <div class="sidebar-widget-body">
-        <a href="/blog/gdpr-pdf-metadata" style="display:block;text-decoration:none;padding:8px 0;border-bottom:1px solid var(--paper-3);">
-          <div style="font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">Compliance</div>
-          <div style="font-size:13px;font-weight:500;color:var(--ink);line-height:1.4;">GDPR and PDF metadata</div>
-        </a>
-        <a href="/blog/redaction-vs-metadata-removal" style="display:block;text-decoration:none;padding:8px 0;">
-          <div style="font-family:var(--mono);font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;">Privacy</div>
-          <div style="font-size:13px;font-weight:500;color:var(--ink);line-height:1.4;">Redaction vs metadata removal</div>
-        </a>
-      </div>
-    </div>
-  </aside>
-</div>
-
-<Footer />
-
-<script>
-  document.getElementById('footer-year').textContent = new Date().getFullYear();
-
-  const bar = document.getElementById('reading-progress');
-  window.addEventListener('scroll', () => {
-    const docH = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
-    bar.style.width = Math.min(pct, 100) + '%';
-    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
-  }, { passive: true });
-
-  const sections = ['what-we-collect','your-files','cdn-libraries','cookies','third-parties','gdpr','children','changes','contact'];
-  const tocLinks = document.querySelectorAll('.toc-link');
-  window.addEventListener('scroll', () => {
-    let current = 0;
-    sections.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (el && window.scrollY >= el.offsetTop - 140) current = i;
-    });
-    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
-  }, { passive: true });
-</script>
-
-</body>
+      const sections = [
+        "what-we-collect",
+        "your-files",
+        "cdn-libraries",
+        "cookies",
+        "third-parties",
+        "gdpr",
+        "children",
+        "changes",
+        "contact",
+      ];
+      const tocLinks = document.querySelectorAll(".toc-link");
+      window.addEventListener(
+        "scroll",
+        () => {
+          let current = 0;
+          sections.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (el && window.scrollY >= el.offsetTop - 140) current = i;
+          });
+          tocLinks.forEach((l, i) =>
+            l.classList.toggle("active", i === current),
+          );
+        },
+        { passive: true },
+      );
+    </script>
+  </body>
 </html>

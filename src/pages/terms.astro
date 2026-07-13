@@ -1,67 +1,205 @@
 ---
-import TrustPageShell from '../components/TrustPageShell.astro';
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+
+// src/pages/terms.astro
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Use | FileIntel</title>
+  <meta name="description" content="FileIntel Terms of Use. By using our tools you agree to these terms." />
+  <link rel="canonical" href="https://fileintel.me/terms" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles/global.css">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    .announce { padding: 8px; }
+    .nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; position: sticky; top: 0; z-index: 100; }
+    .nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-mark { width: 28px; height: 28px; background: var(--ink); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--paper); }
+    .nav-logo-text { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+    .nav-logo-sub { font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-badge { font-family: var(--mono); font-size: 10px; background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); padding: 3px 8px; border-radius: 3px; }
+    @media (max-width: 700px) { .nav-links { display: none; } .nav { padding: 0 20px; } }
+    .hero { background: var(--ink); padding: 64px 40px 56px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 52px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; }
+    .hero-sub { font-size: 16px; color: #7a7a72; max-width: 520px; line-height: 1.65; }
+    .hero-meta { margin-top: 28px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; }
+    @media (max-width: 700px) { .hero { padding: 40px 20px 36px; } }
+    .page-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 260px; gap: 64px; }
+    @media (max-width: 960px) { .page-layout { grid-template-columns: 1fr; padding: 32px 20px 60px; } .sidebar { position: static !important; } }
+    .prose h2 { font-family: var(--serif); font-size: clamp(20px, 2.5vw, 26px); letter-spacing: -0.02em; color: var(--ink); margin: 48px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--paper-3); }
+    .prose h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 28px 0 10px; }
+    .prose p { font-size: 15.5px; color: var(--ink-2); line-height: 1.8; margin-bottom: 18px; }
+    .prose ul { padding-left: 20px; margin-bottom: 18px; }
+    .prose li { font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 6px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .effective-tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--border); border-radius: 3px; padding: 4px 10px; margin-bottom: 32px; }
+    .callout { border-left: 3px solid var(--amber); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 16px 20px; margin: 28px 0; }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; color: var(--amber); }
+    .callout p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+    .sidebar { position: sticky; top: calc(56px + 24px); display: flex; flex-direction: column; gap: 16px; }
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sidebar-widget-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sidebar-widget-body { padding: 14px 16px; }
+    .toc-link { display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+    footer { background: var(--ink); color: var(--paper); padding: 56px 40px 40px; margin-top: 80px; }
+    .footer-inner { max-width: 1160px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 10px; }
+    .footer-tagline { font-size: 13px; color: #5a5a52; line-height: 1.6; }
+    .footer-col h4 { font-size: 11px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a52; margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 13px; color: #7a7a72; text-decoration: none; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--paper); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; font-family: var(--mono); font-size: 11px; color: #3a3a35; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 700px) { footer { padding: 40px 20px 32px; } .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  </style>
+</head>
+<body>
+<div id="reading-progress" aria-hidden="true" style="position:fixed;top:0;left:0;width:0%;height:3px;background:var(--accent);z-index:9999;transition:width 0.08s linear;border-radius:0 2px 2px 0;pointer-events:none;"></div>
+<!-- ANNOUNCE -->
+    <div class="announce">
+      New: <a href="/pdf-metadata-remover"
+        ><strong>PDF Privacy Risk Score</strong></a
+      > — instantly see your document's privacy risk before stripping. →
+    </div>
+<Navbar activePage="/terms" />
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Legal</div>
+    <h1 class="hero-title">Terms of Use</h1>
+    <p class="hero-sub">Plain language terms for using FileIntel's tools and website. No surprises.</p>
+    <div class="hero-meta">Last updated: June 2026</div>
+  </div>
+</section>
+<div class="page-layout">
+  <div>
+    <div class="effective-tag">&#128197; Effective: 1 June 2026</div>
+    <div class="prose">
+      <p>By using FileIntel ("the site", "our tools") you agree to these terms. If you don't agree, please don't use the site. These terms apply to all visitors and users.</p>
 
-<TrustPageShell
-  title="Terms of Use"
-  description="Terms governing access to FileIntel's website, tools, and content."
-  canonical="https://fileintel.me/terms"
-  currentPath="/terms"
-  eyebrow="Terms"
-  subtitle="These terms explain how the site may be used, what the tools do, and what limitations apply when you rely on them."
->
-  <section class="trust-section">
-    <h2 class="trust-section-title">Acceptance of these terms</h2>
-    <p class="trust-section-copy">
-      By visiting FileIntel or using any of the tools, you agree to these terms and to the Privacy Policy. If you do not agree, do not use the site.
-    </p>
-  </section>
+      <h2 id="service">1. The service</h2>
+      <p>FileIntel provides browser-based file processing tools including a PDF Metadata Remover, PDF Redactor, PDF Merger, PDF Splitter, and CSV Deduplicator. All tools run client-side. Your files are processed in your browser and never transmitted to our servers.</p>
+      <p>We provide the service as-is and free of charge. We reserve the right to modify, suspend, or discontinue any part of the service at any time without notice.</p>
 
-  <section class="trust-section">
-    <h2 class="trust-section-title">Permitted use</h2>
-    <ul class="trust-list">
-      <li><strong>Use the tools responsibly.</strong> FileIntel is meant for lawful document processing and review.</li>
-      <li><strong>Do not abuse the site.</strong> Do not attempt to disrupt service, scrape aggressively, or bypass security controls.</li>
-      <li><strong>Respect third-party rights.</strong> You are responsible for having the right to process any file you upload or open locally.</li>
-    </ul>
-  </section>
-
-  <section class="trust-section">
-    <h2 class="trust-section-title">Service limitations</h2>
-    <p class="trust-section-copy">
-      FileIntel is provided as a convenience tool and educational resource. We make reasonable efforts to keep the site working, but we do not guarantee that every file will process perfectly on every browser or device.
-    </p>
-    <p class="trust-section-copy">
-      You remain responsible for reviewing outputs before you rely on them. If a file is sensitive, verify the result yourself before sharing it externally.
-    </p>
-  </section>
-
-  <section class="trust-section">
-    <h2 class="trust-section-title">Intellectual property</h2>
-    <p class="trust-section-copy">
-      The FileIntel name, brand, site design, and original content belong to FileIntel or its licensors. You may link to the site, share articles, and use the tools for their intended purpose, but you may not copy the site wholesale or claim the product as your own.
-    </p>
-  </section>
-
-  <section class="trust-section">
-    <h2 class="trust-section-title">Changes and contact</h2>
-    <p class="trust-section-copy">
-      We may update these terms if the site changes, the law changes, or the tools change materially. The current version will remain posted here.
-    </p>
-    <p class="trust-section-copy">
-      Questions about these terms can be sent to <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>.
-    </p>
-  </section>
-
-  <div slot="sidebar">
-    <div class="trust-card">
-      <div class="trust-card-label">Related pages</div>
-      <ul class="trust-link-list">
-        <li><a href="/about">About <span>company</span></a></li>
-        <li><a href="/contact">Contact <span>email</span></a></li>
-        <li><a href="/privacy">Privacy Policy <span>policy</span></a></li>
-        <li><a href="/cookie-policy">Cookie Policy <span>cookies</span></a></li>
+      <h2 id="acceptable-use">2. Acceptable use</h2>
+      <p>You may use FileIntel for any lawful purpose. You agree not to:</p>
+      <ul>
+        <li>Use the tools to process files you don't have the right to access or modify</li>
+        <li>Attempt to reverse-engineer, copy, or redistribute our source code without attribution</li>
+        <li>Use automated means to scrape, crawl, or stress-test the site</li>
+        <li>Use the site in any way that violates applicable law in Nepal or your jurisdiction</li>
+        <li>Attempt to introduce malicious code or interfere with the site's operation</li>
       </ul>
+
+      <h2 id="your-files">3. Your files and content</h2>
+      <p>Your files never leave your device. We have no access to any documents you process using our tools. You retain full ownership and responsibility for any files you process.</p>
+      <p>You warrant that you have the right to process any file you upload to the tool interface. We accept no liability for files processed without authorisation.</p>
+
+      <h2 id="disclaimer">4. Disclaimer of warranties</h2>
+      <div class="callout">
+        <div class="callout-label">Important</div>
+        <p>FileIntel is provided "as is" without warranties of any kind. We don't guarantee that the tools will be error-free, uninterrupted, or produce results suitable for any particular purpose — including legal, compliance, or professional use. Always verify outputs before relying on them.</p>
+      </div>
+      <p>In particular, our PDF Metadata Remover aims to strip all known metadata layers but we cannot guarantee complete removal in all cases across all PDF versions. Verify critical outputs independently.</p>
+
+      <h2 id="liability">5. Limitation of liability</h2>
+      <p>To the maximum extent permitted by law, FileIntel and its operator (Darshwan, Nepal) shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the site or tools, including but not limited to: data loss, document corruption, compliance failures, or business losses.</p>
+      <p>Our total liability to you for any claim arising from use of the site shall not exceed NPR 0 (zero), reflecting the free nature of the service.</p>
+
+      <h2 id="intellectual-property">6. Intellectual property</h2>
+      <p>The FileIntel name, logo, design system, and written content are owned by Darshwan. The underlying tools use open-source libraries (PDF.js, pdf-lib, JSZip) under their respective licences.</p>
+      <p>Our source code is available on GitHub. You may fork and adapt it under the terms of the applicable open-source licence, with attribution.</p>
+
+      <h2 id="third-party">7. Third-party services</h2>
+      <p>FileIntel uses Vercel for hosting, Cloudflare for CDN and DNS, and Google Fonts for typography. Use of these services is subject to their respective terms and privacy policies. We're not responsible for third-party service interruptions.</p>
+      <p>The site may display Google AdSense advertisements. These are served by Google and subject to <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a>.</p>
+
+      <h2 id="governing-law">8. Governing law</h2>
+      <p>These terms are governed by the laws of Nepal. Any disputes arising from use of FileIntel shall be subject to the jurisdiction of the courts of Nepal.</p>
+
+      <h2 id="changes">9. Changes to these terms</h2>
+      <p>We may update these terms at any time. The current version is always at <a href="https://fileintel.me/terms">fileintel.me/terms</a>. Continued use of the site after changes constitutes acceptance of the updated terms.</p>
+
+      <h2 id="contact">10. Contact</h2>
+      <p>Questions about these terms: <a href="mailto:lamichhane3848@gmail.com">lamichhane3848@gmail.com</a></p>
     </div>
   </div>
-</TrustPageShell>
+  <aside class="sidebar">
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">On this page</div>
+      <div class="sidebar-widget-body">
+        <a href="#service" class="toc-link"><span class="toc-num">1</span> The service</a>
+        <a href="#acceptable-use" class="toc-link"><span class="toc-num">2</span> Acceptable use</a>
+        <a href="#your-files" class="toc-link"><span class="toc-num">3</span> Your files</a>
+        <a href="#disclaimer" class="toc-link"><span class="toc-num">4</span> Disclaimer</a>
+        <a href="#liability" class="toc-link"><span class="toc-num">5</span> Liability</a>
+        <a href="#intellectual-property" class="toc-link"><span class="toc-num">6</span> IP</a>
+        <a href="#third-party" class="toc-link"><span class="toc-num">7</span> Third parties</a>
+        <a href="#governing-law" class="toc-link"><span class="toc-num">8</span> Governing law</a>
+        <a href="#changes" class="toc-link"><span class="toc-num">9</span> Changes</a>
+        <a href="#contact" class="toc-link"><span class="toc-num">10</span> Contact</a>
+      </div>
+    </div>
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">Related</div>
+      <div class="sidebar-widget-body">
+        <a href="/privacy" class="toc-link"><span class="toc-num">&#128274;</span> Privacy Policy</a>
+        <a href="/cookie-policy" class="toc-link"><span class="toc-num">&#127850;</span> Cookie Policy</a>
+        <a href="/contact" class="toc-link"><span class="toc-num">&#9993;</span> Contact us</a>
+      </div>
+    </div>
+  </aside>
+</div>
+<Footer />
+<script>
+  
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+  const sections = ['what-are-cookies','cookies-we-use','adsense','control','gdpr','changes','contact'];
+  const tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => { const el = document.getElementById(id); if (el && window.scrollY >= el.offsetTop - 140) current = i; });
+    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+  }, { passive: true });
+</script>
+</body>
+</html>
