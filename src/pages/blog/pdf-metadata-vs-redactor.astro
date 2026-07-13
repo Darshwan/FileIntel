@@ -334,7 +334,7 @@ import Navbar from '../../components/Navbar.astro';
 
     <p>That's the gap this article is about. Redaction and metadata removal are both "privacy operations" on a document, but they target completely different layers of the same file. Confusing them — or doing only one — is how sensitive information leaks even from documents that look cleaned up.</p>
 
-    <h2 id="what-is-redaction">What redaction actually does</h2>
+    <h2 id="what-is-redaction">#1. What redaction actually does</h2>
 
     <p>Redaction removes or obscures <strong>visible content</strong> in a document. Names, account numbers, addresses, signatures, dates of birth — anything you can read on the page. Done correctly, the underlying text or image data is permanently destroyed, not just hidden.</p>
 
@@ -364,7 +364,7 @@ import Navbar from '../../components/Navbar.astro';
       <p>Adobe Acrobat's "black highlight" tool does <em>not</em> redact. It draws a black box on top. The text remains. Only Acrobat's dedicated Redact tool (under Tools → Redact) permanently removes content. Many people use the wrong one.</p>
     </div>
 
-    <h2 id="what-is-metadata">What metadata removal actually does</h2>
+    <h2 id="what-is-metadata">#2. What metadata removal actually does</h2>
 
     <p>Metadata removal strips the <strong>hidden data layer</strong> embedded in the file itself. This has nothing to do with what you see on the page. A fully blank document still has metadata. A heavily redacted document still has metadata.</p>
 
@@ -432,7 +432,7 @@ import Navbar from '../../components/Navbar.astro';
       <a href="/pdf-metadata-remover" class="btn btn-light">Open tool →</a>
     </div>
 
-    <h2 id="the-difference">The actual difference, clearly</h2>
+    <h2 id="the-difference">#3. The actual difference, clearly</h2>
 
     <p>Here's the simplest way to frame it:</p>
 
@@ -445,7 +445,7 @@ import Navbar from '../../components/Navbar.astro';
 
     <p>Conversely, a document with clean metadata can still contain visible personal data that was missed in redaction review. Both operations are necessary. They're not alternatives to each other.</p>
 
-    <h2 id="when-you-need-both">When you need both — and when you need just one</h2>
+    <h2 id="when-you-need-both">#4. When you need both — and when you need just one</h2>
 
     <div class="table-wrapper">
       <table class="data-table">
@@ -496,7 +496,7 @@ import Navbar from '../../components/Navbar.astro';
       </table>
     </div>
 
-    <h2 id="how-to-do-both">How to sanitize a PDF completely</h2>
+    <h2 id="how-to-do-both">#5. How to sanitize a PDF completely</h2>
 
     <p>The correct order matters. Always redact first, then strip metadata. If you strip metadata first and then open the document again in Word or Acrobat to add redaction marks, the software will write a fresh set of metadata — including your name and timestamp — when you save.</p>
 
@@ -548,7 +548,7 @@ import Navbar from '../../components/Navbar.astro';
       <span class="cmd-prompt">$ </span><span class="cmd-key">exiftool</span> <span class="cmd-val">-all= your-document.pdf</span>
     </div>
 
-    <h2 id="compliance">Compliance implications</h2>
+    <h2 id="compliance">#6. Compliance implications</h2>
 
     <p>Under <a href="https://gdpr-info.eu/art-4-gdpr/" target="_blank" rel="noopener">GDPR Article 4(1)</a>, personal data means any information relating to an identified or identifiable natural person. An author's full name in a PDF metadata field is personal data. Sharing that document without stripping the field may constitute a personal data transfer without a lawful basis — particularly if the recipient is in a different organisation or jurisdiction.</p>
 
@@ -572,7 +572,7 @@ import Navbar from '../../components/Navbar.astro';
 
     <!-- FAQ -->
     <div class="faq-section">
-      <h2 class="faq-section-title">Frequently asked</h2>
+      <h2 class="faq-section-title" id="faqs">#7. Frequently asked questions</h2>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <button class="faq-question">
@@ -651,6 +651,7 @@ import Navbar from '../../components/Navbar.astro';
         <a href="#when-you-need-both" class="toc-link"><span class="toc-num">04</span> When you need both</a>
         <a href="#how-to-do-both" class="toc-link"><span class="toc-num">05</span> How to sanitize a PDF</a>
         <a href="#compliance" class="toc-link"><span class="toc-num">06</span> Compliance implications</a>
+        <a href="#faqs" class="toc-link"><span class="toc-num">07</span> Frequently Asked Questions</a>
       </div>
     </div>
 
