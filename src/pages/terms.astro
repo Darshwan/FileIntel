@@ -1,0 +1,67 @@
+---
+import TrustPageShell from '../components/TrustPageShell.astro';
+---
+
+<TrustPageShell
+  title="Terms of Use"
+  description="Terms governing access to FileIntel's website, tools, and content."
+  canonical="https://fileintel.me/terms"
+  currentPath="/terms"
+  eyebrow="Terms"
+  subtitle="These terms explain how the site may be used, what the tools do, and what limitations apply when you rely on them."
+>
+  <section class="trust-section">
+    <h2 class="trust-section-title">Acceptance of these terms</h2>
+    <p class="trust-section-copy">
+      By visiting FileIntel or using any of the tools, you agree to these terms and to the Privacy Policy. If you do not agree, do not use the site.
+    </p>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Permitted use</h2>
+    <ul class="trust-list">
+      <li><strong>Use the tools responsibly.</strong> FileIntel is meant for lawful document processing and review.</li>
+      <li><strong>Do not abuse the site.</strong> Do not attempt to disrupt service, scrape aggressively, or bypass security controls.</li>
+      <li><strong>Respect third-party rights.</strong> You are responsible for having the right to process any file you upload or open locally.</li>
+    </ul>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Service limitations</h2>
+    <p class="trust-section-copy">
+      FileIntel is provided as a convenience tool and educational resource. We make reasonable efforts to keep the site working, but we do not guarantee that every file will process perfectly on every browser or device.
+    </p>
+    <p class="trust-section-copy">
+      You remain responsible for reviewing outputs before you rely on them. If a file is sensitive, verify the result yourself before sharing it externally.
+    </p>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Intellectual property</h2>
+    <p class="trust-section-copy">
+      The FileIntel name, brand, site design, and original content belong to FileIntel or its licensors. You may link to the site, share articles, and use the tools for their intended purpose, but you may not copy the site wholesale or claim the product as your own.
+    </p>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Changes and contact</h2>
+    <p class="trust-section-copy">
+      We may update these terms if the site changes, the law changes, or the tools change materially. The current version will remain posted here.
+    </p>
+    <p class="trust-section-copy">
+      Questions about these terms can be sent to <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>.
+    </p>
+  </section>
+
+  <div slot="sidebar">
+    <div class="trust-card">
+      <div class="trust-card-label">Related pages</div>
+      <ul class="trust-link-list">
+        <li><a href="/about">About <span>company</span></a></li>
+        <li><a href="/contact">Contact <span>email</span></a></li>
+        <li><a href="/privacy">Privacy Policy <span>policy</span></a></li>
+        <li><a href="/cookie-policy">Cookie Policy <span>cookies</span></a></li>
+      </ul>
+    </div>
+  </div>
+</TrustPageShell>

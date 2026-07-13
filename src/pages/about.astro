@@ -1,0 +1,52 @@
+---
+import TrustPageShell from '../components/TrustPageShell.astro';
+---
+
+<TrustPageShell
+  title="About FileIntel"
+  description="FileIntel builds private, browser-side file tools for professionals who need to inspect, clean, and share documents without upload risk."
+  canonical="https://fileintel.me/about"
+  currentPath="/about"
+  eyebrow="About"
+  subtitle="FileIntel is built for people who handle sensitive files every day and need tools that stay local, transparent, and fast."
+>
+  <section class="trust-section">
+    <h2 class="trust-section-title">What FileIntel is</h2>
+    <p class="trust-section-copy">
+      FileIntel is a small suite of document tools designed around one rule: your files should stay on your device unless you explicitly choose otherwise. The site focuses on PDF privacy, redaction, metadata removal, and related workflows for lawyers, compliance teams, journalists, freelancers, and anyone else who shares documents for a living.
+    </p>
+    <p class="trust-section-copy">
+      The products are intentionally narrow. Each tool solves one job well, with a clear interface and no account wall, because professional workflows usually need speed and predictability more than feature bloat.
+    </p>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">How it works</h2>
+    <ul class="trust-list">
+      <li><strong>Browser-side processing.</strong> FileIntel tools run in JavaScript inside your browser. Documents are read locally and processed on the page.</li>
+      <li><strong>No account required.</strong> You do not need to sign up, verify an email, or create a profile to use the tools.</li>
+      <li><strong>Clear privacy posture.</strong> The site is built to make it obvious what is happening with your file and what is not.</li>
+      <li><strong>Practical content.</strong> The blog exists to explain the problems the tools solve, not to fill space with generic SEO copy.</li>
+    </ul>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Why the site exists</h2>
+    <p class="trust-section-copy">
+      Most file utilities were built for casual consumers or enterprise suites. FileIntel targets the gap in between: people who need trustworthy document handling, but do not want to install heavy software or upload sensitive files to a third-party server just to remove metadata or redact text.
+    </p>
+    <div class="trust-note">
+      If you need to verify what is exposed in a PDF before you send it, FileIntel is meant to be a fast first stop, not a replacement for your own legal, compliance, or security process.
+    </div>
+  </section>
+
+  <div slot="sidebar">
+    <ul class="trust-link-list">
+      <li><a href="/contact">Contact <span>email</span></a></li>
+      <li><a href="/privacy">Privacy Policy <span>policy</span></a></li>
+      <li><a href="/terms">Terms <span>site rules</span></a></li>
+      <li><a href="/cookie-policy">Cookie Policy <span>cookies</span></a></li>
+      <li><a href="/blog">Blog <span>guides</span></a></li>
+    </ul>
+  </div>
+</TrustPageShell>

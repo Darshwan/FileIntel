@@ -1,0 +1,57 @@
+---
+import TrustPageShell from '../components/TrustPageShell.astro';
+---
+
+<TrustPageShell
+  title="Contact FileIntel"
+  description="Contact FileIntel for support, privacy questions, press inquiries, or partnership requests."
+  canonical="https://fileintel.me/contact"
+  currentPath="/contact"
+  eyebrow="Contact"
+  subtitle="Use this page for support, policy questions, press requests, or general feedback about the site and tools."
+>
+  <section class="trust-section">
+    <h2 class="trust-section-title">How to reach us</h2>
+    <p class="trust-section-copy">
+      The quickest way to contact FileIntel is by email. For privacy, policy, billing, or general site questions, write to <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>.
+    </p>
+    <p class="trust-section-copy">
+      If you are reporting a bug, include the page you were using, the browser or operating system you tested on, and the exact step where the issue happened. That makes it much easier to reproduce and fix.
+    </p>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">What to contact us about</h2>
+    <ul class="trust-list">
+      <li><strong>Tool support.</strong> Something failed, exported incorrectly, or looked different than expected.</li>
+      <li><strong>Privacy questions.</strong> You want clarification about local processing, analytics, or policies.</li>
+      <li><strong>Press or partnerships.</strong> You are asking about coverage, collaboration, or licensing.</li>
+      <li><strong>Compliance review.</strong> Your team needs a clearer explanation of how the site handles documents and cookies.</li>
+    </ul>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Response expectations</h2>
+    <p class="trust-section-copy">
+      Messages are normally answered within a few business days. If the note is about a clear bug or policy correction, it gets priority over general inquiries.
+    </p>
+  </section>
+
+  <div slot="sidebar">
+    <div class="trust-card">
+      <div class="trust-card-label">Email</div>
+      <p class="trust-section-copy" style="margin:0;">
+        <a href="mailto:privacy@fileintel.me">privacy@fileintel.me</a>
+      </p>
+    </div>
+    <div class="trust-card">
+      <div class="trust-card-label">Also see</div>
+      <ul class="trust-link-list">
+        <li><a href="/about">About <span>company</span></a></li>
+        <li><a href="/privacy">Privacy Policy <span>policy</span></a></li>
+        <li><a href="/terms">Terms <span>rules</span></a></li>
+        <li><a href="/cookie-policy">Cookie Policy <span>cookies</span></a></li>
+      </ul>
+    </div>
+  </div>
+</TrustPageShell>

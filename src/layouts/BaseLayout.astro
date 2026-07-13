@@ -1,7 +1,7 @@
 ---
 import SEO from '../components/SEO.astro';
 import Navbar from '../components/Navbar.astro';
-import '../styles/global.css';
+import '../../styles/global.css';
 
 const {
   title,
@@ -69,19 +69,22 @@ const activePage = getActivePage(currentPath);
         <div class="footer-col">
           <h4>Company</h4>
           <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
             <li><a href="/privacy">Privacy Policy</a></li>
-            <li><a href="/#why">How it works</a></li>
-            <li><a href="#">GitHub</a></li>
+            <li><a href="/terms">Terms</a></li>
+            <li><a href="/cookie-policy">Cookie Policy</a></li>
+            <li><a href="https://github.com/Darshwan/FileIntel" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             <li><a href="/blog">Blog</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Use Cases</h4>
           <ul>
-            <li><a href="#">For Lawyers</a></li>
-            <li><a href="#">For Journalists</a></li>
-            <li><a href="#">For Freelancers</a></li>
-            <li><a href="#">For Compliance</a></li>
+            <li><a href="/blog/pdf-metadata-lawyers">For Lawyers</a></li>
+            <li><a href="/blog/pdf-metadata-journalists">For Journalists</a></li>
+            <li><a href="/blog/pdf-metadata-freelancers-proposals-contracts">For Freelancers</a></li>
+            <li><a href="/blog/gdpr-pdf-metadata">For Compliance</a></li>
           </ul>
         </div>
       </div>

@@ -1,0 +1,305 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  currentPath: string;
+  eyebrow: string;
+  subtitle: string;
+  sidebarTitle?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  currentPath,
+  eyebrow,
+  subtitle,
+  sidebarTitle = 'Quick links',
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  schema={undefined}
+  currentPath={currentPath}
+>
+  <section class="trust-hero">
+    <div class="trust-hero-inner">
+      <div class="trust-hero-eyebrow">{eyebrow}</div>
+      <h1 class="trust-hero-title">{title}</h1>
+      <p class="trust-hero-subtitle">{subtitle}</p>
+    </div>
+  </section>
+
+  <section class="trust-shell">
+    <div class="trust-main">
+      <slot />
+    </div>
+
+    <aside class="trust-sidebar">
+      <div class="trust-sidebar-card">
+        <div class="trust-sidebar-title">{sidebarTitle}</div>
+        <div class="trust-sidebar-body">
+          <slot name="sidebar" />
+        </div>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>
+
+<style>
+  .trust-hero {
+    background: var(--ink);
+    padding: 72px 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trust-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .trust-hero-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .trust-hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .trust-hero-title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4.4vw, 58px);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    max-width: 760px;
+    margin-bottom: 18px;
+  }
+
+  .trust-hero-subtitle {
+    max-width: 620px;
+    font-size: 16px;
+    line-height: 1.72;
+    color: #8a897f;
+    font-weight: 300;
+  }
+
+  .trust-shell {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 48px 40px 88px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .trust-main {
+    min-width: 0;
+  }
+
+  .trust-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 24px 22px;
+    box-shadow: 0 12px 30px rgba(15, 15, 13, 0.04);
+  }
+
+  .trust-section + .trust-section {
+    margin-top: 18px;
+  }
+
+  .trust-section-title {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .trust-section-copy {
+    color: var(--ink-2);
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  .trust-section-copy + .trust-section-copy,
+  .trust-section-copy + .trust-list,
+  .trust-section-copy + .trust-note {
+    margin-top: 12px;
+  }
+
+  .trust-section-copy a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .trust-section-copy a:hover {
+    text-decoration: underline;
+  }
+
+  .trust-list {
+    margin-top: 12px;
+    padding-left: 18px;
+  }
+
+  .trust-list li {
+    margin-bottom: 8px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    font-size: 14.5px;
+  }
+
+  .trust-list strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .trust-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+  }
+
+  .trust-card + .trust-card {
+    margin-top: 14px;
+  }
+
+  .trust-card-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .trust-note {
+    border-left: 3px solid var(--accent);
+    background: rgba(200, 67, 42, 0.06);
+    padding: 14px 16px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--ink-2);
+    line-height: 1.7;
+    font-size: 14.5px;
+  }
+
+  .trust-sidebar {
+    position: sticky;
+    top: calc(var(--nav-height, 56px) + 24px);
+  }
+
+  .trust-sidebar-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .trust-sidebar-title {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--paper-3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+
+  .trust-sidebar-body {
+    padding: 14px 16px 16px;
+  }
+
+  .trust-sidebar-body a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .trust-sidebar-body a:hover {
+    text-decoration: underline;
+  }
+
+  .trust-link-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .trust-link-list a {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--paper-3);
+    padding-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .trust-link-list a:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .trust-link-list a span {
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 960px) {
+    .trust-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-sidebar {
+      position: static;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .trust-hero,
+    .trust-shell {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .trust-hero {
+      padding-top: 52px;
+      padding-bottom: 46px;
+    }
+
+    .trust-section {
+      padding: 20px 18px 18px;
+    }
+  }
+</style>

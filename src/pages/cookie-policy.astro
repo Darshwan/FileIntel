@@ -1,0 +1,60 @@
+---
+import TrustPageShell from '../components/TrustPageShell.astro';
+---
+
+<TrustPageShell
+  title="Cookie Policy"
+  description="How FileIntel uses cookies, browser storage, analytics, and advertising-related identifiers."
+  canonical="https://fileintel.me/cookie-policy"
+  currentPath="/cookie-policy"
+  eyebrow="Cookie Policy"
+  subtitle="This page explains what cookies and similar technologies may be used on FileIntel, including what happens if ad products are enabled."
+>
+  <section class="trust-section">
+    <h2 class="trust-section-title">What cookies are used now</h2>
+    <p class="trust-section-copy">
+      FileIntel does not use cookies for account login, shopping carts, or social profiles. The site may use only a minimal number of cookies or similar identifiers that are necessary for security, performance, or platform delivery.
+    </p>
+    <p class="trust-section-copy">
+      Any analytics we use are intended to be privacy-respecting and low impact. They are not meant to build a personal profile of you across the web.
+    </p>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Advertising cookies and AdSense</h2>
+    <p class="trust-section-copy">
+      If FileIntel enables Google AdSense or other ad products in the future, Google and its partners may use cookies or similar identifiers to serve and measure ads. Where required by law, consent will be requested before those cookies are set.
+    </p>
+    <p class="trust-section-copy">
+      The exact cookies and vendors may vary by region, consent status, and the type of ad delivery being used. This page should be updated if the ad stack changes.
+    </p>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Your choices</h2>
+    <ul class="trust-list">
+      <li><strong>Browser settings.</strong> You can block or delete cookies through your browser controls.</li>
+      <li><strong>Consent controls.</strong> If consent-based advertising is enabled, you can accept or reject optional cookies where required.</li>
+      <li><strong>Policy review.</strong> Revisit this page and the Privacy Policy when the site changes in a material way.</li>
+    </ul>
+  </section>
+
+  <section class="trust-section">
+    <h2 class="trust-section-title">Third-party services</h2>
+    <p class="trust-section-copy">
+      Some external services, such as hosting, fonts, analytics, or ad platforms, may set their own cookies or similar technologies subject to their own policies. FileIntel does not control those external policies.
+    </p>
+  </section>
+
+  <div slot="sidebar">
+    <div class="trust-card">
+      <div class="trust-card-label">More policies</div>
+      <ul class="trust-link-list">
+        <li><a href="/privacy">Privacy Policy <span>data</span></a></li>
+        <li><a href="/terms">Terms <span>rules</span></a></li>
+        <li><a href="/contact">Contact <span>email</span></a></li>
+        <li><a href="/about">About <span>company</span></a></li>
+      </ul>
+    </div>
+  </div>
+</TrustPageShell>

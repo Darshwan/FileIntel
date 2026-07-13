@@ -13,7 +13,7 @@ import Navbar from '../components/Navbar.astro';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Secure PDF Merger — Free, Private, No Upload | FileIntel</title>
   <meta name="description" content="Combine multiple PDFs privately in your browser. Drag to reorder, set custom metadata, preview pages, download the merged result. Zero server uploads." />
-  <link rel="canonical" href="https://fileintel.tech/pdf-merger" />
+  <link rel="canonical" href="https://fileintel.me/pdf-merger" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Secure PDF Merger — Free & Private | FileIntel" />
   <meta property="og:description" content="Merge PDFs privately. Drag to reorder. Set metadata. Browser-only — your files never leave your device." />
@@ -24,7 +24,7 @@ import Navbar from '../components/Navbar.astro';
     "@type": "WebApplication",
     "name": "Secure PDF Merger",
     "description": "Merge multiple PDF files privately in your browser. Drag to reorder pages, set output metadata, download the result. Zero server uploads.",
-    "url": "https://fileintel.tech/pdf-merger",
+    "url": "https://fileintel.me/pdf-merger",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -1562,7 +1562,7 @@ import Navbar from '../components/Navbar.astro';
         if (author)   outputDoc.setAuthor(author);
         if (subject)  outputDoc.setSubject(subject);
         if (keywords) outputDoc.setKeywords(keywords.split(',').map(k => k.trim()));
-        outputDoc.setProducer('FileIntel — fileintel.tech');
+        outputDoc.setProducer('FileIntel — fileintel.me');
         outputDoc.setCreator('FileIntel PDF Merger');
         outputDoc.setCreationDate(new Date());
         outputDoc.setModificationDate(new Date());

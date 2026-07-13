@@ -16,11 +16,11 @@ import Navbar from '../components/Navbar.astro';
       name="description"
       content="Remove hidden metadata from PDF files instantly. See your Privacy Risk Score, strip author names, GPS coordinates, and company data. 100% browser-side — your file never leaves your device."
     />
-    <link rel="canonical" href="https://fileintel.tech/pdf-metadata-remover" />
+    <link rel="canonical" href="https://fileintel.me/pdf-metadata-remover" />
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
-      content="https://fileintel.tech/pdf-metadata-remover"
+      content="https://fileintel.me/pdf-metadata-remover"
     />
     <meta
       property="og:title"
@@ -32,7 +32,7 @@ import Navbar from '../components/Navbar.astro';
     />
     <meta
       property="og:image"
-      content="https://fileintel.tech/og-pdf-tool.png"
+      content="https://fileintel.me/og-pdf-tool.png"
     />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -42,7 +42,7 @@ import Navbar from '../components/Navbar.astro';
         "@type": "WebApplication",
         "name": "PDF Metadata Remover",
         "description": "Inspect and remove hidden metadata from PDF files privately in your browser.",
-        "url": "https://fileintel.tech/pdf-metadata-remover",
+        "url": "https://fileintel.me/pdf-metadata-remover",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -2188,7 +2188,7 @@ import Navbar from '../components/Navbar.astro';
           // XMP is a separate XML blob that duplicates DocInfo — must strip both
           if (stripAll) {
             try {
-              pdfDoc.setProducer("FileIntel — fileintel.tech");
+              pdfDoc.setProducer("FileIntel — fileintel.me");
               pdfDoc.setCreator("FileIntel Privacy Tool");
 
               const metadataRef = pdfDoc.catalog.get(PDFName.of("Metadata"));
