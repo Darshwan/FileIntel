@@ -13,7 +13,7 @@ import Navbar from "../components/Navbar.astro";
   <meta name="description" content="Get in touch with FileIntel. Questions, feedback, bug reports, or partnership enquiries." />
   <link rel="canonical" href="https://fileintel.me/contact" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" href="styles/global.css">
+  <link rel="stylesheet" href="/styles/global.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -58,7 +58,7 @@ import Navbar from "../components/Navbar.astro";
     .form-note { font-size: 12px; color: var(--ink-3); text-align: center; margin-top: 10px; font-family: var(--mono); }
     .success-msg { display: none; background: var(--green-light); border: 1px solid var(--green-border); border-radius: var(--radius-lg); padding: 16px 20px; font-size: 14px; color: var(--green); margin-top: 16px; }
 
-    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
     .contact-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
     .contact-card-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
     .contact-method { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
@@ -190,7 +190,6 @@ import Navbar from "../components/Navbar.astro";
 <Footer />
 
 <script>
-  document.getElementById('footer-year').textContent = new Date().getFullYear();
   const bar = document.getElementById('reading-progress');
   window.addEventListener('scroll', () => {
     const docH = document.documentElement.scrollHeight - window.innerHeight;

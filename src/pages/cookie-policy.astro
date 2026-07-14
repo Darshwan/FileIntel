@@ -15,6 +15,7 @@ import Navbar from "../components/Navbar.astro";
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/styles/global.css">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,7 +60,7 @@ import Navbar from "../components/Navbar.astro";
     .callout { border-left: 3px solid var(--green); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 16px 20px; margin: 28px 0; }
     .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; color: var(--green); }
     .callout p { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.65; }
-    .sidebar { position: sticky; top: calc(56px + 24px); display: flex; flex-direction: column; gap: 16px; }
+    .sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
     .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
     .sidebar-widget-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
     .sidebar-widget-body { padding: 14px 16px; }
@@ -96,10 +97,10 @@ import Navbar from "../components/Navbar.astro";
         <p>FileIntel sets no tracking or advertising cookies of its own. The cookies that may be present are from Cloudflare (security) and Google AdSense (advertising). You can opt out of AdSense personalisation at any time.</p>
       </div>
 
-      <h2 id="what-are-cookies">What are cookies</h2>
+      <h2 id="what-are-cookies"># What are cookies</h2>
       <p>Cookies are small text files stored in your browser by websites you visit. They serve different purposes: some are essential for the site to work, others track your behaviour for advertising or analytics.</p>
 
-      <h2 id="cookies-we-use">Cookies on FileIntel</h2>
+      <h2 id="cookies-we-use"># Cookies on FileIntel</h2>
       <p>Here is the complete list of cookies that may be present when you use FileIntel:</p>
 
       <table class="cookie-table">
@@ -137,11 +138,11 @@ import Navbar from "../components/Navbar.astro";
         </tbody>
       </table>
 
-      <h2 id="adsense">Google AdSense and advertising cookies</h2>
+      <h2 id="adsense"># Google AdSense and advertising cookies</h2>
       <p>FileIntel displays advertisements served by Google AdSense. Google uses cookies to serve ads based on your prior visits to this and other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to FileIntel and/or other sites on the internet.</p>
       <p>You may opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>. You can also opt out of a third-party vendor's use of cookies for personalised advertising by visiting <a href="https://www.aboutads.info" target="_blank" rel="noopener">aboutads.info</a>.</p>
 
-      <h2 id="control">How to control cookies</h2>
+      <h2 id="control"># How to control cookies</h2>
       <p>You can control and delete cookies through your browser settings. All major browsers allow you to:</p>
       <ul>
         <li>See what cookies are stored and delete them individually</li>
@@ -157,14 +158,14 @@ import Navbar from "../components/Navbar.astro";
         <li><a href="https://support.microsoft.com/en-us/windows/manage-cookies-in-microsoft-edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
       </ul>
 
-      <h2 id="gdpr">Cookie consent and GDPR</h2>
+      <h2 id="gdpr"># Cookie consent and GDPR</h2>
       <p>If you are visiting from the EU or UK, non-essential cookies (including AdSense advertising cookies) require your consent under GDPR and the UK Privacy and Electronic Communications Regulations (PECR). Our cookie consent banner allows you to accept or decline non-essential cookies when you first visit the site.</p>
       <p>You can change your cookie preferences at any time by clearing your browser cookies and revisiting the site.</p>
 
-      <h2 id="changes">Changes to this policy</h2>
+      <h2 id="changes"># Changes to this policy</h2>
       <p>We'll update this page if we add new cookies or change how existing ones work. The current version is always at <a href="https://fileintel.me/cookie-policy">fileintel.me/cookie-policy</a>.</p>
 
-      <h2 id="contact">Contact</h2>
+      <h2 id="contact"># Contact</h2>
       <p>Cookie questions: <a href="mailto:lamichhane3848@gmail.com">lamichhane3848@gmail.com</a></p>
     </div>
   </div>

@@ -62,7 +62,9 @@ import Navbar from "../components/Navbar.astro";
         color: var(--ink);
         line-height: 1.6;
       }
-          .announce { padding: 8px; }
+      .announce {
+        padding: 8px;
+      }
 
       .title {
         font-weight: bold;
@@ -383,7 +385,8 @@ import Navbar from "../components/Navbar.astro";
       }
       .sidebar {
         position: sticky;
-        top: 58px;
+        top: 80px;
+        align-self: start;
         display: flex;
         flex-direction: column;
         gap: 16px;
@@ -1002,15 +1005,19 @@ import Navbar from "../components/Navbar.astro";
 
     <Footer />
     <script>
-  
-  const bar = document.getElementById('reading-progress');
-  window.addEventListener('scroll', () => {
-    const docH = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
-    bar.style.width = Math.min(pct, 100) + '%';
-    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
-  }, { passive: true });
- window.addEventListener(
+      const bar = document.getElementById("reading-progress");
+      window.addEventListener(
+        "scroll",
+        () => {
+          const docH =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+          bar.style.width = Math.min(pct, 100) + "%";
+          bar.style.background = pct >= 99 ? "var(--green)" : "var(--accent)";
+        },
+        { passive: true },
+      );
+      window.addEventListener(
         "scroll",
         () => {
           let current = 0;
@@ -1024,6 +1031,6 @@ import Navbar from "../components/Navbar.astro";
         },
         { passive: true },
       );
-</script>
+    </script>
   </body>
 </html>
