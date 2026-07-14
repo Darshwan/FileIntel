@@ -12,6 +12,8 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/tailwind": "^6.0.0",
+    "@astrojs/vercel": "^9.0.5",
+    "@vercel/analytics": "^2.0.1",
     "astro": "^5.0.0",
     "marked": "^15.0.0",
     "pdf-lib": "^1.17.1"
