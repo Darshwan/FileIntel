@@ -57,7 +57,7 @@ import Navbar from '../components/Navbar.astro';
             /* ══ PAGE HERO ══ */
             .page-hero {
                 background: var(--paper);
-                padding: 40px 40px 36px;
+                padding: 40px 20px 36px;
                 border-bottom: 1px solid var(--border);
                 position: relative;
                 overflow: hidden;
@@ -83,10 +83,16 @@ import Navbar from '../components/Navbar.astro';
                 gap: 40px;
                 flex-wrap: wrap;
             }
+            .page-hero-inner .how-it-works{
+                display:flex;
+                flex-direction:column;
+                gap:20px;
+                min-width:220px;
+            }
 
             .page-hero h1 {
                 font-family: var(--serif);
-                font-size: clamp(28px, 3.5vw, 44px);
+                font-size: clamp(36px, 3.5vw, 44px);
                 color: var(--ink);
                 letter-spacing: -0.02em;
                 line-height: 1.08;
@@ -95,12 +101,15 @@ import Navbar from '../components/Navbar.astro';
 
             .page-hero h1 em { font-style: italic; color: var(--accent); }
             .page-hero p { font-size: 14px; color: var(--ink-2); line-height: 1.65; font-weight: 300; max-width: 440px; }
-
+            @media (max-width: 768px) {
+                .page-hero-inner .how-it-works{ min-width: 100%; }
+                
+            }
             /* ══ PAGE LAYOUT ══ */
             .redactor-page {
                 max-width: var(--max-width);
                 margin: 0 auto;
-                padding: 40px 40px 80px;
+                padding: 40px 20px 80px;
                 display: grid;
                 grid-template-columns: 280px 1fr;
                 gap: 24px;
@@ -886,8 +895,7 @@ import Navbar from '../components/Navbar.astro';
                 </div>
 
                     <!-- RIGHT: HOW IT WORKS MINI STEPS -->
-                    <div
-                        style="display:flex;flex-direction:column;gap:20px;min-width:220px;"
+                    <div class="how-it-works"
                     >
                         {
                             [
@@ -1216,7 +1224,7 @@ import Navbar from '../components/Navbar.astro';
                         accept=".pdf,application/pdf"
                         style="position:fixed;top:-9999px;left:-9999px;opacity:0;pointer-events:none;"
                     />
-                    <div style="display:flex;gap:24px;margin-top:28px;">
+                    <div style="display:flex;gap:24px;margin-top:28px; flex-wrap: wrap;">
                         <div class="trust-item">
                             <span class="trust-check">✓</span> No server upload
                         </div>

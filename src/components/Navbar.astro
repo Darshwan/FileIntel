@@ -124,7 +124,54 @@ const { activePage = '' } = Astro.props;
         </a>
       </li>
 
-      <li>
+      <li class="fi-dropdown-wrap">
+        <button
+          class={`fi-link ${activePage === 'About' ? 'active' : ''}`}
+          id="tools-dd-trigger"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="tools-dropdown"
+        >
+          About
+          <svg class="fi-link-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="fi-dropdown" id="tools-dropdown" role="menu">
+          <a href="/about" class="fi-dd-item" role="menuitem">
+            <!-- <div class="fi-dd-icon"></div> -->
+            <div class="fi-dd-text">
+              <div class="fi-dd-desc">About us</div>
+            </div>
+          </a>
+
+          <a href="/contact" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-text">
+              <div class="fi-dd-desc">Contact us</div>
+            </div>
+          </a>
+
+          <a href="/privacy" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-text">
+              <div class="fi-dd-desc">Privacy Policy</div>
+            </div>
+          </a>
+
+          <a href="/terms" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-text">
+              <div class="fi-dd-desc">Terms of Use</div>
+            </div>
+          </a>
+
+          <a href="/cookie-policy" class="fi-dd-item" role="menuitem">
+            <div class="fi-dd-text">
+              <div class="fi-dd-desc">Cookie Policy</div>
+            </div>
+          </a>
+        </div>
+      </li>
+      <!-- <li>
         <a href="/privacy" class={`fi-link ${activePage === 'privacy' ? 'active' : ''}`}>
           Privacy
         </a>
@@ -146,7 +193,7 @@ const { activePage = '' } = Astro.props;
         <a href="/terms" class={`fi-link ${activePage === 'terms' ? 'active' : ''}`}>
           Terms of Use
         </a>
-      </li>
+      </li> -->
 
     </ul>
 

@@ -38,6 +38,15 @@ import Navbar from '../components/Navbar.astro';
 
   <style>
     /* ══ PAGE HERO ══ */
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
     .page-hero {
       background: var(--paper);
       padding: 40px 40px 36px;
@@ -60,16 +69,11 @@ import Navbar from '../components/Navbar.astro';
       margin: 0 auto;
       position: relative;
       z-index: 1;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 40px;
-      flex-wrap: wrap;
     }
 
     .page-hero h1 {
       font-family: var(--serif);
-      font-size: clamp(28px, 3.5vw, 44px);
+      font-size: clamp(36px, 3.5vw, 44px);
       color: var(--ink);
       letter-spacing: -0.02em;
       line-height: 1.08;
@@ -77,13 +81,13 @@ import Navbar from '../components/Navbar.astro';
     }
 
     .page-hero h1 em { font-style: italic; color: var(--accent); }
-    .page-hero p { font-size: 14px; color: var(--ink-2); line-height: 1.65; font-weight: 300; max-width: 440px; }
+    .page-hero p { font-size: 14px; color: var(--ink-2); line-height: 1.65; font-weight: 300; max-width: 440px; margin-bottom: 20px; }
 
     /* ══ MAIN LAYOUT ══ */
     .merger-page {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 28px 40px 80px;
+      padding: 20px 40px 80px;
       display: grid;
       grid-template-columns: 1fr 320px;
       gap: 24px;
@@ -864,7 +868,7 @@ import Navbar from '../components/Navbar.astro';
         <h1>Combine PDFs.<br /><em>Privately.</em></h1>
         <p>Drag to reorder files, set custom output metadata, preview page thumbnails, then download the merged result. Zero server uploads — ever.</p>
       </div>
-      <div class="trust-row" style="align-self:flex-end;">
+      <div class="trust-row" style="display:flex;flex-direction:row;gap:6px;flex-wrap: wrap; justify-content: start; padding: 0px 12px;">
         <div class="trust-item"><span class="trust-check">✓</span> Files never leave browser</div>
         <div class="trust-item"><span class="trust-check">✓</span> Drag to reorder</div>
         <div class="trust-item"><span class="trust-check">✓</span> Page thumbnails</div>
