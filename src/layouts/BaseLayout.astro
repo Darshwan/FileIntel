@@ -1,22 +1,24 @@
 ---
-import SEO from '../components/SEO.astro';
-import Navbar from '../components/Navbar.astro';
+import SEO from "../components/SEO.astro";
+import Navbar from "../components/Navbar.astro";
 
-const {
-  title,
-  description,
-  canonical,
-  schema,
-  currentPath,
-} = Astro.props;
+const { title, description, canonical, schema, currentPath } = Astro.props;
 
 // Map currentPath to activePage
 const getActivePage = (path: string) => {
-  if (path === '/' || path === '/home') return 'home';
-  if (path?.startsWith('/blog')) return 'blog';
-  if (path === '/privacy') return 'privacy';
-  if (['/pdf-metadata-remover', '/pdf-merger', '/pdf-redactor', '/csv-deduplicator'].includes(path)) return 'tools';
-  return '';
+  if (path === "/" || path === "/home") return "home";
+  if (path?.startsWith("/blog")) return "blog";
+  if (path === "/privacy") return "privacy";
+  if (
+    [
+      "/pdf-metadata-remover",
+      "/pdf-merger",
+      "/pdf-redactor",
+      "/csv-deduplicator",
+    ].includes(path)
+  )
+    return "tools";
+  return "";
 };
 
 const activePage = getActivePage(currentPath);
@@ -25,26 +27,33 @@ const activePage = getActivePage(currentPath);
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZDBV7SGRD"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-MZDBV7SGRD");
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <SEO 
-      title={title} 
-      description={description} 
-      canonical={canonical} 
-      schema={schema} 
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
     />
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MZDBV7SGRD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MZDBV7SGRD');
-</script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      schema={schema}
+    />
+    
   </head>
   <body>
     <!-- Navigation -->
@@ -60,10 +69,17 @@ const activePage = getActivePage(currentPath);
       <div class="footer-inner">
         <div class="footer-brand">
           <div style="display:flex;align-items:center;gap:10px;">
-            <div class="nav-logo" style="background:#fff; color:#0f0f0d;">Fi</div>
-            <span style="color:#5a5a52;font-size:15px;font-weight:600;">FileIntel</span>
+            <div class="nav-logo" style="background:#fff; color:#0f0f0d;">
+              Fi
+            </div>
+            <span style="color:#5a5a52;font-size:15px;font-weight:600;"
+              >FileIntel</span
+            >
           </div>
-          <p>Private file tools for professionals. Everything runs in your browser. Nothing touches our servers.</p>
+          <p>
+            Private file tools for professionals. Everything runs in your
+            browser. Nothing touches our servers.
+          </p>
         </div>
         <div class="footer-col">
           <h4>Tools</h4>
@@ -82,7 +98,12 @@ const activePage = getActivePage(currentPath);
             <li><a href="/privacy">Privacy Policy</a></li>
             <li><a href="/terms">Terms</a></li>
             <li><a href="/cookie-policy">Cookie Policy</a></li>
-            <li><a href="https://github.com/Darshwan/FileIntel" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li>
+              <a
+                href="https://github.com/Darshwan/FileIntel"
+                target="_blank"
+                rel="noopener noreferrer">GitHub</a>
+            </li>
             <li><a href="/blog">Blog</a></li>
           </ul>
         </div>
@@ -90,15 +111,22 @@ const activePage = getActivePage(currentPath);
           <h4>Use Cases</h4>
           <ul>
             <li><a href="/blog/pdf-metadata-lawyers">For Lawyers</a></li>
-            <li><a href="/blog/pdf-metadata-journalists">For Journalists</a></li>
-            <li><a href="/blog/pdf-metadata-freelancers-proposals-contracts">For Freelancers</a></li>
+            <li>
+              <a href="/blog/pdf-metadata-journalists">For Journalists</a>
+            </li>
+            <li>
+              <a href="/blog/pdf-metadata-freelancers-proposals-contracts"
+                >For Freelancers</a>
+            </li>
             <li><a href="/blog/gdpr-pdf-metadata">For Compliance</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span>© 2026 FileIntel. Built with privacy by design.</span>
-        <span style="font-family:var(--mono);font-size:11px;">0 bytes sent to our servers</span>
+        <span style="font-family:var(--mono);font-size:11px;"
+          >0 bytes sent to our servers</span
+        >
       </div>
     </footer>
   </body>
