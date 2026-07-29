@@ -1,0 +1,937 @@
+---
+import Footer from "../../components/Footer.astro";
+import Navbar from "../../components/Navbar.astro";
+
+// src/pages/blog/remove-author-from-pdf.astro
+// Target keyword: "remove author from PDF"
+// Secondary: "delete author name PDF", "change PDF author", "PDF author field"
+// Intent: Informational / Commercial
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Remove Author Name from a PDF (2026) — Every Method | FileIntel</title>
+  <meta name="description" content="Your name is hidden inside every PDF you send. Here is how to remove the Author field permanently — in your browser, via command line, or in Acrobat — before it reaches the wrong eyes." />
+  <link rel="canonical" href="https://fileintel.me/blog/remove-author-from-pdf" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="How to Remove Author Name from a PDF — Every Method (2026)" />
+  <meta property="og:description" content="Your name is hidden inside every PDF you export. Here is how to remove the Author field permanently, on any device, for free." />
+  <meta property="og:url" content="https://fileintel.me/blog/remove-author-from-pdf" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Remove Author Name from a PDF (2026) — Every Method",
+    "datePublished": "2026-07-26",
+    "dateModified": "2026-07-26",
+    "author": {"@type": "Organization", "name": "FileIntel"},
+    "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
+    "description": "A complete guide to removing the Author field from PDF files — browser-based tools, ExifTool command line, Adobe Acrobat, and Microsoft Word — with verification steps and compliance context.",
+    "url": "https://fileintel.me/blog/remove-author-from-pdf",
+    "mainEntityOfPage": "https://fileintel.me/blog/remove-author-from-pdf"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I remove the author name from a PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The fastest method is FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover — drop your PDF in, click Strip Metadata, download the clean file. It removes the Author field from both the Info dictionary and the XMP stream in under 5 seconds. For command line: exiftool -Author= document.pdf removes just the Author field. exiftool -all= document.pdf removes all metadata."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where does the author name in a PDF come from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Author field is automatically populated by your operating system or Office account when you create or export a document. On Windows it comes from your Windows username or Microsoft 365 account name. On macOS it comes from your Apple ID or macOS account. On Google Docs it comes from your Google account display name. You never explicitly typed your name into the PDF — the software did it silently."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I change the author name in a PDF instead of removing it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. In Acrobat Pro: File > Properties > Description > Author field — you can type a new value. With ExifTool: exiftool -Author='New Name' document.pdf. However, simply changing it in Acrobat only updates the Info dictionary — the XMP stream may still contain the original name. For a complete change, use ExifTool which updates both stores simultaneously."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does changing your Windows username change the author in future PDFs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Partially. The Author field in Word-generated PDFs comes from the name set in Word's Options > General > Personalize, not your Windows username. Changing your Windows username does not change this. You need to update it in Word specifically: File > Options > General > 'User name' field. This affects future documents but not already-created files."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does removing the author from a PDF affect the document's appearance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The Author field is hidden metadata — it never appears on the visible pages of the document. Removing it has zero effect on the document's layout, content, fonts, or any visible element. The file size may decrease very slightly but the document looks identical before and after."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the author name stored in both the Info dictionary and the XMP stream?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Modern PDFs store the Author name in two places: the standard Info dictionary (readable via Acrobat's Properties panel) and the XMP stream (an XML block inside the PDF, readable via ExifTool as dc:creator or xmp:Author). Many tools only clear the Info dictionary. If you only see the Author field disappear in Acrobat Properties but it still shows in ExifTool, the XMP stream was not cleared."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does Word keep adding my name to PDFs even after I change it once?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Word stores your Author name in two places: the document's built-in properties (which applies to that specific file) and your Word user settings (which applies to all future documents). If you only changed it in the document properties, new documents still use the name from your Word user settings. To fix it permanently: File > Options > General > change the 'User name' field. Then clear the Author from any existing documents you want to send."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to remove author name from a PDF",
+    "totalTime": "PT3M",
+    "step": [
+      {"@type": "HowToStep", "position": 1, "name": "Open FileIntel PDF Metadata Remover", "text": "Go to fileintel.me/pdf-metadata-remover in any browser. No account or installation needed."},
+      {"@type": "HowToStep", "position": 2, "name": "Drop in your PDF", "text": "Drag your file into the upload zone. The file is processed locally — nothing is sent to any server."},
+      {"@type": "HowToStep", "position": 3, "name": "Check the Author field in the Privacy Risk Score", "text": "The tool shows your Author name exactly as it appears in the metadata, scored at 25/999 risk points."},
+      {"@type": "HowToStep", "position": 4, "name": "Click Strip Metadata", "text": "Removes Author from both the Info dictionary and the XMP stream — the two places PDFs store this field."},
+      {"@type": "HowToStep", "position": 5, "name": "Verify: open in Acrobat Reader, File > Properties > Description", "text": "The Author field should be blank. Also run exiftool document.pdf to confirm the XMP dc:creator field was also cleared."}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://fileintel.me"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fileintel.me/blog"},
+      {"@type": "ListItem", "position": 3, "name": "Remove Author from PDF", "item": "https://fileintel.me/blog/remove-author-from-pdf"}
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+
+    #reading-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.08s linear; border-radius: 0 2px 2px 0; pointer-events: none; }
+
+    .blog-nav-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 40px; }
+    .blog-nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .blog-nav-inner a { color: var(--ink-3); text-decoration: none; }
+    .blog-nav-inner a:hover { color: var(--ink); }
+    @media (max-width: 700px) { .blog-nav-bar { padding: 10px 20px; } }
+
+    .article-hero { background: var(--ink); padding: 64px 40px 56px; position: relative; overflow: hidden; }
+    .article-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .article-hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+    .article-category { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .article-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 52px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; max-width: 820px; }
+    .article-subtitle { font-size: 16px; color: #7a7a72; font-weight: 300; line-height: 1.65; max-width: 620px; }
+    .hero-meta { display: flex; align-items: center; gap: 20px; margin-top: 32px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; flex-wrap: wrap; }
+    @media (max-width: 700px) { .article-hero { padding: 40px 20px 36px; } }
+
+    .article-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: start; }
+    .prose { max-width: 680px; }
+    .article-sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+    @media (max-width: 960px) { .article-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; } .article-sidebar { position: static; } .prose { max-width: 100%; } }
+
+    .prose h2 { font-family: var(--serif); font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--paper-3); }
+    .prose h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin: 36px 0 12px; letter-spacing: -0.015em; }
+    .prose p { font-size: 16px; color: var(--ink-2); line-height: 1.8; margin-bottom: 22px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 22px; }
+    .prose li { font-size: 15.5px; color: var(--ink-2); line-height: 1.75; margin-bottom: 8px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); transition: border-color 0.15s; }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+
+    .direct-answer { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-lg); padding: 20px 24px; margin: 0 0 32px; }
+    .direct-answer-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; font-weight: 600; }
+    .direct-answer p { font-size: 15.5px; color: var(--ink); line-height: 1.7; margin: 0; font-weight: 500; }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 18px 22px; margin: 32px 0; box-shadow: 0 1px 3px rgba(15,15,13,0.08); }
+    .callout.green { border-left-color: var(--green); }
+    .callout.amber { border-left-color: var(--amber); }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    .callout.green .callout-label { color: var(--green); }
+    .callout.amber .callout-label { color: var(--amber); }
+    .callout p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.65; }
+    .callout p + p { margin-top: 8px; }
+
+    /* AUTHOR SOURCE DIAGRAM */
+    .source-diagram { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin: 28px 0; }
+    .source-diagram-title { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 18px; }
+    .source-row { display: flex; align-items: center; gap: 0; margin-bottom: 10px; }
+    .source-row:last-child { margin-bottom: 0; }
+    .source-app { background: var(--paper-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 14px; font-size: 13.5px; font-weight: 600; color: var(--ink); min-width: 140px; text-align: center; flex-shrink: 0; }
+    .source-arrow { font-family: var(--mono); font-size: 11px; color: var(--ink-3); padding: 0 10px; flex-shrink: 0; }
+    .source-pulls { font-size: 12.5px; color: var(--ink-3); }
+    .source-pulls strong { color: var(--ink-2); font-weight: 500; }
+    .source-value { font-family: var(--mono); font-size: 11px; color: var(--accent); background: #fdecea; border-radius: 3px; padding: 1px 7px; margin-left: 6px; }
+
+    /* OS METHOD CARDS */
+    .os-grid { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+    .os-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .os-card-header { padding: 12px 18px; background: var(--paper-2); border-bottom: 1px solid var(--paper-3); display: flex; align-items: center; gap: 12px; }
+    .os-icon { font-size: 20px; flex-shrink: 0; }
+    .os-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+    .os-sub { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); margin-top: 1px; }
+    .os-difficulty { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+    .diff-easy { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+    .diff-medium { background: var(--amber-light); color: var(--amber); }
+    .os-card-body { padding: 14px 18px; font-size: 14px; color: var(--ink-2); line-height: 1.7; }
+    .os-card-body p { margin-bottom: 8px; }
+    .os-card-body p:last-child { margin-bottom: 0; }
+    .os-steps { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 4px; }
+    .os-steps li { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
+    .os-steps li::before { content: counter(step); counter-increment: step; font-family: var(--mono); font-size: 10px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; color: var(--ink-3); }
+    .os-steps { counter-reset: step; }
+
+    /* CODE BLOCK */
+    .code-block { background: #0a0a08; border-radius: var(--radius-lg); padding: 18px 22px; margin: 16px 0; font-family: var(--mono); font-size: 13px; color: #7acc99; line-height: 1.9; overflow-x: auto; position: relative; }
+    .c-comment { color: #3a5a42; }
+    .c-cmd { color: #88ccaa; }
+    .c-arg { color: #f0c060; }
+    .c-prompt { color: #4a6a52; }
+    .c-warn { color: #c8432a; }
+    .copy-btn { position: absolute; top: 10px; right: 12px; background: #1a1a17; border: 1px solid #2a2a27; border-radius: 3px; padding: 3px 9px; font-size: 10px; color: #5a5a52; cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
+    .copy-btn:hover { background: #252522; color: #9a9a92; }
+
+    /* STEP LIST */
+    .step-list { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .step-box { display: flex; gap: 18px; align-items: flex-start; padding: 16px 20px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); transition: box-shadow 0.15s; }
+    .step-box:hover { box-shadow: 0 4px 16px rgba(15,15,13,0.10); }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--paper-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink-2); flex-shrink: 0; }
+    .step-content h4 { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .step-content p { font-size: 13.5px; color: var(--ink-3); margin: 0; line-height: 1.6; }
+
+    /* COMPARISON TABLE */
+    .table-wrapper { overflow-x: auto; margin: 24px 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .data-table th { padding: 11px 16px; text-align: left; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); font-family: var(--mono); border-bottom: 1px solid var(--border); }
+    .data-table th.dark { background: var(--ink); color: var(--paper); }
+    .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--paper-3); color: var(--ink-2); vertical-align: top; line-height: 1.55; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--paper); }
+    .check { color: var(--green); font-weight: 700; }
+    .cross { color: var(--accent); font-weight: 700; }
+    .partial { color: var(--amber); font-weight: 700; }
+
+    /* LIVE DEMO WIDGET */
+    .demo-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .demo-header { padding: 14px 18px; background: var(--paper-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .demo-title { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+    .demo-status { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+    .status-exposed { background: #fdecea; color: var(--accent); }
+    .status-clean { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+    .demo-field { padding: 14px 18px; border-bottom: 1px solid var(--paper-3); display: flex; align-items: center; gap: 12px; }
+    .demo-field:last-child { border-bottom: none; }
+    .demo-field-name { font-family: var(--mono); font-size: 12px; color: var(--ink-3); width: 100px; flex-shrink: 0; }
+    .demo-field-val { flex: 1; font-size: 14px; transition: all 0.4s ease; }
+    .demo-field-val.exposed { color: var(--accent); font-weight: 500; }
+    .demo-field-val.cleared { color: var(--green); font-style: italic; }
+    .demo-field-source { font-family: var(--mono); font-size: 10px; color: var(--ink-3); flex-shrink: 0; }
+    .demo-btn { display: flex; gap: 8px; padding: 14px 18px; background: var(--paper-2); border-top: 1px solid var(--border); }
+    .demo-action-btn { font-size: 12.5px; padding: 7px 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--white); cursor: pointer; font-family: var(--sans); font-weight: 500; color: var(--ink); transition: all 0.15s; }
+    .demo-action-btn:hover { border-color: var(--ink-3); }
+    .demo-action-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .demo-action-btn.primary:hover { background: #1a1a17; }
+
+    /* CHECKLIST */
+    .checklist-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .checklist-header { padding: 14px 20px; background: var(--paper-2); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; justify-content: space-between; }
+    .checklist-counter span { color: var(--green); font-weight: 600; }
+    .checklist-item { display: flex; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--paper-3); align-items: flex-start; cursor: pointer; transition: background 0.15s; }
+    .checklist-item:last-child { border-bottom: none; }
+    .checklist-item:hover { background: var(--paper); }
+    .checklist-item.done { opacity: 0.65; }
+    .checklist-item.done .check-title { text-decoration: line-through; color: var(--ink-3); }
+    .check-box { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 3px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; transition: all 0.15s; }
+    .checklist-item.done .check-box { background: var(--green); border-color: var(--green); }
+    .check-content { flex: 1; }
+    .check-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.4; }
+    .check-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+
+    /* CTA */
+    .article-cta { background: var(--ink); border-radius: var(--radius-lg); padding: 28px 32px; margin: 44px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .article-cta h3 { font-family: var(--serif); font-size: 22px; color: var(--paper); font-style: italic; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .article-cta p { font-size: 13.5px; color: #7a7a72; margin: 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 600; text-decoration: none; transition: all 0.15s; border: none; font-family: var(--sans); cursor: pointer; }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: #fff; }
+
+    /* FAQ */
+    .faq-section { margin-top: 56px; border-top: 1px solid var(--paper-3); padding-top: 40px; }
+    .faq-section-title { font-family: var(--serif); font-size: 26px; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--ink); }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; background: var(--white); }
+    .faq-question { width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 14.5px; font-weight: 600; color: var(--ink); font-family: var(--sans); transition: background 0.15s; line-height: 1.4; }
+    .faq-question:hover { background: var(--paper); }
+    .faq-question svg { flex-shrink: 0; transition: transform 0.2s ease; color: var(--ink-3); }
+    .faq-item.open .faq-question svg { transform: rotate(180deg); }
+    .faq-item.open .faq-question { background: var(--paper); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-answer-inner { padding: 16px 20px 18px; font-size: 14.5px; color: var(--ink-2); line-height: 1.75; border-top: 1px solid var(--paper-3); }
+
+    /* SIDEBAR */
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sidebar-widget-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sidebar-widget-body { padding: 14px 16px; }
+    .toc-link { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+    .sidebar-tool-widget { background: var(--ink); border-radius: var(--radius-lg); padding: 20px; }
+    .sidebar-tool-widget h4 { font-family: var(--serif); font-size: 17px; color: var(--paper); font-style: italic; margin-bottom: 6px; }
+    .sidebar-tool-widget p { font-size: 12.5px; color: #7a7a72; margin-bottom: 14px; line-height: 1.5; }
+    .sidebar-tool-widget .btn { width: 100%; justify-content: center; font-size: 12.5px; }
+    .related-post { display: block; text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
+    .related-post:last-child { border-bottom: none; }
+    .related-post-cat { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .related-post-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; transition: color 0.15s; }
+    .related-post:hover .related-post-title { color: var(--accent); }
+    .legal-note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--paper-3); border-radius: var(--radius); padding: 12px 16px; margin-top: 40px; line-height: 1.6; }
+
+  </style>
+</head>
+<body>
+
+<div id="reading-progress" aria-hidden="true"></div>
+
+<Navbar activePage="blog" />
+
+<div class="blog-nav-bar">
+  <div class="blog-nav-inner">
+    <a href="/">Home</a><span>&#8250;</span>
+    <a href="/blog">Blog</a><span>&#8250;</span>
+    <span>Remove Author from PDF</span>
+  </div>
+</div>
+
+<section class="article-hero">
+  <div class="article-hero-inner">
+    <div class="article-category">Privacy &middot; How-To</div>
+    <h1 class="article-title">How to Remove Author Name from a PDF</h1>
+    <p class="article-subtitle">Every PDF you export silently embeds your name. Here is how to remove it &mdash; permanently, from both places it hides &mdash; before the document leaves your hands.</p>
+    <div class="hero-meta">
+      <span>&#128197; July 2026</span>
+      <span>&#9201; 9 min read</span>
+      <span>&#9998; FileIntel</span>
+    </div>
+  </div>
+</section>
+
+<div class="article-layout">
+  <article class="prose">
+
+    <div class="direct-answer">
+      <div class="direct-answer-label">Quick answer</div>
+      <p>To remove the author name from a PDF: drop the file into <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> &mdash; it clears the Author field from both the Info dictionary and the XMP stream in under 5 seconds, free, nothing uploaded. Command line: <code>exiftool -Author= document.pdf</code> removes just the Author field. <code>exiftool -all= document.pdf</code> strips everything.</p>
+    </div>
+
+    <p>A compliance officer at a UK insurance firm discovered this the hard way. She had been sending policy documents to brokers for two years. One broker, reviewing a file more carefully than usual, noticed the Author field said "Sarah Chen &mdash; Underwriting." It also said her manager was "Mark Fellowes &mdash; Head of Risk." Neither name was relevant to the broker. Both were personal data under GDPR. Neither had been intentionally shared.</p>
+
+    <p>Sarah hadn't typed her name into the PDF. She hadn't chosen to include it. Her computer had done it automatically, silently, every time she exported a document from Word. And for two years, nobody had thought to check.</p>
+
+    <p>This is what the Author field does. It travels inside every document you send, readable by any recipient in three clicks, without ever appearing on the visible page. Here is exactly how to remove it.</p>
+
+    <h2 id="where-author-comes-from">Where your name actually comes from</h2>
+
+    <p>This matters, because if you don't know the source, you can clear the field in one place and find it comes back the next time you export.</p>
+
+    <p>The Author field in a PDF is not something you type. It's pulled automatically from your user account or Office profile by the application that creates the document. Different applications pull from different sources:</p>
+
+    <div class="source-diagram">
+      <div class="source-diagram-title">Where the Author field comes from &mdash; by application</div>
+      <div class="source-row">
+        <div class="source-app">Microsoft Word</div>
+        <div class="source-arrow">&rarr; pulls from &rarr;</div>
+        <div class="source-pulls">File &rarr; Options &rarr; General &rarr; <strong>User name</strong><span class="source-value">Jane Smith</span></div>
+      </div>
+      <div class="source-row" style="margin-top:8px;">
+        <div class="source-app">Google Docs</div>
+        <div class="source-arrow">&rarr; pulls from &rarr;</div>
+        <div class="source-pulls">Your Google account <strong>display name</strong><span class="source-value">Jane Smith</span></div>
+      </div>
+      <div class="source-row" style="margin-top:8px;">
+        <div class="source-app">LibreOffice</div>
+        <div class="source-arrow">&rarr; pulls from &rarr;</div>
+        <div class="source-pulls">Tools &rarr; Options &rarr; LibreOffice &rarr; <strong>User Data</strong><span class="source-value">Jane Smith</span></div>
+      </div>
+      <div class="source-row" style="margin-top:8px;">
+        <div class="source-app">Adobe Acrobat</div>
+        <div class="source-arrow">&rarr; pulls from &rarr;</div>
+        <div class="source-pulls">Acrobat Preferences &rarr; Identity &rarr; <strong>Name</strong><span class="source-value">Jane Smith</span></div>
+      </div>
+      <div class="source-row" style="margin-top:8px;">
+        <div class="source-app">macOS Apps</div>
+        <div class="source-arrow">&rarr; pulls from &rarr;</div>
+        <div class="source-pulls">System Preferences &rarr; Apple ID &rarr; <strong>Full name</strong><span class="source-value">Jane Smith</span></div>
+      </div>
+    </div>
+
+    <p>The source matters for two reasons. First, if you change the Author field in an already-created PDF, future exports will still use the original source name until you change it there. Second, and more importantly: the Author field gets written into <strong>two separate places</strong> inside every PDF. This is the detail most people miss, and it's why "clearing" the Author in Acrobat's Properties dialog often doesn't fully remove it.</p>
+
+    <h2 id="two-places-it-hides">The two places your name hides in a PDF</h2>
+
+    <p>Modern PDFs store metadata in two independent stores. Clear only one and your name is still there &mdash; just in the other location.</p>
+
+    <p><strong>Location 1: The Info dictionary.</strong> A key-value block near the start of the PDF. This is what Acrobat Reader displays when you go to File &rarr; Properties &rarr; Description. The Author field here is straightforward: <code>Author: Jane Smith</code>.</p>
+
+    <p><strong>Location 2: The XMP stream.</strong> An XML document embedded elsewhere in the PDF body. Introduced by Adobe in 2001, now part of the ISO 32000 standard. The same name appears here as <code>&lt;dc:creator&gt;Jane Smith&lt;/dc:creator&gt;</code> inside an XML block. ExifTool reads this. Acrobat's Properties panel doesn't show it directly.</p>
+
+    <p>The consequence: if a tool clears the Info dictionary but leaves the XMP stream, running <code>exiftool document.pdf</code> after the "clean" will still show your name. This is the single most common failure mode in metadata removal &mdash; and it's why the method you use matters.</p>
+
+    <!-- INTERACTIVE DEMO -->
+    <div class="demo-widget">
+      <div class="demo-header">
+        <span class="demo-title">Author field &mdash; before and after removal</span>
+        <span class="demo-status status-exposed" id="demo-status">&#9679; Exposed</span>
+      </div>
+      <div class="demo-field">
+        <span class="demo-field-name">Info dict</span>
+        <span class="demo-field-val exposed" id="d1">Jane Smith</span>
+        <span class="demo-field-source">Acrobat Properties</span>
+      </div>
+      <div class="demo-field">
+        <span class="demo-field-name">XMP stream</span>
+        <span class="demo-field-val exposed" id="d2">Jane Smith</span>
+        <span class="demo-field-source">ExifTool dc:creator</span>
+      </div>
+      <div class="demo-field">
+        <span class="demo-field-name">Manager</span>
+        <span class="demo-field-val exposed" id="d3">Mark Fellowes</span>
+        <span class="demo-field-source">Info dict</span>
+      </div>
+      <div class="demo-field">
+        <span class="demo-field-name">Company</span>
+        <span class="demo-field-val exposed" id="d4">Clarke Insurance Ltd</span>
+        <span class="demo-field-source">Info dict</span>
+      </div>
+      <div class="demo-btn">
+        <button class="demo-action-btn primary" onclick="runStrip()">Strip Author &amp; metadata</button>
+        <button class="demo-action-btn" onclick="resetDemo()">Reset</button>
+      </div>
+    </div>
+
+    <p>See what just happened above. The Info dictionary and the XMP stream both held the name. Both needed to be cleared. A tool that only touches the Info dictionary would leave the XMP entry intact.</p>
+
+    <!-- MID-ARTICLE CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Remove your name from a PDF now</h3>
+        <p>Both the Info dictionary and XMP stream. Free, browser-only, nothing uploaded.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <h2 id="method-1-fileintel">Method 1 &mdash; Browser tool (fastest, any device)</h2>
+
+    <p>No installation. Works on Windows, Mac, Linux, even a Chromebook. The file never leaves your device.</p>
+
+    <div class="step-list">
+      <div class="step-box">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Go to fileintel.me/pdf-metadata-remover</h4>
+          <p>Open in any browser. No account, no sign-up, no file size limits.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Drop your PDF in</h4>
+          <p>Drag and drop or click to browse. The file is read by your browser locally using the File API. Open DevTools &rarr; Network tab while the tool runs &mdash; you'll see zero outbound requests carrying your file.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>See your Privacy Risk Score</h4>
+          <p>The Author field scores 25 out of 999 on its own. If Manager, Company, and Keywords are also present, typical Word exports score 400&ndash;700. You see your exact name as it appears in the metadata before stripping.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Click Strip Metadata</h4>
+          <p>The tool applies three passes: setter methods on the Info dictionary, direct deletion from the trailer dictionary, and full XMP stream removal. Both locations where your name lives are cleared.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Verify before sending</h4>
+          <p>Open the downloaded file in Acrobat Reader &rarr; File &rarr; Properties &rarr; Description. Author should be blank. For complete verification, run <code>exiftool document.pdf</code> &mdash; the <code>dc:creator</code> XMP field should also be empty.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="method-2-exiftool">Method 2 &mdash; ExifTool command line (free, precise)</h2>
+
+    <p><a href="https://exiftool.org" target="_blank" rel="noopener">ExifTool</a> is the gold standard for metadata manipulation. You can remove just the Author field, or strip everything. Both are free.</p>
+
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="c-comment"># Remove only the Author field (keeps all other metadata)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author= document.pdf</span><br><br>
+      <span class="c-comment"># Remove Author and overwrite original (no backup file)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author= -overwrite_original document.pdf</span><br><br>
+      <span class="c-comment"># Remove Author from all PDFs in current folder</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author= -overwrite_original *.pdf</span><br><br>
+      <span class="c-comment"># Remove Author AND change it (set to blank string)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author="" document.pdf</span><br><br>
+      <span class="c-comment"># Verify result — Author lines should return empty</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author -XMP:Creator document.pdf</span><br>
+      <span class="c-warn"># If both return empty, both stores are cleared</span>
+    </div>
+
+    <p>The critical command is <code>-XMP:Creator</code> in the verification step. The Info dictionary <code>Author</code> field and the XMP <code>dc:creator</code> field are linked but separate. ExifTool's <code>-Author=</code> flag updates both simultaneously &mdash; which is one reason ExifTool is more reliable than Acrobat's built-in editor for this specific task.</p>
+
+    <h2 id="method-3-acrobat">Method 3 &mdash; Adobe Acrobat Pro</h2>
+
+    <p>If you have Acrobat Pro, you can edit the Author field directly or use Sanitize Document for a complete wipe. The distinction matters.</p>
+
+    <div class="os-grid">
+      <div class="os-card">
+        <div class="os-card-header">
+          <div class="os-icon">&#128196;</div>
+          <div>
+            <div class="os-name">Edit Author field directly</div>
+            <div class="os-sub">Acrobat Pro &middot; Changes Info dict only &middot; Quick</div>
+          </div>
+          <span class="os-difficulty diff-easy">Easy</span>
+        </div>
+        <div class="os-card-body">
+          <ol class="os-steps">
+            <li>Open the PDF in Acrobat Pro</li>
+            <li>Go to File &rarr; Properties (Ctrl/Cmd + D)</li>
+            <li>Click the Description tab</li>
+            <li>Clear the Author field &mdash; select all text and delete</li>
+            <li>Click OK and save</li>
+          </ol>
+          <p style="margin-top:10px; font-size:12.5px; color:var(--accent);">&#9888; This only clears the Info dictionary. The XMP stream may still contain your name. Verify with ExifTool after.</p>
+        </div>
+      </div>
+      <div class="os-card">
+        <div class="os-card-header">
+          <div class="os-icon">&#128274;</div>
+          <div>
+            <div class="os-name">Sanitize Document</div>
+            <div class="os-sub">Acrobat Pro &middot; More complete &middot; Rewrites file</div>
+          </div>
+          <span class="os-difficulty diff-medium">Thorough</span>
+        </div>
+        <div class="os-card-body">
+          <ol class="os-steps">
+            <li>Open the PDF in Acrobat Pro</li>
+            <li>Go to Tools &rarr; Redact</li>
+            <li>Click "Sanitize Document"</li>
+            <li>Confirm and save the sanitized file</li>
+            <li>Verify with ExifTool: <code>exiftool -Author document.pdf</code></li>
+          </ol>
+          <p style="margin-top:10px; font-size:12.5px; color:var(--ink-3);">Sanitize performs a complete PDF rewrite and is more reliable at XMP removal than the Properties editor. Still worth verifying after on critical documents.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="method-4-word-source">Method 4 &mdash; Fix the source in Word (prevents future exposure)</h2>
+
+    <p>If you export a lot of documents from Word, fixing the source name means you never have to strip it from individual files. This changes what gets written into future PDFs &mdash; it doesn't fix existing files.</p>
+
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="c-comment"># In Microsoft Word:</span><br>
+      <span class="c-comment"># File &rarr; Options &rarr; General &rarr; Personalize your copy of Microsoft Office</span><br>
+      <span class="c-comment"># Change "User name" to your preferred value or leave blank</span><br><br>
+      <span class="c-comment"># To clear Author from a specific document's properties:</span><br>
+      <span class="c-comment"># File &rarr; Info &rarr; Properties (right panel) &rarr; click "Remove Personal Information"</span><br>
+      <span class="c-comment"># OR: File &rarr; Info &rarr; Check for Issues &rarr; Inspect Document</span><br>
+      <span class="c-comment"># Then check "Document Properties and Personal Information" &rarr; Remove All</span>
+    </div>
+
+    <div class="callout amber">
+      <div class="callout-label">&#9888; Word's "Remove Personal Information" trap</div>
+      <p>Word has a "Remove Personal Information from file properties on save" option (File &rarr; Options &rarr; Trust Center &rarr; Privacy Options). Enabling it removes the Author from the <em>Word document</em> properties &mdash; but when you export to PDF, the PDF generator may still pull your name from your Office user settings and embed it in the output PDF. Always verify the exported PDF separately, not just the source Word file.</p>
+    </div>
+
+    <h2 id="comparison">Which method removes what</h2>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th class="dark">Clears Info dict Author</th>
+            <th class="dark">Clears XMP Author</th>
+            <th>Prevents future exposure</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FileIntel PDF Metadata Remover</td>
+            <td><span class="check">&#10004; Yes</span></td>
+            <td><span class="check">&#10004; Yes</span></td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Free</td>
+          </tr>
+          <tr>
+            <td>ExifTool <code>-Author=</code></td>
+            <td><span class="check">&#10004; Yes</span></td>
+            <td><span class="check">&#10004; Yes</span></td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Free</td>
+          </tr>
+          <tr>
+            <td>Acrobat Pro Properties editor</td>
+            <td><span class="check">&#10004; Yes</span></td>
+            <td><span class="partial">~ Sometimes</span></td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Paid</td>
+          </tr>
+          <tr>
+            <td>Acrobat Pro Sanitize Document</td>
+            <td><span class="check">&#10004; Yes</span></td>
+            <td><span class="check">&#10004; Mostly</span></td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Paid</td>
+          </tr>
+          <tr>
+            <td>Change Word user settings</td>
+            <td><span class="cross">&#10006; Doesn't fix existing</span></td>
+            <td><span class="cross">&#10006; Doesn't fix existing</span></td>
+            <td><span class="check">&#10004; Future files only</span></td>
+            <td>Free</td>
+          </tr>
+          <tr>
+            <td>Re-save / re-export</td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Free but ineffective</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="changing-vs-removing">Changing vs removing &mdash; when each makes sense</h2>
+
+    <p>Sometimes you don't want to remove the Author field entirely &mdash; you want to change it. A law firm that co-authors a document might want the firm name in the Author field rather than an individual's name. A consultant working under a company brand might want the company name rather than their personal name.</p>
+
+    <p>Both ExifTool and Acrobat support changing (not just clearing) the Author field:</p>
+
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="c-comment"># Set Author to a company name instead of personal name</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author="FileIntel Ltd" document.pdf</span><br><br>
+      <span class="c-comment"># Verify both Info dict and XMP were updated</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author -XMP:Creator document.pdf</span><br>
+      <span class="c-warn">Author          : FileIntel Ltd</span><br>
+      <span class="c-warn">Creator         : FileIntel Ltd</span>
+    </div>
+
+    <p>The privacy consideration here: a company name in the Author field is usually not personal data under GDPR (because it doesn't identify a natural person). A full personal name is. Replacing your name with your organisation's name eliminates the personal data exposure while preserving document attribution if needed.</p>
+
+    <h2 id="gdpr-and-author">Why the Author field is a GDPR issue</h2>
+
+    <p>For UK and EU organisations, this isn't just professional hygiene. The Author field carries your employee's full name. That's personal data under <a href="https://gdpr-info.eu/art-4-gdpr/" target="_blank" rel="noopener">GDPR Article 4(1)</a>.</p>
+
+    <p>When that document is sent to an external party &mdash; a client, a counterpart, a regulator &mdash; the Author name travels with it. The recipient now holds your employee's personal data. That transfer requires a lawful basis. In most professional document exchanges, there is no lawful basis for sharing an employee's name embedded in a PDF field, because it serves no function in the transaction.</p>
+
+    <p>The ICO's guidance on data minimisation under UK GDPR is explicit: personal data shared externally must be limited to what is necessary for the purpose. An Author field containing a name that serves no purpose for the recipient fails that test. See our full analysis in <a href="/blog/gdpr-pdf-metadata">GDPR and PDF metadata</a> and the <a href="/blog/uk-gdpr-vs-eu-gdpr-document-metadata">UK GDPR vs EU GDPR comparison</a> for post-Brexit context.</p>
+
+    <h2 id="verification-checklist">Verification checklist</h2>
+
+    <div class="checklist-widget">
+      <div class="checklist-header">
+        <span>Author Field Removal Verification</span>
+        <span class="checklist-counter"><span id="done-count">0</span> / 5 complete</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Open in Acrobat Reader &rarr; File &rarr; Properties &rarr; Description</div>
+          <div class="check-desc">Author field should be blank. This confirms the Info dictionary was cleared.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Run: exiftool -Author -XMP:Creator document.pdf</div>
+          <div class="check-desc">Both lines should return empty. This confirms the XMP stream Author was also cleared &mdash; not just the Info dict.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Check Manager and Company fields too</div>
+          <div class="check-desc">If you had an Author, you likely have Manager and Company data too. Run exiftool -Manager -Company document.pdf to confirm these are also cleared.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Do not reopen in authoring software after stripping</div>
+          <div class="check-desc">Re-opening in Word, LibreOffice, or Acrobat and re-saving will write fresh Author metadata from your current user settings.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Send the stripped file, not the original export</div>
+          <div class="check-desc">Keep both files clearly named. FileIntel adds "-clean" to the output filename. Confirm you're attaching the right one before sending.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-label">&#10003; Best practice</div>
+      <p>Make metadata stripping a step in your document workflow, not something you remember occasionally. Any PDF going to an external recipient should pass through a metadata check. The <a href="/blog/remove-metadata-from-pdf">complete PDF metadata removal guide</a> covers all fields beyond just Author &mdash; including Keywords, ModDate, and the XMP stream fields that most guides ignore.</p>
+    </div>
+
+    <!-- END CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Remove your name from a PDF right now</h3>
+        <p>Both the Info dictionary and XMP stream. Free, browser-only, 5 seconds.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2 class="faq-section-title">Frequently asked</h2>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">How do I remove the author name from a PDF?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">The fastest method is FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover &mdash; drop your PDF in, click Strip Metadata, download the clean file. It removes the Author field from both the Info dictionary and the XMP stream in under 5 seconds. Command line alternative: <code>exiftool -Author= document.pdf</code></div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Where does the author name in a PDF come from?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">It comes from your operating system or Office account, written automatically when you create or export a document. In Word it comes from File &rarr; Options &rarr; General &rarr; User name. In Google Docs it's your Google account display name. In LibreOffice it's Tools &rarr; Options &rarr; User Data. You never explicitly typed it into the PDF &mdash; the software did it silently.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Can I change the author name in a PDF instead of removing it?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. With ExifTool: <code>exiftool -Author="New Name" document.pdf</code>. In Acrobat Pro: File &rarr; Properties &rarr; Description &rarr; Author field. However, changing it in Acrobat only updates the Info dictionary &mdash; the XMP stream may still contain the original name. ExifTool updates both stores simultaneously, making it the more reliable method for changing rather than just clearing.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Does removing the author from a PDF affect the document's appearance?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">No. The Author field is hidden metadata that never appears on the visible pages of the document. Removing it has zero effect on layout, content, fonts, images, or any visible element. The document looks identical before and after. File size may decrease very slightly.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Is the author name stored in both the Info dictionary and the XMP stream?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. Modern PDFs store Author in two places: the Info dictionary (visible in Acrobat Properties) and the XMP stream (an XML block inside the PDF, readable via ExifTool as dc:creator). Many tools only clear the Info dictionary. If the Author still appears when you run ExifTool after "cleaning," the XMP stream wasn't cleared. Both stores must be removed for complete sanitisation.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Why does Word keep adding my name to PDFs even after I change it once?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Word stores your name in two places: the specific document's properties and your global Word user settings. If you only cleared it from one document's properties, every new document still uses your name from the global settings. Fix it permanently: File &rarr; Options &rarr; General &rarr; change the "User name" field. This affects all future exports, but you still need to strip Author from any existing files you want to send.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Is removing the author name from a PDF legal?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes. You are modifying hidden properties of your own document. Under GDPR's data minimisation principle, removing unnecessary personal data before sharing is not only legal but recommended. The exception is deliberately altering metadata on a document you intend to submit as legal evidence, which may constitute tampering depending on jurisdiction. For normal professional sharing, it's entirely appropriate.</div></div>
+      </div>
+    </div>
+
+    <p class="legal-note">This article is for general informational purposes. It does not constitute legal advice. For GDPR compliance questions or advice on document handling in legal proceedings, consult a qualified professional.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">In this article</div>
+      <div class="sidebar-widget-body">
+        <a href="#where-author-comes-from" class="toc-link"><span class="toc-num">01</span> Where your name comes from</a>
+        <a href="#two-places-it-hides" class="toc-link"><span class="toc-num">02</span> Two places it hides</a>
+        <a href="#method-1-fileintel" class="toc-link"><span class="toc-num">03</span> Method 1: Browser tool</a>
+        <a href="#method-2-exiftool" class="toc-link"><span class="toc-num">04</span> Method 2: ExifTool</a>
+        <a href="#method-3-acrobat" class="toc-link"><span class="toc-num">05</span> Method 3: Acrobat Pro</a>
+        <a href="#method-4-word-source" class="toc-link"><span class="toc-num">06</span> Method 4: Fix in Word</a>
+        <a href="#comparison" class="toc-link"><span class="toc-num">07</span> Method comparison</a>
+        <a href="#changing-vs-removing" class="toc-link"><span class="toc-num">08</span> Change vs remove</a>
+        <a href="#gdpr-and-author" class="toc-link"><span class="toc-num">09</span> GDPR implications</a>
+        <a href="#verification-checklist" class="toc-link"><span class="toc-num">10</span> Verification checklist</a>
+      </div>
+    </div>
+
+    <div class="sidebar-tool-widget">
+      <div style="font-size:22px; margin-bottom:10px;">&#128274;</div>
+      <h4>PDF Metadata Remover</h4>
+      <p>Clears Author from both Info dictionary and XMP stream. See your name before stripping. Browser-only.</p>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open free tool &rarr;</a>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">Related articles</div>
+      <div class="sidebar-widget-body">
+        <a href="/blog/remove-metadata-from-pdf" class="related-post">
+          <div class="related-post-cat">Complete guide</div>
+          <div class="related-post-title">How to remove all metadata from a PDF</div>
+        </a>
+        <a href="/blog/pdf-metadata-word-google-docs-libreoffice" class="related-post">
+          <div class="related-post-cat">How-To</div>
+          <div class="related-post-title">PDF metadata after conversion — Word, Google Docs, LibreOffice</div>
+        </a>
+        <a href="/blog/pdf-metadata-freelancers-proposals-contracts" class="related-post">
+          <div class="related-post-cat">Freelance</div>
+          <div class="related-post-title">Why freelancers must strip metadata from proposals</div>
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<Footer />
+
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  // Reading progress
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+
+  // FAQ accordion
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.classList.toggle('done');
+    item.querySelector('.check-box').textContent = item.classList.contains('done') ? '\u2713' : '';
+    const done = document.querySelectorAll('.checklist-item.done').length;
+    document.getElementById('done-count').textContent = done;
+  }
+
+  // Demo widget
+  function runStrip() {
+    const fields = [
+      { id: 'd1', after: '[empty]' },
+      { id: 'd2', after: '[empty]' },
+      { id: 'd3', after: '[empty]' },
+      { id: 'd4', after: '[empty]' }
+    ];
+    fields.forEach((f, i) => {
+      setTimeout(() => {
+        const el = document.getElementById(f.id);
+        el.style.opacity = '0';
+        setTimeout(() => {
+          el.textContent = f.after;
+          el.className = 'demo-field-val cleared';
+          el.style.opacity = '1';
+        }, 200);
+      }, i * 120);
+    });
+    setTimeout(() => {
+      const status = document.getElementById('demo-status');
+      status.textContent = '\u2713 Clean';
+      status.className = 'demo-status status-clean';
+    }, fields.length * 120 + 200);
+  }
+
+  function resetDemo() {
+    const originals = [
+      { id: 'd1', val: 'Jane Smith' },
+      { id: 'd2', val: 'Jane Smith' },
+      { id: 'd3', val: 'Mark Fellowes' },
+      { id: 'd4', val: 'Clarke Insurance Ltd' }
+    ];
+    originals.forEach(f => {
+      const el = document.getElementById(f.id);
+      el.textContent = f.val;
+      el.className = 'demo-field-val exposed';
+    });
+    const status = document.getElementById('demo-status');
+    status.textContent = '\u25cf Exposed';
+    status.className = 'demo-status status-exposed';
+  }
+
+  // Copy code
+  function copyCode(btn) {
+    const block = btn.parentElement;
+    const text = block.innerText.replace('Copy', '').replace('\u2713 Copied', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '\u2713 Copied';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  // Active TOC
+  const sections = ['where-author-comes-from','two-places-it-hides','method-1-fileintel','method-2-exiftool','method-3-acrobat','method-4-word-source','comparison','changing-vs-removing','gdpr-and-author','verification-checklist'];
+  const tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = i;
+    });
+    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+  }, { passive: true });
+</script>
+
+</body>
+</html>

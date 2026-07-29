@@ -201,7 +201,6 @@ import Navbar from "../../components/Navbar.astro";
       body {
         box-sizing: border-box;
         width: 100%;
-        overflow-x: hidden;
       }
       * {
         box-sizing: border-box;
@@ -272,8 +271,10 @@ import Navbar from "../../components/Navbar.astro";
         margin: 0 auto;
         position: relative;
         z-index: 1;
-        box-sizing: border-box;
-        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 380px; /* or 1fr 340px */
+        gap: 48px;
+        align-items: center;
       }
 
       .article-meta {
@@ -338,11 +339,19 @@ import Navbar from "../../components/Navbar.astro";
         font-size: 11px;
         letter-spacing: 0.04em;
         padding: 5px 12px;
-        border: 1px solid #2a2a27;
+        border: 1px solid #3a3a35;
         border-radius: 20px;
-        color: #6a6a62;
+        color: #9a9a92; /* was #6a6a62 — too dim */
+        background: rgba(255, 255, 255, 0.03);
+        transition:
+          color 0.15s,
+          border-color 0.15s;
       }
 
+      .os-pill:hover {
+        color: var(--paper);
+        border-color: #5a5a52;
+      }
       /* ══ RESPONSIVE ══ */
       @media (max-width: 1024px) {
         .article-hero-inner {
@@ -557,7 +566,7 @@ import Navbar from "../../components/Navbar.astro";
       .method-step {
         /* display: flex; */
         gap: 16px;
-        /* align-items: flex-start; */
+        align-items: flex-start;
         margin-bottom: 16px;
       }
 
@@ -581,8 +590,7 @@ import Navbar from "../../components/Navbar.astro";
         flex-shrink: 0;
         margin-top: 1px;
       }
-
-      .step-content h4 {
+       .step-content h4 {
         font-size: 14px;
         font-weight: 600;
         color: var(--ink);
@@ -602,70 +610,94 @@ import Navbar from "../../components/Navbar.astro";
 
       /* Command block */
       .codebox {
-        margin-top: 1rem;
         width: 100%;
-        border: 1px solid #cdcdcd;
-        border-radius: 3px;
+        margin-top: 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: var(--white);
       }
+
       .codebox .top {
-        padding: 6px 10px;
-        font-size: 12px;
         display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid #cdcdcd;
-        border-radius: 3px;
-      }
-      .codebox .top .language {
-        display: flex;
-        justify-content: center;
         align-items: center;
-        gap: 2px;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 14px;
+        background: var(--paper-2);
+        border-bottom: 1px solid var(--border);
       }
-      .codebox .top .cmd-copy {
-        background: transparent;
-        padding: 3px 8px;
-        font-size: 10px;
-        color: #353532;
-        cursor: pointer;
+
+      .codebox .language {
+        display: flex;
+        align-items: center;
+        gap: 6px;
         font-family: var(--mono);
-        transition: all 0.15s;
+        font-size: 12px;
+        color: var(--ink-3);
+      }
+
+      .codebox .language svg {
         flex-shrink: 0;
       }
-      .codebox .codeplace {
-        padding: 12px;
-        background: #dadada;
-      }
-      .codebox .codeplace .cmd-prompt {
-        color: #333333;
+
+      .codebox .cmd-copy {
+        flex-shrink: 0;
         background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 4px 10px;
         font-size: 11px;
-        font-family: var(--mono), monospace;
+        font-family: var(--mono);
+        color: var(--ink-2);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
 
-        /* 1. Establish line-height so we know exactly how tall each line is */
-        line-height: 18px;
+      .codebox .cmd-copy:hover {
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      .codebox .codeplace {
+        padding: 14px 16px;
+        background: #f7f6f2;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .codebox .cmd-prompt {
         display: block;
-
-        /* 2. Create space on the left side for the dollar signs to sit */
-        padding-left: 1.25rem;
-        position: relative;
-
-        /* 3. This dynamically draws a '$' symbol as a background image on every line */
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='18'><text x='0' y='14' font-family='monospace' font-size='11px' font-weight='bold' fill='%23666666'>$</text></svg>");
-        background-repeat: repeat-y;
-        background-position: 0 0;
-
-        /* 4. Ensures long lines wrap onto a new visual line naturally */
-        white-space: pre-wrap;
-        word-break: break-all;
+        font-family: var(--mono), monospace;
+        font-size: 12.5px;
+        line-height: 1.7;
+        color: #2a2a27;
+        white-space: pre; /* critical — prevents wrapping */
+        margin: 0;
       }
-      .codebox .codeplace .cmd-prompt span {
-        display: inline;
+
+      .codebox .cmd-prompt::before {
+        content: "$ ";
+        color: #7a7a72;
+        font-weight: 600;
       }
-      .cmd-comment {
-        color: #79a15d;
-        font-style: italic;
-      }
+
       /* ══ COMPARISON TABLE ══ */
+      .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 24px 0;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+      }
+
+      .table-wrapper .compare-table {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        min-width: 640px; /* forces scroll on small screens */
+      }
       .compare-table {
         width: 100%;
         border-collapse: collapse;
@@ -888,10 +920,12 @@ import Navbar from "../../components/Navbar.astro";
       /* ══ SIDEBAR ══ */
       .article-sidebar {
         position: sticky;
-        top: calc(var(--nav-height) + 24px);
+        top: 80px; /* height of your sticky navbar + a little gap */
+        align-self: start;
         display: flex;
         flex-direction: column;
         gap: 16px;
+        overflow-y: auto;
       }
 
       .sidebar-widget {
@@ -1025,13 +1059,14 @@ import Navbar from "../../components/Navbar.astro";
           grid-template-columns: 1fr;
           gap: 40px;
           padding: 32px 20px 60px;
+          align-items: start;
         }
         .article-hero {
           padding: 48px 20px 40px;
         }
         .article-sidebar {
           position: sticky;
-          top: calc(var(--nav-height) + 24px);
+          top: 80px;
           display: flex;
           flex-direction: column;
         }
@@ -1629,28 +1664,30 @@ import Navbar from "../../components/Navbar.astro";
                 </div>
                 <div class="codebox">
                   <div class="top">
-                    <span class="language">
-                      <span
-                        ><svg
-                          xmlns="http://w3.org"
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <polyline points="4 17 10 11 4 5"></polyline>
-                          <line x1="12" y1="19" x2="20" y2="19"></line>
-                        </svg>
-                      </span>Terminal</span
-                    >
-                    <span class="cmd-copy" onclick="copyCmd(this)">Copy</span>
+                    <div class="language">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                      </svg>
+                      <span>Terminal</span>
+                    </div>
+                    <button class="cmd-copy" type="button">Copy</button>
                   </div>
                   <div class="codeplace">
-                    <code class="cmd-prompt"><span>/bin/bash -c "$(curl-fsSLhttps://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span></code>
+                    <code class="cmd-prompt"
+                      >/bin/bash -c "$(curl -fsSL
+                      https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code
+                    >
                   </div>
                 </div>
               </div>
@@ -1684,7 +1721,9 @@ import Navbar from "../../components/Navbar.astro";
                     <span class="cmd-copy" onclick="copyCmd(this)">Copy</span>
                   </div>
                   <div class="codeplace">
-                    <code class="cmd-prompt"><span>brew install exiftool</span></code>
+                    <code class="cmd-prompt"
+                      ><span>brew install exiftool</span></code
+                    >
                   </div>
                 </div>
               </div>
@@ -1721,7 +1760,10 @@ import Navbar from "../../components/Navbar.astro";
                   </div>
 
                   <div class="codeplace">
-                    <code class="cmd-prompt"><span># Replace with your actual file path</span><br/><span>exiftool /path/to/your/document.pdf</span></code>
+                    <code class="cmd-prompt"
+                      ><span># Replace with your actual file path</span><br
+                      /><span>exiftool /path/to/your/document.pdf</span></code
+                    >
                   </div>
                 </div>
                 <p style="margin-top:8px;">
@@ -1970,7 +2012,13 @@ import Navbar from "../../components/Navbar.astro";
                     <span class="cmd-copy" onclick="copyCmd(this)">Copy</span>
                   </div>
                   <div class="codeplace">
-                    <code class="cmd-prompt">// Debian/Ubuntu <br /> sudo apt install poppler-utils</code><br /><code class="cmd-prompt">// Fedora/RHEL <br /> sudo dnf install poppler-utils</code><br /><code class="cmd-prompt">// Arch <br />sudo pacman -S poppler</code>
+                    <code class="cmd-prompt"
+                      >// Debian/Ubuntu <br /> sudo apt install poppler-utils</code
+                    ><br /><code class="cmd-prompt"
+                      >// Fedora/RHEL <br /> sudo dnf install poppler-utils</code
+                    ><br /><code class="cmd-prompt"
+                      >// Arch <br />sudo pacman -S poppler</code
+                    >
                   </div>
                 </div>
               </div>
@@ -2004,7 +2052,8 @@ import Navbar from "../../components/Navbar.astro";
                     <span class="cmd-copy" onclick="copyCmd(this)">Copy</span>
                   </div>
                   <div class="codeplace">
-                    <code class="cmd-prompt">pdfinfo /path/to/document.pdf</code>
+                    <code class="cmd-prompt">pdfinfo /path/to/document.pdf</code
+                    >
                   </div>
                 </div>
                 <p style="margin-top:8px;">
@@ -2061,7 +2110,12 @@ import Navbar from "../../components/Navbar.astro";
                     <span class="cmd-copy" onclick="copyCmd(this)">Copy</span>
                   </div>
                   <div class="codeplace">
-                    <code class="cmd-prompt">// Debian/Ubuntu<br />sudo apt install libimage-exiftool-perl</code><br /><code class="cmd-prompt">// Fedora<br />sudo dnf install perl-Image-ExifTool</code>
+                    <code class="cmd-prompt"
+                      >// Debian/Ubuntu<br />sudo apt install
+                      libimage-exiftool-perl</code
+                    ><br /><code class="cmd-prompt"
+                      >// Fedora<br />sudo dnf install perl-Image-ExifTool</code
+                    >
                   </div>
                 </div>
               </div>
@@ -2095,9 +2149,16 @@ import Navbar from "../../components/Navbar.astro";
                     <span class="cmd-copy" onclick="copyCmd(this)">Copy</span>
                   </div>
                   <div class="codeplace">
-                    <code class="cmd-prompt">// All fields<br />exiftool document.pdf</code><br />
-                    <code class="cmd-prompt">// Specific field only<br />exiftool -Author document.pdf</code><br />
-                    <code class="cmd-prompt">// JSON output for scripting<br />exiftool -json document.pdf</code>
+                    <code class="cmd-prompt"
+                      >// All fields<br />exiftool document.pdf</code
+                    ><br />
+                    <code class="cmd-prompt"
+                      >// Specific field only<br />exiftool -Author document.pdf</code
+                    ><br />
+                    <code class="cmd-prompt"
+                      >// JSON output for scripting<br />exiftool -json
+                      document.pdf</code
+                    >
                   </div>
                 </div>
               </div>
@@ -2112,80 +2173,80 @@ import Navbar from "../../components/Navbar.astro";
           actually surfaces — this matters if you are trying to confirm a
           document is clean before sharing it.
         </p>
-
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th>Method</th>
-              <th>Platform</th>
-              <th class="hl">DocInfo fields</th>
-              <th class="hl">XMP stream</th>
-              <th>GPS data</th>
-              <th>Install needed</th>
-              <th>File stays local</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>FileIntel</strong></td>
-              <td>Any</td>
-              <td class="hl"><span class="chk">✓ All</span></td>
-              <td class="hl"><span class="chk">✓ Full</span></td>
-              <td><span class="chk">✓</span></td>
-              <td><span class="chk">No</span></td>
-              <td><span class="chk">✓ Always</span></td>
-            </tr>
-            <tr>
-              <td>ExifTool</td>
-              <td>All</td>
-              <td class="hl"><span class="chk">✓ All</span></td>
-              <td class="hl"><span class="chk">✓ Full</span></td>
-              <td><span class="chk">✓</span></td>
-              <td><span class="crs">Yes</span></td>
-              <td><span class="chk">✓</span></td>
-            </tr>
-            <tr>
-              <td>Preview (Mac)</td>
-              <td>macOS</td>
-              <td class="hl"><span class="par">~ Partial</span></td>
-              <td class="hl"><span class="crs">✗ No</span></td>
-              <td><span class="crs">✗</span></td>
-              <td><span class="chk">No</span></td>
-              <td><span class="chk">✓</span></td>
-            </tr>
-            <tr>
-              <td>Adobe Reader</td>
-              <td>Win/Mac</td>
-              <td class="hl"><span class="chk">✓ All</span></td>
-              <td class="hl"><span class="par">~ Partial</span></td>
-              <td><span class="crs">✗</span></td>
-              <td><span class="crs">Yes</span></td>
-              <td><span class="chk">✓</span></td>
-            </tr>
-            <tr>
-              <td>Windows Properties</td>
-              <td>Windows</td>
-              <td class="hl"><span class="par">~ Basic</span></td>
-              <td class="hl"><span class="crs">✗ No</span></td>
-              <td><span class="crs">✗</span></td>
-              <td><span class="chk">No</span></td>
-              <td><span class="chk">✓</span></td>
-            </tr>
-            <tr>
-              <td>pdfinfo</td>
-              <td>Linux</td>
-              <td class="hl"><span class="chk">✓ All</span></td>
-              <td class="hl"><span class="crs">✗ No</span></td>
-              <td><span class="crs">✗</span></td>
-              <td><span class="crs">Yes</span></td>
-              <td><span class="chk">✓</span></td>
-            </tr>
-          </tbody>
-        </table>
-
+        <div class="table-wrapper">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Platform</th>
+                <th class="hl">DocInfo fields</th>
+                <th class="hl">XMP stream</th>
+                <th>GPS data</th>
+                <th>Install needed</th>
+                <th>File stays local</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>FileIntel</strong></td>
+                <td>Any</td>
+                <td class="hl"><span class="chk">✓ All</span></td>
+                <td class="hl"><span class="chk">✓ Full</span></td>
+                <td><span class="chk">✓</span></td>
+                <td><span class="chk">No</span></td>
+                <td><span class="chk">✓ Always</span></td>
+              </tr>
+              <tr>
+                <td>ExifTool</td>
+                <td>All</td>
+                <td class="hl"><span class="chk">✓ All</span></td>
+                <td class="hl"><span class="chk">✓ Full</span></td>
+                <td><span class="chk">✓</span></td>
+                <td><span class="crs">Yes</span></td>
+                <td><span class="chk">✓</span></td>
+              </tr>
+              <tr>
+                <td>Preview (Mac)</td>
+                <td>macOS</td>
+                <td class="hl"><span class="par">~ Partial</span></td>
+                <td class="hl"><span class="crs">✗ No</span></td>
+                <td><span class="crs">✗</span></td>
+                <td><span class="chk">No</span></td>
+                <td><span class="chk">✓</span></td>
+              </tr>
+              <tr>
+                <td>Adobe Reader</td>
+                <td>Win/Mac</td>
+                <td class="hl"><span class="chk">✓ All</span></td>
+                <td class="hl"><span class="par">~ Partial</span></td>
+                <td><span class="crs">✗</span></td>
+                <td><span class="crs">Yes</span></td>
+                <td><span class="chk">✓</span></td>
+              </tr>
+              <tr>
+                <td>Windows Properties</td>
+                <td>Windows</td>
+                <td class="hl"><span class="par">~ Basic</span></td>
+                <td class="hl"><span class="crs">✗ No</span></td>
+                <td><span class="crs">✗</span></td>
+                <td><span class="chk">No</span></td>
+                <td><span class="chk">✓</span></td>
+              </tr>
+              <tr>
+                <td>pdfinfo</td>
+                <td>Linux</td>
+                <td class="hl"><span class="chk">✓ All</span></td>
+                <td class="hl"><span class="crs">✗ No</span></td>
+                <td><span class="crs">✗</span></td>
+                <td><span class="crs">Yes</span></td>
+                <td><span class="chk">✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="callout green">
           <div class="callout-label" style="color:var(--green);">
-            The XSS gap most people miss
+            The XMP gap most people miss
           </div>
           <p>
             The XMP stream is a separate XML blob embedded inside the PDF
@@ -2338,7 +2399,13 @@ import Navbar from "../../components/Navbar.astro";
             <span class="cmd-copy" onclick="copyCmd(this)">Copy</span>
           </div>
           <div class="codeplace">
-            <code class="cmd-prompt">// Strip all metadata from a PDF (creates a backup as document.pdf_original)<br />exiftool -all= document.pdf</code><br/><code class="cmd-prompt">// Strip metadata without keeping backup<br />exiftool -all= -overwrite_original document.pdf</code>
+            <code class="cmd-prompt"
+              >// Strip all metadata from a PDF (creates a backup as
+              document.pdf_original)<br />exiftool -all= document.pdf</code
+            ><br /><code class="cmd-prompt"
+              >// Strip metadata without keeping backup<br />exiftool -all=
+              -overwrite_original document.pdf</code
+            >
           </div>
         </div>
 
@@ -2400,10 +2467,7 @@ import Navbar from "../../components/Navbar.astro";
               },
             ].map((f) => (
               <div class="faq-item">
-                <button
-                  class="faq-question"
-                  onclick="toggleFaq(this.parentElement)"
-                >
+                <button class="faq-question">
                   {f.q}
                   <svg
                     width="16"
@@ -2546,13 +2610,25 @@ import Navbar from "../../components/Navbar.astro";
         updateProgress();
       })();
       // ── FAQ accordion ──
-      function toggleFaq(item) {
-        const isOpen = item.classList.contains("open");
-        document
-          .querySelectorAll(".faq-item.open")
-          .forEach((el) => el.classList.remove("open"));
-        if (!isOpen) item.classList.add("open");
-      }
+      document.querySelectorAll(".faq-item").forEach((item) => {
+        const btn = item.querySelector(".faq-question");
+        if (!btn) return;
+
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const isOpen = item.classList.contains("open");
+
+          // Close all open items
+          document.querySelectorAll(".faq-item.open").forEach((el) => {
+            el.classList.remove("open");
+          });
+
+          // Open the clicked one if it was closed
+          if (!isOpen) {
+            item.classList.add("open");
+          }
+        });
+      });
 
       // ── Copy command buttons ──
       function copyCmd(btn) {
@@ -2595,6 +2671,35 @@ import Navbar from "../../components/Navbar.astro";
         },
         { passive: true },
       );
+      document.querySelectorAll(".cmd-copy").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const codeplace = btn
+            .closest(".codebox")
+            ?.querySelector(".cmd-prompt");
+          if (!codeplace) return;
+
+          const text = codeplace.textContent.trim();
+
+          try {
+            await navigator.clipboard.writeText(text);
+            const original = btn.textContent;
+            btn.textContent = "✓ Copied";
+            btn.style.color = "var(--green)";
+            btn.style.borderColor = "var(--green)";
+
+            setTimeout(() => {
+              btn.textContent = original;
+              btn.style.color = "";
+              btn.style.borderColor = "";
+            }, 3000);
+          } catch (err) {
+            btn.textContent = "Failed";
+            setTimeout(() => {
+              btn.textContent = "Copy";
+            }, 2000);
+          }
+        });
+      });
     </script>
   </body>
 </html>

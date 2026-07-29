@@ -1,0 +1,1036 @@
+---
+import Navbar from "../../components/Navbar.astro";
+
+// src/pages/blog/remove-metadata-from-pdf.astro
+// Target keyword: "remove metadata from PDF"
+// Secondary: "strip PDF metadata", "delete PDF metadata", "PDF metadata remover free"
+// Intent: Informational / Commercial
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Remove Metadata from a PDF — Complete Guide (2026) | FileIntel</title>
+  <meta name="description" content="Your PDF carries hidden data — your name, software, edit history — readable by anyone. Here's how to remove metadata from a PDF permanently, on any device, for free." />
+  <link rel="canonical" href="https://fileintel.me/blog/remove-metadata-from-pdf" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="How to Remove Metadata from a PDF — Complete Guide (2026)" />
+  <meta property="og:description" content="Your PDF carries hidden data — your name, software, edit history — readable by anyone. Here is how to remove it permanently, on any device, for free." />
+  <meta property="og:url" content="https://fileintel.me/blog/remove-metadata-from-pdf" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Remove Metadata from a PDF — Complete Guide (2026)" />
+  <meta name="twitter:description" content="Your PDF carries hidden data your name, software, edit history readable by anyone. Here is how to remove it permanently." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Remove Metadata from a PDF — Complete Guide (2026)",
+    "datePublished": "2026-07-26",
+    "dateModified": "2026-07-26",
+    "author": {"@type": "Organization", "name": "FileIntel"},
+    "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
+    "description": "A complete guide to removing metadata from PDF files — covering browser-based tools, command-line methods, Adobe Acrobat, and why partial stripping fails.",
+    "url": "https://fileintel.me/blog/remove-metadata-from-pdf",
+    "mainEntityOfPage": "https://fileintel.me/blog/remove-metadata-from-pdf"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I remove metadata from a PDF for free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The fastest free method is FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover — it runs entirely in your browser, removes all three metadata layers (Info dictionary, trailer dictionary, and XMP stream), and downloads a clean file. No upload, no account needed. Alternatively, ExifTool (command line, free) can strip all fields with: exiftool -all= document.pdf"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does saving a PDF remove its metadata?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Saving or re-exporting a PDF does not remove existing metadata — it typically adds to it. Each time you save in Word, Acrobat, or any PDF editor, the software updates the ModDate field and may add Producer information. To actually remove metadata you need a dedicated stripping tool."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What metadata does a PDF contain?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A PDF typically contains: Author (your full name from your OS or Office account), Creator (the software that created the original document), Producer (the software that generated the PDF), ModDate (last modification timestamp), CreationDate, Company, Manager, Keywords, and Subject. Modern PDFs store this in two separate locations — the Info dictionary and the XMP stream — which is why partial stripping often fails."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Adobe Acrobat remove all PDF metadata?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Partially. Acrobat Pro's 'Remove Hidden Information' tool clears many fields but does not always fully remove the XMP stream. After using Acrobat's built-in cleaner, running ExifTool on the output often still reveals metadata fields. For complete removal, use a tool specifically designed to strip all three metadata layers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it legal to remove metadata from a PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, in virtually all cases. You are modifying your own document's hidden properties. The exception would be deliberately removing metadata from a document you intend to submit as evidence in legal proceedings, which could constitute tampering depending on jurisdiction. For normal professional document sharing, metadata removal is not only legal but recommended under GDPR's data minimisation principle."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the XMP stream and why does it matter for metadata removal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "XMP (Extensible Metadata Platform) is an XML-based metadata store embedded inside PDF files. Modern PDFs carry metadata in two places: the standard Info dictionary and the XMP stream. Many metadata removal tools only clear the Info dictionary, leaving the XMP stream fully intact. Anyone running ExifTool on the 'cleaned' file can still read all the original metadata. Complete removal requires stripping both stores."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I remove metadata from a PDF on a Mac?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On Mac you have three options: (1) FileIntel's browser-based PDF Metadata Remover — works on any browser, nothing installed; (2) ExifTool via Terminal: install with 'brew install exiftool' then run 'exiftool -all= document.pdf'; (3) Preview does not remove metadata — it preserves existing metadata and adds its own when you save."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to remove metadata from a PDF",
+    "totalTime": "PT2M",
+    "step": [
+      {"@type": "HowToStep", "position": 1, "name": "Open FileIntel PDF Metadata Remover", "text": "Go to fileintel.me/pdf-metadata-remover in any browser. No account or installation required."},
+      {"@type": "HowToStep", "position": 2, "name": "Drop your PDF into the tool", "text": "Drag your PDF into the upload zone or click to browse. The file is read locally — nothing is uploaded to any server."},
+      {"@type": "HowToStep", "position": 3, "name": "Review your Privacy Risk Score", "text": "The tool scores every metadata field from 0–999 and shows exactly what is exposed: Author, Creator, Manager, Keywords, Producer, and timestamps."},
+      {"@type": "HowToStep", "position": 4, "name": "Click Strip Metadata", "text": "The tool removes all three metadata layers — Info dictionary fields, trailer dictionary entries, and the XMP stream. This takes under 2 seconds for most files."},
+      {"@type": "HowToStep", "position": 5, "name": "Download and verify", "text": "Download the clean file. Open it in Acrobat Reader, go to File > Properties > Description. All fields should be blank. The Producer field will show FileIntel as confirmation the strip ran correctly."}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://fileintel.me"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fileintel.me/blog"},
+      {"@type": "ListItem", "position": 3, "name": "How to Remove Metadata from a PDF", "item": "https://fileintel.me/blog/remove-metadata-from-pdf"}
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+
+    /* NAV */
+    .nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; position: sticky; top: 0; z-index: 100; }
+    .nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-mark { width: 28px; height: 28px; background: var(--ink); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--paper); }
+    .nav-logo-text { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+    .nav-logo-sub { font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-badge { font-family: var(--mono); font-size: 10px; background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); padding: 3px 8px; border-radius: 3px; }
+    @media (max-width: 700px) { .nav-links { display: none; } .nav { padding: 0 20px; } }
+
+    /* BREADCRUMB */
+    .blog-nav-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 40px; }
+    .blog-nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .blog-nav-inner a { color: var(--ink-3); text-decoration: none; }
+    .blog-nav-inner a:hover { color: var(--ink); }
+    @media (max-width: 700px) { .blog-nav-bar { padding: 10px 20px; } }
+
+    /* HERO */
+    .article-hero { background: var(--ink); padding: 64px 40px 56px; position: relative; overflow: hidden; }
+    .article-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .article-hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+    .article-category { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .article-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 52px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; max-width: 820px; }
+    .article-subtitle { font-size: 16px; color: #7a7a72; font-weight: 300; line-height: 1.65; max-width: 620px; }
+    .hero-meta { display: flex; align-items: center; gap: 20px; margin-top: 32px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; flex-wrap: wrap; }
+    .hero-badges { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+    .hero-badge { font-family: var(--mono); font-size: 10px; padding: 3px 10px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); color: #5a5a52; }
+    .hero-badge.green { border-color: var(--green); color: var(--green); background: rgba(42,107,74,0.12); }
+    @media (max-width: 700px) { .article-hero { padding: 40px 20px 36px; } }
+
+    /* LAYOUT */
+    .article-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: start; }
+    .prose { max-width: 680px; }
+    .article-sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+    @media (max-width: 960px) { .article-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; } .article-sidebar { position: static; } .prose { max-width: 100%; } }
+
+    /* PROSE */
+    .prose h2 { font-family: var(--serif); font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--paper-3); }
+    .prose h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin: 36px 0 12px; letter-spacing: -0.015em; }
+    .prose p { font-size: 16px; color: var(--ink-2); line-height: 1.8; margin-bottom: 22px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 22px; }
+    .prose li { font-size: 15.5px; color: var(--ink-2); line-height: 1.75; margin-bottom: 8px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); transition: border-color 0.15s; }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+
+    /* DIRECT ANSWER */
+    .direct-answer { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-lg); padding: 20px 24px; margin: 0 0 32px; }
+    .direct-answer-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; font-weight: 600; }
+    .direct-answer p { font-size: 15.5px; color: var(--ink); line-height: 1.7; margin: 0; font-weight: 500; }
+
+    /* CALLOUT */
+    .callout { border-left: 3px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 18px 22px; margin: 32px 0; box-shadow: 0 1px 3px rgba(15,15,13,0.08); }
+    .callout.green { border-left-color: var(--green); }
+    .callout.amber { border-left-color: var(--amber); }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    .callout.green .callout-label { color: var(--green); }
+    .callout.amber .callout-label { color: var(--amber); }
+    .callout p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.65; }
+    .callout p + p { margin-top: 8px; }
+
+    /* METADATA FIELD VISUALISER */
+    .field-scanner { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .field-scanner-header { padding: 12px 18px; background: var(--paper-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .field-scanner-title { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+    .field-scanner-badge { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+    .badge-danger { background: #fdecea; color: var(--accent); }
+    .badge-safe { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+    .field-row { display: flex; align-items: center; padding: 11px 18px; border-bottom: 1px solid var(--paper-3); gap: 12px; transition: background 0.15s; }
+    .field-row:last-child { border-bottom: none; }
+    .field-row:hover { background: var(--paper); }
+    .field-name { font-family: var(--mono); font-size: 12px; color: var(--ink-3); width: 120px; flex-shrink: 0; }
+    .field-value { font-size: 13.5px; color: var(--ink-2); flex: 1; }
+    .field-value.exposed { color: var(--accent); }
+    .field-value.clean { color: var(--green); font-style: italic; }
+    .field-risk { font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; flex-shrink: 0; }
+    .risk-high { background: #fdecea; color: var(--accent); }
+    .risk-medium { background: var(--amber-light); color: var(--amber); }
+    .risk-low { background: var(--green-light); color: var(--green); }
+    .risk-none { background: var(--paper-2); color: var(--ink-3); }
+    .scanner-toggle { display: flex; gap: 4px; }
+    .toggle-btn { font-family: var(--mono); font-size: 10px; padding: 3px 10px; border-radius: 3px; border: 1px solid var(--border); background: var(--white); cursor: pointer; color: var(--ink-3); transition: all 0.15s; }
+    .toggle-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+    /* METHOD CARDS */
+    .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+    @media (max-width: 600px) { .method-grid { grid-template-columns: 1fr; } }
+    .method-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; cursor: pointer; transition: all 0.15s; position: relative; }
+    .method-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(15,15,13,0.08); }
+    .method-card.recommended { border-color: var(--green); }
+    .method-card.recommended::before { content: 'Recommended'; position: absolute; top: -1px; right: 12px; background: var(--green); color: white; font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 0 0 4px 4px; }
+    .method-icon { font-size: 24px; margin-bottom: 10px; }
+    .method-name { font-size: 14.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .method-meta { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); margin-bottom: 10px; }
+    .method-desc { font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+    .method-tags { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+    .method-tag { font-family: var(--mono); font-size: 9.5px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; color: var(--ink-3); }
+
+    /* STEP LIST */
+    .step-list { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .step-box { display: flex; gap: 18px; align-items: flex-start; padding: 16px 20px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); transition: box-shadow 0.15s; }
+    .step-box:hover { box-shadow: 0 4px 16px rgba(15,15,13,0.10); }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--paper-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink-2); flex-shrink: 0; }
+    .step-content h4 { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .step-content p { font-size: 13.5px; color: var(--ink-3); margin: 0; line-height: 1.6; }
+
+    /* CODE BLOCK */
+    .code-block { background: #0a0a08; border-radius: var(--radius-lg); padding: 18px 22px; margin: 16px 0; font-family: var(--mono); font-size: 13px; color: #7acc99; line-height: 1.9; overflow-x: auto; position: relative; }
+    .c-comment { color: #3a5a42; }
+    .c-cmd { color: #88ccaa; }
+    .c-arg { color: #f0c060; }
+    .c-prompt { color: #4a6a52; }
+    .c-out { color: #5a7a62; }
+    .copy-btn { position: absolute; top: 10px; right: 12px; background: #1a1a17; border: 1px solid #2a2a27; border-radius: 3px; padding: 3px 9px; font-size: 10px; color: #5a5a52; cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
+    .copy-btn:hover { background: #252522; color: #9a9a92; }
+
+    /* COMPARISON TABLE */
+    .table-wrapper { overflow-x: auto; margin: 24px 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .data-table th { padding: 11px 16px; text-align: left; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); font-family: var(--mono); border-bottom: 1px solid var(--border); }
+    .data-table th.dark { background: var(--ink); color: var(--paper); }
+    .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--paper-3); color: var(--ink-2); vertical-align: top; line-height: 1.55; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--paper); }
+    .check { color: var(--green); font-weight: 700; }
+    .cross { color: var(--accent); font-weight: 700; }
+    .partial { color: var(--amber); font-weight: 700; }
+
+    /* CHECKLIST */
+    .checklist-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .checklist-header { padding: 14px 20px; background: var(--paper-2); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; justify-content: space-between; }
+    .checklist-counter span { color: var(--green); font-weight: 600; }
+    .checklist-item { display: flex; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--paper-3); align-items: flex-start; cursor: pointer; transition: background 0.15s; }
+    .checklist-item:last-child { border-bottom: none; }
+    .checklist-item:hover { background: var(--paper); }
+    .checklist-item.done { opacity: 0.65; }
+    .checklist-item.done .check-title { text-decoration: line-through; color: var(--ink-3); }
+    .check-box { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 3px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; transition: all 0.15s; }
+    .checklist-item.done .check-box { background: var(--green); border-color: var(--green); }
+    .check-content { flex: 1; }
+    .check-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.4; }
+    .check-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+
+    /* CTA */
+    .article-cta { background: var(--ink); border-radius: var(--radius-lg); padding: 28px 32px; margin: 44px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .article-cta h3 { font-family: var(--serif); font-size: 22px; color: var(--paper); font-style: italic; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .article-cta p { font-size: 13.5px; color: #7a7a72; margin: 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 600; text-decoration: none; transition: all 0.15s; border: none; font-family: var(--sans); cursor: pointer; }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: #fff; }
+
+    /* RISK SCORE WIDGET */
+    .risk-score-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin: 28px 0; text-align: center; }
+    .risk-score-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 12px; }
+    .risk-score-ring { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; position: relative; }
+    .risk-score-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+    .risk-score-number { font-family: var(--mono); font-size: 28px; font-weight: 700; position: relative; z-index: 1; }
+    .risk-score-number.danger { color: var(--accent); }
+    .risk-score-number.safe { color: var(--green); }
+    .risk-score-caption { font-size: 13.5px; color: var(--ink-2); line-height: 1.5; max-width: 280px; margin: 0 auto; }
+    .risk-bar-group { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+    .risk-bar-row { display: flex; align-items: center; gap: 10px; }
+    .risk-bar-label { font-family: var(--mono); font-size: 11px; color: var(--ink-3); width: 80px; text-align: right; flex-shrink: 0; }
+    .risk-bar-track { flex: 1; height: 6px; background: var(--paper-2); border-radius: 3px; overflow: hidden; }
+    .risk-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+    .risk-bar-fill.red { background: var(--accent); }
+    .risk-bar-fill.amber { background: var(--amber); }
+    .risk-bar-fill.green { background: var(--green); }
+    .risk-bar-score { font-family: var(--mono); font-size: 11px; color: var(--ink-3); width: 28px; flex-shrink: 0; }
+
+    /* FAQ */
+    .faq-section { margin-top: 56px; border-top: 1px solid var(--paper-3); padding-top: 40px; }
+    .faq-section-title { font-family: var(--serif); font-size: 26px; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--ink); }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; background: var(--white); }
+    .faq-question { width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 14.5px; font-weight: 600; color: var(--ink); font-family: var(--sans); transition: background 0.15s; line-height: 1.4; }
+    .faq-question:hover { background: var(--paper); }
+    .faq-question svg { flex-shrink: 0; transition: transform 0.2s ease; color: var(--ink-3); }
+    .faq-item.open .faq-question svg { transform: rotate(180deg); }
+    .faq-item.open .faq-question { background: var(--paper); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-answer-inner { padding: 16px 20px 18px; font-size: 14.5px; color: var(--ink-2); line-height: 1.75; border-top: 1px solid var(--paper-3); }
+
+    /* SIDEBAR */
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sidebar-widget-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sidebar-widget-body { padding: 14px 16px; }
+    .toc-link { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+    .sidebar-tool-widget { background: var(--ink); border-radius: var(--radius-lg); padding: 20px; }
+    .sidebar-tool-widget h4 { font-family: var(--serif); font-size: 17px; color: var(--paper); font-style: italic; margin-bottom: 6px; }
+    .sidebar-tool-widget p { font-size: 12.5px; color: #7a7a72; margin-bottom: 14px; line-height: 1.5; }
+    .sidebar-tool-widget .btn { width: 100%; justify-content: center; font-size: 12.5px; }
+    .related-post { display: block; text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
+    .related-post:last-child { border-bottom: none; }
+    .related-post-cat { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .related-post-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; transition: color 0.15s; }
+    .related-post:hover .related-post-title { color: var(--accent); }
+    .legal-note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--paper-3); border-radius: var(--radius); padding: 12px 16px; margin-top: 40px; line-height: 1.6; }
+
+    /* PROGRESS INDICATOR */
+    #reading-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.08s linear; border-radius: 0 2px 2px 0; pointer-events: none; }
+
+    /* FOOTER */
+    footer { background: var(--ink); color: var(--paper); padding: 56px 40px 40px; margin-top: 80px; }
+    .footer-inner { max-width: 1160px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 10px; }
+    .footer-tagline { font-size: 13px; color: #5a5a52; line-height: 1.6; }
+    .footer-col h4 { font-size: 11px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a52; margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 13px; color: #7a7a72; text-decoration: none; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--paper); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; font-family: var(--mono); font-size: 11px; color: #3a3a35; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 700px) { footer { padding: 40px 20px 32px; } .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  </style>
+</head>
+<body>
+
+<div id="reading-progress" aria-hidden="true"></div>
+
+<Navbar activePage="blog" />
+
+<div class="blog-nav-bar">
+  <div class="blog-nav-inner">
+    <a href="/">Home</a><span>&#8250;</span>
+    <a href="/blog">Blog</a><span>&#8250;</span>
+    <span>How to Remove Metadata from a PDF</span>
+  </div>
+</div>
+
+<section class="article-hero">
+  <div class="article-hero-inner">
+    <div class="article-category">Privacy &middot; How-To &middot; Complete Guide</div>
+    <h1 class="article-title">How to Remove Metadata from a PDF</h1>
+    <p class="article-subtitle">Your PDF is carrying information you never chose to share. Here is every method to remove it &mdash; from a 30-second browser tool to command-line forensic stripping.</p>
+    <div class="hero-meta">
+      <span>&#128197; July 2026</span>
+      <span>&#9201; 11 min read</span>
+      <span>&#9998; FileIntel</span>
+      <span>&#128260; Updated regularly</span>
+    </div>
+    <div class="hero-badges">
+      <span class="hero-badge green">&#10003; No upload required</span>
+      <span class="hero-badge green">&#10003; Works on Mac, Windows, Linux</span>
+      <span class="hero-badge">All methods covered</span>
+    </div>
+  </div>
+</section>
+
+<div class="article-layout">
+  <article class="prose">
+
+    <p>A journalist at a national newspaper sent a source a draft article for fact-checking. She exported it from Word as a PDF. The source opened it, went to File &rarr; Properties, and found her full name, her editor's name, the newspaper's internal template classification, and the fact that the document had been modified three times in 48 hours. None of that was in the article. All of it was in the metadata.</p>
+
+    <p>That kind of exposure happens every day, across every profession. Lawyers send contracts. HR teams send offer letters. Freelancers send proposals. Consultants send reports. Every one of those PDFs carries a hidden data layer the recipient can read without any special software &mdash; just three clicks in a free PDF viewer.</p>
+
+    <p>This guide covers exactly how to <strong>remove metadata from a PDF</strong>, using every available method, so you can choose the one that fits your workflow.</p>
+
+    
+    <div class="direct-answer">
+      <div class="direct-answer-label">Quick answer</div>
+      <p>To remove metadata from a PDF: drop your file into <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> &mdash; it strips the Author, Creator, Keywords, timestamps, and the XMP stream in under 5 seconds, entirely in your browser. For command-line users: <code>exiftool -all= document.pdf</code>. Saving or re-exporting does not remove metadata &mdash; you need a dedicated stripping step.</p>
+    </div>
+
+    <h2 id="what-youre-actually-removing">#1 What you are actually removing</h2>
+
+    <p>Before you strip metadata, it helps to understand what you are stripping &mdash; because this is where most guides stop short and why "partial" removal fails.</p>
+
+    <p>Every PDF carries metadata in <strong>two separate stores</strong>. This is the fact that most people don't know, and it's the reason their metadata still shows up after they think they've cleaned the file.</p>
+
+    <p><strong>Store 1: The Info dictionary.</strong> A key-value block embedded in the PDF's trailer section. Contains Author, Creator, Producer, Subject, Keywords, Title, CreationDate, and ModDate. Acrobat's Properties panel reads this.</p>
+
+    <p><strong>Store 2: The XMP stream.</strong> An XML document embedded elsewhere in the PDF file body. Added by Adobe as a standard in 2001 and now part of ISO 32000. Contains the same fields as the Info dictionary, plus additional fields like <code>dc:rights</code>, <code>xmp:CreatorTool</code>, and revision history. ExifTool reads this. Most metadata "cleaners" don't touch it.</p>
+
+    <p>If you only clear the Info dictionary &mdash; which is what Acrobat's built-in cleaner and many online tools do &mdash; the XMP stream remains fully intact. Run ExifTool on that "cleaned" file and every field comes back.</p>
+
+    <p>Complete removal means stripping both stores. That's the standard we're working to here.</p>
+
+    <!-- INTERACTIVE FIELD VISUALISER -->
+    <div class="field-scanner">
+      <div class="field-scanner-header">
+        <span class="field-scanner-title">Typical PDF metadata exposure</span>
+        <div class="scanner-toggle">
+          <button class="toggle-btn active" onclick="showState('before', this)">Before strip</button>
+          <button class="toggle-btn" onclick="showState('after', this)">After strip</button>
+        </div>
+      </div>
+      <div id="state-before">
+        <div class="field-row"><span class="field-name">Author</span><span class="field-value exposed">Jane Smith</span><span class="field-risk risk-high">High</span></div>
+        <div class="field-row"><span class="field-name">Manager</span><span class="field-value exposed">David Clarke</span><span class="field-risk risk-high">High</span></div>
+        <div class="field-row"><span class="field-name">Company</span><span class="field-value exposed">Clarke &amp; Partners LLP</span><span class="field-risk risk-high">High</span></div>
+        <div class="field-row"><span class="field-name">Creator</span><span class="field-value exposed">Microsoft Word 2024</span><span class="field-risk risk-medium">Medium</span></div>
+        <div class="field-row"><span class="field-name">Keywords</span><span class="field-value exposed">CONFIDENTIAL, draft-v3, client-review</span><span class="field-risk risk-high">High</span></div>
+        <div class="field-row"><span class="field-name">ModDate</span><span class="field-value exposed">2026-07-24 23:47:11</span><span class="field-risk risk-medium">Medium</span></div>
+        <div class="field-row"><span class="field-name">XMP stream</span><span class="field-value exposed">Present &mdash; all fields duplicated</span><span class="field-risk risk-high">High</span></div>
+      </div>
+      <div id="state-after" style="display:none;">
+        <div class="field-row"><span class="field-name">Author</span><span class="field-value clean">[empty]</span><span class="field-risk risk-none">Cleared</span></div>
+        <div class="field-row"><span class="field-name">Manager</span><span class="field-value clean">[empty]</span><span class="field-risk risk-none">Cleared</span></div>
+        <div class="field-row"><span class="field-name">Company</span><span class="field-value clean">[empty]</span><span class="field-risk risk-none">Cleared</span></div>
+        <div class="field-row"><span class="field-name">Creator</span><span class="field-value clean">[empty]</span><span class="field-risk risk-none">Cleared</span></div>
+        <div class="field-row"><span class="field-name">Keywords</span><span class="field-value clean">[empty]</span><span class="field-risk risk-none">Cleared</span></div>
+        <div class="field-row"><span class="field-name">ModDate</span><span class="field-value clean">[empty]</span><span class="field-risk risk-none">Cleared</span></div>
+        <div class="field-row"><span class="field-name">XMP stream</span><span class="field-value clean">Removed</span><span class="field-risk risk-none">Cleared</span></div>
+      </div>
+    </div>
+
+    <p>The fields above are real. The Manager field is the one that surprises people most. If you've ever used Office on a corporate machine, your company's Active Directory may have written your manager's name into your Office profile. That name has been silently stamping itself onto every document you've created and every PDF you've exported since.</p>
+
+    <p>To understand the full range of fields and what each one reveals, see our guide on <a href="/blog/what-is-pdf-metadata">what PDF metadata actually contains</a>.</p>
+
+    <h2 id="method-1-browser-tool">#2 Method 1 &mdash; Browser-based removal (fastest, no install)</h2>
+
+    <p>This is the method most people should use. No software to install, no files uploaded anywhere, works on any OS.</p>
+
+    <div class="step-list">
+      <div class="step-box">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Open FileIntel PDF Metadata Remover</h4>
+          <p>Go to <a href="/pdf-metadata-remover">fileintel.me/pdf-metadata-remover</a>. No account. No sign-up. The tool runs entirely in JavaScript inside your browser.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Drop your PDF in</h4>
+          <p>Drag and drop or click to browse. The file is read into browser memory locally &mdash; nothing is transmitted to any server. You can verify this by opening DevTools &rarr; Network tab while the tool runs. Zero outbound requests carrying your file.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Read the Privacy Risk Score</h4>
+          <p>The tool scores your file from 0&ndash;999 and shows every exposed field. Author gets 25 points. Manager gets 15. Keywords get 8. You see exactly what a recipient would find if they checked.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Strip and download</h4>
+          <p>Click Strip Metadata. The tool uses a three-strategy approach: setter methods on the Info dictionary, direct deletion from the trailer dictionary, and full XMP stream removal. The result is a PDF with no recoverable metadata in either store.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Verify before you send</h4>
+          <p>Open the output in Acrobat Reader &rarr; File &rarr; Properties &rarr; Description. All fields should be blank. The Producer field shows "FileIntel &mdash; fileintel.me" as confirmation the strip completed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MID-ARTICLE CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Remove metadata from your PDF now</h3>
+        <p>Free, private, browser-only. Nothing leaves your device. Works on any file size.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <h2 id="method-2-exiftool">#3 Method 2 &mdash; ExifTool (command line, free)</h2>
+
+    <p><a href="https://exiftool.org" target="_blank" rel="noopener">ExifTool</a> by Phil Harvey is the most trusted metadata tool in the world. It's free, open source, cross-platform, and used by digital forensics professionals. For stripping PDF metadata it works correctly and completely.</p>
+
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="c-comment"># Install ExifTool</span><br>
+      <span class="c-comment"># Mac: brew install exiftool</span><br>
+      <span class="c-comment"># Windows: download installer from exiftool.org</span><br>
+      <span class="c-comment"># Linux: sudo apt-get install libimage-exiftool-perl</span><br><br>
+      <span class="c-comment"># Strip all metadata from a single PDF</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-all= document.pdf</span><br><br>
+      <span class="c-comment"># Strip metadata and overwrite original (no backup)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-all= -overwrite_original document.pdf</span><br><br>
+      <span class="c-comment"># Strip metadata from all PDFs in a folder</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-all= -overwrite_original *.pdf</span><br><br>
+      <span class="c-comment"># Verify the result — all fields should return blank</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">document.pdf</span><br>
+      <span class="c-out">ExifTool Version Number : 12.76</span><br>
+      <span class="c-out">File Name               : document.pdf</span><br>
+      <span class="c-out">Author                  :</span><br>
+      <span class="c-out">Creator                 :</span><br>
+      <span class="c-out">Producer                :</span>
+    </div>
+
+    <p>ExifTool's <code>-all=</code> flag removes all metadata fields including the XMP stream. The default behaviour creates a backup file with <code>_original</code> appended to the name &mdash; which is useful if you want a safety copy but means you end up with two files. The <code>-overwrite_original</code> flag skips the backup.</p>
+
+    <p>One important limitation: ExifTool strips the Info dictionary and XMP stream, but it does not remove embedded document structure data like revision markers or incremental update sections. For most professional use cases, this is fine. For forensic-grade sanitisation in legal proceedings, a full PDF rewrite is needed.</p>
+
+    <h2 id="method-3-adobe-acrobat">#4 Method 3 &mdash; Adobe Acrobat Pro</h2>
+
+    <p>If you have Acrobat Pro, the built-in sanitisation tools work for most cases but have known gaps. Here's the correct sequence &mdash; not just the obvious one.</p>
+
+    <div class="step-list">
+      <div class="step-box">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Use Sanitize Document, not Remove Hidden Information</h4>
+          <p>Tools &rarr; Redact &rarr; Sanitize Document. This is more thorough than "Remove Hidden Information." Sanitize performs a complete PDF rewrite, which destroys incremental update history and is more reliable at XMP removal.</p>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Verify with ExifTool after</h4>
+          <p>Even after Sanitize, run <code>exiftool document.pdf</code> to confirm the XMP stream was fully removed. Acrobat's Sanitize is thorough but has version-dependent behaviour on XMP stream removal.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <div class="callout-label">&#9888; Common Acrobat mistake</div>
+      <p>Many users use "Remove Hidden Information" (the non-Sanitize option). This clears fields in the Properties dialog but often leaves the XMP stream intact. If you subsequently check the file with ExifTool, you'll see all the original metadata still present in the XMP fields. Always use Sanitize Document for complete removal, or follow up with ExifTool.</p>
+    </div>
+
+    <h2 id="method-4-qpdf-command-line">#5 Method 4 &mdash; QPDF (advanced command line)</h2>
+
+    <p><a href="https://qpdf.readthedocs.io" target="_blank" rel="noopener">QPDF</a> is a free, open-source command-line tool that rewrites the PDF structure. Unlike ExifTool, which targets metadata fields, QPDF linearises and rewrites the entire file &mdash; which eliminates incremental update history, normalises the file structure, and often reduces file size.</p>
+
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="c-comment"># Install QPDF</span><br>
+      <span class="c-comment"># Mac: brew install qpdf</span><br>
+      <span class="c-comment"># Ubuntu: sudo apt install qpdf</span><br><br>
+      <span class="c-comment"># Rewrite PDF structure (removes incremental updates)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">qpdf</span> <span class="c-arg">--linearize input.pdf output.pdf</span><br><br>
+      <span class="c-comment"># Combine with ExifTool for complete sanitisation</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">qpdf</span> <span class="c-arg">--linearize input.pdf temp.pdf</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-all= -overwrite_original temp.pdf</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">mv</span> <span class="c-arg">temp.pdf output-clean.pdf</span>
+    </div>
+
+    <p>The QPDF + ExifTool combination is the most thorough free approach. QPDF handles structural sanitisation; ExifTool handles metadata field removal. Together they address every layer of the PDF that carries identifiable information.</p>
+
+    <h2 id="which-method-when">#6 Which method for which situation</h2>
+
+    <div class="method-grid">
+      <div class="method-card recommended">
+        <div class="method-icon">&#127760;</div>
+        <div class="method-name">FileIntel</div>
+        <div class="method-meta">Browser &middot; Free &middot; No install</div>
+        <div class="method-desc">Best for: professionals sending one document at a time. Lawyers, freelancers, HR teams. Any OS. No technical knowledge needed.</div>
+        <div class="method-tags"><span class="method-tag">Info dict</span><span class="method-tag">XMP stream</span><span class="method-tag">Trailer dict</span></div>
+      </div>
+      <div class="method-card">
+        <div class="method-icon">&#128187;</div>
+        <div class="method-name">ExifTool</div>
+        <div class="method-meta">Command line &middot; Free &middot; Batch capable</div>
+        <div class="method-desc">Best for: technical users, batch processing large numbers of files, scripted workflows, verification after other tools.</div>
+        <div class="method-tags"><span class="method-tag">Info dict</span><span class="method-tag">XMP stream</span><span class="method-tag">Batch</span></div>
+      </div>
+      <div class="method-card">
+        <div class="method-icon">&#128196;</div>
+        <div class="method-name">Acrobat Pro</div>
+        <div class="method-meta">Desktop &middot; Paid &middot; GUI</div>
+        <div class="method-desc">Best for: Acrobat subscribers who need GUI-based workflow. Use Sanitize Document, not Remove Hidden Information. Verify with ExifTool after.</div>
+        <div class="method-tags"><span class="method-tag">Info dict</span><span class="method-tag">XMP (mostly)</span><span class="method-tag">Rewrite</span></div>
+      </div>
+      <div class="method-card">
+        <div class="method-icon">&#9881;</div>
+        <div class="method-name">QPDF + ExifTool</div>
+        <div class="method-meta">Command line &middot; Free &middot; Forensic grade</div>
+        <div class="method-desc">Best for: legal proceedings, maximum sanitisation, when you need to eliminate incremental update history as well as metadata fields.</div>
+        <div class="method-tags"><span class="method-tag">Info dict</span><span class="method-tag">XMP stream</span><span class="method-tag">Structure</span></div>
+      </div>
+    </div>
+
+    <h2 id="what-doesnt-work">#7 What doesn't actually remove metadata</h2>
+
+    <p>These are the methods people try first. None of them work for metadata removal.</p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Method people try</th>
+            <th class="dark">Does it remove metadata?</th>
+            <th>What actually happens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Re-saving or exporting from Word</td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Adds new metadata — updates ModDate and may add additional Creator fields</td>
+          </tr>
+          <tr>
+            <td>Printing to PDF</td>
+            <td><span class="partial">~ Partial</span></td>
+            <td>Loses some fields but often preserves Author and adds new Producer data from the print driver</td>
+          </tr>
+          <tr>
+            <td>Previewing on macOS and re-saving</td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Preview preserves existing metadata and adds its own Producer field identifying it as the last tool to touch the file</td>
+          </tr>
+          <tr>
+            <td>Acrobat "Remove Hidden Information"</td>
+            <td><span class="partial">~ Partial</span></td>
+            <td>Clears Info dictionary but typically leaves XMP stream intact. ExifTool will still find metadata.</td>
+          </tr>
+          <tr>
+            <td>Converting to Word and back</td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>Conversion adds your Office credentials as Author and Creator on the newly generated file</td>
+          </tr>
+          <tr>
+            <td>Changing file extension</td>
+            <td><span class="cross">&#10006; No</span></td>
+            <td>The file contents are unchanged. Metadata is inside the file, not in the name.</td>
+          </tr>
+          <tr>
+            <td>Online tools (upload-based)</td>
+            <td><span class="partial">~ Variable</span></td>
+            <td>Some work, most strip only the Info dictionary. Privacy risk: your document is uploaded to their server.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="privacy-risk-score">#8 Understanding your Privacy Risk Score</h2>
+
+    <p> <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> scores every file before stripping. The score runs from 0 (no metadata) to 999 (maximum exposure). Here's how the weights break down:</p>
+
+    <div class="risk-score-widget">
+      <div class="risk-score-label">How the Privacy Risk Score is calculated</div>
+      <div class="risk-bar-group">
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">Author</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill red" style="width:100%" data-width="100"></div></div>
+          <span class="risk-bar-score">25</span>
+        </div>
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">Creator</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill red" style="width:80%" data-width="80"></div></div>
+          <span class="risk-bar-score">20</span>
+        </div>
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">Manager</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill red" style="width:60%" data-width="60"></div></div>
+          <span class="risk-bar-score">15</span>
+        </div>
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">Title</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill amber" style="width:50%" data-width="50"></div></div>
+          <span class="risk-bar-score">10</span>
+        </div>
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">Keywords</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill amber" style="width:32%" data-width="32"></div></div>
+          <span class="risk-bar-score">8</span>
+        </div>
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">Producer</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill amber" style="width:32%" data-width="32"></div></div>
+          <span class="risk-bar-score">8</span>
+        </div>
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">ModDate</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill green" style="width:16%" data-width="16"></div></div>
+          <span class="risk-bar-score">4</span>
+        </div>
+        <div class="risk-bar-row">
+          <span class="risk-bar-label">CreateDate</span>
+          <div class="risk-bar-track"><div class="risk-bar-fill green" style="width:12%" data-width="12"></div></div>
+          <span class="risk-bar-score">3</span>
+        </div>
+      </div>
+      <p style="font-size:12.5px; color:var(--ink-3); margin-top:16px; font-family:var(--mono);">A typical Word &rarr; PDF export scores 400&ndash;700. A clean file scores 0.</p>
+    </div>
+
+    <h2 id="compliance-why-it-matters">#9 Why this matters for compliance</h2>
+
+    <p>For EU and UK organisations, metadata removal is not just professional hygiene &mdash; it has a legal dimension under GDPR.</p>
+
+    <p>Under <a href="https://gdpr-info.eu/art-5-gdpr/" target="_blank" rel="noopener">GDPR Article 5(1)(c)</a>, personal data must be "adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed." An Author field containing an employee's full name is personal data under Article 4(1). Sending it to an external party in a document where it serves no purpose violates the data minimisation principle.</p>
+
+    <p>The UK's ICO has published guidance specifically noting that organisations sharing documents externally should check for and remove personal data in metadata fields. This applies to all file formats, not just PDF. See our detailed guide on <a href="/blog/gdpr-pdf-metadata">GDPR and PDF metadata</a> for the full compliance picture, or the <a href="/blog/uk-gdpr-vs-eu-gdpr-document-metadata">UK GDPR vs EU GDPR comparison</a> for post-Brexit specifics.</p>
+
+    <div class="callout green">
+      <div class="callout-label">&#10003; Best practice for teams</div>
+      <p>Make metadata removal a step in your document checklist, not an afterthought. Any PDF leaving your organisation &mdash; to clients, counterparties, regulators, media &mdash; should pass through a metadata check before it goes. The 30-second cost of checking is trivial against the risk of inadvertent disclosure. For freelancers specifically, our guide on <a href="/blog/pdf-metadata-freelancers-proposals-contracts">metadata in proposals and contracts</a> covers the professional implications in detail.</p>
+    </div>
+
+    <h2 id="before-you-send-checklist">#10 The complete pre-send checklist</h2>
+
+    <div class="checklist-widget">
+      <div class="checklist-header">
+        <span>PDF Metadata Removal Checklist</span>
+        <span class="checklist-counter"><span id="done-count">0</span> / 7 complete</span>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Export your document to PDF as normal</div>
+          <div class="check-desc">Don't try to suppress metadata at the export stage &mdash; it's inconsistent and rarely works completely. Export normally, then clean.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Drop the exported PDF into FileIntel</div>
+          <div class="check-desc">fileintel.me/pdf-metadata-remover &mdash; check the Privacy Risk Score before stripping. You may find fields you didn't know were there.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Strip all three metadata layers</div>
+          <div class="check-desc">Info dictionary, trailer dictionary entries, and XMP stream. Any tool that doesn't strip the XMP stream is leaving data behind.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Verify in Acrobat Reader</div>
+          <div class="check-desc">File &rarr; Properties &rarr; Description. Author, Creator, Manager, Keywords should all be blank.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Run ExifTool verification (for sensitive documents)</div>
+          <div class="check-desc">exiftool document.pdf &mdash; confirms the XMP stream was also cleared, not just the Info dictionary.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Don't reopen in Word or any editor after stripping</div>
+          <div class="check-desc">If you reopen the file in any authoring software and save it, that software writes fresh metadata including your name and a new timestamp.</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-content">
+          <div class="check-title">Send the stripped version, not the original export</div>
+          <div class="check-desc">FileIntel's output file has "-clean" in the filename. Make sure you send that one, not the original export sitting next to it in your Downloads folder.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Strip your PDF metadata now</h3>
+        <p>Author, Manager, Keywords, XMP stream &mdash; all removed. Free, private, 5 seconds.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2 class="faq-section-title">Frequently asked</h2>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">How do I remove metadata from a PDF for free?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">The fastest free method is FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover &mdash; it runs entirely in your browser, removes all three metadata layers, and downloads a clean file in under 5 seconds. No upload, no account. For command-line users, ExifTool (free, open source) strips all fields with: <code>exiftool -all= document.pdf</code></div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Does saving a PDF remove its metadata?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">No. Saving or re-exporting a PDF does not remove existing metadata &mdash; it typically adds to it. Each save in Word, Acrobat, or any PDF editor updates the ModDate field and may add Producer information. You need a dedicated stripping tool, not a re-save.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">What metadata does a PDF contain?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">A PDF typically contains: Author (your full name), Creator (the software that made the original document), Producer (the software that generated the PDF), ModDate (last modification timestamp), CreationDate, Company, Manager, Keywords, Subject, and Title. Modern PDFs store all of this in two separate locations &mdash; the Info dictionary and the XMP stream &mdash; which is why partial stripping often fails.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Does Adobe Acrobat remove all PDF metadata?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Partially. Acrobat Pro's "Sanitize Document" tool is thorough but has version-dependent behaviour on XMP stream removal. "Remove Hidden Information" (a different, weaker tool) typically only clears the Info dictionary and leaves the XMP stream intact. Always verify with ExifTool after using Acrobat's cleaning tools.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">Is it legal to remove metadata from a PDF?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes, in virtually all cases. You are modifying hidden properties of your own document. The exception is deliberately removing metadata from a document you intend to submit as evidence in legal proceedings, which could constitute tampering. For normal professional document sharing, metadata removal is not only legal but recommended under GDPR's data minimisation principle.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">What is the XMP stream and why does it matter?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">XMP (Extensible Metadata Platform) is an XML-based metadata store embedded inside PDF files. Modern PDFs carry metadata in two places: the standard Info dictionary and the XMP stream. Many metadata removal tools only clear the Info dictionary, leaving the XMP stream fully intact. Anyone running ExifTool on the "cleaned" file can still read all the original metadata. Complete removal requires stripping both stores.</div></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <button class="faq-question">How do I remove metadata from a PDF on a Mac?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">On Mac you have three options: (1) FileIntel's browser-based PDF Metadata Remover &mdash; works in Safari, Chrome, or Firefox, nothing installed; (2) ExifTool via Terminal: install with <code>brew install exiftool</code> then run <code>exiftool -all= document.pdf</code>; (3) macOS Preview does not remove metadata &mdash; it preserves existing metadata and adds its own when you save.</div></div>
+      </div>
+    </div>
+
+    <p class="legal-note">This article covers technical methods for removing PDF metadata for privacy and compliance purposes. It does not constitute legal advice. Consult a qualified solicitor or data protection officer for advice specific to your jurisdiction or compliance obligations.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">In this article</div>
+      <div class="sidebar-widget-body">
+        <a href="#what-youre-actually-removing" class="toc-link"><span class="toc-num">01</span> What you are removing</a>
+        <a href="#method-1-browser-tool" class="toc-link"><span class="toc-num">02</span> Method 1: Browser tool</a>
+        <a href="#method-2-exiftool" class="toc-link"><span class="toc-num">03</span> Method 2: ExifTool</a>
+        <a href="#method-3-adobe-acrobat" class="toc-link"><span class="toc-num">04</span> Method 3: Acrobat Pro</a>
+        <a href="#method-4-qpdf-command-line" class="toc-link"><span class="toc-num">05</span> Method 4: QPDF</a>
+        <a href="#which-method-when" class="toc-link"><span class="toc-num">06</span> Which method to use</a>
+        <a href="#what-doesnt-work" class="toc-link"><span class="toc-num">07</span> What doesn't work</a>
+        <a href="#privacy-risk-score" class="toc-link"><span class="toc-num">08</span> Privacy Risk Score</a>
+        <a href="#compliance-why-it-matters" class="toc-link"><span class="toc-num">09</span> GDPR compliance</a>
+        <a href="#before-you-send-checklist" class="toc-link"><span class="toc-num">10</span> Pre-send checklist</a>
+      </div>
+    </div>
+
+    <div class="sidebar-tool-widget">
+      <div style="font-size:22px; margin-bottom:10px;">&#128274;</div>
+      <h4>PDF Metadata Remover</h4>
+      <p>Strip Author, Manager, Keywords and the XMP stream. Privacy Risk Score shows exactly what's exposed. Browser-only.</p>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open free tool &rarr;</a>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sidebar-widget-header">Related articles</div>
+      <div class="sidebar-widget-body">
+        <a href="/blog/what-is-pdf-metadata" class="related-post">
+          <div class="related-post-cat">Explainer</div>
+          <div class="related-post-title">What is PDF metadata — and what does it reveal?</div>
+        </a>
+        <a href="/blog/view-pdf-metadata-mac-windows-linux" class="related-post">
+          <div class="related-post-cat">How-To</div>
+          <div class="related-post-title">How to view PDF metadata on Mac, Windows and Linux</div>
+        </a>
+        <a href="/blog/gdpr-pdf-metadata" class="related-post">
+          <div class="related-post-cat">Compliance</div>
+          <div class="related-post-title">GDPR and PDF metadata: what organisations must know</div>
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Fi FileIntel</div>
+        <p class="footer-tagline">Private file tools for professionals.<br>Everything runs in your browser.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
+          <li><a href="/pdf-redactor">PDF Redactor</a></li>
+          <li><a href="/pdf-merger">PDF Merger</a></li>
+          <li><a href="/pdf-splitter">PDF Splitter</a></li>
+          <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Blog</h4>
+        <ul>
+          <li><a href="/blog/what-is-pdf-metadata">What is PDF metadata?</a></li>
+          <li><a href="/blog/gdpr-pdf-metadata">GDPR &amp; PDF metadata</a></li>
+          <li><a href="/blog/redaction-vs-metadata-removal">Redaction vs removal</a></li>
+          <li><a href="/blog/check-if-pdf-has-been-edited">Check if PDF was edited</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="footer-year"></span> FileIntel by Darshwan &mdash; Nepal</span>
+      <span>0 bytes sent to our servers</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  // Reading progress bar
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+
+  // FAQ accordion
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Checklist
+  function toggleCheck(item) {
+    item.classList.toggle('done');
+    item.querySelector('.check-box').textContent = item.classList.contains('done') ? '\u2713' : '';
+    const done = document.querySelectorAll('.checklist-item.done').length;
+    document.getElementById('done-count').textContent = done;
+  }
+
+  // Before/after field scanner
+  function showState(state, btn) {
+    document.getElementById('state-before').style.display = state === 'before' ? '' : 'none';
+    document.getElementById('state-after').style.display = state === 'after' ? '' : 'none';
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Animate risk bars on scroll into view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.risk-bar-fill').forEach(bar => {
+          const w = bar.dataset.width;
+          bar.style.width = '0%';
+          setTimeout(() => { bar.style.width = w + '%'; }, 100);
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const riskWidget = document.querySelector('.risk-score-widget');
+  if (riskWidget) observer.observe(riskWidget);
+
+  // Copy code blocks
+  function copyCode(btn) {
+    const block = btn.parentElement;
+    const text = block.innerText.replace('Copy', '').replace('\u2713 Copied', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '\u2713 Copied';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  // Active TOC on scroll
+  const sections = ['what-youre-actually-removing','method-1-browser-tool','method-2-exiftool','method-3-adobe-acrobat','method-4-qpdf-command-line','which-method-when','what-doesnt-work','privacy-risk-score','compliance-why-it-matters','before-you-send-checklist'];
+  const tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = i;
+    });
+    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+  }, { passive: true });
+</script>
+
+</body>
+</html>
