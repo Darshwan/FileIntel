@@ -1,0 +1,1153 @@
+---
+import Footer from "../../components/Footer.astro";
+import Navbar from "../../components/Navbar.astro";
+
+// src/pages/blog/pdf-metadata-fields-explained.astro
+// Primary: "PDF metadata fields"
+// Secondary: "PDF info dictionary", "PDF author field", "PDF creator field explained"
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Does PDF Metadata Contain? Every Field Explained (2026) | FileIntel</title>
+  <meta name="description" content="Author, Creator, Producer, XMP stream — every PDF metadata field explained with real examples, risk levels, and exactly where each field comes from." />
+  <link rel="canonical" href="https://fileintel.me/blog/pdf-metadata-fields-explained" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="What Does PDF Metadata Contain? Every Field Explained (2026)" />
+  <meta property="og:description" content="Author, Creator, Producer, XMP stream — every PDF metadata field explained with real examples and risk levels." />
+  <meta property="og:url" content="https://fileintel.me/blog/pdf-metadata-fields-explained" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What Does PDF Metadata Contain? Every Field Explained (2026)",
+    "datePublished": "2026-07-26",
+    "dateModified": "2026-07-26",
+    "author": {"@type": "Organization", "name": "FileIntel"},
+    "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
+    "description": "A complete reference to every PDF metadata field — Info dictionary fields, XMP stream fields, where each comes from, what it reveals, and the privacy risk each carries.",
+    "url": "https://fileintel.me/blog/pdf-metadata-fields-explained"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What fields does PDF metadata contain?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PDF metadata contains: Author (person who created it), Title, Subject, Keywords, Creator (software used to create the source document), Producer (software that generated the PDF), CreationDate, ModDate, and in some cases Manager and Company from Microsoft Office profiles. Modern PDFs store all of this in two places: the standard Info dictionary and the XMP stream."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Creator and Producer in PDF metadata?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Creator identifies the application that created the original source document — for example 'Microsoft Word' if you wrote the document in Word. Producer identifies the application that generated the PDF output — for example 'Adobe PDF Library' or 'Microsoft: Print To PDF'. If you wrote in Word and exported directly, Creator and Producer may both say Microsoft. If you later processed the PDF with Acrobat, Producer changes to show Acrobat while Creator stays as Word."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the XMP stream in a PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "XMP (Extensible Metadata Platform) is an XML-based metadata format introduced by Adobe in 2001. Modern PDFs embed an XMP stream alongside the standard Info dictionary — meaning metadata is stored in two separate locations. The XMP stream often contains more fields than the Info dictionary, including revision history and rights management data. Many metadata removal tools only clear the Info dictionary and leave the XMP stream intact."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the PDF Author field contain?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Author field contains the name of the person who created the document, automatically pulled from the operating system or Office account — not typed manually. In Word it comes from File > Options > General > User name. In Google Docs it comes from your Google account display name. In macOS applications it comes from your Apple ID full name. It is personal data under GDPR Article 4(1)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you see PDF metadata without special software?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. In Adobe Acrobat Reader (free): File > Properties > Description shows Author, Title, Subject, Keywords, Creator, Producer, and dates. On macOS: right-click > Get Info > More Info. On Windows: right-click > Properties > Details tab. For the XMP stream and all fields, ExifTool (free command line) or FileIntel's PDF Metadata Remover show everything in one view."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is PDF metadata personal data under GDPR?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fields that contain a natural person's name — Author, Manager — are personal data under GDPR Article 4(1). Sharing documents with these fields populated to external parties constitutes a personal data transfer. Under the data minimisation principle (Article 5(1)(c)), this data should be stripped before sharing if it serves no purpose for the recipient."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://fileintel.me"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fileintel.me/blog"},
+      {"@type": "ListItem", "position": 3, "name": "PDF Metadata Fields Explained", "item": "https://fileintel.me/blog/pdf-metadata-fields-explained"}
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    #reading-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.08s linear; border-radius: 0 2px 2px 0; pointer-events: none; }
+
+    /* BREADCRUMB */
+    .blog-nav-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 40px; }
+    .blog-nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .blog-nav-inner a { color: var(--ink-3); text-decoration: none; }
+    .blog-nav-inner a:hover { color: var(--ink); }
+    @media (max-width: 700px) { .blog-nav-bar { padding: 10px 20px; } }
+
+    /* HERO */
+/* HERO */
+.article-hero {
+  background: var(--ink);
+  padding: 64px 40px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.article-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+.article-hero-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 72px;
+  align-items: center;
+}
+
+.article-category {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.article-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 50px);
+  color: var(--paper);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin-bottom: 18px;
+  max-width: 780px;
+}
+
+.article-subtitle {
+  font-size: 16px;
+  color: #7a7a72;
+  font-weight: 300;
+  line-height: 1.65;
+  max-width: 560px;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #4a4a42;
+  flex-wrap: wrap;
+}
+
+/* RIGHT: floating visual */
+.hero-visual {
+  position: relative;
+  height: 100%;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-visual-inner {
+  position: relative;
+  width: 100%;
+  will-change: transform;
+}
+
+.hero-img {
+  width: 75%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.5),
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+  display: block;
+  animation: heroFloat 6s ease-in-out infinite;
+}
+
+.hero-img-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, var(--ink), transparent);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  pointer-events: none;
+}
+
+@keyframes heroFloat {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+@media (max-width: 960px) {
+  .article-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .hero-visual {
+    display: none; /* hide thumbnail on small screens */
+  }
+  .article-hero {
+    padding: 48px 20px 40px;
+  }
+}
+    /* LAYOUT */
+    .article-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: start; }
+    .prose { max-width: 680px; }
+    .article-sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+    @media (max-width: 960px) { .article-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; } .article-sidebar { position: static; } .prose { max-width: 100%; } }
+
+    /* PROSE */
+    .prose h2 { font-family: var(--serif); font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--paper-3); }
+    .prose h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin: 36px 0 12px; letter-spacing: -0.015em; }
+    .prose p { font-size: 16px; color: var(--ink-2); line-height: 1.8; margin-bottom: 22px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 22px; }
+    .prose li { font-size: 15.5px; color: var(--ink-2); line-height: 1.75; margin-bottom: 8px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); transition: border-color 0.15s; }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+
+    /* DIRECT ANSWER BOX */
+    .direct-answer { background: linear-gradient(135deg, #0f0f0d 0%, #1a1a17 100%); border-radius: var(--radius-lg); padding: 24px 28px; margin: 0 0 36px; position: relative; overflow: hidden; }
+    .direct-answer::before { content: ''; position: absolute; top: -20px; right: -20px; width: 120px; height: 120px; border-radius: 50%; background: rgba(200,67,42,0.08); pointer-events: none; }
+    .direct-answer::after { content: ''; position: absolute; bottom: -30px; left: 40px; width: 80px; height: 80px; border-radius: 50%; background: rgba(42,107,74,0.06); pointer-events: none; }
+    .da-label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .da-label::before { content: ''; width: 16px; height: 1px; background: var(--accent); display: block; }
+    .direct-answer p { font-size: 15px; color: #d4d1c8; line-height: 1.75; margin: 0; font-weight: 400; position: relative; z-index: 1; }
+    .direct-answer p strong { color: var(--paper); }
+
+    /* FIELD CARDS */
+    .field-reference { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+    .field-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: box-shadow 0.15s; }
+    .field-card:hover { box-shadow: 0 4px 16px rgba(15,15,13,0.08); }
+    .field-card-header { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; }
+    .field-card-left { display: flex; align-items: center; gap: 12px; }
+    .field-badge { font-family: var(--mono); font-size: 11.5px; font-weight: 700; color: var(--ink); background: var(--paper-2); border: 1px solid var(--border); border-radius: 3px; padding: 3px 10px; flex-shrink: 0; }
+    .field-title { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    .field-risk { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; font-weight: 700; flex-shrink: 0; }
+    .risk-high { background: #fdecea; color: var(--accent); }
+    .risk-medium { background: var(--amber-light); color: var(--amber); }
+    .risk-low { background: var(--green-light); color: var(--green); }
+    .risk-none { background: var(--paper-2); color: var(--ink-3); border: 1px solid var(--border); }
+    .field-chevron { color: var(--ink-3); transition: transform 0.2s; flex-shrink: 0; }
+    .field-card.open .field-chevron { transform: rotate(180deg); }
+    .field-card-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .field-card.open .field-card-body { max-height: 900px; }
+    .field-card-inner { padding: 0 18px 18px; border-top: 1px solid var(--paper-3); }
+    .field-meta-row { display: flex; gap: 24px; padding: 10px 0; border-bottom: 1px solid var(--paper-3); flex-wrap: wrap; }
+    .field-meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .field-meta-label { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+    .field-meta-val { font-size: 13px; color: var(--ink-2); font-weight: 500; }
+    .field-example { background: var(--paper-2); border-radius: var(--radius); padding: 10px 14px; margin: 12px 0; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; }
+    .fe-key { color: var(--ink-3); }
+    .fe-val { color: var(--accent); }
+    .fe-val.safe { color: var(--green); }
+    .field-desc { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin: 10px 0 0; }
+
+    /* CODE BLOCK */
+    .code-block { background: #0a0a08; border-radius: var(--radius-lg); padding: 16px 20px; margin: 16px 0; font-family: var(--mono); font-size: 12.5px; color: #7acc99; line-height: 1.9; overflow-x: auto; position: relative; }
+    .c-comment { color: #3a5a42; }
+    .c-cmd { color: #88ccaa; }
+    .c-arg { color: #f0c060; }
+    .c-prompt { color: #4a6a52; }
+    .c-field { color: var(--accent); }
+    .copy-btn { position: absolute; top: 10px; right: 12px; background: #1a1a17; border: 1px solid #2a2a27; border-radius: 3px; padding: 3px 9px; font-size: 10px; color: #5a5a52; cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
+    .copy-btn:hover { background: #252522; color: #9a9a92; }
+
+    /* CALLOUT */
+    .callout { border-left: 3px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 18px 22px; margin: 32px 0; box-shadow: 0 1px 3px rgba(15,15,13,0.08); }
+    .callout.green { border-left-color: var(--green); }
+    .callout.amber { border-left-color: var(--amber); }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    .callout.green .callout-label { color: var(--green); }
+    .callout.amber .callout-label { color: var(--amber); }
+    .callout p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.65; }
+    .callout p + p { margin-top: 8px; }
+
+    /* TABLE */
+    .table-wrapper { overflow-x: auto; margin: 24px 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .data-table th { padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); font-family: var(--mono); border-bottom: 1px solid var(--border); }
+    .data-table th.dark { background: var(--ink); color: var(--paper); }
+    .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--paper-3); color: var(--ink-2); vertical-align: top; line-height: 1.55; font-size: 13px; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--paper); }
+
+    /* VERIFICATION CHECKLIST */
+    .verify-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .verify-header { padding: 14px 20px; background: var(--paper-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .verify-title { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 600; }
+    .verify-counter { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .verify-counter span { color: var(--green); font-weight: 600; }
+    .verify-item { display: flex; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--paper-3); align-items: flex-start; cursor: pointer; transition: background 0.15s; user-select: none; }
+    .verify-item:last-child { border-bottom: none; }
+    .verify-item:hover { background: var(--paper); }
+    .verify-item.checked { opacity: 0.65; }
+    .verify-item.checked .v-title { text-decoration: line-through; color: var(--ink-3); }
+    .v-box { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 3px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; transition: all 0.15s; }
+    .verify-item.checked .v-box { background: var(--green); border-color: var(--green); }
+    .v-content { flex: 1; }
+    .v-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.4; }
+    .v-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+
+    /* CTA */
+    .article-cta { background: var(--ink); border-radius: var(--radius-lg); padding: 28px 32px; margin: 44px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .article-cta h3 { font-family: var(--serif); font-size: 22px; color: var(--paper); font-style: italic; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .article-cta p { font-size: 13.5px; color: #7a7a72; margin: 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 600; text-decoration: none; transition: all 0.15s; border: none; font-family: var(--sans); cursor: pointer; }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: #fff; }
+
+    /* FAQ */
+    .faq-section { margin-top: 56px; border-top: 1px solid var(--paper-3); padding-top: 40px; }
+    .faq-title { font-family: var(--serif); font-size: 26px; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--ink); }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; background: var(--white); }
+    .faq-q { width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 14.5px; font-weight: 600; color: var(--ink); font-family: var(--sans); transition: background 0.15s; line-height: 1.4; }
+    .faq-q:hover { background: var(--paper); }
+    .faq-q svg { flex-shrink: 0; transition: transform 0.2s ease; color: var(--ink-3); }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+    .faq-item.open .faq-q { background: var(--paper); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-a { max-height: 400px; }
+    .faq-a-inner { padding: 16px 20px 18px; font-size: 14.5px; color: var(--ink-2); line-height: 1.75; border-top: 1px solid var(--paper-3); }
+
+    /* SIDEBAR */
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sw-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sw-body { padding: 14px 16px; }
+    .toc-link { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+    .stw { background: var(--ink); border-radius: var(--radius-lg); padding: 20px; }
+    .stw h4 { font-family: var(--serif); font-size: 17px; color: var(--paper); font-style: italic; margin-bottom: 6px; }
+    .stw p { font-size: 12.5px; color: #7a7a72; margin-bottom: 14px; line-height: 1.5; }
+    .stw .btn { width: 100%; justify-content: center; font-size: 12.5px; }
+    .rel-post { display: block; text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
+    .rel-post:last-child { border-bottom: none; }
+    .rel-cat { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .rel-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; transition: color 0.15s; }
+    .rel-post:hover .rel-title { color: var(--accent); }
+
+    .legal-note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--paper-3); border-radius: var(--radius); padding: 12px 16px; margin-top: 40px; line-height: 1.6; }
+
+  </style>
+</head>
+<body>
+
+<div id="reading-progress" aria-hidden="true"></div>
+
+<!-- NAV -->
+<Navbar activePage="blog" />
+
+<!-- BREADCRUMB -->
+<div class="blog-nav-bar">
+  <div class="blog-nav-inner">
+    <a href="/">Home</a><span>&#8250;</span>
+    <a href="/blog">Blog</a><span>&#8250;</span>
+    <span>PDF Metadata Fields Explained</span>
+  </div>
+</div>
+
+<!-- HERO WITH IMAGE -->
+ <section class="article-hero">
+  <div class="article-hero-inner">
+    <!-- LEFT: text -->
+    <div>
+      <div class="article-category">PDF Metadata Reference</div>
+      <h1 class="article-title">What Does PDF Metadata Contain? Every Field Explained</h1>
+      <p class="article-subtitle">
+        Author, Creator, Producer, XMP stream — every field explained with real examples, risk levels, and where each one comes from.
+      </p>
+      <div class="hero-meta">
+        <span>Updated July 2026</span>
+        <span>·</span>
+        <span>8 min read</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: floating animated thumbnail -->
+    <div class="hero-visual" id="hero-visual">
+      <div class="hero-visual-inner" id="hero-visual-inner">
+        <img
+          src="/images/pdf-metadata-fields-explained-thumbnail.webp"
+          alt="PDF metadata fields explained — Author, Creator, Producer, XMP stream"
+          width="480"
+          height="560"
+          loading="eager"
+          class="hero-img"
+          id="hero-img"
+        />
+        <div class="hero-img-fade"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="article-layout">
+  <article class="prose">
+
+    <!-- DIRECT ANSWER BOX -->
+    <div class="direct-answer">
+      <div class="da-label">Direct answer</div>
+      <p>PDF metadata contains <strong>two separate stores</strong>: the <strong>Info dictionary</strong> (Author, Title, Subject, Keywords, Creator, Producer, CreationDate, ModDate) and the <strong>XMP stream</strong> (an XML block duplicating all of those plus additional fields like revision count and rights data). Most tools only show you the Info dictionary. The XMP stream carries the same personal data and is readable by ExifTool and professional document analysis software.</p>
+    </div>
+
+    <p>Open any PDF. Go to File &rarr; Properties. You'll see a handful of fields &mdash; Author, Creator, maybe some dates. Clean enough. Now run <code>exiftool document.pdf</code> on that same file. Suddenly there are 30 fields, including ones Acrobat never showed you: <code>XMP:CreateDate</code>, <code>dc:creator</code>, <code>xmp:MetadataDate</code>, revision count, rights management strings.</p>
+
+    <p>The PDF format has carried metadata since its first commercial version in 1993. It's grown considerably since then. Understanding what's actually in there &mdash; and where each field comes from &mdash; is the difference between a superficial clean and a complete one.</p>
+
+    <p>This is a complete field-by-field reference. Every field, what it contains, where it comes from, and what the privacy risk is.</p>
+
+    <h2 id="two-stores">The two metadata stores — why this matters</h2>
+
+    <p>Before the fields: the architecture. PDF metadata lives in two places simultaneously, and almost every guide gets this wrong by only discussing one of them.</p>
+
+    <p><strong>The Info dictionary</strong> is a key-value block embedded in the PDF's cross-reference structure. It's been there since PDF 1.0. Acrobat Reader's Properties panel reads this. It's what you see when you go to File &rarr; Properties &rarr; Description.</p>
+
+    <p><strong>The XMP stream</strong> (Extensible Metadata Platform) is an XML document embedded separately in the PDF file body. Adobe introduced it in 2001 and it's now part of the ISO 32000 PDF standard. It contains the same fields as the Info dictionary, plus additional ones &mdash; and it's the one that survives when people think they've cleaned a file.</p>
+
+    <p>The practical consequence: if you clear the Info dictionary fields in Acrobat's Properties panel and then run ExifTool, your name usually still appears in the XMP stream as <code>dc:creator</code>. Complete removal means stripping both. Our guide on <a href="/blog/remove-metadata-from-pdf">how to remove PDF metadata</a> covers every method that handles both layers.</p>
+
+    <div class="callout amber">
+      <div class="callout-label">&#9888; The partial clean problem</div>
+      <p>The majority of online "metadata removers" only clear the Info dictionary. They don't touch the XMP stream. After using them, Acrobat Properties shows blank fields — but ExifTool still finds your name, your software, and your timestamps in the XML layer. This is why verification matters: always check both stores, not just the one Acrobat shows you.</p>
+    </div>
+
+    <h2 id="info-dictionary-fields">Info dictionary fields — the complete reference</h2>
+
+    <p>These are the standard fields in the PDF Info dictionary, as defined in the <a href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf" target="_blank" rel="noopener">ISO 32000-1 specification</a>. Click any field to expand its full details.</p>
+
+    <div class="field-reference" id="field-reference">
+
+      <div class="field-card" data-field="author">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">Author</span>
+            <span class="field-title">The person who created the document</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-high">High risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict + XMP dc:creator</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Source</span><span class="field-meta-val">OS user account / Office profile</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val" style="color:var(--accent)">Yes — GDPR Art. 4(1)</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Author          : </span><span class="fe-val">Jane Smith</span><br>
+              <span class="fe-key">XMP:Creator     : </span><span class="fe-val">Jane Smith</span>
+            </div>
+            <p class="field-desc">The Author field is automatically populated from your Windows username, Apple ID, Microsoft 365 account name, or Google account display name — depending on the application. You never typed this. Your software inserted it every time you created or saved the document. It is personal data under GDPR Article 4(1) and under UK GDPR. Sending it to external parties without a lawful basis may violate the data minimisation principle. See our guide on <a href="/blog/remove-author-from-pdf">how to remove the Author field from a PDF</a> for all removal methods.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" data-field="title">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">Title</span>
+            <span class="field-title">The document's title</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-medium">Medium risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict + XMP dc:title</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Source</span><span class="field-meta-val">Document properties / filename</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val">Sometimes</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Title           : </span><span class="fe-val">CONFIDENTIAL — Q3 Settlement Draft v4</span><br>
+              <span class="fe-key">XMP:Title       : </span><span class="fe-val">CONFIDENTIAL — Q3 Settlement Draft v4</span>
+            </div>
+            <p class="field-desc">Often set from the document's Title property or pulled from the filename. The risk level depends entirely on what the title says. A title like "CONFIDENTIAL — Client A vs Client B Settlement" is highly sensitive. A generic "Proposal" is not. In Google Docs exports, the Title field is set to whatever the document is named in Google Drive — so internal project codes and client names in Drive filenames end up embedded in the exported PDF.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" data-field="subject">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">Subject</span>
+            <span class="field-title">A description or subject classification</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-medium">Medium risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict + XMP dc:description</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Source</span><span class="field-meta-val">Manually set or template-inherited</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val">Rarely</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Subject         : </span><span class="fe-val">HR &mdash; Performance Review &mdash; Confidential</span>
+            </div>
+            <p class="field-desc">Usually blank unless set deliberately. The risk emerges when templates are reused — a Subject field set in a template for a specific client or project carries forward into every document created from that template. The most common surprise: LibreOffice Writer sometimes auto-populates Subject from document properties inherited from the template file.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" data-field="keywords">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">Keywords</span>
+            <span class="field-title">Internal classification tags</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-high">High risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict + XMP dc:subject</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Source</span><span class="field-meta-val">Document properties / DMS tags</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val">Sometimes</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Keywords        : </span><span class="fe-val">PRIVILEGED, attorney-client, Project-Falcon, draft-v3</span>
+            </div>
+            <p class="field-desc">This is the field that causes the most damage in legal and professional contexts. Document management systems (iManage, NetDocuments, SharePoint) often write internal classification codes, matter numbers, client codes, and privilege flags into the Keywords field automatically. Those tags travel with the document into every export and every email. A recipient seeing "attorney-client" or "Project-Falcon" in Keywords has just received your internal classification system — which may reveal the nature and status of a matter you haven't disclosed.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" data-field="creator">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">Creator</span>
+            <span class="field-title">The application that created the source document</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-medium">Medium risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict + XMP xmp:CreatorTool</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Source</span><span class="field-meta-val">Application that created the source</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val">No</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Creator         : </span><span class="fe-val">Microsoft Word</span><br>
+              <span class="fe-key">XMP:CreatorTool : </span><span class="fe-val">Microsoft Word</span>
+            </div>
+            <p class="field-desc">Identifies the application that created the original document — Word, InDesign, Google Docs, LibreOffice. Not personal data, but reveals your software stack. This matters when you're charging premium design rates and the Creator says "Microsoft Word 2019", or when you're claiming the document was created in a specific system but Creator contradicts that. It also matters forensically: Creator vs Producer mismatches are a primary indicator of document tampering. See our guide on <a href="/blog/check-if-pdf-has-been-edited">how to check if a PDF has been edited</a> for the full forensic picture.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" data-field="producer">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">Producer</span>
+            <span class="field-title">The application that generated the PDF</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-medium">Medium risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Source</span><span class="field-meta-val">PDF generation library</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val">No</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Producer        : </span><span class="fe-val">Microsoft: Print To PDF</span><br>
+              <span class="fe-key">Producer        : </span><span class="fe-val">Adobe Acrobat Pro 2024.003</span><br>
+              <span class="fe-key">Producer        : </span><span class="fe-val">Foxit PhantomPDF 10.1</span>
+            </div>
+            <p class="field-desc">Where Creator identifies what made the original document, Producer identifies what converted it to PDF. If you write in Word and export directly, Producer is usually Microsoft's PDF library. If you later open and re-save in Acrobat, Producer changes to Acrobat while Creator stays as Word. This field is central to tampering detection: a document claiming to be an original export from Word, with a Producer showing Foxit PhantomPDF, has been processed by a third tool after initial creation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" data-field="creationdate">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">CreationDate</span>
+            <span class="field-title">When the PDF was first created</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-low">Low risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict + XMP xmp:CreateDate</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Format</span><span class="field-meta-val">D:YYYYMMDDHHmmSSOHH'mm'</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val">No</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Create Date     : </span><span class="fe-val">2026:03:14 09:22:11+00:00</span>
+            </div>
+            <p class="field-desc">Timestamp of when the PDF was first generated. Low personal data risk, but high forensic value. If a document's stated date (printed on page 1) doesn't match its CreationDate, something is off. If CreationDate is much earlier than expected, the document may be a backdated copy. The timestamp also includes timezone offset — which can reveal the geographic location of the machine that created the file.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-card" data-field="moddate">
+        <div class="field-card-header" >
+          <div class="field-card-left">
+            <span class="field-badge">ModDate</span>
+            <span class="field-title">When the PDF was last modified</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="field-risk risk-medium">Medium risk</span>
+            <svg class="field-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="field-card-body">
+          <div class="field-card-inner">
+            <div class="field-meta-row">
+              <div class="field-meta-item"><span class="field-meta-label">Store</span><span class="field-meta-val">Info dict + XMP xmp:ModifyDate</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Source</span><span class="field-meta-val">Set on each save</span></div>
+              <div class="field-meta-item"><span class="field-meta-label">Personal data</span><span class="field-meta-val">No</span></div>
+            </div>
+            <div class="field-example">
+              <span class="fe-key">Modify Date     : </span><span class="fe-val">2026:07:24 23:47:11+05:45</span>
+            </div>
+            <p class="field-desc">Updated every time the file is saved or processed. A ModDate after the document's stated effective date proves editing occurred after that date. A ModDate showing 11:47 PM the night before your proposal deadline tells a negotiating counterpart you were under time pressure. For freelancers, a ModDate revealing that a "bespoke" proposal was adapted from a template at 11 PM is not the professional signal you want to send. The timezone offset in this field can also reveal your physical location.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <h2 id="office-only-fields">Microsoft Office-only fields</h2>
+
+    <p>Word, Excel, and PowerPoint add fields beyond the ISO standard when exporting to PDF. These come from your Microsoft 365 or Active Directory profile &mdash; data you set up years ago and forgot about.</p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th class="dark">Source</th>
+            <th class="dark">Personal data?</th>
+            <th>Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Manager</code></td>
+            <td>Active Directory / Microsoft 365 org chart — your manager's name</td>
+            <td style="color:var(--accent)">Yes</td>
+            <td><span class="field-risk risk-high" style="display:inline-block;">High</span></td>
+          </tr>
+          <tr>
+            <td><code>Company</code></td>
+            <td>Your Office account's organisation field</td>
+            <td>Org name only</td>
+            <td><span class="field-risk risk-medium" style="display:inline-block;">Medium</span></td>
+          </tr>
+          <tr>
+            <td><code>Category</code></td>
+            <td>Document category from Word properties panel</td>
+            <td>Rarely</td>
+            <td><span class="field-risk risk-low" style="display:inline-block;">Low</span></td>
+          </tr>
+          <tr>
+            <td><code>ContentStatus</code></td>
+            <td>Status from SharePoint or Word — "Draft", "Final", "In Review"</td>
+            <td>No</td>
+            <td><span class="field-risk risk-medium" style="display:inline-block;">Medium</span></td>
+          </tr>
+          <tr>
+            <td><code>RevisionNumber</code></td>
+            <td>Number of times the source Word document was saved</td>
+            <td>No</td>
+            <td><span class="field-risk risk-low" style="display:inline-block;">Low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The Manager field is the one that consistently surprises people. If you've ever used Office on a corporate machine &mdash; or signed into a corporate Microsoft 365 account &mdash; your manager's full name from the Active Directory org chart is sitting in that field. It has been stamping itself onto every document you've exported since the day you logged in. On a personal machine, it usually reflects whoever was listed in Word's user settings when the machine was set up.</p>
+
+    <!-- MID ARTICLE CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>See what's in your PDF right now</h3>
+        <p>The Privacy Risk Score shows every field &mdash; Info dict and XMP stream &mdash; in one view. Free, browser-only.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <h2 id="xmp-fields">XMP stream fields — the hidden layer</h2>
+
+    <p>The XMP stream duplicates most Info dictionary fields and adds its own. Here are the XMP-specific fields that don't appear in the standard Info dictionary:</p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>XMP Field</th>
+            <th class="dark">Namespace</th>
+            <th class="dark">What it contains</th>
+            <th>Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>xmp:MetadataDate</code></td>
+            <td>xmp:</td>
+            <td>When the metadata itself was last written — often seconds after ModDate, reveals if metadata was re-processed</td>
+            <td><span class="field-risk risk-medium" style="display:inline-block;">Medium</span></td>
+          </tr>
+          <tr>
+            <td><code>xmpMM:DocumentID</code></td>
+            <td>xmpMM:</td>
+            <td>A unique identifier for the document. Persists across saves and can link different versions of the same document</td>
+            <td><span class="field-risk risk-low" style="display:inline-block;">Low</span></td>
+          </tr>
+          <tr>
+            <td><code>xmpMM:InstanceID</code></td>
+            <td>xmpMM:</td>
+            <td>Changes on every save — a unique fingerprint for this specific version of the file</td>
+            <td><span class="field-risk risk-low" style="display:inline-block;">Low</span></td>
+          </tr>
+          <tr>
+            <td><code>xmpMM:History</code></td>
+            <td>xmpMM:</td>
+            <td>Edit history including application used and timestamps for each save (Adobe Creative Suite documents especially)</td>
+            <td><span class="field-risk risk-medium" style="display:inline-block;">Medium</span></td>
+          </tr>
+          <tr>
+            <td><code>dc:rights</code></td>
+            <td>dc:</td>
+            <td>Copyright or rights statement &mdash; sometimes contains organisation name</td>
+            <td><span class="field-risk risk-low" style="display:inline-block;">Low</span></td>
+          </tr>
+          <tr>
+            <td><code>pdf:Producer</code></td>
+            <td>pdf:</td>
+            <td>XMP-specific duplicate of the Producer field</td>
+            <td><span class="field-risk risk-medium" style="display:inline-block;">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The <code>xmpMM:DocumentID</code> field is particularly interesting from a forensic standpoint. It's a UUID that stays with a document across saves &mdash; meaning two files with the same DocumentID are provably derived from the same original. If you share what you claim is an independent document but it has the same DocumentID as a file already in evidence, that's a problem. Conversely, it can be used to prove provenance when that's in your favour.</p>
+
+    <h2 id="how-to-read-all-fields">How to read all metadata fields — verification workflow</h2>
+
+    <p>Acrobat Reader shows you the Info dictionary. ExifTool shows you everything. Here's the command sequence:</p>
+
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <span class="c-comment"># See all metadata in both stores</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">document.pdf</span><br><br>
+      <span class="c-comment"># See only the high-risk personal data fields</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author -Manager -Keywords -Subject document.pdf</span><br><br>
+      <span class="c-comment"># See XMP fields specifically (namespace prefix)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-XMP:all document.pdf</span><br><br>
+      <span class="c-comment"># Compare Info dict vs XMP for same field</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author -XMP:Creator -ModifyDate -XMP:ModifyDate document.pdf</span><br>
+      <span class="c-comment"># Discrepancies between these pairs = partial clean or tampering</span>
+    </div>
+
+    <h2 id="gdpr-field-map">GDPR field map &mdash; which fields require action</h2>
+
+    <p>Under <a href="https://gdpr-info.eu/art-4-gdpr/" target="_blank" rel="noopener">GDPR Article 4(1)</a>, personal data is any information relating to an identified or identifiable natural person. Under <a href="https://gdpr-info.eu/art-5-gdpr/" target="_blank" rel="noopener">Article 5(1)(c)</a>, it must be minimised — limited to what is necessary for the purpose.</p>
+
+    <p>For external document sharing, here's which fields require action:</p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th class="dark">Personal data?</th>
+            <th class="dark">Action required before sharing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Author</code></td>
+            <td style="color:var(--accent); font-weight:600;">Yes — full name</td>
+            <td>Strip or replace with organisation name</td>
+          </tr>
+          <tr>
+            <td><code>Manager</code></td>
+            <td style="color:var(--accent); font-weight:600;">Yes — full name</td>
+            <td>Strip — never serves external purpose</td>
+          </tr>
+          <tr>
+            <td><code>Keywords</code></td>
+            <td>Depends on content</td>
+            <td>Review and strip if containing names or privileged classifications</td>
+          </tr>
+          <tr>
+            <td><code>Title / Subject</code></td>
+            <td>Depends on content</td>
+            <td>Review — strip if containing client names or sensitive matter codes</td>
+          </tr>
+          <tr>
+            <td><code>Creator</code></td>
+            <td>No</td>
+            <td>Optional — strip if software disclosure is a concern</td>
+          </tr>
+          <tr>
+            <td><code>Producer</code></td>
+            <td>No</td>
+            <td>Optional — useful to strip to reduce forensic surface area</td>
+          </tr>
+          <tr>
+            <td><code>ModDate</code></td>
+            <td>No</td>
+            <td>Optional — strip to prevent editing timeline disclosure</td>
+          </tr>
+          <tr>
+            <td><code>XMP:all</code></td>
+            <td>Duplicates above</td>
+            <td>Must strip XMP stream — not just Info dictionary</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>For UK organisations, see our detailed breakdown in <a href="/blog/uk-gdpr-vs-eu-gdpr-document-metadata">UK GDPR vs EU GDPR on document metadata</a>. The obligations are substantively the same but the enforcement authority and some procedural requirements differ post-Brexit.</p>
+
+    <h2 id="verification-checklist">Field verification checklist</h2>
+
+    <div class="verify-widget">
+      <div class="verify-header">
+        <span class="verify-title">PDF Metadata Field Verification</span>
+        <span class="verify-counter"><span id="vc-done">0</span> / 6 verified</span>
+      </div>
+      <div class="verify-item" >
+        <div class="v-box"></div>
+        <div class="v-content">
+          <div class="v-title">Check Author in Acrobat Reader — File &rarr; Properties &rarr; Description</div>
+          <div class="v-desc">Confirms Info dictionary Author is cleared. If blank here, check XMP separately.</div>
+        </div>
+      </div>
+      <div class="verify-item" >
+        <div class="v-box"></div>
+        <div class="v-content">
+          <div class="v-title">Run exiftool -Author -XMP:Creator document.pdf</div>
+          <div class="v-desc">Both lines must return empty. If XMP:Creator still shows a name, the XMP stream was not fully cleared.</div>
+        </div>
+      </div>
+      <div class="verify-item" >
+        <div class="v-box"></div>
+        <div class="v-content">
+          <div class="v-title">Check Manager field — exiftool -Manager document.pdf</div>
+          <div class="v-desc">Often overlooked. Corporate Active Directory users almost always have this populated.</div>
+        </div>
+      </div>
+      <div class="verify-item" >
+        <div class="v-box"></div>
+        <div class="v-content">
+          <div class="v-title">Check Keywords for internal classification tags</div>
+          <div class="v-desc">DMS systems write matter numbers, client codes, and privilege flags here automatically.</div>
+        </div>
+      </div>
+      <div class="verify-item" >
+        <div class="v-box"></div>
+        <div class="v-content">
+          <div class="v-title">Check Creator vs Producer for tampering indicators</div>
+          <div class="v-desc">Different applications in Creator vs Producer means the file was processed by a second tool after creation.</div>
+        </div>
+      </div>
+      <div class="verify-item" >
+        <div class="v-box"></div>
+        <div class="v-content">
+          <div class="v-title">Run exiftool -XMP:all document.pdf for full XMP audit</div>
+          <div class="v-desc">Surfaces all XMP namespace fields including MetadataDate, DocumentID, and edit history not visible in Acrobat.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Scan and strip your PDF in one step</h3>
+        <p>Privacy Risk Score shows every field. One click removes them all. Browser-only &mdash; nothing uploaded.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2 class="faq-title">Frequently asked</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" data-faq="faq1">What fields does PDF metadata contain?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a" id="faq1"><div class="faq-a-inner">PDF metadata contains: Author (the person who created it), Title, Subject, Keywords, Creator (software used to create the source document), Producer (software that generated the PDF), CreationDate, and ModDate. Microsoft Office also adds Manager and Company from your corporate profile. Modern PDFs store all of this twice — in the Info dictionary and in the XMP stream.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-faq="faq2">What is the difference between Creator and Producer in PDF metadata?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a" id="faq2"><div class="faq-a-inner">Creator identifies the application that created the original source document — for example "Microsoft Word". Producer identifies the application that generated the PDF output. If you wrote in Word and exported directly, both may say Microsoft. If you later processed the PDF with Acrobat, Producer changes to show Acrobat while Creator stays as Word. A mismatch between Creator and Producer is one of the primary indicators of PDF tampering.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-faq="faq3">What is the XMP stream in a PDF?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a" id="faq3"><div class="faq-a-inner">XMP (Extensible Metadata Platform) is an XML-based metadata format embedded as a separate block inside the PDF file body. It was introduced by Adobe in 2001 and is now part of the ISO 32000 standard. PDFs store metadata in two separate locations: the Info dictionary (visible in Acrobat Properties) and the XMP stream (visible via ExifTool). Many metadata removers only clear the Info dictionary, leaving the XMP stream — and your name — fully intact.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-faq="faq4">What does the PDF Author field contain?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a" id="faq4"><div class="faq-a-inner">The Author field contains the full name of the person who created the document, automatically pulled from the OS or Office account. In Word it comes from File > Options > General > User name. In Google Docs it comes from your Google account display name. You never explicitly typed it — the application inserted it automatically on every save and export. It is personal data under GDPR Article 4(1).</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-faq="faq5">Can you see PDF metadata without special software?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a" id="faq5"><div class="faq-a-inner">Yes. In Adobe Acrobat Reader (free): File > Properties > Description shows the main Info dictionary fields. On macOS: right-click > Get Info > More Info. On Windows: right-click > Properties > Details tab. For the full picture including XMP stream fields, ExifTool (free command line) or FileIntel's PDF Metadata Remover show everything in one scored view.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" data-faq="faq6">Is PDF metadata personal data under GDPR?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a" id="faq6"><div class="faq-a-inner">Fields containing a natural person's name — Author, Manager — are personal data under GDPR Article 4(1). Sharing documents with these fields populated to external parties constitutes a personal data transfer requiring a lawful basis. Under the data minimisation principle (Article 5(1)(c)), metadata that serves no purpose for the recipient should be stripped before sharing.</div></div>
+      </div>
+    </div>
+
+    <p class="legal-note">This article is a technical reference to PDF metadata fields for informational purposes. It does not constitute legal advice. For GDPR compliance specific to your organisation, consult a qualified data protection professional.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-widget">
+      <div class="sw-header">In this article</div>
+      <div class="sw-body">
+        <a href="#two-stores" class="toc-link"><span class="toc-num">01</span> Two metadata stores</a>
+        <a href="#info-dictionary-fields" class="toc-link"><span class="toc-num">02</span> Info dictionary fields</a>
+        <a href="#office-only-fields" class="toc-link"><span class="toc-num">03</span> Office-only fields</a>
+        <a href="#xmp-fields" class="toc-link"><span class="toc-num">04</span> XMP stream fields</a>
+        <a href="#how-to-read-all-fields" class="toc-link"><span class="toc-num">05</span> How to read all fields</a>
+        <a href="#gdpr-field-map" class="toc-link"><span class="toc-num">06</span> GDPR field map</a>
+        <a href="#verification-checklist" class="toc-link"><span class="toc-num">07</span> Verification checklist</a>
+      </div>
+    </div>
+
+    <div class="stw">
+      <div style="font-size:22px; margin-bottom:10px;">&#128269;</div>
+      <h4>PDF Metadata Remover</h4>
+      <p>Shows every field — Author, Manager, Keywords, XMP stream — in one Privacy Risk Score. Strips all layers. Free.</p>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open free tool &rarr;</a>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sw-header">Related articles</div>
+      <div class="sw-body">
+        <a href="/blog/remove-metadata-from-pdf" class="rel-post">
+          <div class="rel-cat">Complete guide</div>
+          <div class="rel-title">How to remove all metadata from a PDF</div>
+        </a>
+        <a href="/blog/remove-author-from-pdf" class="rel-post">
+          <div class="rel-cat">How-To</div>
+          <div class="rel-title">How to remove author name from a PDF</div>
+        </a>
+        <a href="/blog/check-if-pdf-has-been-edited" class="rel-post">
+          <div class="rel-cat">Forensics</div>
+          <div class="rel-title">How to check if a PDF has been edited or tampered with</div>
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<Footer />
+
+<script>
+  // Footer year (safe)
+  const yearEl = document.getElementById('footer-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Reading progress
+  const bar = document.getElementById('reading-progress');
+  if (bar) {
+    window.addEventListener('scroll', () => {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+      bar.style.width = Math.min(pct, 100) + '%';
+      bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+    }, { passive: true });
+  }
+
+  // Field card accordion
+  document.querySelectorAll('.field-card-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const card = header.closest('.field-card');
+      if (!card) return;
+      const isOpen = card.classList.contains('open');
+      document.querySelectorAll('.field-card.open').forEach(c => c.classList.remove('open'));
+      if (!isOpen) card.classList.add('open');
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      if (!item) return;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Verification checklist
+  document.querySelectorAll('.verify-item').forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('checked');
+      const box = item.querySelector('.v-box');
+      if (box) box.textContent = item.classList.contains('checked') ? '✓' : '';
+      const done = document.querySelectorAll('.verify-item.checked').length;
+      const counter = document.getElementById('vc-done');
+      if (counter) counter.textContent = done;
+    });
+  });
+
+  // Copy code buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const block = btn.parentElement;
+      if (!block) return;
+      const text = block.innerText
+        .replace('Copy', '')
+        .replace('✓ Copied', '')
+        .trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = '✓ Copied';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      } catch {
+        btn.textContent = 'Failed';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      }
+    });
+  });
+
+  // Active TOC on scroll
+  const sections = [
+    'two-stores',
+    'info-dictionary-fields',
+    'office-only-fields',
+    'xmp-fields',
+    'how-to-read-all-fields',
+    'gdpr-field-map',
+    'verification-checklist'
+  ];
+  const tocLinks = document.querySelectorAll('.toc-link');
+
+  function updateActiveTOC() {
+    let current = 0;
+    const offset = 160;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - offset) current = i;
+    });
+    tocLinks.forEach((link, i) => link.classList.toggle('active', i === current));
+  }
+
+  window.addEventListener('scroll', updateActiveTOC, { passive: true });
+  updateActiveTOC();
+</script>
+
+</body>
+</html>
