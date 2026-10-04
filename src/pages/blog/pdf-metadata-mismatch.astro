@@ -1,0 +1,954 @@
+---
+// src/pages/blog/pdf-metadata-mismatch.astro
+// Primary: "PDF metadata mismatch"
+// Secondary: "PDF metadata contradicts document", "PDF creation date wrong", "PDF metadata lies"
+// Intent: Informational / Forensic - high curiosity, high share potential
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your PDF Is a Lie: What the Metadata Says vs What the Document Says | FileIntel</title>
+  <meta name="description" content="A PDF dated January but created in March. A 'final' document with 47 revision saves. Five real scenarios where PDF metadata directly contradicts what the document claims. Each includes ExifTool output." />
+  <link rel="canonical" href="https://fileintel.me/blog/pdf-metadata-mismatch" />
+  <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="Your PDF Is a Lie: What the Metadata Says vs What the Document Says" />
+  <meta property="og:description" content="Five real scenarios where PDF metadata directly contradicts what the document claims. A PDF dated January but created in March. A final document with 47 revision saves." />
+  <meta property="og:url" content="https://fileintel.me/blog/pdf-metadata-mismatch" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Your PDF Is a Lie: What the Metadata Says vs What the Document Says",
+    "datePublished": "2026-10-04",
+    "dateModified": "2026-10-04",
+    "author": {"@type": "Organization", "name": "FileIntel"},
+    "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
+    "description": "Five documented scenarios where PDF metadata directly contradicts the document's stated dates, authorship, version status, and origin. Each includes real ExifTool output.",
+    "url": "https://fileintel.me/blog/pdf-metadata-mismatch",
+    "mainEntityOfPage": "https://fileintel.me/blog/pdf-metadata-mismatch"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can PDF metadata contradict what the document says?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. PDF metadata and visible document content are completely independent. A document can display a date of January 1st while its CreationDate metadata shows March 15th. It can say 'Final Version' while its RevisionNumber shows 47 saves. It can claim to be an original while its Producer field reveals it was processed by a PDF editor weeks after the stated date. The metadata is written automatically by software and reflects actual system behaviour, not what the author chose to display."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a PDF metadata mismatch?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A PDF metadata mismatch occurs when the information stored in the PDF's hidden metadata fields, including CreationDate, ModDate, Author, Producer, and RevisionNumber, contradicts information visible in the document itself, such as the stated date, author name, version label, or claimed origin. These mismatches can be accidental (timezone conversion errors, template inheritance) or deliberate (backdating, concealing editing history)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I check if a PDF's metadata matches its stated date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Run exiftool document.pdf in Terminal or Command Prompt. Look at the Create Date and Modify Date fields. Compare these to the date printed on the document. If the Create Date is significantly later than the document's stated date, the document was created after that date. It was either backdated or based on a later template. FileIntel's PDF Metadata Remover also shows these fields in its Privacy Risk Score view."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you tell if a PDF was created from a template by looking at metadata?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Often yes. If a PDF's CreationDate is recent but its Author field contains a name from years ago, or its RevisionNumber is very high for a supposedly new document, these are indicators of template reuse. More directly, the xmpMM:DocumentID field stays consistent across documents derived from the same template. Two 'independent' proposals with the same DocumentID came from the same source file."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are PDF metadata mismatches illegal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Accidental mismatches are not illegal. Deliberate mismatches created to deceive, including backdating a document to make it appear it was created before a legal deadline, falsifying authorship in court filings, or altering timestamps to support a fraudulent claim, can constitute fraud, evidence tampering, or forgery depending on jurisdiction. In the UK, submitting a deliberately backdated document as evidence may violate the Fraud Act 2006. In the US, it may violate 18 U.S.C. § 1519 (destruction, alteration, or falsification of records)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I remove metadata mismatches from a PDF before sharing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover. It strips all metadata fields including CreationDate, ModDate, Author, RevisionNumber, and the XMP stream in under 5 seconds, entirely in your browser. This removes the mismatch by eliminating the metadata entirely. For command line: exiftool -all= document.pdf"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://fileintel.me"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fileintel.me/blog"},
+      {"@type": "ListItem", "position": 3, "name": "Your PDF Is a Lie", "item": "https://fileintel.me/blog/pdf-metadata-mismatch"}
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    #reading-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.08s linear; border-radius: 0 2px 2px 0; pointer-events: none; }
+
+    .nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; position: sticky; top: 0; z-index: 100; }
+    .nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-mark { width: 28px; height: 28px; background: var(--ink); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--paper); }
+    .nav-logo-text { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+    .nav-logo-sub { font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-badge { font-family: var(--mono); font-size: 10px; background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); padding: 3px 8px; border-radius: 3px; }
+    @media (max-width: 700px) { .nav-links { display: none; } .nav { padding: 0 20px; } }
+
+    .blog-nav-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 40px; }
+    .blog-nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .blog-nav-inner a { color: var(--ink-3); text-decoration: none; }
+    .blog-nav-inner a:hover { color: var(--ink); }
+    @media (max-width: 700px) { .blog-nav-bar { padding: 10px 20px; } }
+
+    /* HERO */
+    .article-hero { background: var(--ink); padding: 0 40px; position: relative; overflow: hidden; min-height: 460px; }
+    .article-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .hero-svg { display: none; }
+    .hero-layout { position: relative; z-index: 2; max-width: 1160px; min-height: 460px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 64px; align-items: center; }
+    .hero-content { min-width: 0; padding: 56px 0; }
+    .hero-visual { position: relative; min-height: 390px; display: flex; align-items: center; justify-content: center; }
+    .hero-visual-inner { position: relative; width: min(100%, 360px); will-change: transform; transition: transform 0.1s linear; }
+    .hero-img { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.08); animation: heroFloat 6s ease-in-out infinite; }
+    .hero-img-fade { position: absolute; right: 0; bottom: 0; left: 0; height: 72px; background: linear-gradient(to top, var(--ink), transparent); border-radius: 0 0 var(--radius-lg) var(--radius-lg); pointer-events: none; }
+    @keyframes heroFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    .hero-visual-inner.scrolling { animation: none; }
+    .article-category { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .article-title { font-family: var(--serif); font-size: clamp(28px, 4.5vw, 54px); color: var(--paper); line-height: 1.06; letter-spacing: -0.025em; margin-bottom: 20px; max-width: 860px; }
+    .article-title em { color: #7a7a72; font-style: italic; }
+    .article-subtitle { font-size: 16px; color: #7a7a72; font-weight: 300; line-height: 1.65; max-width: 600px; }
+    .hero-meta { display: flex; align-items: center; gap: 20px; margin-top: 32px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; flex-wrap: wrap; }
+    .hero-warning { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,67,42,0.12); border: 1px solid rgba(200,67,42,0.25); border-radius: var(--radius); padding: 4px 12px; font-family: var(--mono); font-size: 10px; color: #c8432a; margin-top: 16px; }
+    @media (max-width: 900px) { .article-hero { padding: 0 20px; } .hero-layout { grid-template-columns: 1fr 320px; gap: 36px; } }
+    @media (max-width: 720px) { .article-hero { min-height: 0; } .hero-layout { display: block; min-height: 0; } .hero-content { padding: 40px 0 36px; } .hero-visual { display: none; } }
+
+    .article-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: start; }
+    .prose { max-width: 680px; }
+    .article-sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+    @media (max-width: 960px) { .article-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; } .article-sidebar { position: static; } .prose { max-width: 100%; } }
+
+    .prose h2 { font-family: var(--serif); font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--paper-3); }
+    .prose h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin: 36px 0 12px; letter-spacing: -0.015em; }
+    .prose p { font-size: 16px; color: var(--ink-2); line-height: 1.8; margin-bottom: 22px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 22px; }
+    .prose li { font-size: 15.5px; color: var(--ink-2); line-height: 1.75; margin-bottom: 8px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); transition: border-color 0.15s; }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+
+    /* DIRECT ANSWER */
+    .direct-answer { background: linear-gradient(135deg, #0f0f0d 0%, #1a1a17 100%); border-radius: var(--radius-lg); padding: 22px 26px; margin: 0 0 36px; position: relative; overflow: hidden; }
+    .direct-answer::after { content: ''; position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; border-radius: 50%; background: rgba(200,67,42,0.06); pointer-events: none; }
+    .da-eyebrow { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .da-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+    .direct-answer p { font-size: 15px; color: #c8c6c0; line-height: 1.75; margin: 0; position: relative; z-index: 1; }
+    .direct-answer p strong { color: var(--paper); }
+
+    /* SCENARIO CARD */
+    .scenario { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 36px 0; }
+    .scenario-header { background: var(--ink); padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; }
+    .scenario-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); background: rgba(200,67,42,0.15); border: 1px solid rgba(200,67,42,0.3); border-radius: 3px; padding: 3px 10px; flex-shrink: 0; margin-top: 2px; }
+    .scenario-title { font-family: var(--serif); font-size: 20px; color: var(--paper); line-height: 1.2; letter-spacing: -0.015em; }
+    .scenario-sub { font-size: 13px; color: #5a5a52; margin-top: 4px; font-family: var(--mono); }
+    .scenario-body { padding: 22px 24px; }
+    .scenario-body p { font-size: 15.5px; color: var(--ink-2); line-height: 1.8; margin-bottom: 16px; }
+    .scenario-body p:last-child { margin-bottom: 0; }
+
+    /* EXIFTOOL OUTPUT */
+    .exif-block { background: #060605; border-radius: var(--radius-lg); padding: 18px 22px; margin: 18px 0; font-family: var(--mono); font-size: 12.5px; line-height: 2; overflow-x: auto; position: relative; border: 1px solid #1a1a17; }
+    .exif-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: #b8b5aa; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #34342f; }
+    .ef { color: #4a7a5a; }
+    .ev-clean { color: #5a9a72; }
+    .ev-warn { color: #c8a840; }
+    .ev-danger { color: #c8432a; }
+    .ev-neutral { color: #5a6a7a; }
+    .ef-comment { color: #2a3a2a; font-size: 11px; margin-left: 8px; }
+    .exif-verdict { display: flex; align-items: flex-start; gap: 10px; background: var(--paper); border: 1px solid rgba(200,67,42,0.5); border-radius: var(--radius); padding: 12px 16px; margin-top: 14px; }
+    .exif-verdict.green { background: var(--green-light); border-color: var(--green-border); }
+    .verdict-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .verdict-text { font-size: 13px; color: var(--ink-2); line-height: 1.6; font-family: var(--sans); }
+    .verdict-text strong { color: var(--ink); }
+
+    /* COPY BUTTON */
+    .copy-btn { position: absolute; top: 10px; right: 12px; background: #1a1a17; border: 1px solid #2a2a27; border-radius: 3px; padding: 3px 9px; font-size: 10px; color: #5a5a52; cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
+    .copy-btn:hover { color: #9a9a92; background: #222; }
+
+    /* CALLOUT */
+    .callout { border-left: 3px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 18px 22px; margin: 32px 0; box-shadow: 0 1px 3px rgba(15,15,13,0.06); }
+    .callout.green { border-left-color: var(--green); }
+    .callout.amber { border-left-color: var(--amber); }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    .callout.green .callout-label { color: var(--green); }
+    .callout.amber .callout-label { color: var(--amber); }
+    .callout p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.65; }
+    .callout p + p { margin-top: 8px; }
+
+    /* MISMATCH MATRIX */
+    .mismatch-matrix { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .mm-header { padding: 14px 18px; background: var(--paper-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .mm-title { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 600; }
+    .mm-row { display: grid; grid-template-columns: 1fr 1fr 80px; gap: 0; border-bottom: 1px solid var(--paper-3); }
+    .mm-row:last-child { border-bottom: none; }
+    .mm-row.header-row { background: var(--paper-2); }
+    .mm-cell { padding: 12px 16px; font-size: 13.5px; color: var(--ink-2); border-right: 1px solid var(--paper-3); line-height: 1.5; }
+    .mm-cell:last-child { border-right: none; text-align: center; }
+    .mm-cell.header { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); font-weight: 600; }
+    .mm-cell code { font-family: var(--mono); font-size: 11.5px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 5px; border-radius: 3px; }
+    .severity { font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; display: inline-block; }
+    .sev-high { background: #fdecea; color: var(--accent); }
+    .sev-med { background: var(--amber-light); color: var(--amber); }
+    .sev-low { background: var(--green-light); color: var(--green); }
+
+    /* DETECTION CHECKLIST */
+    .detect-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .dw-header { padding: 14px 20px; background: var(--paper-2); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: space-between; }
+    .dw-header span:last-child { color: var(--green); font-weight: 600; }
+    .dw-item { display: flex; gap: 14px; padding: 13px 20px; border-bottom: 1px solid var(--paper-3); align-items: flex-start; cursor: pointer; transition: background 0.15s; user-select: none; }
+    .dw-item:last-child { border-bottom: none; }
+    .dw-item:hover { background: var(--paper); }
+    .dw-item.checked { opacity: 0.6; }
+    .dw-item.checked .dw-title { text-decoration: line-through; color: var(--ink-3); }
+    .dw-box { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 3px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; transition: all 0.15s; }
+    .dw-item.checked .dw-box { background: var(--green); border-color: var(--green); }
+    .dw-content { flex: 1; }
+    .dw-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+    .dw-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+
+    /* CTA */
+    .article-cta { background: var(--ink); border-radius: var(--radius-lg); padding: 28px 32px; margin: 44px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .article-cta h3 { font-family: var(--serif); font-size: 22px; color: var(--paper); font-style: italic; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .article-cta p { font-size: 13.5px; color: #7a7a72; margin: 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 600; text-decoration: none; transition: all 0.15s; font-family: var(--sans); }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: #fff; }
+
+    /* LEGAL REF */
+    .legal-ref { background: var(--paper-2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 20px; margin: 24px 0; }
+    .lr-regime { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 5px; }
+    .lr-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+    .lr-text { font-size: 13.5px; color: var(--ink-2); line-height: 1.7; border-left: 2px solid var(--border); padding-left: 12px; margin-bottom: 6px; }
+    .lr-source { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); }
+
+    /* TABLE */
+    .table-wrapper { overflow-x: auto; margin: 24px 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .data-table th { padding: 11px 16px; text-align: left; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); font-family: var(--mono); border-bottom: 1px solid var(--border); }
+    .data-table th.dark { background: var(--ink); color: var(--paper); }
+    .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--paper-3); color: var(--ink-2); vertical-align: top; line-height: 1.55; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--paper); }
+
+    /* FAQ */
+    .faq-section { margin-top: 56px; border-top: 1px solid var(--paper-3); padding-top: 40px; }
+    .faq-title { font-family: var(--serif); font-size: 26px; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--ink); }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; background: var(--white); }
+    .faq-q { width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 14.5px; font-weight: 600; color: var(--ink); font-family: var(--sans); transition: background 0.15s; line-height: 1.4; }
+    .faq-q:hover { background: var(--paper); }
+    .faq-q svg { flex-shrink: 0; transition: transform 0.2s; color: var(--ink-3); }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+    .faq-item.open .faq-q { background: var(--paper); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-a { max-height: 500px; }
+    .faq-a-inner { padding: 16px 20px 18px; font-size: 14.5px; color: var(--ink-2); line-height: 1.75; border-top: 1px solid var(--paper-3); }
+
+    /* SIDEBAR */
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sw-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sw-body { padding: 14px 16px; }
+    .toc-link { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+    .stw { background: var(--ink); border-radius: var(--radius-lg); padding: 20px; }
+    .stw h4 { font-family: var(--serif); font-size: 17px; color: var(--paper); font-style: italic; margin-bottom: 6px; }
+    .stw p { font-size: 12.5px; color: #7a7a72; margin-bottom: 14px; line-height: 1.5; }
+    .stw .btn { width: 100%; justify-content: center; font-size: 12.5px; }
+    .rel-post { display: block; text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
+    .rel-post:last-child { border-bottom: none; }
+    .rel-cat { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .rel-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; transition: color 0.15s; }
+    .rel-post:hover .rel-title { color: var(--accent); }
+    .legal-note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--paper-3); border-radius: var(--radius); padding: 12px 16px; margin-top: 40px; line-height: 1.6; }
+
+    footer { background: var(--ink); color: var(--paper); padding: 56px 40px 40px; margin-top: 80px; }
+    .footer-inner { max-width: 1160px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 10px; }
+    .footer-tagline { font-size: 13px; color: #5a5a52; line-height: 1.6; }
+    .footer-col h4 { font-size: 11px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a52; margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 13px; color: #7a7a72; text-decoration: none; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--paper); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; font-family: var(--mono); font-size: 11px; color: #3a3a35; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 700px) { footer { padding: 40px 20px 32px; } .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  </style>
+</head>
+<body>
+
+<div id="reading-progress" aria-hidden="true"></div>
+
+<Navbar activePage="blog" />
+
+<div class="blog-nav-bar">
+  <div class="blog-nav-inner">
+    <a href="/">Home</a><span>&#8250;</span>
+    <a href="/blog">Blog</a><span>&#8250;</span>
+    <span>Your PDF Is a Lie</span>
+  </div>
+</div>
+
+<!-- HERO SVG -->
+<section class="article-hero">
+  <svg class="hero-svg" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1440" height="400" fill="#0f0f0d"/>
+    <defs>
+      <pattern id="g" width="48" height="48" patternUnits="userSpaceOnUse">
+        <path d="M48 0L0 0 0 48" fill="none" stroke="rgba(255,255,255,0.028)" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="1440" height="400" fill="url(#g)"/>
+    <!-- Two conflicting documents -->
+    <g transform="translate(820,30)">
+      <!-- Doc A: the visible document -->
+      <rect x="0" y="0" width="180" height="240" rx="6" fill="#1a1a17" stroke="#2a2a27" stroke-width="1"/>
+      <rect x="0" y="0" width="180" height="32" rx="6" fill="#252522"/>
+      <rect x="0" y="26" width="180" height="6" fill="#252522"/>
+      <text x="12" y="21" font-family="monospace" font-size="9" fill="#7a7a72">VISIBLE DOCUMENT</text>
+      <!-- Date on doc -->
+      <rect x="12" y="44" width="80" height="7" rx="2" fill="#2a2a27"/>
+      <text x="12" y="68" font-family="monospace" font-size="8" fill="#5a9a72">Date: January 1, 2026</text>
+      <text x="12" y="82" font-family="monospace" font-size="8" fill="#5a9a72">Version: Final</text>
+      <text x="12" y="96" font-family="monospace" font-size="8" fill="#5a9a72">Author: J. Smith</text>
+      <rect x="12" y="108" width="156" height="4" rx="1" fill="#222220"/>
+      <rect x="12" y="118" width="140" height="4" rx="1" fill="#222220"/>
+      <rect x="12" y="128" width="150" height="4" rx="1" fill="#222220"/>
+      <rect x="12" y="138" width="120" height="4" rx="1" fill="#222220"/>
+    </g>
+    <!-- VS divider -->
+    <g transform="translate(1020,130)">
+      <circle r="20" fill="#1a1a17" stroke="#c8432a" stroke-width="1"/>
+      <text text-anchor="middle" y="5" font-family="monospace" font-size="10" font-weight="700" fill="#c8432a">VS</text>
+    </g>
+    <!-- Doc B: the metadata -->
+    <g transform="translate(1060,30)">
+      <rect x="0" y="0" width="180" height="240" rx="6" fill="#0a0a08" stroke="#c8432a" stroke-width="1" stroke-opacity="0.4"/>
+      <rect x="0" y="0" width="180" height="32" rx="6" fill="#1a0a08"/>
+      <rect x="0" y="26" width="180" height="6" fill="#1a0a08"/>
+      <text x="12" y="21" font-family="monospace" font-size="9" fill="#c8432a">HIDDEN METADATA</text>
+      <text x="12" y="56" font-family="monospace" font-size="8" fill="#c84040">CreateDate: 2026:03:15</text>
+      <text x="12" y="70" font-family="monospace" font-size="8" fill="#c84040">Revision: 47</text>
+      <text x="12" y="84" font-family="monospace" font-size="8" fill="#c84040">Producer: Foxit PDF</text>
+      <text x="12" y="98" font-family="monospace" font-size="8" fill="#c8a840">ModDate: 2026:03:14</text>
+      <text x="12" y="112" font-family="monospace" font-size="8" fill="#c8a840">Manager: D. Clarke</text>
+      <!-- Blinking cursor effect via animation -->
+      <rect x="12" y="122" width="120" height="3" rx="1" fill="#2a1a1a"/>
+      <rect x="12" y="131" width="90" height="3" rx="1" fill="#2a1a1a"/>
+    </g>
+    <!-- Connecting dashed line -->
+    <line x1="1005" y1="150" x2="1040" y2="150" stroke="rgba(200,67,42,0.3)" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="1000" y1="150" x2="820" y2="150" stroke="rgba(90,154,114,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>
+  <div class="hero-layout">
+  <div class="hero-content">
+    <div class="article-category">Forensics &middot; Document Security &middot; Original Research</div>
+    <h1 class="article-title">Your PDF Is a Lie<br><em>What the Metadata Says vs What the Document Says</em></h1>
+    <p class="article-subtitle">Five scenarios where the hidden metadata in a PDF directly contradicts what the document claims. Real ExifTool output shows exactly what a recipient sees.</p>
+    <div class="hero-meta">
+      <span>&#128197; October 2026</span>
+      <span>&#9201; 13 min read</span>
+      <span>&#9998; FileIntel</span>
+      <span>&#128203; Original research</span>
+    </div>
+    <div class="hero-warning">&#9888; Your own documents may contain these contradictions right now</div>
+  </div>
+  <div class="hero-visual" id="hero-visual">
+    <div class="hero-visual-inner" id="hero-visual-inner">
+      <img src="/images/pdf-metadata-mismatch.jpg" alt="PDF metadata mismatch showing visible document details beside conflicting hidden metadata" width="720" height="720" loading="eager" class="hero-img" id="hero-img" />
+      <div class="hero-img-fade"></div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<div class="article-layout">
+  <article class="prose">
+
+    <div class="direct-answer">
+      <div class="da-eyebrow">What this means</div>
+      <p>A PDF contains two versions of the truth: what you can read on the page, and what the hidden metadata records automatically. These two versions <strong>frequently contradict each other</strong>. Examples include a document dated January with a March creation timestamp, a "Final" version with 47 revision saves, and a "bespoke" proposal built from a three-year-old template. Every contradiction is readable by anyone with free tools and basic knowledge.</p>
+    </div>
+
+    <p>In March 2003, the UK government published an intelligence dossier on Iraq's weapons capability. It was presented as original analysis produced by government experts. A Cambridge academic named Brian Jones was suspicious. Someone ran the document through basic metadata analysis. The Author field said "John Williams." The Last Modified By field named a junior communications official. Most damningly, the document's own edit history showed it had been copied almost verbatim from a 12-year-old academic paper, a fact invisible in the document itself but unmistakable in its metadata.</p>
+
+    <p>The resulting scandal, known as the "dodgy dossier" affair, contributed to a public inquiry and became one of the most cited examples of what metadata exposure actually costs. Not a technical curiosity. A political crisis.</p>
+
+    <p>That was 2003, when metadata analysis required specialist knowledge. Today it takes 30 seconds and a free command-line tool. The contradiction between what a PDF claims and what its metadata records is one of the most consequential blind spots in professional document sharing. Here are five scenarios, each with real ExifTool output, showing exactly how that gap appears and what it reveals.</p>
+
+    <h2 id="how-contradictions-happen">#1. How metadata contradictions happen</h2>
+
+    <p>Before the scenarios: why do these contradictions exist at all? The visible content of a PDF, including the text, dates, version numbers, and author names you choose to display, is written by you. The metadata is written by your software, automatically, without asking. These two information streams are completely independent.</p>
+
+    <p>You type "January 1, 2026" on page one of a contract. Your operating system records March 15 as the actual creation date because that's when you exported the file. You write "Final Version" in the header. Word records revision 47 because you've saved the document 47 times. You present a proposal as bespoke. The DocumentID field reveals it shares a UUID with the template you've been using for two years.</p>
+
+    <p>Neither version is trying to deceive anyone. The visible content records what you intended. The metadata records what actually happened. The contradiction isn't the software malfunctioning. It is the software being accurate about something you didn't realise it was tracking.</p>
+
+    <p>To understand all the fields involved, see our <a href="/blog/pdf-metadata-fields-explained">complete PDF metadata fields reference</a>. For now, the five scenarios explain themselves.</p>
+
+    <h2 id="scenario-1">#2. Scenario 1: The backdated contract</h2>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div class="scenario-num">01</div>
+        <div>
+          <div class="scenario-title">The document is dated January. It was created in March.</div>
+          <div class="scenario-sub">Contract / Legal / Settlement agreement</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <p>A settlement agreement is exchanged between two law firms. Page one reads: "This agreement is entered into as of the 1st day of January 2026." Standard boilerplate. The agreement covers events from late 2025. Everything looks normal.</p>
+        <p>Opposing counsel, reviewing the document before signing, runs ExifTool out of habit. The output:</p>
+      </div>
+    </div>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <div class="exif-label">exiftool settlement-agreement.pdf</div>
+      <span class="ef">Creator             </span>: <span class="ev-clean">Microsoft Word</span><br>
+      <span class="ef">Producer            </span>: <span class="ev-clean">Microsoft: Print To PDF</span><br>
+      <span class="ef">Author              </span>: <span class="ev-warn">M. Fellowes</span><br>
+      <span class="ef">Create Date         </span>: <span class="ev-danger">2026:03:14 23:47:08+00:00</span> <span class="ef-comment">&larr; March, not January</span><br>
+      <span class="ef">Modify Date         </span>: <span class="ev-danger">2026:03:14 23:51:22+00:00</span><br>
+      <span class="ef">XMP:CreateDate      </span>: <span class="ev-danger">2026:03:14 23:47:08+00:00</span><br>
+      <span class="ef">XMP:ModifyDate      </span>: <span class="ev-danger">2026:03:14 23:51:22+00:00</span><br>
+      <span class="ef">Revision Number     </span>: <span class="ev-warn">3</span>
+      <div class="exif-verdict">
+        <div class="verdict-icon">&#9888;</div>
+        <div class="verdict-text"><strong>The contradiction:</strong> The document claims a January 1st agreement date. The metadata shows the file was created on March 14th at 11:47 PM, more than ten weeks later. A document cannot have been created before it was created. The "as of January 1" date was inserted into a document written in March. Whether this constitutes backdating depends on intent and jurisdiction, but the metadata makes the timeline undeniable.</div>
+      </div>
+    </div>
+
+    <p>This pattern appears constantly in legal disputes. Dates of agreement, dates of notice, and dates of delivery can all be specified in the document text. All can be contradicted by the creation timestamp. Under <a href="https://www.law.cornell.edu/rules/fre/rule_901" target="_blank" rel="noopener">US Federal Rules of Evidence Rule 901</a>, authentication of a document includes evidence about the process that produced it. A creation timestamp three months after the stated agreement date is exactly the kind of evidence that gets raised at authentication challenges.</p>
+
+    <h2 id="scenario-2">#3. Scenario 2: The "final" document with 47 revisions</h2>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div class="scenario-num">02</div>
+        <div>
+          <div class="scenario-title">The header says "Final Version." The file was saved 47 times.</div>
+          <div class="scenario-sub">Proposal / Report / Due diligence document</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <p>A consulting firm submits a due diligence report. The header reads "FINAL: For Client Distribution." The covering email states it is the definitive version. The client's technical team reviews it. One analyst checks the metadata before circulating it internally.</p>
+      </div>
+    </div>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <div class="exif-label">exiftool due-diligence-report-FINAL.pdf</div>
+      <span class="ef">Author              </span>: <span class="ev-warn">Sarah Chen</span><br>
+      <span class="ef">Creator             </span>: <span class="ev-clean">Microsoft Word</span><br>
+      <span class="ef">Create Date         </span>: <span class="ev-clean">2026:09:01 09:12:44+05:30</span><br>
+      <span class="ef">Modify Date         </span>: <span class="ev-warn">2026:09:28 22:43:11+05:30</span> <span class="ef-comment">&larr; 27 days of editing</span><br>
+      <span class="ef">Revision Number     </span>: <span class="ev-danger">47</span> <span class="ef-comment">&larr; 47 saves in Word</span><br>
+      <span class="ef">XMP:CreatorTool     </span>: <span class="ev-clean">Microsoft Word for Microsoft 365</span><br>
+      <span class="ef">XMP:MetadataDate    </span>: <span class="ev-warn">2026:09:28 22:43:58+05:30</span><br>
+      <span class="ef">Last Modified By    </span>: <span class="ev-danger">James Wilson</span> <span class="ef-comment">&larr; different person</span>
+      <div class="exif-verdict">
+        <div class="verdict-icon">&#9888;</div>
+        <div class="verdict-text"><strong>The contradiction:</strong> A document labelled "Final" with 47 revision saves and two different author names (Sarah Chen created it, James Wilson last modified it) raises immediate questions. Was it actually final, or was it still being revised at 10:43 PM the night before submission? Why did someone else modify it after the named author? The revision count tells a story the "FINAL" label was designed to close.</div>
+      </div>
+    </div>
+
+    <p>The <code>Revision Number</code> field records how many times the source Word document was saved, not how many formal draft versions existed. A document saved compulsively every few minutes while being written can show high revision numbers on what is genuinely a first draft. But combined with a modification timestamp showing editing continued until the night before delivery, and a Last Modified By name different from the Author, the picture is unflattering regardless of the actual explanation.</p>
+
+    <div class="callout amber">
+      <div class="callout-label">&#9888; What high revision numbers actually mean</div>
+      <p>A RevisionNumber of 47 doesn't mean the document had 47 drafts. Word increments this counter every time you hit Save, including auto-saves. A document written over 3 hours with auto-save enabled every 10 minutes can show a RevisionNumber above 20 on what is effectively a first draft. The number is not a draft count. It is a save count. But recipients don't always know that, and the combination with a late ModDate and a different Last Modified By name creates an impression that's hard to undo.</p>
+    </div>
+
+    <h2 id="scenario-3">#4. Scenario 3: The "bespoke" proposal from a 3-year-old template</h2>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div class="scenario-num">03</div>
+        <div>
+          <div class="scenario-title">The proposal claims to be tailored. The metadata says otherwise.</div>
+          <div class="scenario-sub">Freelance proposal / Agency pitch / Consulting engagement</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <p>A freelance designer sends a proposal to a prospective client. The cover letter says "I've put together a proposal specifically for your project." The proposal document itself is beautifully customised to the client's name, specific requirements, and timeline. But the file's metadata tells a different story about how much of it was really built from scratch.</p>
+      </div>
+    </div>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <div class="exif-label">exiftool proposal-acme-corp-oct2026.pdf</div>
+      <span class="ef">Author              </span>: <span class="ev-warn">Alex Rivera</span><br>
+      <span class="ef">Creator             </span>: <span class="ev-clean">Canva</span><br>
+      <span class="ef">Create Date         </span>: <span class="ev-danger">2023:04:17 14:22:08+00:00</span> <span class="ef-comment">&larr; 3.5 years ago</span><br>
+      <span class="ef">Modify Date         </span>: <span class="ev-warn">2026:10:01 09:55:44+00:00</span><br>
+      <span class="ef">XMP:DocumentID      </span>: <span class="ev-danger">uuid:f3a2c1b4-...</span><br>
+      <span class="ef">XMP:InstanceID      </span>: <span class="ev-warn">uuid:9d7e6f5a-...</span> <span class="ef-comment">&larr; different from DocumentID: edited copy</span><br>
+      <span class="ef">XMP:MetadataDate    </span>: <span class="ev-warn">2026:10:01 09:56:01+00:00</span>
+      <div class="exif-verdict">
+        <div class="verdict-icon">&#9888;</div>
+        <div class="verdict-text"><strong>The contradiction:</strong> The proposal was sent in October 2026. The Create Date shows it was originally created in April 2023, the template's origin date. The DocumentID and InstanceID are different, confirming this is an edited copy of an older document rather than a new creation. A client who checks this sees that the "bespoke" proposal is built on a 3.5-year-old template that's been modified today.</div>
+      </div>
+    </div>
+
+    <p>This is one of the most common scenarios in freelance and agency work, and the consequences are almost always reputational rather than legal. A client who discovers this isn't likely to sue. Instead, they're likely to lose confidence in whether the pricing, the strategy, or the timeline were genuinely tailored to their situation. Our guide on <a href="/blog/pdf-metadata-freelancers-proposals-contracts">PDF metadata in freelance proposals</a> covers the professional implications in full.</p>
+
+    <!-- MID-ARTICLE CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Check what your own PDFs are saying behind your back</h3>
+        <p>The Privacy Risk Score shows every contradiction before it reaches a recipient. Free, browser-only.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <h2 id="scenario-4">#5. Scenario 4: The "original" document that was edited after signing</h2>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div class="scenario-num">04</div>
+        <div>
+          <div class="scenario-title">The document has a digital signature. The metadata shows it was modified after.</div>
+          <div class="scenario-sub">Signed contract / NDA / Agreement</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <p>A signed NDA is shared as "the fully executed agreement." It has a digital signature stamp visible on the final page. Everything looks legitimate. But the ModDate is three days after the signature date, and the Producer field identifies a PDF editor that wasn't part of the original signing workflow.</p>
+      </div>
+    </div>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <div class="exif-label">exiftool nda-executed-signed.pdf</div>
+      <span class="ef">Creator             </span>: <span class="ev-clean">Microsoft Word</span><br>
+      <span class="ef">Producer            </span>: <span class="ev-danger">PDF-XChange Editor 10.2</span> <span class="ef-comment">&larr; not the original signing tool</span><br>
+      <span class="ef">Create Date         </span>: <span class="ev-clean">2026:08:10 11:24:00+01:00</span><br>
+      <span class="ef">Modify Date         </span>: <span class="ev-danger">2026:08:13 16:38:44+01:00</span> <span class="ef-comment">&larr; 3 days after creation</span><br>
+      <span class="ef">XMP:ModifyDate      </span>: <span class="ev-danger">2026:08:13 16:38:44+01:00</span><br>
+      <span class="ef">XMP:MetadataDate    </span>: <span class="ev-danger">2026:08:13 16:39:02+01:00</span><br>
+      <span class="ef">Has XFA             </span>: <span class="ev-clean">No</span>
+      <div class="exif-verdict">
+        <div class="verdict-icon">&#9888;</div>
+        <div class="verdict-text"><strong>The contradiction:</strong> The document was created on August 10th, presumably the signing date. The ModDate shows August 13th. It used PDF-XChange Editor, a tool unrelated to the original Word-to-PDF workflow. The metadata records that someone opened this signed document three days after execution in a third-party PDF editor and saved it. The digital signature status in Acrobat should show a warning: "Signature valid but document has been modified." This is a serious integrity red flag.</div>
+      </div>
+    </div>
+
+    <p>PDF allows content to be added after signing through incremental updates. Some of those additions invalidate the digital signature, while some don't, depending on the document's permission flags. A Producer mismatch combined with a post-signature ModDate is sufficient grounds to request the original signing platform's audit log. For a full technical breakdown of how to detect post-signing modifications, see our guide on <a href="/blog/check-if-pdf-has-been-edited">checking if a PDF has been edited or tampered with</a>.</p>
+
+    <div class="legal-ref">
+      <div class="lr-regime">UK Law: Fraud Act 2006</div>
+      <div class="lr-title">Section 2: Fraud by false representation</div>
+      <div class="lr-text">A person is guilty of fraud if they dishonestly make a false representation with intent to make a gain or cause a loss. Presenting a modified post-signature document as the executed original, where the modification was designed to alter the agreement's terms, falls within this definition.</div>
+      <div class="lr-source">Source: legislation.gov.uk: Fraud Act 2006 c.35</div>
+    </div>
+
+    <h2 id="scenario-5">#6. Scenario 5: The internal author your client was never meant to know about</h2>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div class="scenario-num">05</div>
+        <div>
+          <div class="scenario-title">The document hides who really wrote it. The metadata doesn't.</div>
+          <div class="scenario-sub">Ghost-written report / White-label content / Outsourced analysis</div>
+        </div>
+      </div>
+      <div class="scenario-body">
+        <p>A management consultancy delivers a market analysis to a client. The cover page names the consultancy's senior partner as the lead analyst. The report looks fully internal: branded, formatted, and on-point. The client assumes it was produced by the team they're paying for. Three months later, a due diligence process on the consultancy reveals the truth.</p>
+      </div>
+    </div>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <div class="exif-label">exiftool market-analysis-q3-2026.pdf</div>
+      <span class="ef">Author              </span>: <span class="ev-danger">Priya Sharma</span> <span class="ef-comment">&larr; not the named senior partner</span><br>
+      <span class="ef">Manager             </span>: <span class="ev-danger">DataInsights Co</span> <span class="ef-comment">&larr; third-party firm</span><br>
+      <span class="ef">Company             </span>: <span class="ev-danger">DataInsights Co</span><br>
+      <span class="ef">Creator             </span>: <span class="ev-warn">Google Docs</span> <span class="ef-comment">&larr; inconsistent with consultancy's stated workflow</span><br>
+      <span class="ef">Producer            </span>: <span class="ev-warn">Skia/PDF m128</span> <span class="ef-comment">&larr; Chrome print-to-PDF, not Word</span><br>
+      <span class="ef">Create Date         </span>: <span class="ev-clean">2026:09:15 14:08:22+05:30</span> <span class="ef-comment">&larr; India timezone (IST)</span><br>
+      <span class="ef">XMP:Creator         </span>: <span class="ev-danger">Priya Sharma</span>
+      <div class="exif-verdict">
+        <div class="verdict-icon">&#9888;</div>
+        <div class="verdict-text"><strong>The contradiction:</strong> The document attributes the analysis to a UK-based senior partner. The metadata names a different author entirely, a company called DataInsights Co. The document was produced in Google Docs (not the consultancy's stated Microsoft environment), exported via Chrome's print-to-PDF function, and created in Indian Standard Time (5:30 UTC offset). The entire production chain contradicts the stated authorship.</div>
+      </div>
+    </div>
+
+    <p>White-labelling and outsourcing are common and usually legitimate business practices. The problem isn't the outsourcing. It arises when the metadata exposes an arrangement the client was specifically told didn't exist, or when the outsourcing itself was not permitted under the engagement terms.</p>
+
+    <h2 id="the-accidental-mismatches">#7. Mismatches that are genuinely accidental</h2>
+
+    <p>Not every metadata contradiction is sinister. Some of the most common mismatches have entirely innocent explanations. Knowing the difference matters both for analysing documents you receive and for understanding why your own documents might show unexpected metadata.</p>
+
+    <div class="mismatch-matrix">
+      <div class="mm-header">
+        <span class="mm-title">Common accidental mismatches: causes and severity</span>
+      </div>
+      <div class="mm-row header-row">
+        <div class="mm-cell header">Mismatch type</div>
+        <div class="mm-cell header">Innocent explanation</div>
+        <div class="mm-cell header">Severity</div>
+      </div>
+      <div class="mm-row">
+        <div class="mm-cell">CreationDate is wrong timezone</div>
+        <div class="mm-cell">Document created on a machine set to a different timezone, which is common with remote workers and virtual machines</div>
+        <div class="mm-cell"><span class="severity sev-low">Low</span></div>
+      </div>
+      <div class="mm-row">
+        <div class="mm-cell">ModDate after stated document date</div>
+        <div class="mm-cell">PDF was opened in Preview or Acrobat Reader and auto-saved even though no edits were made. Some viewers write ModDate on open</div>
+        <div class="mm-cell"><span class="severity sev-med">Medium</span></div>
+      </div>
+      <div class="mm-row">
+        <div class="mm-cell">Author name doesn't match signatory</div>
+        <div class="mm-cell">Document created on a shared machine or colleague's computer, so their account name became the Author</div>
+        <div class="mm-cell"><span class="severity sev-med">Medium</span></div>
+      </div>
+      <div class="mm-row">
+        <div class="mm-cell">High RevisionNumber on "new" document</div>
+        <div class="mm-cell">Auto-save enabled. Word saves every 10 minutes during editing, incrementing the counter each time</div>
+        <div class="mm-cell"><span class="severity sev-low">Low</span></div>
+      </div>
+      <div class="mm-row">
+        <div class="mm-cell">Old CreationDate on recent content</div>
+        <div class="mm-cell">Content copied from an older document and pasted into a new one. Some metadata inherits from the source</div>
+        <div class="mm-cell"><span class="severity sev-med">Medium</span></div>
+      </div>
+      <div class="mm-row">
+        <div class="mm-cell">Producer doesn't match Creator</div>
+        <div class="mm-cell">PDF was processed by an intermediary tool, such as a signature platform, a compression service, or a print driver, after initial creation</div>
+        <div class="mm-cell"><span class="severity sev-med">Medium</span></div>
+      </div>
+    </div>
+
+    <p>The presence of a mismatch is not proof of wrongdoing. It is a flag requiring explanation. In a professional context, including legal discovery, due diligence, and journalism, the appropriate response is to ask for that explanation, not to assume the worst. The inappropriate response is to assume the metadata is always accurate and the document always lies, or vice versa. Both streams of information are evidence. Neither is automatically authoritative.</p>
+
+    <h2 id="the-command">#8. How to check any PDF for contradictions</h2>
+
+    <p>The complete check takes about two minutes with free tools. Here is the exact workflow:</p>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <span style="color:#3a5a42"># Install ExifTool first:</span><br>
+      <span style="color:#3a5a42"># Mac: brew install exiftool</span><br>
+      <span style="color:#3a5a42"># Windows: exiftool.org/install.html</span><br>
+      <span style="color:#3a5a42"># Linux: sudo apt install libimage-exiftool-perl</span><br><br>
+      <span style="color:#3a5a42"># Full metadata dump: look for all contradictions</span><br>
+      <span style="color:#4a6a52">$ </span><span style="color:#88ccaa">exiftool</span> <span style="color:#f0c060">document.pdf</span><br><br>
+      <span style="color:#3a5a42"># Check just the fields most likely to contradict the document</span><br>
+      <span style="color:#4a6a52">$ </span><span style="color:#88ccaa">exiftool</span> <span style="color:#f0c060">-Author -Manager -Company -Creator -Producer -CreateDate -ModifyDate -RevisionNumber document.pdf</span><br><br>
+      <span style="color:#3a5a42"># Count incremental updates (each %%EOF = one version)</span><br>
+      <span style="color:#4a6a52">$ </span><span style="color:#88ccaa">grep -c "%%EOF"</span> <span style="color:#f0c060">document.pdf</span><br>
+      <span style="color:#3a5a42"># Result of 1 = no incremental updates. 2+ = file was modified after creation.</span>
+    </div>
+
+    <p>Alternatively, drop any PDF into <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a>. The Privacy Risk Score shows every field including Author, Manager, Company, Creator, Producer, and all timestamps in a single scored view. No command line is required, and nothing is uploaded.</p>
+
+    <h2 id="protect-your-own-documents">#9. Protect your own documents from telling the wrong story</h2>
+
+    <p>If you're on the sending side, the same knowledge applies in reverse. Every document you send carries a metadata record of how it was actually produced, and that record may contradict what you intended to communicate. The solution is stripping metadata before sharing, not after the contradiction is discovered.</p>
+
+    <div class="detect-widget">
+      <div class="dw-header">
+        <span>Pre-send contradiction check</span>
+        <span id="dw-count">0 / 6 complete</span>
+      </div>
+      <div class="dw-item">
+        <div class="dw-box"></div>
+        <div class="dw-content">
+          <div class="dw-title">Check CreationDate vs the date stated in your document</div>
+          <div class="dw-desc">Run exiftool -CreateDate document.pdf and compare to the date written on page 1. If they're more than a day apart, explain why or strip the metadata.</div>
+        </div>
+      </div>
+      <div class="dw-item">
+        <div class="dw-box"></div>
+        <div class="dw-content">
+          <div class="dw-title">Check RevisionNumber if you're labelling something "Final"</div>
+          <div class="dw-desc">exiftool -RevisionNumber document.pdf. If it's above 15 and you're sending a "final" version, consider whether the number creates an unwanted impression.</div>
+        </div>
+      </div>
+      <div class="dw-item">
+        <div class="dw-box"></div>
+        <div class="dw-content">
+          <div class="dw-title">Check Author and Manager fields match your intention</div>
+          <div class="dw-desc">The Author field may contain someone else's name if the document was created on their machine or from their template.</div>
+        </div>
+      </div>
+      <div class="dw-item">
+        <div class="dw-box"></div>
+        <div class="dw-content">
+          <div class="dw-title">Check Creator and Producer for software disclosure</div>
+          <div class="dw-desc">If you're presenting a document as professionally designed but Creator says "Google Docs" and Producer says Chrome's PDF engine, consider whether that matters to your recipient.</div>
+        </div>
+      </div>
+      <div class="dw-item">
+        <div class="dw-box"></div>
+        <div class="dw-content">
+          <div class="dw-title">Check timezone in timestamps</div>
+          <div class="dw-desc">Timestamps include the timezone offset. A document created at 2 AM in an unexpected timezone reveals geographic information about where and when it was produced.</div>
+        </div>
+      </div>
+      <div class="dw-item">
+        <div class="dw-box"></div>
+        <div class="dw-content">
+          <div class="dw-title">Strip all metadata before sending sensitive documents</div>
+          <div class="dw-desc">fileintel.me/pdf-metadata-remover. It removes all three metadata layers including XMP stream in under 5 seconds. Nothing uploaded.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-label">&#10003; The cleanest approach</div>
+      <p>Strip the metadata entirely before sharing rather than trying to manage individual field contradictions. A PDF with no metadata tells no story in either direction. Our complete guide on <a href="/blog/remove-metadata-from-pdf">how to remove metadata from a PDF</a> covers every method: browser, command line, and Acrobat. It also explains how to verify that both the Info dictionary and the XMP stream were fully cleared, not just partially.</p>
+    </div>
+
+    <h2 id="what-it-means-legally">#10. What metadata contradictions mean legally</h2>
+
+    <p>The legal implications of metadata contradictions depend on whether the mismatch was accidental or deliberate, and whether it materially affected any party's decisions or rights.</p>
+
+    <div class="legal-ref">
+      <div class="lr-regime">US Federal Law</div>
+      <div class="lr-title">18 U.S.C. § 1519: Destruction, alteration, or falsification of records</div>
+      <div class="lr-text">Whoever knowingly alters, destroys, mutilates, conceals, covers up, falsifies, or makes a false entry in any record, document, or tangible object with the intent to impede, obstruct, or influence the investigation or proper administration of any matter within the jurisdiction of any department or agency of the United States... shall be fined under this title, imprisoned not more than 20 years, or both.</div>
+      <div class="lr-source">Source: Cornell Law School: Legal Information Institute</div>
+    </div>
+
+    <p>Document backdating in the context of legal proceedings (creating a document after an event and timestamping it as if it predated the event) has been the basis for criminal charges in multiple US and UK cases. The metadata doesn't cause the legal problem. The deliberate misrepresentation does. But the metadata is what makes the misrepresentation detectable.</p>
+
+    <p>For professionals handling documents that may enter legal proceedings, the principle is simple: never present a document as what it isn't, and strip metadata before sharing to prevent accidental contradictions from creating impressions you didn't intend.</p>
+
+    <!-- END CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Check your documents before they contradict you</h3>
+        <p>See every metadata field before it reaches a recipient. Strip everything in one click. Free, nothing uploaded.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2 class="faq-title">Frequently asked</h2>
+
+      <div class="faq-item">
+        <button class="faq-q">Can PDF metadata contradict what the document says?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Yes, frequently. PDF metadata and visible document content are completely independent. A document can display a date of January 1st while its CreationDate shows March 15th. It can say "Final Version" while its RevisionNumber shows 47 saves. It can claim original authorship while the Author field names a different person or organisation. The metadata is written automatically by software and reflects actual system behaviour, not what the author chose to display.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is a PDF metadata mismatch?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">A PDF metadata mismatch occurs when information in the hidden metadata fields, including CreationDate, ModDate, Author, Producer, and RevisionNumber, contradicts what is visible in the document. These mismatches can be accidental (timezone differences, template reuse, auto-save behaviour) or deliberate (backdating, concealing editing history). Either way, they are readable by anyone with free tools like ExifTool.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How do I check if a PDF's metadata matches its stated date?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Run <code>exiftool document.pdf</code> and look at the Create Date and Modify Date fields. Compare these to the date printed in the document. If the Create Date is later than the document's stated date, the file was created after that date. FileIntel's PDF Metadata Remover also shows these fields in its Privacy Risk Score without requiring command-line access.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can you tell if a PDF was created from a template?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Often yes. If a PDF's CreationDate is significantly older than its ModDate, it was created from an older source. The xmpMM:DocumentID field persists across documents derived from the same original. Two "independent" proposals with the same DocumentID came from the same template. A high RevisionNumber on a supposedly new document also suggests it was built on a heavily-edited existing file.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Are PDF metadata mismatches illegal?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Accidental mismatches are not illegal. Deliberate mismatches created to deceive, including backdating a contract, falsifying authorship in evidence, or altering a signed document, can constitute fraud, evidence tampering, or forgery. In the UK, deliberately presenting a modified document as the original may violate the Fraud Act 2006. In the US, falsifying records in federal proceedings may violate 18 U.S.C. § 1519.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How do I remove metadata to prevent contradictions?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Use FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover. Drop your PDF in, strip all metadata in one click, and download the clean file. It removes both the Info dictionary and the XMP stream, which is where most partial-clean tools fail. Command line: <code>exiftool -all= document.pdf</code>. See our full guide on <a href="/blog/remove-metadata-from-pdf">how to remove PDF metadata</a> for all methods.</div></div>
+      </div>
+    </div>
+
+    <p class="legal-note">This article is for informational purposes about PDF forensics, document analysis, and metadata transparency. Real-world scenarios are illustrative composites drawn from documented case types. Specific legal consequences vary by jurisdiction. This is not legal advice. Consult a qualified legal professional for advice on document evidence, discovery obligations, or potential liability.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-widget">
+      <div class="sw-header">In this article</div>
+      <div class="sw-body">
+        <a href="#how-contradictions-happen" class="toc-link"><span class="toc-num">01</span> How contradictions happen</a>
+        <a href="#scenario-1" class="toc-link"><span class="toc-num">02</span> Scenario 1: Backdated contract</a>
+        <a href="#scenario-2" class="toc-link"><span class="toc-num">03</span> Scenario 2: "Final" with 47 saves</a>
+        <a href="#scenario-3" class="toc-link"><span class="toc-num">04</span> Scenario 3: Bespoke proposal</a>
+        <a href="#scenario-4" class="toc-link"><span class="toc-num">05</span> Scenario 4: Post-signing edit</a>
+        <a href="#scenario-5" class="toc-link"><span class="toc-num">06</span> Scenario 5: Hidden author</a>
+        <a href="#the-accidental-mismatches" class="toc-link"><span class="toc-num">07</span> Accidental mismatches</a>
+        <a href="#the-command" class="toc-link"><span class="toc-num">08</span> How to check any PDF</a>
+        <a href="#protect-your-own-documents" class="toc-link"><span class="toc-num">09</span> Protect your documents</a>
+        <a href="#what-it-means-legally" class="toc-link"><span class="toc-num">10</span> Legal implications</a>
+      </div>
+    </div>
+
+    <div class="stw">
+      <div style="font-size:22px;margin-bottom:10px;">&#128270;</div>
+      <h4>PDF Metadata Remover</h4>
+      <p>See every contradiction before it reaches a recipient. Strip all metadata in one click. Free, nothing uploaded.</p>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open free tool &rarr;</a>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sw-header">Related articles</div>
+      <div class="sw-body">
+        <a href="/blog/check-if-pdf-has-been-edited" class="rel-post">
+          <div class="rel-cat">Forensics</div>
+          <div class="rel-title">How to check if a PDF has been edited or tampered with</div>
+        </a>
+        <a href="/blog/pdf-metadata-fields-explained" class="rel-post">
+          <div class="rel-cat">Reference</div>
+          <div class="rel-title">Every PDF metadata field explained: Author, Creator, Producer and more</div>
+        </a>
+        <a href="/blog/remove-metadata-from-pdf" class="rel-post">
+          <div class="rel-cat">How-To</div>
+          <div class="rel-title">How to remove metadata from a PDF: complete guide</div>
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<Footer />
+
+<script>
+
+  // Reading progress
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const d = document.documentElement;
+    const pct = d.scrollHeight - window.innerHeight > 0
+      ? (window.scrollY / (d.scrollHeight - window.innerHeight)) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Detection checklist
+  document.querySelectorAll('.dw-item').forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('checked');
+      item.querySelector('.dw-box').textContent = item.classList.contains('checked') ? '\u2713' : '';
+      const done = document.querySelectorAll('.dw-item.checked').length;
+      document.getElementById('dw-count').textContent = done + ' / 6 complete';
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const block = btn.closest('.exif-block');
+      const text = Array.from(block.childNodes)
+        .filter(n => n.nodeType === Node.TEXT_NODE || (n.tagName && n.tagName !== 'BUTTON' && n.className !== 'exif-label' && n.className !== 'exif-verdict'))
+        .map(n => n.textContent).join('').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '\u2713 Copied';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      });
+    });
+  });
+
+  // Hero image parallax and float pause while scrolling
+  const heroVisualInner = document.getElementById('hero-visual-inner');
+  if (heroVisualInner) {
+    let heroScrollTimer = 0;
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const heroHeight = document.querySelector('.article-hero')?.getBoundingClientRect().height || 460;
+      if (scrollY < heroHeight + 100) {
+        heroVisualInner.style.transform = `translateY(${scrollY * 0.28}px)`;
+      }
+      heroVisualInner.classList.add('scrolling');
+      if (heroScrollTimer) window.clearTimeout(heroScrollTimer);
+      heroScrollTimer = window.setTimeout(() => heroVisualInner.classList.remove('scrolling'), 150);
+    }, { passive: true });
+  }
+
+  // Active TOC
+  const sections = ['how-contradictions-happen','scenario-1','scenario-2','scenario-3','scenario-4','scenario-5','the-accidental-mismatches','the-command','protect-your-own-documents','what-it-means-legally'];
+  const tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = i;
+    });
+    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+  }, { passive: true });
+</script>
+
+</body>
+</html>

@@ -20,7 +20,7 @@ const { activePage = '' } = Astro.props;
     <!-- LOGO -->
     <a href="/" class="fi-logo" aria-label="FileIntel home">
       <div class="fi-logo-mark" aria-hidden="true">
-        <span class="fi-logo-letter">Fi</span>
+        <img src="/favicon.jpg" alt="" />
       </div>
       <div class="fi-logo-text">
         <span class="fi-logo-name">FileIntel</span>
@@ -523,7 +523,6 @@ const { activePage = '' } = Astro.props;
   .fi-logo-mark {
     width: 30px;
     height: 30px;
-    background: var(--ink);
     border-radius: var(--radius);
     display: flex;
     align-items: center;
@@ -533,27 +532,11 @@ const { activePage = '' } = Astro.props;
     overflow: hidden;
   }
 
-  /* Subtle diagonal accent on logo mark */
-  .fi-logo-mark::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    background: var(--accent);
-    opacity: 0.7;
-    clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  }
-
-  .fi-logo-letter {
-    font-family: var(--serif);
-    font-size: 15px;
-    font-style: italic;
-    color: var(--paper);
-    letter-spacing: -0.5px;
-    position: relative;
-    z-index: 1;
+  .fi-logo-mark img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
   }
 
   .fi-logo-text { display: flex; flex-direction: column; gap: 0; }
