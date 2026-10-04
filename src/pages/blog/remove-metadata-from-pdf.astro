@@ -424,7 +424,7 @@ import Navbar from "../../components/Navbar.astro";
       <p>To remove metadata from a PDF: drop your file into <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> &mdash; it strips the Author, Creator, Keywords, timestamps, and the XMP stream in under 5 seconds, entirely in your browser. For command-line users: <code>exiftool -all= document.pdf</code>. Saving or re-exporting does not remove metadata &mdash; you need a dedicated stripping step.</p>
     </div>
 
-    <h2 id="what-youre-actually-removing">#1 What you are actually removing</h2>
+    <h2 id="what-youre-actually-removing">#1. What you are actually removing</h2>
 
     <p>Before you strip metadata, it helps to understand what you are stripping &mdash; because this is where most guides stop short and why "partial" removal fails.</p>
 
@@ -471,7 +471,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>To understand the full range of fields and what each one reveals, see our guide on <a href="/blog/what-is-pdf-metadata">what PDF metadata actually contains</a>.</p>
 
-    <h2 id="method-1-browser-tool">#2 Method 1 &mdash; Browser-based removal (fastest, no install)</h2>
+    <h2 id="method-1-browser-tool">#2. Method 1 &mdash; Browser-based removal (fastest, no install)</h2>
 
     <p>This is the method most people should use. No software to install, no files uploaded anywhere, works on any OS.</p>
 
@@ -522,7 +522,7 @@ import Navbar from "../../components/Navbar.astro";
       <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
     </div>
 
-    <h2 id="method-2-exiftool">#3 Method 2 &mdash; ExifTool (command line, free)</h2>
+    <h2 id="method-2-exiftool">#3. Method 2 &mdash; ExifTool (command line, free)</h2>
 
     <p><a href="https://exiftool.org" target="_blank" rel="noopener">ExifTool</a> by Phil Harvey is the most trusted metadata tool in the world. It's free, open source, cross-platform, and used by digital forensics professionals. For stripping PDF metadata it works correctly and completely.</p>
 
@@ -551,7 +551,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>One important limitation: ExifTool strips the Info dictionary and XMP stream, but it does not remove embedded document structure data like revision markers or incremental update sections. For most professional use cases, this is fine. For forensic-grade sanitisation in legal proceedings, a full PDF rewrite is needed.</p>
 
-    <h2 id="method-3-adobe-acrobat">#4 Method 3 &mdash; Adobe Acrobat Pro</h2>
+    <h2 id="method-3-adobe-acrobat">#4. Method 3 &mdash; Adobe Acrobat Pro</h2>
 
     <p>If you have Acrobat Pro, the built-in sanitisation tools work for most cases but have known gaps. Here's the correct sequence &mdash; not just the obvious one.</p>
 
@@ -577,7 +577,7 @@ import Navbar from "../../components/Navbar.astro";
       <p>Many users use "Remove Hidden Information" (the non-Sanitize option). This clears fields in the Properties dialog but often leaves the XMP stream intact. If you subsequently check the file with ExifTool, you'll see all the original metadata still present in the XMP fields. Always use Sanitize Document for complete removal, or follow up with ExifTool.</p>
     </div>
 
-    <h2 id="method-4-qpdf-command-line">#5 Method 4 &mdash; QPDF (advanced command line)</h2>
+    <h2 id="method-4-qpdf-command-line">#5. Method 4 &mdash; QPDF (advanced command line)</h2>
 
     <p><a href="https://qpdf.readthedocs.io" target="_blank" rel="noopener">QPDF</a> is a free, open-source command-line tool that rewrites the PDF structure. Unlike ExifTool, which targets metadata fields, QPDF linearises and rewrites the entire file &mdash; which eliminates incremental update history, normalises the file structure, and often reduces file size.</p>
 
@@ -596,7 +596,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>The QPDF + ExifTool combination is the most thorough free approach. QPDF handles structural sanitisation; ExifTool handles metadata field removal. Together they address every layer of the PDF that carries identifiable information.</p>
 
-    <h2 id="which-method-when">#6 Which method for which situation</h2>
+    <h2 id="which-method-when">#6. Which method for which situation</h2>
 
     <div class="method-grid">
       <div class="method-card recommended">
@@ -629,7 +629,7 @@ import Navbar from "../../components/Navbar.astro";
       </div>
     </div>
 
-    <h2 id="what-doesnt-work">#7 What doesn't actually remove metadata</h2>
+    <h2 id="what-doesnt-work">#7. What doesn't actually remove metadata</h2>
 
     <p>These are the methods people try first. None of them work for metadata removal.</p>
 
@@ -682,7 +682,7 @@ import Navbar from "../../components/Navbar.astro";
       </table>
     </div>
 
-    <h2 id="privacy-risk-score">#8 Understanding your Privacy Risk Score</h2>
+    <h2 id="privacy-risk-score">#8. Understanding your Privacy Risk Score</h2>
 
     <p> <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> scores every file before stripping. The score runs from 0 (no metadata) to 999 (maximum exposure). Here's how the weights break down:</p>
 
@@ -733,7 +733,7 @@ import Navbar from "../../components/Navbar.astro";
       <p style="font-size:12.5px; color:var(--ink-3); margin-top:16px; font-family:var(--mono);">A typical Word &rarr; PDF export scores 400&ndash;700. A clean file scores 0.</p>
     </div>
 
-    <h2 id="compliance-why-it-matters">#9 Why this matters for compliance</h2>
+    <h2 id="compliance-why-it-matters">#9. Why this matters for compliance</h2>
 
     <p>For EU and UK organisations, metadata removal is not just professional hygiene &mdash; it has a legal dimension under GDPR.</p>
 
@@ -746,7 +746,7 @@ import Navbar from "../../components/Navbar.astro";
       <p>Make metadata removal a step in your document checklist, not an afterthought. Any PDF leaving your organisation &mdash; to clients, counterparties, regulators, media &mdash; should pass through a metadata check before it goes. The 30-second cost of checking is trivial against the risk of inadvertent disclosure. For freelancers specifically, our guide on <a href="/blog/pdf-metadata-freelancers-proposals-contracts">metadata in proposals and contracts</a> covers the professional implications in detail.</p>
     </div>
 
-    <h2 id="before-you-send-checklist">#10 The complete pre-send checklist</h2>
+    <h2 id="before-you-send-checklist">#10. The complete pre-send checklist</h2>
 
     <div class="checklist-widget">
       <div class="checklist-header">
@@ -815,7 +815,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <!-- FAQ -->
     <div class="faq-section">
-      <h2 class="faq-section-title">Frequently asked</h2>
+      <h2 class="faq-section-title">#11. Frequently asked</h2>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <button class="faq-question">How do I remove metadata from a PDF for free?

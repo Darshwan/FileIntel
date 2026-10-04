@@ -468,7 +468,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>This is a complete field-by-field reference. Every field, what it contains, where it comes from, and what the privacy risk is.</p>
 
-    <h2 id="two-stores">The two metadata stores — why this matters</h2>
+    <h2 id="two-stores">#1. The two metadata stores — why this matters</h2>
 
     <p>Before the fields: the architecture. PDF metadata lives in two places simultaneously, and almost every guide gets this wrong by only discussing one of them.</p>
 
@@ -483,7 +483,7 @@ import Navbar from "../../components/Navbar.astro";
       <p>The majority of online "metadata removers" only clear the Info dictionary. They don't touch the XMP stream. After using them, Acrobat Properties shows blank fields — but ExifTool still finds your name, your software, and your timestamps in the XML layer. This is why verification matters: always check both stores, not just the one Acrobat shows you.</p>
     </div>
 
-    <h2 id="info-dictionary-fields">Info dictionary fields — the complete reference</h2>
+    <h2 id="info-dictionary-fields">#2. Info dictionary fields — the complete reference</h2>
 
     <p>These are the standard fields in the PDF Info dictionary, as defined in the <a href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf" target="_blank" rel="noopener">ISO 32000-1 specification</a>. Click any field to expand its full details.</p>
 
@@ -704,7 +704,7 @@ import Navbar from "../../components/Navbar.astro";
 
     </div>
 
-    <h2 id="office-only-fields">Microsoft Office-only fields</h2>
+    <h2 id="office-only-fields">#3. Microsoft Office-only fields</h2>
 
     <p>Word, Excel, and PowerPoint add fields beyond the ISO standard when exporting to PDF. These come from your Microsoft 365 or Active Directory profile &mdash; data you set up years ago and forgot about.</p>
 
@@ -764,7 +764,7 @@ import Navbar from "../../components/Navbar.astro";
       <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
     </div>
 
-    <h2 id="xmp-fields">XMP stream fields — the hidden layer</h2>
+    <h2 id="xmp-fields">#4. XMP stream fields — the hidden layer</h2>
 
     <p>The XMP stream duplicates most Info dictionary fields and adds its own. Here are the XMP-specific fields that don't appear in the standard Info dictionary:</p>
 
@@ -821,7 +821,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>The <code>xmpMM:DocumentID</code> field is particularly interesting from a forensic standpoint. It's a UUID that stays with a document across saves &mdash; meaning two files with the same DocumentID are provably derived from the same original. If you share what you claim is an independent document but it has the same DocumentID as a file already in evidence, that's a problem. Conversely, it can be used to prove provenance when that's in your favour.</p>
 
-    <h2 id="how-to-read-all-fields">How to read all metadata fields — verification workflow</h2>
+    <h2 id="how-to-read-all-fields">#5. How to read all metadata fields — verification workflow</h2>
 
     <p>Acrobat Reader shows you the Info dictionary. ExifTool shows you everything. Here's the command sequence:</p>
 
@@ -838,7 +838,7 @@ import Navbar from "../../components/Navbar.astro";
       <span class="c-comment"># Discrepancies between these pairs = partial clean or tampering</span>
     </div>
 
-    <h2 id="gdpr-field-map">GDPR field map &mdash; which fields require action</h2>
+    <h2 id="gdpr-field-map">#6. GDPR field map &mdash; which fields require action</h2>
 
     <p>Under <a href="https://gdpr-info.eu/art-4-gdpr/" target="_blank" rel="noopener">GDPR Article 4(1)</a>, personal data is any information relating to an identified or identifiable natural person. Under <a href="https://gdpr-info.eu/art-5-gdpr/" target="_blank" rel="noopener">Article 5(1)(c)</a>, it must be minimised — limited to what is necessary for the purpose.</p>
 
@@ -900,7 +900,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>For UK organisations, see our detailed breakdown in <a href="/blog/uk-gdpr-vs-eu-gdpr-document-metadata">UK GDPR vs EU GDPR on document metadata</a>. The obligations are substantively the same but the enforcement authority and some procedural requirements differ post-Brexit.</p>
 
-    <h2 id="verification-checklist">Field verification checklist</h2>
+    <h2 id="verification-checklist">#7. Field verification checklist</h2>
 
     <div class="verify-widget">
       <div class="verify-header">
@@ -962,7 +962,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <!-- FAQ -->
     <div class="faq-section">
-      <h2 class="faq-title">Frequently asked</h2>
+      <h2 class="faq-title">#8. Frequently asked</h2>
 
       <div class="faq-item">
         <button class="faq-q" data-faq="faq1">What fields does PDF metadata contain?

@@ -314,12 +314,12 @@ import Footer from "../../components/Footer.astro";
 
     <p>None of this required a breach, a misconfigured permission, or a malicious actor. It required exactly what happens dozens of times a day in any active workspace: a file being shared for a completely unrelated reason, carrying information nobody intended to send.</p>
 
-    <h2 id="section-1">What Actually Travels With a PDF When You Share It</h2>
+    <h2 id="section-1">#1. What Actually Travels With a PDF When You Share It</h2>
     <p>A PDF is not just the pages you see on screen. Underneath that visible layer sit two metadata structures that ride along with the file no matter where it goes: the Info dictionary, a legacy block holding fields like Author, Title, Subject, Creator, Producer, and creation and modification timestamps; and the XMP metadata stream, a newer XML-based layer that often duplicates those same fields and adds more, including custom fields some organizations use for internal document management or DRM tracking.</p>
     <p>Beyond those two layers, a handful of other things commonly travel unnoticed. Scanned documents can carry GPS coordinates and device information if they were captured on a phone rather than a flatbed scanner. Files exported from Word or Google Docs frequently retain traces of tracked changes or comment threads if the export step wasn't handled carefully. And PDFs that have been incrementally saved — edited and re-saved multiple times rather than exported fresh — can contain entire prior revisions still readable inside the file structure, even after the visible content has been changed.</p>
     <p>None of this is unique to any particular platform. It's baked into the file the moment it's created, well before Slack, Teams, or an email client ever touches it.</p>
 
-    <h2 id="section-2">How Slack, Teams, and Email Each Handle It</h2>
+    <h2 id="section-2">#2. How Slack, Teams, and Email Each Handle It</h2>
     <p>The critical thing to understand is that none of the major collaboration platforms sanitize files on upload. They add convenience layers — previews, search indexing, link cards — on top of the file exactly as it was uploaded, metadata included. The differences between platforms are less about what they strip and more about how far they extend the file's reach.</p>
 
     <div class="table-wrapper">
@@ -363,7 +363,7 @@ import Footer from "../../components/Footer.astro";
 
     <p>Two details in that table matter more than they first appear. First, both Slack and Teams generate their preview thumbnails from actual page content, not from a generic file icon — so anything visible on page one of the document is effectively already shared the moment it's uploaded, whether or not anyone opens the file. Second, "external" is not a hypothetical edge case in either platform: Slack Connect and Teams shared channels are core, actively marketed features built specifically to put people from different organizations in the same channel, and it is trivially easy to forget who is sitting in a channel that started as fully internal.</p>
 
-    <h2 id="section-3">The Anatomy of an Accidental Leak</h2>
+    <h2 id="section-3">#3. The Anatomy of an Accidental Leak</h2>
     <p>It helps to walk through how a single field of metadata travels from creation to unintended exposure, because the path is rarely a single mistake — it's a chain of ordinary actions that each look harmless in isolation.</p>
 
     <div class="step-list">
@@ -406,7 +406,7 @@ import Footer from "../../components/Footer.astro";
 
     <p>No single step in that chain looks like a security incident. Each one is a routine, defensible action a reasonable employee would take without a second thought. That's exactly what makes metadata exposure different from a typical data breach — there's no intrusion to detect, because nothing was broken into. The information simply traveled along a path nobody mapped out in advance.</p>
 
-    <h2 id="section-4">What Actually Gets Exposed</h2>
+    <h2 id="section-4">#4. What Actually Gets Exposed</h2>
     <p>The specific fields worth checking before a file leaves your hands, and what they can reveal to someone who has no business seeing it:</p>
 
     <div class="table-wrapper">
@@ -459,7 +459,7 @@ import Footer from "../../components/Footer.astro";
       <br /><span class="c-out">CreatorTool  : Northbridge_MasterTemplate_v4.dotx</span>
     </div>
 
-    <h2 id="section-5">Why "Just Delete the Message" Doesn't Fix It</h2>
+    <h2 id="section-5">#5. Why "Just Delete the Message" Doesn't Fix It</h2>
     <p>The instinct once someone notices an oversharing mistake is to delete the message or unshare the file, and in a lot of cases that instinct is wrong about what it actually accomplishes. Deleting a Slack message removes it from the channel view, but organizations with data retention policies or active legal holds preserve the underlying record independently of what a user deletes from their own screen — that's the entire point of a compliance export. Recipients who already downloaded the file, viewed the preview thumbnail, or received a push notification with the file name may have already captured everything that mattered before the delete happened.</p>
     <p>Email is even less forgiving. Once a message with an attachment leaves your outbound mail server, there is no recall mechanism that reliably works across mail providers, and forwarding, auto-BCC rules, and inbox search on the recipient's end are all completely outside your control.</p>
 
@@ -468,7 +468,7 @@ import Footer from "../../components/Footer.astro";
       <p>Check a file before it's shared, not after. Once a PDF has been posted to a channel, sent by email, or dropped into a shared drive, treat the information inside it — visible and hidden — as already exposed to everyone with access at that moment, deletion notwithstanding.</p>
     </div>
 
-    <h2 id="section-6">Building the Check Into How Your Team Actually Works</h2>
+    <h2 id="section-6">#6. Building the Check Into How Your Team Actually Works</h2>
     <p>The realistic fix isn't a policy memo nobody reads — it's making the check fast enough that people actually do it. For IT admins, that usually means picking a lightweight metadata inspection step and building it into onboarding and file-handling guidance rather than relying on individual judgment call by call. A client-side tool that runs entirely in the browser — FileIntel's metadata remover is one option — avoids the added complication of routing sensitive files through a third-party server just to check them, since the file never leaves the device it's opened on.</p>
     <p>For individual contributors, the habit that actually sticks is simpler than a checklist: glance at the first page and the document properties before uploading anything that started life as an internal template, especially before it goes into any channel that includes guests or external partners.</p>
 
@@ -530,7 +530,7 @@ import Footer from "../../components/Footer.astro";
     </div>
 
     <div class="faq-section">
-      <h2 class="faq-section-title">Frequently asked questions</h2>
+      <h2 class="faq-section-title">#7. Frequently asked questions</h2>
 
       <div class="faq-item">
         <button class="faq-question">

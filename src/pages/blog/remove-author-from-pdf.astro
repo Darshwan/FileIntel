@@ -373,7 +373,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>This is what the Author field does. It travels inside every document you send, readable by any recipient in three clicks, without ever appearing on the visible page. Here is exactly how to remove it.</p>
 
-    <h2 id="where-author-comes-from">Where your name actually comes from</h2>
+    <h2 id="where-author-comes-from">#1. Where your name actually comes from</h2>
 
     <p>This matters, because if you don't know the source, you can clear the field in one place and find it comes back the next time you export.</p>
 
@@ -410,7 +410,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>The source matters for two reasons. First, if you change the Author field in an already-created PDF, future exports will still use the original source name until you change it there. Second, and more importantly: the Author field gets written into <strong>two separate places</strong> inside every PDF. This is the detail most people miss, and it's why "clearing" the Author in Acrobat's Properties dialog often doesn't fully remove it.</p>
 
-    <h2 id="two-places-it-hides">The two places your name hides in a PDF</h2>
+    <h2 id="two-places-it-hides">#2. The two places your name hides in a PDF</h2>
 
     <p>Modern PDFs store metadata in two independent stores. Clear only one and your name is still there &mdash; just in the other location.</p>
 
@@ -463,7 +463,7 @@ import Navbar from "../../components/Navbar.astro";
       <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
     </div>
 
-    <h2 id="method-1-fileintel">Method 1 &mdash; Browser tool (fastest, any device)</h2>
+    <h2 id="method-1-fileintel">#3. Method 1 &mdash; Browser tool (fastest, any device)</h2>
 
     <p>No installation. Works on Windows, Mac, Linux, even a Chromebook. The file never leaves your device.</p>
 
@@ -505,7 +505,7 @@ import Navbar from "../../components/Navbar.astro";
       </div>
     </div>
 
-    <h2 id="method-2-exiftool">Method 2 &mdash; ExifTool command line (free, precise)</h2>
+    <h2 id="method-2-exiftool">#4. Method 2 &mdash; ExifTool command line (free, precise)</h2>
 
     <p><a href="https://exiftool.org" target="_blank" rel="noopener">ExifTool</a> is the gold standard for metadata manipulation. You can remove just the Author field, or strip everything. Both are free.</p>
 
@@ -526,7 +526,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>The critical command is <code>-XMP:Creator</code> in the verification step. The Info dictionary <code>Author</code> field and the XMP <code>dc:creator</code> field are linked but separate. ExifTool's <code>-Author=</code> flag updates both simultaneously &mdash; which is one reason ExifTool is more reliable than Acrobat's built-in editor for this specific task.</p>
 
-    <h2 id="method-3-acrobat">Method 3 &mdash; Adobe Acrobat Pro</h2>
+    <h2 id="method-3-acrobat">#5. Method 3 &mdash; Adobe Acrobat Pro</h2>
 
     <p>If you have Acrobat Pro, you can edit the Author field directly or use Sanitize Document for a complete wipe. The distinction matters.</p>
 
@@ -573,7 +573,7 @@ import Navbar from "../../components/Navbar.astro";
       </div>
     </div>
 
-    <h2 id="method-4-word-source">Method 4 &mdash; Fix the source in Word (prevents future exposure)</h2>
+    <h2 id="method-4-word-source">#6. Method 4 &mdash; Fix the source in Word (prevents future exposure)</h2>
 
     <p>If you export a lot of documents from Word, fixing the source name means you never have to strip it from individual files. This changes what gets written into future PDFs &mdash; it doesn't fix existing files.</p>
 
@@ -593,7 +593,7 @@ import Navbar from "../../components/Navbar.astro";
       <p>Word has a "Remove Personal Information from file properties on save" option (File &rarr; Options &rarr; Trust Center &rarr; Privacy Options). Enabling it removes the Author from the <em>Word document</em> properties &mdash; but when you export to PDF, the PDF generator may still pull your name from your Office user settings and embed it in the output PDF. Always verify the exported PDF separately, not just the source Word file.</p>
     </div>
 
-    <h2 id="comparison">Which method removes what</h2>
+    <h2 id="comparison">#7. Which method removes what</h2>
 
     <div class="table-wrapper">
       <table class="data-table">
@@ -653,7 +653,7 @@ import Navbar from "../../components/Navbar.astro";
       </table>
     </div>
 
-    <h2 id="changing-vs-removing">Changing vs removing &mdash; when each makes sense</h2>
+    <h2 id="changing-vs-removing">#8. Changing vs removing &mdash; when each makes sense</h2>
 
     <p>Sometimes you don't want to remove the Author field entirely &mdash; you want to change it. A law firm that co-authors a document might want the firm name in the Author field rather than an individual's name. A consultant working under a company brand might want the company name rather than their personal name.</p>
 
@@ -671,7 +671,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>The privacy consideration here: a company name in the Author field is usually not personal data under GDPR (because it doesn't identify a natural person). A full personal name is. Replacing your name with your organisation's name eliminates the personal data exposure while preserving document attribution if needed.</p>
 
-    <h2 id="gdpr-and-author">Why the Author field is a GDPR issue</h2>
+    <h2 id="gdpr-and-author">#9. Why the Author field is a GDPR issue</h2>
 
     <p>For UK and EU organisations, this isn't just professional hygiene. The Author field carries your employee's full name. That's personal data under <a href="https://gdpr-info.eu/art-4-gdpr/" target="_blank" rel="noopener">GDPR Article 4(1)</a>.</p>
 
@@ -679,7 +679,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>The ICO's guidance on data minimisation under UK GDPR is explicit: personal data shared externally must be limited to what is necessary for the purpose. An Author field containing a name that serves no purpose for the recipient fails that test. See our full analysis in <a href="/blog/gdpr-pdf-metadata">GDPR and PDF metadata</a> and the <a href="/blog/uk-gdpr-vs-eu-gdpr-document-metadata">UK GDPR vs EU GDPR comparison</a> for post-Brexit context.</p>
 
-    <h2 id="verification-checklist">Verification checklist</h2>
+    <h2 id="verification-checklist">#10. Verification checklist</h2>
 
     <div class="checklist-widget">
       <div class="checklist-header">
@@ -739,7 +739,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <!-- FAQ -->
     <div class="faq-section">
-      <h2 class="faq-section-title">Frequently asked</h2>
+      <h2 class="faq-section-title">#11. Frequently asked</h2>
 
       <div class="faq-item" onclick="toggleFaq(this)">
         <button class="faq-question">How do I remove the author name from a PDF?
