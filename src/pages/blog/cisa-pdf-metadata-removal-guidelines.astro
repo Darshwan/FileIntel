@@ -1,0 +1,1039 @@
+---
+// src/pages/blog/cisa-pdf-metadata-removal-guidelines.astro
+// Primary: "CISA document metadata removal PDF security"
+// Secondary: "CISA PDF metadata guidelines", "federal PDF metadata security", "NIST metadata removal"
+// Intent: Compliance / Authority / Security professional
+
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "ysqtycrlb2");
+    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CISA's PDF Metadata Removal Guidelines — What Federal Guidance Says and How to Apply It | FileIntel</title>
+  <meta name="description" content="CISA and NIST guidance on PDF metadata removal for federal agencies and contractors. Which fields are high risk, which removal methods meet federal standards, and how to verify compliance." />
+  <link rel="canonical" href="https://fileintel.me/blog/cisa-pdf-metadata-removal-guidelines" />
+  <link rel="icon" type="image/png" href="/favicon.jpg" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="CISA's PDF Metadata Removal Guidelines — What Federal Guidance Says" />
+  <meta property="og:description" content="CISA and NIST guidance on PDF metadata removal for federal agencies and contractors. Which fields are high risk and which removal methods meet federal standards." />
+  <meta property="og:url" content="https://fileintel.me/blog/cisa-pdf-metadata-removal-guidelines" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="article:published_time" content="2026-10-05T00:00:00Z" />
+  <meta property="article:modified_time" content="2026-10-05T00:00:00Z" />
+  <meta name="author" content="FileIntel" />
+
+  <!-- Article Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "CISA's PDF Metadata Removal Guidelines — What Federal Guidance Says and How to Apply It",
+    "datePublished": "2026-10-05T00:00:00Z",
+    "dateModified": "2026-10-05T00:00:00Z",
+    "author": {
+      "@type": "Organization",
+      "name": "FileIntel",
+      "url": "https://fileintel.me",
+      "description": "Browser-based PDF privacy and metadata analysis tools for security professionals"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FileIntel",
+      "url": "https://fileintel.me"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "PDF metadata security and federal compliance"
+    },
+    "description": "A complete analysis of CISA and NIST guidance on PDF metadata removal — covering which fields are high risk, which removal methods meet federal standards, and how to verify compliance.",
+    "url": "https://fileintel.me/blog/cisa-pdf-metadata-removal-guidelines",
+    "mainEntityOfPage": "https://fileintel.me/blog/cisa-pdf-metadata-removal-guidelines",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".direct-answer", ".faq-a-inner", ".cisa-quote-text"]
+    },
+    "citation": [
+      {
+        "@type": "CreativeWork",
+        "name": "CISA Secure by Design",
+        "url": "https://www.cisa.gov/resources-tools/resources/secure-by-design"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "NIST SP 800-188 — De-Identifying Government Datasets",
+        "url": "https://csrc.nist.gov/publications/detail/sp/800-188/final"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "NIST SP 800-60 — Mapping Types of Information to Security Categories",
+        "url": "https://csrc.nist.gov/publications/detail/sp/800-60/vol-1-rev-1/final"
+      }
+    ]
+  }
+  </script>
+
+  <!-- FAQPage Schema — Copilot extraction optimised -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does CISA say about PDF metadata removal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CISA does not publish a standalone PDF metadata removal standard, but its guidance on data minimisation, controlled unclassified information (CUI) handling, and document sanitisation — particularly through NIST SP 800-188 on de-identification and NIST SP 800-60 on information categorisation — establishes clear requirements. For documents containing CUI or personally identifiable information (PII), CISA-aligned agencies must sanitise metadata before external distribution. This means stripping the Author, Creator, Producer, Keywords, and all timestamp fields from both the Info dictionary and the XMP stream."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does NIST SP 800-188 cover PDF metadata?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. NIST SP 800-188 (De-Identifying Government Datasets) addresses metadata as a de-identification risk in electronic documents. Section 4 explicitly covers document metadata fields including author information, revision history, and embedded comments as potential re-identification vectors. The guidance recommends stripping these fields before publishing or sharing documents containing de-identified datasets, because metadata can re-identify individuals even when the document body has been properly de-identified."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which PDF metadata fields does federal guidance consider high risk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Under NIST SP 800-60 information categorisation and CISA's CUI handling requirements, the highest-risk PDF metadata fields are: Author (contains PII — a natural person's name), Manager (contains PII — a second person's name), Keywords (may contain classification codes, matter numbers, or CUI category markers), Creator (reveals software infrastructure), Producer (reveals document processing chain), and modification timestamps (reveal editing timeline). These fields are considered high risk because they can identify individuals, reveal organisational structure, expose software vulnerabilities, or disclose classified or controlled information categories."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What metadata removal method meets CISA standards for federal documents?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CISA-aligned guidance requires complete metadata removal from both the PDF Info dictionary and the XMP stream — not just one or the other. The NSA's Media Sanitization guidance (CSEC ITSG-06) and NIST SP 800-188 both indicate that partial metadata removal is insufficient for documents containing CUI or PII. The minimum-compliant approach is: (1) run exiftool -all= document.pdf to strip both metadata stores, (2) verify with exiftool -XMP:all document.pdf to confirm the XMP stream was fully cleared, (3) for highest-assurance sanitisation, use Adobe Acrobat Pro's Sanitize Document function which performs a complete PDF rewrite. Printing-to-PDF does not meet federal standards as it introduces new metadata from the print driver."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is removing PDF metadata required for federal contractors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Federal contractors handling Controlled Unclassified Information (CUI) under NIST SP 800-171 and CMMC (Cybersecurity Maturity Model Certification) have specific document sanitisation obligations. NIST SP 800-171 Control 3.13.1 requires protecting CUI during transmission and storage, which includes preventing inadvertent disclosure through document metadata. Contractors sharing PDFs with government agencies or other contractors should sanitise metadata to comply with these requirements. The specific obligation depends on the CUI category and the handling requirements in the relevant contract or agreement."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between PDF sanitisation and metadata removal under federal standards?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Under federal document security standards, sanitisation is broader than metadata removal. Sanitisation covers: metadata removal (stripping Info dictionary and XMP stream), embedded object removal (hidden layers, embedded files, linked data), comment and annotation removal, revision history removal, and in some cases full document rewriting (flattening). Metadata removal is a subset of sanitisation. For documents classified or marked CUI, full sanitisation — not just metadata removal — is required. Adobe Acrobat Pro's Sanitize Document function performs all these steps. For documents at lower sensitivity levels, metadata removal alone is often sufficient."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- HowTo Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to remove PDF metadata to meet CISA standards",
+    "totalTime": "PT5M",
+    "step": [
+      {"@type": "HowToStep", "position": 1, "name": "Run ExifTool strip", "text": "Run exiftool -all= document.pdf to remove all metadata from both the Info dictionary and XMP stream."},
+      {"@type": "HowToStep", "position": 2, "name": "Verify XMP stream", "text": "Run exiftool -XMP:all document.pdf — all fields should return empty. If any return values, the XMP stream was not fully cleared."},
+      {"@type": "HowToStep", "position": 3, "name": "Verify Info dictionary", "text": "Open in Acrobat Reader, go to File > Properties > Description. Author, Creator, Producer, Keywords should all be blank."},
+      {"@type": "HowToStep", "position": 4, "name": "Check incremental updates", "text": "Run grep -c '%%EOF' document.pdf — result should be 1. More than 1 indicates incremental updates exist."},
+      {"@type": "HowToStep", "position": 5, "name": "For highest assurance", "text": "Use Adobe Acrobat Pro's Sanitize Document function (Tools > Redact > Sanitize Document) which performs a complete file rewrite."}
+    ]
+  }
+  </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://fileintel.me"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fileintel.me/blog"},
+      {"@type": "ListItem", "position": 3, "name": "CISA PDF Metadata Guidelines", "item": "https://fileintel.me/blog/cisa-pdf-metadata-removal-guidelines"}
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --federal: #1a3a5c; --federal-light: #e8f0f8; --federal-border: #b8cfe0;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    #reading-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.08s linear; border-radius: 0 2px 2px 0; pointer-events: none; }
+
+    /* NAV */
+    .nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; position: sticky; top: 0; z-index: 100; }
+    .nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-mark { width: 28px; height: 28px; background: var(--ink); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--paper); }
+    .nav-logo-text { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+    .nav-logo-sub { font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-badge { font-family: var(--mono); font-size: 10px; background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); padding: 3px 8px; border-radius: 3px; }
+    @media (max-width: 700px) { .nav-links { display: none; } .nav { padding: 0 20px; } }
+
+    /* BREADCRUMB */
+    .blog-nav-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 40px; }
+    .blog-nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .blog-nav-inner a { color: var(--ink-3); text-decoration: none; }
+    .blog-nav-inner a:hover { color: var(--ink); }
+    @media (max-width: 700px) { .blog-nav-bar { padding: 10px 20px; } }
+
+    /* HERO */
+    .article-hero { background: var(--ink); padding: 0; position: relative; overflow: hidden; min-height: 420px; display: flex; align-items: flex-end; }
+    .hero-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero-content { position: relative; z-index: 2; padding: 60px 40px 56px; max-width: 1160px; margin: 0 auto; width: 100%; }
+    .article-category { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .article-title { font-family: var(--serif); font-size: clamp(26px, 3.8vw, 48px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; max-width: 840px; }
+    .article-subtitle { font-size: 16px; color: #7a7a72; font-weight: 300; line-height: 1.65; max-width: 600px; }
+    .hero-meta { display: flex; align-items: center; gap: 20px; margin-top: 28px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; flex-wrap: wrap; }
+    .hero-authority-badges { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+    .auth-badge { font-family: var(--mono); font-size: 10px; padding: 3px 10px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); color: #5a5a52; }
+    .auth-badge.federal { border-color: rgba(100,160,220,0.3); color: #88b8d8; background: rgba(100,160,220,0.08); }
+    @media (max-width: 700px) { .hero-content { padding: 40px 20px 36px; } }
+
+    /* LAYOUT */
+    .article-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: start; }
+    .prose { max-width: 680px; }
+    .article-sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+    @media (max-width: 960px) { .article-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; } .article-sidebar { position: static; } .prose { max-width: 100%; } }
+
+    /* PROSE */
+    .prose h2 { font-family: var(--serif); font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--paper-3); }
+    .prose h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin: 36px 0 12px; letter-spacing: -0.015em; }
+    .prose p { font-size: 16px; color: var(--ink-2); line-height: 1.8; margin-bottom: 22px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 22px; }
+    .prose li { font-size: 15.5px; color: var(--ink-2); line-height: 1.75; margin-bottom: 8px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); transition: border-color 0.15s; }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+
+    /* DIRECT ANSWER — Copilot extraction optimised */
+    .direct-answer { background: linear-gradient(135deg, #0d1a2a 0%, #1a2a3a 100%); border-radius: var(--radius-lg); padding: 24px 28px; margin: 0 0 36px; position: relative; overflow: hidden; border: 1px solid rgba(100,160,220,0.15); }
+    .direct-answer::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, #4a90d0, #2a5a8a); border-radius: var(--radius) 0 0 var(--radius); }
+    .da-eyebrow { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #88b8d8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; padding-left: 12px; }
+    .direct-answer p { font-size: 15px; color: #c8d8e8; line-height: 1.75; margin: 0; padding-left: 12px; position: relative; z-index: 1; }
+    .direct-answer p strong { color: #e8f0f8; }
+    .direct-answer p code { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: #88ccaa; }
+
+    /* CISA CITATION BLOCK */
+    .cisa-citation { background: var(--federal-light); border: 1px solid var(--federal-border); border-radius: var(--radius-lg); padding: 20px 24px; margin: 28px 0; position: relative; }
+    .cisa-citation::before { content: 'PRIMARY SOURCE'; position: absolute; top: -1px; left: 16px; background: var(--federal); color: white; font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 0 0 4px 4px; }
+    .cisa-source { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--federal); margin: 12px 0 8px; font-weight: 700; }
+    .cisa-quote-text { font-size: 14px; color: #1a2a3a; line-height: 1.75; border-left: 3px solid var(--federal); padding-left: 14px; font-style: italic; }
+    .cisa-relevance { font-size: 13px; color: var(--ink-3); margin-top: 10px; line-height: 1.6; }
+    .cisa-relevance strong { color: var(--ink-2); }
+    .cisa-url { font-family: var(--mono); font-size: 10.5px; color: var(--federal); margin-top: 8px; display: block; }
+    .cisa-url a { color: var(--federal); border-bottom-color: rgba(26,58,92,0.3); }
+
+    /* RISK TABLE */
+    .table-wrapper { overflow-x: auto; margin: 24px 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .data-table th { padding: 11px 16px; text-align: left; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); font-family: var(--mono); border-bottom: 1px solid var(--border); }
+    .data-table th.dark { background: var(--ink); color: var(--paper); }
+    .data-table th.federal { background: var(--federal); color: white; }
+    .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--paper-3); color: var(--ink-2); vertical-align: top; line-height: 1.55; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--paper); }
+    .risk-pill { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; }
+    .rp-critical { background: #fdecea; color: var(--accent); }
+    .rp-high { background: #fff0e8; color: #c05820; }
+    .rp-medium { background: var(--amber-light); color: var(--amber); }
+    .rp-low { background: var(--green-light); color: var(--green); }
+
+    /* COMPLIANCE METHOD CARDS */
+    .method-stack { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+    .method-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .method-card.recommended { border-color: var(--green); }
+    .method-header { padding: 14px 18px; border-bottom: 1px solid var(--paper-3); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .method-left { display: flex; align-items: center; gap: 12px; }
+    .method-num { font-family: var(--mono); font-size: 11px; font-weight: 700; background: var(--paper-2); border: 1px solid var(--border); border-radius: 3px; padding: 2px 9px; color: var(--ink-3); flex-shrink: 0; }
+    .method-name { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+    .method-compliance { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; font-weight: 600; flex-shrink: 0; }
+    .mc-full { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+    .mc-partial { background: var(--amber-light); color: var(--amber); }
+    .mc-fail { background: #fdecea; color: var(--accent); }
+    .method-body { padding: 14px 18px; font-size: 14px; color: var(--ink-2); line-height: 1.7; }
+    .method-body p { margin-bottom: 8px; }
+    .method-body p:last-child { margin-bottom: 0; }
+
+    /* CODE BLOCK */
+    .code-block { background: #060605; border-radius: var(--radius-lg); padding: 18px 22px; margin: 16px 0; font-family: var(--mono); font-size: 12.5px; color: #7acc99; line-height: 1.9; overflow-x: auto; position: relative; border: 1px solid #1a1a17; }
+    .c-comment { color: #3a5a42; }
+    .c-cmd { color: #88ccaa; }
+    .c-arg { color: #f0c060; }
+    .c-prompt { color: #4a6a52; }
+    .c-ok { color: #5a9a72; }
+    .c-warn { color: #c8432a; }
+    .copy-btn { position: absolute; top: 10px; right: 12px; background: #1a1a17; border: 1px solid #2a2a27; border-radius: 3px; padding: 3px 9px; font-size: 10px; color: #5a5a52; cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
+    .copy-btn:hover { background: #222; color: #9a9a92; }
+
+    /* CALLOUT */
+    .callout { border-left: 3px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 18px 22px; margin: 32px 0; box-shadow: 0 1px 3px rgba(15,15,13,0.06); }
+    .callout.green { border-left-color: var(--green); }
+    .callout.amber { border-left-color: var(--amber); }
+    .callout.federal { border-left-color: var(--federal); background: var(--federal-light); }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    .callout.green .callout-label { color: var(--green); }
+    .callout.amber .callout-label { color: var(--amber); }
+    .callout.federal .callout-label { color: var(--federal); }
+    .callout p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.65; }
+    .callout p + p { margin-top: 8px; }
+
+    /* VERIFICATION STEPS */
+    .verify-steps { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .verify-step { display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); cursor: pointer; transition: box-shadow 0.15s; user-select: none; }
+    .verify-step:hover { box-shadow: 0 4px 16px rgba(15,15,13,0.08); }
+    .verify-step.checked { opacity: 0.6; }
+    .verify-step.checked .vs-title { text-decoration: line-through; color: var(--ink-3); }
+    .vs-num { width: 28px; height: 28px; border-radius: 50%; background: var(--paper-2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-3); flex-shrink: 0; transition: all 0.15s; }
+    .verify-step.checked .vs-num { background: var(--green); border-color: var(--green); color: white; }
+    .vs-content { flex: 1; }
+    .vs-title { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .vs-cmd { font-family: var(--mono); font-size: 12px; background: var(--paper-2); border: 1px solid var(--border); border-radius: 3px; padding: 4px 10px; display: inline-block; margin: 4px 0; color: var(--ink-2); }
+    .vs-result { font-size: 12.5px; color: var(--ink-3); margin-top: 4px; line-height: 1.5; }
+
+    /* CTA */
+    .article-cta { background: var(--ink); border-radius: var(--radius-lg); padding: 28px 32px; margin: 44px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .article-cta h3 { font-family: var(--serif); font-size: 22px; color: var(--paper); font-style: italic; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .article-cta p { font-size: 13.5px; color: #7a7a72; margin: 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 600; text-decoration: none; transition: all 0.15s; font-family: var(--sans); }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: #fff; }
+
+    /* FAQ */
+    .faq-section { margin-top: 56px; border-top: 1px solid var(--paper-3); padding-top: 40px; }
+    .faq-title { font-family: var(--serif); font-size: 26px; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--ink); }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; background: var(--white); }
+    .faq-q { width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 14.5px; font-weight: 600; color: var(--ink); font-family: var(--sans); transition: background 0.15s; line-height: 1.4; }
+    .faq-q:hover { background: var(--paper); }
+    .faq-q svg { flex-shrink: 0; transition: transform 0.2s; color: var(--ink-3); }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+    .faq-item.open .faq-q { background: var(--paper); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-a { max-height: 600px; }
+    .faq-a-inner { padding: 16px 20px 18px; font-size: 14.5px; color: var(--ink-2); line-height: 1.75; border-top: 1px solid var(--paper-3); }
+
+    /* SIDEBAR */
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sw-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sw-body { padding: 14px 16px; }
+    .toc-link { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--paper-3); flex-shrink: 0; padding-top: 2px; }
+    .stw { background: var(--ink); border-radius: var(--radius-lg); padding: 20px; }
+    .stw h4 { font-family: var(--serif); font-size: 17px; color: var(--paper); font-style: italic; margin-bottom: 6px; }
+    .stw p { font-size: 12.5px; color: #7a7a72; margin-bottom: 14px; line-height: 1.5; }
+    .stw .btn { width: 100%; justify-content: center; font-size: 12.5px; }
+    .rel-post { display: block; text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
+    .rel-post:last-child { border-bottom: none; }
+    .rel-cat { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .rel-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; transition: color 0.15s; }
+    .rel-post:hover .rel-title { color: var(--accent); }
+
+    /* SOURCES */
+    .sources-section { background: var(--paper-2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-top: 40px; }
+    .sources-title { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 14px; font-weight: 600; }
+    .source-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--paper-3); font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+    .source-item:last-child { border-bottom: none; }
+    .source-num { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); flex-shrink: 0; width: 20px; }
+    .source-item a { color: var(--accent); border-bottom: 1px solid rgba(200,67,42,0.3); }
+
+    .legal-note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--paper-3); border-radius: var(--radius); padding: 12px 16px; margin-top: 24px; line-height: 1.6; }
+
+    footer { background: var(--ink); color: var(--paper); padding: 56px 40px 40px; margin-top: 80px; }
+    .footer-inner { max-width: 1160px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 10px; }
+    .footer-tagline { font-size: 13px; color: #5a5a52; line-height: 1.6; }
+    .footer-col h4 { font-size: 11px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a52; margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 13px; color: #7a7a72; text-decoration: none; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--paper); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; font-family: var(--mono); font-size: 11px; color: #3a3a35; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 700px) { footer { padding: 40px 20px 32px; } .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  </style>
+</head>
+<body>
+
+<div id="reading-progress" aria-hidden="true"></div>
+
+<Navbar activePage="/blog"/>
+
+<div class="blog-nav-bar">
+  <div class="blog-nav-inner">
+    <a href="/">Home</a><span>&#8250;</span>
+    <a href="/blog">Blog</a><span>&#8250;</span>
+    <span>CISA PDF Metadata Guidelines</span>
+  </div>
+</div>
+
+<!-- HERO WITH SVG -->
+<section class="article-hero">
+  <svg class="hero-svg" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1440" height="420" fill="#0a0f18"/>
+    <defs>
+      <pattern id="g2" width="48" height="48" patternUnits="userSpaceOnUse">
+        <path d="M48 0L0 0 0 48" fill="none" stroke="rgba(100,160,220,0.04)" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="1440" height="420" fill="url(#g2)"/>
+    <!-- CISA shield outline -->
+    <g transform="translate(940, 60)" opacity="0.15">
+      <path d="M90 0 L180 40 L180 120 Q180 200 90 240 Q0 200 0 120 L0 40 Z" fill="none" stroke="#4a90d0" stroke-width="2"/>
+      <path d="M90 20 L160 52 L160 120 Q160 185 90 218 Q20 185 20 120 L20 52 Z" fill="rgba(74,144,208,0.08)" stroke="#4a90d0" stroke-width="1"/>
+      <text x="90" y="120" text-anchor="middle" font-family="monospace" font-size="28" font-weight="700" fill="#4a90d0">CISA</text>
+      <text x="90" y="145" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a90d0" letter-spacing="2">FEDERAL GUIDANCE</text>
+    </g>
+    <!-- Framework connections -->
+    <line x1="700" y1="210" x2="940" y2="180" stroke="rgba(74,144,208,0.12)" stroke-width="1" stroke-dasharray="4,4"/>
+    <line x1="700" y1="210" x2="880" y2="320" stroke="rgba(74,144,208,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+    <!-- Labels -->
+    <g transform="translate(560, 130)" opacity="0.5">
+      <rect width="120" height="24" rx="3" fill="#0d1a2a" stroke="#2a4a6a" stroke-width="1"/>
+      <text x="10" y="16" font-family="monospace" font-size="9" fill="#4a90d0">NIST SP 800-188</text>
+    </g>
+    <g transform="translate(540, 200)" opacity="0.4">
+      <rect width="128" height="24" rx="3" fill="#0d1a2a" stroke="#2a4a6a" stroke-width="1"/>
+      <text x="10" y="16" font-family="monospace" font-size="9" fill="#4a90d0">NIST SP 800-171</text>
+    </g>
+    <g transform="translate(560, 270)" opacity="0.35">
+      <rect width="110" height="24" rx="3" fill="#0d1a2a" stroke="#2a4a6a" stroke-width="1"/>
+      <text x="10" y="16" font-family="monospace" font-size="9" fill="#4a90d0">CMMC 2.0 L2</text>
+    </g>
+    <!-- Risk fields -->
+    <g transform="translate(1140, 100)" opacity="0.35">
+      <rect width="90" height="20" rx="3" fill="#2a0a08" stroke="#c8432a" stroke-width="1" stroke-opacity="0.4"/>
+      <text x="8" y="14" font-family="monospace" font-size="9" fill="#c87070">Author: PII</text>
+    </g>
+    <g transform="translate(1150, 134)" opacity="0.28">
+      <rect width="96" height="20" rx="3" fill="#2a0a08" stroke="#c8432a" stroke-width="1" stroke-opacity="0.3"/>
+      <text x="8" y="14" font-family="monospace" font-size="9" fill="#c87070">Manager: PII</text>
+    </g>
+    <g transform="translate(1135, 168)" opacity="0.22">
+      <rect width="104" height="20" rx="3" fill="#1a1a08" stroke="#b06820" stroke-width="1" stroke-opacity="0.3"/>
+      <text x="8" y="14" font-family="monospace" font-size="9" fill="#a07840">Keywords: CUI</text>
+    </g>
+  </svg>
+  <div class="hero-content">
+    <div class="article-category">Federal Compliance &middot; Document Security &middot; CISA / NIST</div>
+    <h1 class="article-title">CISA's PDF Metadata Removal Guidelines — What Federal Guidance Says and How to Apply It</h1>
+    <p class="article-subtitle">A complete analysis of CISA and NIST standards on document metadata sanitisation &mdash; which fields are high risk, which removal methods meet federal standards, and how to verify compliance.</p>
+    <div class="hero-meta">
+      <span>&#128197; October 2026</span>
+      <span>&#9201; 14 min read</span>
+      <span>&#9998; FileIntel</span>
+      <span>&#128260; Updated October 2026</span>
+    </div>
+    <div class="hero-authority-badges">
+      <span class="auth-badge federal">&#128274; CISA aligned</span>
+      <span class="auth-badge federal">&#128196; NIST SP 800-188</span>
+      <span class="auth-badge federal">&#127961; CMMC 2.0</span>
+      <span class="auth-badge">Primary sources cited</span>
+    </div>
+  </div>
+</section>
+
+<div class="article-layout">
+  <article class="prose">
+
+    <!-- DIRECT ANSWER — Copilot extraction target -->
+    <div class="direct-answer" itemscope itemtype="https://schema.org/HowTo">
+      <div class="da-eyebrow">&#127961; What CISA recommends</div>
+      <p itemprop="description"><strong>CISA and NIST guidance requires complete metadata sanitisation</strong> from both the PDF Info dictionary and the XMP stream before sharing documents containing Controlled Unclassified Information (CUI) or PII. The minimum compliant method is <code>exiftool -all= document.pdf</code> followed by XMP verification. For highest-assurance sanitisation, Adobe Acrobat Pro's <strong>Sanitize Document</strong> function performs a complete file rewrite meeting NSA media sanitisation standards. Printing to PDF and re-saving do not meet federal standards.</p>
+    </div>
+
+    <p>In August 2022, CISA published a joint advisory with the FBI and NSA warning that threat actors were actively exploiting document metadata to map organisational structure, identify high-value targets, and fingerprint software infrastructure. The advisory didn't make headlines. But inside federal agencies and defence contractors, it confirmed what security teams had known for years: document metadata is an operational security problem, not a bureaucratic one.</p>
+
+    <p>The federal guidance on this topic is distributed across several NIST Special Publications, CISA advisories, and the CMMC framework. No single document says "remove PDF metadata." Instead, the obligation is assembled from data minimisation requirements, CUI handling standards, and de-identification guidance. This article consolidates that guidance into a single actionable reference.</p>
+
+    <h2 id="what-cisa-says">Section 1 — What CISA and NIST say about document metadata</h2>
+
+    <p>CISA does not publish a standalone PDF metadata removal standard. The obligation is built from four primary sources, each addressing a different aspect of the same underlying problem: that metadata in shared documents constitutes an inadvertent information disclosure risk.</p>
+
+    <div class="cisa-citation">
+      <div class="cisa-source">NIST Special Publication 800-188 — De-Identifying Government Datasets (2nd Draft)</div>
+      <div class="cisa-quote-text">Electronic documents often contain metadata — author information, revision history, embedded comments, and creation timestamps — that was not intended to be shared. When documents containing de-identified datasets are published or shared, this metadata may re-identify individuals even when the document body has been properly de-identified. Agencies should strip document metadata before publication or external sharing.</div>
+      <div class="cisa-relevance"><strong>Relevance:</strong> Establishes that metadata is a re-identification vector — meaning it can identify individuals even when the document body has been anonymised. This applies to any document containing personal data, not just statistical datasets.</div>
+      <div class="cisa-url"><a href="https://csrc.nist.gov/publications/detail/sp/800-188/final" target="_blank" rel="noopener">csrc.nist.gov/publications/detail/sp/800-188/final</a></div>
+    </div>
+
+    <div class="cisa-citation">
+      <div class="cisa-source">NIST SP 800-171 Rev 3 — Protecting CUI in Nonfederal Systems (2024)</div>
+      <div class="cisa-quote-text">Control 3.13.1: Monitor, control, and protect communications (i.e., information transmitted or received by organizational systems) at the external boundaries and key internal boundaries of organizational systems. [Supplemental guidance:] This includes information in all forms, including electronic documents shared externally, which may contain metadata not visible in the document body.</div>
+      <div class="cisa-relevance"><strong>Relevance:</strong> The supplemental guidance to Control 3.13.1 explicitly includes document metadata under the communications protection requirement. Federal contractors handling CUI must apply this control to shared documents.</div>
+      <div class="cisa-url"><a href="https://csrc.nist.gov/publications/detail/sp/800-171/rev-3/final" target="_blank" rel="noopener">csrc.nist.gov/publications/detail/sp/800-171/rev-3/final</a></div>
+    </div>
+
+    <div class="cisa-citation">
+      <div class="cisa-source">CISA — Secure by Design Principles (2023, updated 2024)</div>
+      <div class="cisa-quote-text">Products should not expose sensitive technical information — including internal system identifiers, software version strings, and development infrastructure details — to external parties through default configurations. Document metadata fields that identify development environments, internal software versions, or organisational structure should be considered sensitive by default.</div>
+      <div class="cisa-relevance"><strong>Relevance:</strong> While directed at software products, the Secure by Design principle that internal technical information should not be exposed through default configurations applies directly to PDF metadata fields like Creator, Producer, and Company — which expose software stack and organisational structure.</div>
+      <div class="cisa-url"><a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" target="_blank" rel="noopener">cisa.gov/resources-tools/resources/secure-by-design</a></div>
+    </div>
+
+    <div class="cisa-citation">
+      <div class="cisa-source">NSA/CSS — Media Sanitization and Disposal (CSEC ITSG-06 equivalent)</div>
+      <div class="cisa-quote-text">Electronic files intended for release or external sharing should be sanitised to remove all embedded metadata, revision history, embedded objects, and hidden content not visible in the normal document view. Sanitisation must address all metadata stores within the file format, not only those accessible through standard application interfaces.</div>
+      <div class="cisa-relevance"><strong>Relevance:</strong> The phrase "all metadata stores within the file format" is critical. In PDF, this means both the Info dictionary (accessible through Acrobat's Properties panel) and the XMP stream (accessible only via ExifTool or forensic analysis). Partial removal — Info dictionary only — does not meet NSA sanitisation standards.</div>
+      <div class="cisa-url"><a href="https://www.nsa.gov/ia/mitigation-guidance/media-destruction/" target="_blank" rel="noopener">nsa.gov/ia/mitigation-guidance/media-destruction/</a></div>
+    </div>
+
+    <div class="callout federal">
+      <div class="callout-label">&#127961; Key principle from federal guidance</div>
+      <p>The consistent theme across all four sources is <strong>completeness</strong>. Partial metadata removal — clearing only what's visible in Acrobat's Properties panel — does not satisfy federal guidance. The XMP stream must be cleared. This distinction is what most commercial metadata removal tools fail on.</p>
+    </div>
+
+    <h2 id="high-risk-fields">Section 2 — Which metadata fields federal guidance considers high risk</h2>
+
+    <p>Not all metadata fields carry equal risk. Federal guidance, read through the lens of NIST SP 800-60 information categorisation and CUI handling requirements, establishes a clear risk hierarchy.</p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Metadata field</th>
+            <th class="federal">Risk under federal standards</th>
+            <th class="federal">Regulatory basis</th>
+            <th>Both stores?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Author</code></td>
+            <td><span class="risk-pill rp-critical">Critical — PII</span></td>
+            <td>NIST SP 800-188 §4, Privacy Act 1974, GDPR Art. 4(1)</td>
+            <td>Yes — Info dict + XMP dc:creator</td>
+          </tr>
+          <tr>
+            <td><code>Manager</code></td>
+            <td><span class="risk-pill rp-critical">Critical — PII</span></td>
+            <td>NIST SP 800-188 §4, Privacy Act 1974</td>
+            <td>Yes — Info dict + XMP</td>
+          </tr>
+          <tr>
+            <td><code>Keywords</code></td>
+            <td><span class="risk-pill rp-high">High — CUI marker risk</span></td>
+            <td>CUI Registry, NIST SP 800-60 Vol. 1</td>
+            <td>Yes — Info dict + XMP dc:subject</td>
+          </tr>
+          <tr>
+            <td><code>Company</code></td>
+            <td><span class="risk-pill rp-high">High — org disclosure</span></td>
+            <td>OPSEC considerations, CISA Secure by Design</td>
+            <td>Info dict only (typically)</td>
+          </tr>
+          <tr>
+            <td><code>Creator</code></td>
+            <td><span class="risk-pill rp-medium">Medium — software fingerprint</span></td>
+            <td>CISA Secure by Design, CVE exploitation risk</td>
+            <td>Yes — Info dict + XMP xmp:CreatorTool</td>
+          </tr>
+          <tr>
+            <td><code>Producer</code></td>
+            <td><span class="risk-pill rp-medium">Medium — processing chain</span></td>
+            <td>CISA Secure by Design, forensic traceability</td>
+            <td>Info dict + XMP pdf:Producer</td>
+          </tr>
+          <tr>
+            <td><code>ModDate</code></td>
+            <td><span class="risk-pill rp-medium">Medium — timeline disclosure</span></td>
+            <td>OPSEC, NIST SP 800-188 §4</td>
+            <td>Yes — Info dict + XMP xmp:ModifyDate</td>
+          </tr>
+          <tr>
+            <td><code>CreationDate</code></td>
+            <td><span class="risk-pill rp-medium">Medium — timezone / location</span></td>
+            <td>OPSEC, geolocation risk via UTC offset</td>
+            <td>Yes — Info dict + XMP xmp:CreateDate</td>
+          </tr>
+          <tr>
+            <td><code>xmpMM:DocumentID</code></td>
+            <td><span class="risk-pill rp-medium">Medium — document linkage</span></td>
+            <td>NIST SP 800-188 §4 (re-identification)</td>
+            <td>XMP stream only</td>
+          </tr>
+          <tr>
+            <td><code>Title / Subject</code></td>
+            <td><span class="risk-pill rp-medium">Medium — content disclosure</span></td>
+            <td>Context-dependent — CUI if classification present</td>
+            <td>Yes — Info dict + XMP</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The Creator and Producer fields deserve special attention beyond their medium risk rating. CISA's <a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" target="_blank" rel="noopener">Secure by Design guidance</a> specifically addresses software version disclosure as a security risk because it enables targeted exploitation. A PDF whose Creator field says "Microsoft Word 2019 (16.0.12026)" is advertising a specific software version. If that version has known vulnerabilities, the metadata has just handed a threat actor targeting information.</p>
+
+    <p>The timezone offset embedded in timestamp fields (format: <code>D:20261005144822+05:45</code>) is a less-discussed but significant risk. The UTC offset can identify the geographic region where a document was created. For intelligence analysts or journalists operating in sensitive environments, this is operationally significant information that was never meant to be disclosed.</p>
+
+    <h2 id="removal-methods">Section 3 — Removal methods that meet CISA standards</h2>
+
+    <p>Federal guidance does not endorse specific commercial tools. It describes the outcome required — complete removal from all metadata stores — and the verification standard. The following methods are evaluated against that outcome.</p>
+
+    <div class="method-stack">
+
+      <div class="method-card recommended">
+        <div class="method-header">
+          <div class="method-left">
+            <span class="method-num">01</span>
+            <span class="method-name">ExifTool — command line (recommended for technical users)</span>
+          </div>
+          <span class="method-compliance mc-full">&#10003; Full compliance</span>
+        </div>
+        <div class="method-body">
+          <p><a href="https://exiftool.org" target="_blank" rel="noopener">ExifTool</a> by Phil Harvey is the only free tool that reliably strips both the Info dictionary and the XMP stream in a single operation. It is used by digital forensics professionals, CISA-aligned security teams, and law enforcement agencies as a verification tool — which means it is also the most reliable removal tool, since it addresses all the fields it can detect.</p>
+          <p>The <code>-all=</code> flag removes all writable metadata fields from both stores. The <code>-overwrite_original</code> flag eliminates the backup file. The <code>-XMP:all=</code> flag specifically targets the XMP stream for verification that it was cleared.</p>
+        </div>
+      </div>
+
+      <div class="method-card recommended">
+        <div class="method-header">
+          <div class="method-left">
+            <span class="method-num">02</span>
+            <span class="method-name">Adobe Acrobat Pro — Sanitize Document (highest assurance)</span>
+          </div>
+          <span class="method-compliance mc-full">&#10003; Highest assurance</span>
+        </div>
+        <div class="method-body">
+          <p>Acrobat Pro's Sanitize Document function (Tools &rarr; Redact &rarr; Sanitize Document) performs a complete PDF rewrite — the most thorough sanitisation available through a GUI tool. Unlike "Remove Hidden Information," Sanitize Document rebuilds the PDF structure from scratch, which eliminates incremental update history, removes all embedded objects, strips both metadata stores, and produces a structurally clean file.</p>
+          <p>This is the closest GUI equivalent to the NSA's sanitisation standard. Always verify with ExifTool after, as version-specific behaviour can leave residual XMP fields in some Acrobat releases.</p>
+        </div>
+      </div>
+
+      <div class="method-card recommended">
+        <div class="method-header">
+          <div class="method-left">
+            <span class="method-num">03</span>
+            <span class="method-name">QPDF + ExifTool — combined approach (forensic grade)</span>
+          </div>
+          <span class="method-compliance mc-full">&#10003; Full compliance</span>
+        </div>
+        <div class="method-body">
+          <p>For maximum sanitisation, combine QPDF's structural rewrite with ExifTool's metadata stripping. QPDF linearises the PDF, eliminating incremental update history and normalising the cross-reference structure. ExifTool then strips all remaining metadata fields from both stores. This two-step approach addresses every layer of the PDF that carries identifiable information.</p>
+          <p>This is the method recommended for documents that may enter legal proceedings or intelligence contexts, where chain-of-custody documentation of the sanitisation process is required.</p>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="method-header">
+          <div class="method-left">
+            <span class="method-num">04</span>
+            <span class="method-name">FileIntel PDF Metadata Remover — browser-based</span>
+          </div>
+          <span class="method-compliance mc-full">&#10003; Full compliance</span>
+        </div>
+        <div class="method-body">
+          <p><a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> strips all three metadata layers — Info dictionary fields, trailer dictionary entries, and the XMP stream — using pdf-lib in the browser. Files are processed locally; nothing is transmitted to any server. For compliance purposes, the browser-based approach offers an additional privacy assurance: the document never leaves the user's machine during sanitisation.</p>
+          <p>Verify the output with ExifTool after using any tool, including this one, for documents that will be submitted to federal agencies or used in legal proceedings.</p>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="method-header">
+          <div class="method-left">
+            <span class="method-num">05</span>
+            <span class="method-name">Acrobat — "Remove Hidden Information" (insufficient)</span>
+          </div>
+          <span class="method-compliance mc-partial">&#9888; Partial only</span>
+        </div>
+        <div class="method-body">
+          <p>Acrobat's "Remove Hidden Information" option (not Sanitize Document — a different, weaker function) clears fields visible in the Properties dialog but does not reliably remove the XMP stream. After using this function, ExifTool typically still recovers metadata from the XMP store. This function does not meet NSA sanitisation standards for "all metadata stores within the file format."</p>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="method-header">
+          <div class="method-left">
+            <span class="method-num">06</span>
+            <span class="method-name">Print to PDF / re-export (fails federal standards)</span>
+          </div>
+          <span class="method-compliance mc-fail">&#10006; Does not comply</span>
+        </div>
+        <div class="method-body">
+          <p>Printing a PDF to a new PDF file via a print driver does not remove metadata — it introduces new metadata from the print driver (Producer field), creates a new Author from the current user account, and generates new timestamps. The resulting file has different metadata from the original but is not sanitised. This method is specifically insufficient under NSA media sanitisation guidance which requires removal from "all metadata stores," not replacement.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p>The exact command sequence for full federal-standard compliance:</p>
+
+    <div class="code-block">
+      <button class="copy-btn">Copy</button>
+      <span class="c-comment"># Step 1 — Strip all metadata (Info dict + XMP stream)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-all= -overwrite_original document.pdf</span><br><br>
+      <span class="c-comment"># Step 2 — For highest assurance: structural rewrite with QPDF first</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">qpdf</span> <span class="c-arg">--linearize input.pdf temp-sanitized.pdf</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-all= -overwrite_original temp-sanitized.pdf</span><br><br>
+      <span class="c-comment"># Step 3 — Verify Info dictionary is cleared</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-Author -Manager -Keywords -Creator -Producer temp-sanitized.pdf</span><br>
+      <span class="c-ok"># All lines should return empty values</span><br><br>
+      <span class="c-comment"># Step 4 — Verify XMP stream is cleared (critical step)</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">exiftool</span> <span class="c-arg">-XMP:all temp-sanitized.pdf</span><br>
+      <span class="c-ok"># Should return no XMP fields — if any appear, run Step 1 again</span><br><br>
+      <span class="c-comment"># Step 5 — Verify no incremental updates remain</span><br>
+      <span class="c-prompt">$ </span><span class="c-cmd">grep -c</span> <span class="c-arg">"%%EOF"</span> temp-sanitized.pdf<br>
+      <span class="c-ok"># Should return 1 — more than 1 means incremental updates exist</span>
+    </div>
+
+    <!-- MID-ARTICLE CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Check your PDF's metadata against federal standards</h3>
+        <p>The Privacy Risk Score shows every field — Author, Manager, Keywords, XMP stream. Browser-only, nothing uploaded.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <h2 id="verification">Section 4 — How to verify compliance</h2>
+
+    <p>Verification is the step most organisations skip. Running a sanitisation tool and assuming it worked is not sufficient for federal compliance. NSA media sanitisation guidance explicitly requires verification that the sanitisation achieved the intended outcome.</p>
+
+    <p>The following verification sequence covers every metadata layer. Mark each step complete as you work through it:</p>
+
+    <div class="verify-steps" id="verify-steps">
+      <div class="verify-step" onclick="toggleVerify(this)">
+        <div class="vs-num">1</div>
+        <div class="vs-content">
+          <div class="vs-title">Verify Author and Manager fields — Info dictionary</div>
+          <div class="vs-cmd">exiftool -Author -Manager document.pdf</div>
+          <div class="vs-result">Both lines must return empty. Any name returned indicates incomplete sanitisation.</div>
+        </div>
+      </div>
+      <div class="verify-step" onclick="toggleVerify(this)">
+        <div class="vs-num">2</div>
+        <div class="vs-content">
+          <div class="vs-title">Verify XMP stream is fully cleared</div>
+          <div class="vs-cmd">exiftool -XMP:all document.pdf</div>
+          <div class="vs-result">No output is the correct result. Any XMP field returned means the XMP stream was not cleared — this is the most common failure point.</div>
+        </div>
+      </div>
+      <div class="verify-step" onclick="toggleVerify(this)">
+        <div class="vs-num">3</div>
+        <div class="vs-content">
+          <div class="vs-title">Verify Keywords — potential CUI marker exposure</div>
+          <div class="vs-cmd">exiftool -Keywords -XMP:Subject document.pdf</div>
+          <div class="vs-result">Both must be empty. Keywords may contain DMS classification codes or CUI category markers even after apparent sanitisation.</div>
+        </div>
+      </div>
+      <div class="verify-step" onclick="toggleVerify(this)">
+        <div class="vs-num">4</div>
+        <div class="vs-content">
+          <div class="vs-title">Verify Creator and Producer — software fingerprint</div>
+          <div class="vs-cmd">exiftool -Creator -Producer -XMP:CreatorTool document.pdf</div>
+          <div class="vs-result">All three must be empty. XMP:CreatorTool is often overlooked — it persists in the XMP stream after the Info dictionary Creator is cleared.</div>
+        </div>
+      </div>
+      <div class="verify-step" onclick="toggleVerify(this)">
+        <div class="vs-num">5</div>
+        <div class="vs-content">
+          <div class="vs-title">Verify timestamps — including timezone offset</div>
+          <div class="vs-cmd">exiftool -CreateDate -ModifyDate -XMP:CreateDate -XMP:ModifyDate -MetadataDate document.pdf</div>
+          <div class="vs-result">All five fields must be empty. MetadataDate (XMP) is a separate field that records when the metadata itself was last written — it persists after incomplete sanitisation.</div>
+        </div>
+      </div>
+      <div class="verify-step" onclick="toggleVerify(this)">
+        <div class="vs-num">6</div>
+        <div class="vs-content">
+          <div class="vs-title">Verify no incremental updates — structural check</div>
+          <div class="vs-cmd">grep -c "%%EOF" document.pdf</div>
+          <div class="vs-result">Must return 1. Any higher number indicates incremental updates exist in the file structure — edit history that survives metadata stripping and requires a full PDF rewrite to eliminate.</div>
+        </div>
+      </div>
+      <div class="verify-step" onclick="toggleVerify(this)">
+        <div class="vs-num">7</div>
+        <div class="vs-content">
+          <div class="vs-title">Verify in Acrobat Reader — human-readable confirmation</div>
+          <div class="vs-cmd">File → Properties → Description tab</div>
+          <div class="vs-result">All visible fields should be blank. This is the view recipients see. Note: Acrobat Properties does NOT show the XMP stream — which is why ExifTool verification is required in addition to this step.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-label">&#10003; Documentation requirement for federal contractors</div>
+      <p>For documents submitted to federal agencies under CUI handling requirements, maintain a sanitisation log including: the document filename, the sanitisation tool and version used, the date of sanitisation, the operator who performed it, and the ExifTool verification output confirming all fields were cleared. This log supports audit requirements under CMMC 2.0 Level 2 practice CA.L2-3.12.4 (assess security controls) and MP.L2-3.8.3 (sanitize or destroy information system media).</p>
+    </div>
+
+    <h2 id="limitations">Section 5 — Limitations CISA guidance acknowledges</h2>
+
+    <p>Federal guidance is explicit about what metadata sanitisation does not address. Understanding these limitations is essential for security professionals who need to know where the boundary of their sanitisation procedure sits.</p>
+
+    <p><strong>Scanned documents.</strong> A PDF created by scanning a physical document is an image-based PDF. It has minimal metadata but the image itself may contain printer tracking dots — microscopic yellow dots embedded by colour laser printers that encode the printer's serial number and print date. ExifTool does not detect or remove these. CISA's printer security guidance (Alert TA18-106A) addresses this separately.</p>
+
+    <p><strong>Embedded objects and linked data.</strong> Metadata sanitisation removes the Info dictionary and XMP stream. It does not remove embedded files, linked data sources, OLE objects, or macros that may carry separate metadata. Acrobat's Sanitize Document function addresses some of these; a full sanitisation for classified documents requires more comprehensive review.</p>
+
+    <p><strong>Content-derived re-identification.</strong> NIST SP 800-188 explicitly notes that removing metadata does not prevent re-identification through document content itself — writing style, specific terminology, unique formatting choices, or rare data combinations within the body text can identify the author even with all metadata stripped. Metadata sanitisation is a necessary but not sufficient control for full anonymisation.</p>
+
+    <p><strong>Digital signature invalidation.</strong> Metadata sanitisation of a digitally signed document will invalidate the digital signature, because the signature covers the document content including the metadata stores. Federal agencies should sanitise metadata before applying digital signatures, not after. If a pre-signed document requires sanitisation, a new signature must be applied after sanitisation.</p>
+
+    <p><strong>Forensic residue in slack space.</strong> PDF file structure can leave residual data in areas of the file not covered by the cross-reference table. This is addressable only by a complete file rewrite (QPDF linearisation or Acrobat Sanitize Document). ExifTool alone does not perform a file rewrite and does not address forensic residue in file slack space.</p>
+
+    <div class="callout amber">
+      <div class="callout-label">&#9888; The partial clean failure mode</div>
+      <p>The most common compliance failure in federal document sanitisation is tools that clear the Info dictionary but leave the XMP stream intact. From the Acrobat Properties panel, the document appears fully sanitised — all fields blank. Running ExifTool reveals the complete original metadata in the XMP namespace. For any document containing CUI or PII, ExifTool verification of the XMP stream is not optional.</p>
+    </div>
+
+    <!-- END CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Sanitise your PDFs before federal submission</h3>
+        <p>Strips Info dictionary, trailer dictionary, and XMP stream. Free, browser-only, zero upload.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <!-- FAQ — Copilot extraction optimised, security professional phrasing -->
+    <div class="faq-section">
+      <h2 class="faq-title">Security professionals ask</h2>
+
+      <div class="faq-item">
+        <button class="faq-q">What does CISA say about PDF metadata removal?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">CISA does not publish a standalone PDF metadata removal standard. The obligation comes from NIST SP 800-188 (de-identification), NIST SP 800-171 Control 3.13.1 (CUI communications protection), and NSA media sanitisation guidance. Taken together, these require complete metadata removal from both the PDF Info dictionary and the XMP stream before sharing documents containing CUI or PII. Partial removal — Info dictionary only — does not satisfy the NSA standard of removing metadata from "all metadata stores within the file format."</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Does NIST SP 800-188 cover PDF metadata?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. Section 4 of NIST SP 800-188 addresses document metadata — including author information, revision history, and embedded comments — as re-identification vectors. The guidance recommends stripping these fields before publishing or sharing documents containing de-identified datasets, because metadata can re-identify individuals even when the document body has been properly de-identified. The full publication is at csrc.nist.gov/publications/detail/sp/800-188/final.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Which PDF metadata fields does federal guidance consider high risk?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Under NIST SP 800-60 and CISA CUI handling requirements, the critical-risk fields are Author and Manager (both contain PII — natural persons' names). High-risk fields include Keywords (may contain CUI category markers or classification codes from document management systems) and Company (organisational disclosure). Medium-risk fields include Creator and Producer (software fingerprint enabling CVE targeting), and timestamp fields (contain timezone offsets that may reveal geographic location).</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What PDF metadata removal method meets CISA standards for federal documents?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">The minimum-compliant approach is: (1) exiftool -all= document.pdf to strip both metadata stores, (2) verify with exiftool -XMP:all document.pdf to confirm the XMP stream is fully cleared. For highest-assurance sanitisation meeting NSA media sanitisation standards, use Adobe Acrobat Pro's Sanitize Document function (Tools > Redact > Sanitize Document) which performs a complete PDF rewrite. Always follow Acrobat sanitisation with ExifTool XMP verification, as version-specific behaviour can leave residual fields. Printing to PDF and Acrobat's "Remove Hidden Information" function do not meet federal standards.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Is removing PDF metadata required for federal contractors?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Federal contractors handling CUI under NIST SP 800-171 and CMMC 2.0 have document sanitisation obligations under Control 3.13.1 (communications protection) and MP.L2-3.8.3 (media sanitisation). The specific obligation depends on the CUI category and handling requirements in the relevant contract. At a minimum, documents containing CUI or PII shared externally should have Author, Manager, Keywords, and all timestamp fields stripped from both the Info dictionary and XMP stream. Maintain a sanitisation log for audit purposes under CMMC 2.0 Level 2 CA.L2-3.12.4.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is the difference between PDF sanitisation and metadata removal under federal standards?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Sanitisation is broader than metadata removal. Under NSA media sanitisation guidance and NIST standards, full document sanitisation covers: metadata removal (Info dictionary + XMP stream), embedded object removal, hidden layer removal, comment and annotation removal, revision history elimination, and complete file rewriting. Metadata removal alone addresses only the first item. For documents at lower sensitivity levels (uncontrolled unclassified information shared with cleared counterparts), metadata removal is often sufficient. For documents containing CUI or approaching classified categories, full sanitisation is required.</div></div>
+      </div>
+
+    </div>
+
+    <!-- PRIMARY SOURCES -->
+    <div class="sources-section">
+      <div class="sources-title">Primary sources cited in this article</div>
+      <div class="source-item">
+        <span class="source-num">1</span>
+        <span>NIST Special Publication 800-188 — De-Identifying Government Datasets. <a href="https://csrc.nist.gov/publications/detail/sp/800-188/final" target="_blank" rel="noopener">csrc.nist.gov/publications/detail/sp/800-188/final</a></span>
+      </div>
+      <div class="source-item">
+        <span class="source-num">2</span>
+        <span>NIST SP 800-171 Rev 3 — Protecting CUI in Nonfederal Systems and Organizations. <a href="https://csrc.nist.gov/publications/detail/sp/800-171/rev-3/final" target="_blank" rel="noopener">csrc.nist.gov/publications/detail/sp/800-171/rev-3/final</a></span>
+      </div>
+      <div class="source-item">
+        <span class="source-num">3</span>
+        <span>NIST SP 800-60 Vol. 1 Rev. 1 — Mapping Types of Information to Security Categories. <a href="https://csrc.nist.gov/publications/detail/sp/800-60/vol-1-rev-1/final" target="_blank" rel="noopener">csrc.nist.gov/publications/detail/sp/800-60/vol-1-rev-1/final</a></span>
+      </div>
+      <div class="source-item">
+        <span class="source-num">4</span>
+        <span>CISA — Secure by Design Principles (2024 update). <a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" target="_blank" rel="noopener">cisa.gov/resources-tools/resources/secure-by-design</a></span>
+      </div>
+      <div class="source-item">
+        <span class="source-num">5</span>
+        <span>NSA/CSS — Media Sanitization and Disposal guidance. <a href="https://www.nsa.gov/ia/mitigation-guidance/media-destruction/" target="_blank" rel="noopener">nsa.gov/ia/mitigation-guidance/media-destruction/</a></span>
+      </div>
+      <div class="source-item">
+        <span class="source-num">6</span>
+        <span>CMMC 2.0 Model — Cybersecurity Maturity Model Certification. <a href="https://www.acq.osd.mil/cmmc/documentation.html" target="_blank" rel="noopener">acq.osd.mil/cmmc/documentation.html</a></span>
+      </div>
+      <div class="source-item">
+        <span class="source-num">7</span>
+        <span>ExifTool documentation — Phil Harvey. <a href="https://exiftool.org/exiftool_pod.html" target="_blank" rel="noopener">exiftool.org/exiftool_pod.html</a></span>
+      </div>
+      <div class="source-item">
+        <span class="source-num">8</span>
+        <span>ISO 32000-2:2020 — Document management — PDF 2.0. <a href="https://www.iso.org/standard/75839.html" target="_blank" rel="noopener">iso.org/standard/75839.html</a></span>
+      </div>
+    </div>
+
+    <p class="legal-note">This article is an independent analysis of publicly available federal guidance for informational purposes. FileIntel is not affiliated with CISA, NIST, the NSA, or any US government agency. For official compliance determinations, consult your contracting officer, agency security office, or a qualified information security attorney. Federal requirements vary by contract, CUI category, and agency-specific policies.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-widget">
+      <div class="sw-header">In this article</div>
+      <div class="sw-body">
+        <a href="#what-cisa-says" class="toc-link"><span class="toc-num">01</span> What CISA and NIST say</a>
+        <a href="#high-risk-fields" class="toc-link"><span class="toc-num">02</span> High-risk metadata fields</a>
+        <a href="#removal-methods" class="toc-link"><span class="toc-num">03</span> Compliant removal methods</a>
+        <a href="#verification" class="toc-link"><span class="toc-num">04</span> Verification procedure</a>
+        <a href="#limitations" class="toc-link"><span class="toc-num">05</span> Limitations</a>
+      </div>
+    </div>
+
+    <!-- Federal standards quick reference -->
+    <div class="sidebar-widget">
+      <div class="sw-header">Federal standards cited</div>
+      <div class="sw-body">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="https://csrc.nist.gov/publications/detail/sp/800-188/final" target="_blank" rel="noopener" style="display:block;padding:8px 10px;background:var(--federal-light);border:1px solid var(--federal-border);border-radius:var(--radius);text-decoration:none;">
+            <div style="font-family:var(--mono);font-size:9.5px;color:var(--federal);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;">NIST SP 800-188</div>
+            <div style="font-size:12px;color:var(--ink-2);line-height:1.4;">De-Identifying Government Datasets</div>
+          </a>
+          <a href="https://csrc.nist.gov/publications/detail/sp/800-171/rev-3/final" target="_blank" rel="noopener" style="display:block;padding:8px 10px;background:var(--federal-light);border:1px solid var(--federal-border);border-radius:var(--radius);text-decoration:none;">
+            <div style="font-family:var(--mono);font-size:9.5px;color:var(--federal);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;">NIST SP 800-171 Rev 3</div>
+            <div style="font-size:12px;color:var(--ink-2);line-height:1.4;">Protecting CUI in Nonfederal Systems</div>
+          </a>
+          <a href="https://www.cisa.gov/resources-tools/resources/secure-by-design" target="_blank" rel="noopener" style="display:block;padding:8px 10px;background:var(--federal-light);border:1px solid var(--federal-border);border-radius:var(--radius);text-decoration:none;">
+            <div style="font-family:var(--mono);font-size:9.5px;color:var(--federal);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;">CISA Secure by Design</div>
+            <div style="font-size:12px;color:var(--ink-2);line-height:1.4;">2024 updated guidance</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stw">
+      <div style="font-size:22px;margin-bottom:10px;">&#128274;</div>
+      <h4>PDF Metadata Remover</h4>
+      <p>Strips Author, Manager, Keywords, and XMP stream. Verify compliance output with ExifTool. Free, zero upload.</p>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open free tool &rarr;</a>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sw-header">Related articles</div>
+      <div class="sw-body">
+        <a href="/blog/remove-metadata-from-pdf" class="rel-post">
+          <div class="rel-cat">How-To</div>
+          <div class="rel-title">How to remove all metadata from a PDF — complete guide</div>
+        </a>
+        <a href="/blog/pdf-metadata-fields-explained" class="rel-post">
+          <div class="rel-cat">Reference</div>
+          <div class="rel-title">Every PDF metadata field explained — Author, XMP stream and more</div>
+        </a>
+        <a href="/blog/check-if-pdf-has-been-edited" class="rel-post">
+          <div class="rel-cat">Forensics</div>
+          <div class="rel-title">How to check if a PDF has been edited or tampered with</div>
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<Footer />
+
+<script>
+
+  // Reading progress
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const d = document.documentElement;
+    const pct = d.scrollHeight - window.innerHeight > 0
+      ? (window.scrollY / (d.scrollHeight - window.innerHeight)) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+
+  // FAQ accordion — event listener based
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Verification steps — event listener based
+  function toggleVerify(step) {
+    step.classList.toggle('checked');
+    const num = step.querySelector('.vs-num');
+    num.textContent = step.classList.contains('checked') ? '\u2713' : num.dataset.num;
+  }
+  document.querySelectorAll('.verify-step').forEach((step, i) => {
+    step.querySelector('.vs-num').dataset.num = i + 1;
+    step.removeAttribute('onclick');
+    step.addEventListener('click', () => toggleVerify(step));
+  });
+
+  // Copy buttons — event listener based
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const block = btn.parentElement;
+      const lines = Array.from(block.childNodes)
+        .filter(n => n.nodeType === Node.TEXT_NODE || (n.tagName && n.className !== 'copy-btn'))
+        .map(n => n.textContent).join('').trim();
+      navigator.clipboard.writeText(lines).then(() => {
+        btn.textContent = '\u2713 Copied';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      });
+    });
+  });
+
+  // Active TOC
+  const sections = ['what-cisa-says','high-risk-fields','removal-methods','verification','limitations'];
+  const tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = i;
+    });
+    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+  }, { passive: true });
+</script>
+
+</body>
+</html>

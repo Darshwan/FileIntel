@@ -3,12 +3,23 @@
 // Secondary: "PDF metadata proposals", "freelance contract privacy", "PDF metadata risks", "strip PDF metadata"
 // Intent: Informational / Commercial
 
+import Footer from "../../components/Footer.astro";
 import Navbar from "../../components/Navbar.astro";
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "ysqtycrlb2");
+    </script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>
@@ -1381,7 +1392,7 @@ import Navbar from "../../components/Navbar.astro";
                     If your contract workflow involves sending and receiving
                     signed versions, consider the full chain. Every iteration of
                     the document accumulates metadata. See our guide on <a
-                        href="/blog/redaction-vs-metadata-removal"
+                        href="/blog/pdf-metadata-vs-redactor"
                         >redaction vs metadata removal</a
                     > for how these two operations interact in document exchange workflows.
                 </p>
@@ -1875,7 +1886,7 @@ import Navbar from "../../components/Navbar.astro";
                     <div class="sidebar-widget-header">Related articles</div>
                     <div class="sidebar-widget-body">
                         <a
-                            href="/blog/what-is-pdf-metadata"
+                            href="/blog/pdf-metadata-fields-explained"
                             class="related-post"
                         >
                             <div class="related-post-cat">Explainer</div>
@@ -1885,7 +1896,7 @@ import Navbar from "../../components/Navbar.astro";
                             </div>
                         </a>
                         <a
-                            href="/blog/redaction-vs-metadata-removal"
+                            href="/blog/pdf-metadata-vs-redactor"
                             class="related-post"
                         >
                             <div class="related-post-cat">Privacy</div>
@@ -1906,74 +1917,7 @@ import Navbar from "../../components/Navbar.astro";
             </aside>
         </div>
 
-        <footer>
-            <div class="footer-inner">
-                <div class="footer-top">
-                    <div>
-                        <div class="footer-logo">Fi FileIntel</div>
-                        <p class="footer-tagline">
-                            Private file tools for professionals.<br
-                            />Everything runs in your browser.
-                        </p>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Tools</h4>
-                        <ul>
-                            <li>
-                                <a href="/pdf-metadata-remover"
-                                    >PDF Metadata Remover</a>
-                            </li>
-                            <li><a href="/pdf-redactor">PDF Redactor</a></li>
-                            <li>
-                                <a href="/csv-deduplicator">CSV Deduplicator</a>
-                            </li>
-                            <li><a href="/pdf-merger">PDF Merger</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Blog</h4>
-                        <ul>
-                            <li>
-                                <a href="/blog/what-is-pdf-metadata"
-                                    >What is PDF metadata?</a>
-                            </li>
-                            <li>
-                                <a href="/blog/pdf-metadata-lawyers"
-                                    >Remove metadata guide</a>
-                            </li>
-                            <li>
-                                <a href="/blog/gdpr-pdf-metadata"
-                                    >GDPR &amp; PDF metadata</a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/blog/view-pdf-metadata-mac-windows-linux"
-                                    >View on Mac/Win/Linux</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="/privacy">Privacy Policy</a></li>
-                            <li>
-                                <a
-                                    href="https://github.com/yourusername/fileintel"
-                                    target="_blank"
-                                    rel="noopener">GitHub</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <span
-                        >&copy; <span id="footer-year"></span> FileIntel. Built with
-                        privacy by design.</span
-                    >
-                    <span>0 bytes sent to our servers</span>
-                </div>
-            </div>
-        </footer>
+        <Footer />
 
         <script>
             // Define checklist functions first (for onclick handlers)
@@ -1988,10 +1932,6 @@ import Navbar from "../../components/Navbar.astro";
                 const checkedCount = checklistContainer.querySelectorAll(".checklist-item.done").length;
                 doneCountElem.textContent = checkedCount;
             }
-
-            document.getElementById("footer-year").textContent =
-                new Date().getFullYear();
-
             // ── FAQ accordion ──
             document.querySelectorAll(".faq-question").forEach((button) => {
                 button.addEventListener("click", () => {

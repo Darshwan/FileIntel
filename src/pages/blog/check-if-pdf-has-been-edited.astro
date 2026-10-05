@@ -10,6 +10,16 @@ import Navbar from "../../components/Navbar.astro";
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "ysqtycrlb2");
+    </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to Check if a PDF Has Been Edited or Tampered With (2026) | FileIntel</title>
@@ -652,7 +662,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p>Courts have excluded documents in proceedings where PDF tampering was demonstrated &mdash; not because PDFs are inherently unreliable, but because specific documents showed specific evidence of post-creation modification that the submitting party could not explain.</p>
 
-    <p>For legal professionals, this means two things. First, documents you receive as PDFs should be checked for integrity before being relied upon, particularly in disputes. Second, documents you produce and share as PDFs carry metadata that could be forensically analysed. Our article on <a href="/blog/pdf-metadata-lawyers">PDF metadata removal for legal teams</a> covers the production side of this equation.</p>
+    <p>For legal professionals, this means two things. First, documents you receive as PDFs should be checked for integrity before being relied upon, particularly in disputes. Second, documents you produce and share as PDFs carry metadata that could be forensically analysed. Our article on <a href="/blog/pdf-metadata-legal-case">PDF metadata in legal work</a> covers the production side of this equation.</p>
 
     <h2 id="pdf-tampering-checklist">#7. The complete PDF tampering verification checklist</h2>
 
@@ -775,7 +785,7 @@ import Navbar from "../../components/Navbar.astro";
 
     <p><strong>Apply a digital signature before sharing.</strong> A cryptographic signature over the content creates a verifiable record that the document has not changed since you signed it. Adobe Acrobat Pro, DocuSign, and several other tools support this. The signature doesn't prevent editing &mdash; but it makes any post-signing modification detectable.</p>
 
-    <p><strong>Strip metadata before sharing.</strong> Your documents carry metadata that reveals your editing history, software, and sometimes internal author information that has no relevance to the recipient. Stripping this before distribution is standard practice in legal and compliance contexts, and it reduces the forensic surface area of your document. Our <a href="/pdf-metadata-remover">PDF Metadata Remover</a> handles all three metadata layers &mdash; the Info dictionary, trailer dictionary entries, and the XMP stream &mdash; and runs entirely in your browser. See also our guide on <a href="/blog/redaction-vs-metadata-removal">redaction vs metadata removal</a> for how these two operations differ.</p>
+    <p><strong>Strip metadata before sharing.</strong> Your documents carry metadata that reveals your editing history, software, and sometimes internal author information that has no relevance to the recipient. Stripping this before distribution is standard practice in legal and compliance contexts, and it reduces the forensic surface area of your document. Our <a href="/pdf-metadata-remover">PDF Metadata Remover</a> handles all three metadata layers &mdash; the Info dictionary, trailer dictionary entries, and the XMP stream &mdash; and runs entirely in your browser. See also our guide on <a href="/blog/pdf-metadata-vs-redactor">redaction vs metadata removal</a> for how these two operations differ.</p>
 
     <!-- END CTA -->
     <div class="article-cta">
@@ -871,15 +881,15 @@ import Navbar from "../../components/Navbar.astro";
     <div class="sidebar-widget">
       <div class="sidebar-widget-header">Related articles</div>
       <div class="sidebar-widget-body">
-        <a href="/blog/what-is-pdf-metadata" class="related-post">
+        <a href="/blog/pdf-metadata-fields-explained" class="related-post">
           <div class="related-post-cat">Explainer</div>
           <div class="related-post-title">What is PDF metadata — and what does it reveal?</div>
         </a>
-        <a href="/blog/redaction-vs-metadata-removal" class="related-post">
+        <a href="/blog/pdf-metadata-vs-redactor" class="related-post">
           <div class="related-post-cat">Privacy</div>
           <div class="related-post-title">Redaction vs metadata removal: what's the difference?</div>
         </a>
-        <a href="/blog/pdf-metadata-lawyers" class="related-post">
+        <a href="/blog/pdf-metadata-legal-case" class="related-post">
           <div class="related-post-cat">Legal</div>
           <div class="related-post-title">PDF metadata removal for lawyers and legal teams</div>
         </a>

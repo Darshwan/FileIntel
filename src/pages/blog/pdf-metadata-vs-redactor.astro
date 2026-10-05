@@ -9,14 +9,24 @@ import Navbar from '../../components/Navbar.astro';
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "ysqtycrlb2");
+    </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redaction vs Metadata Removal: What's the Difference? (2026) | FileIntel</title>
   <meta name="description" content="Redaction vs metadata removal — two different operations, two different risks. Learn which one you need, and when you need both." />
-  <link rel="canonical" href="https://fileintel.me/blog/redaction-vs-metadata-removal" />
+  <link rel="canonical" href="https://fileintel.me/blog/pdf-metadata-vs-redactor" />
   <meta property="og:title" content="Redaction vs Metadata Removal: What's the Difference?" />
   <meta property="og:description" content="Redaction hides visible content. Metadata removal strips hidden data. Most people only do one — and leak the other." />
-  <meta property="og:url" content="https://fileintel.me/blog/redaction-vs-metadata-removal" />
+  <meta property="og:url" content="https://fileintel.me/blog/pdf-metadata-vs-redactor" />
   <meta property="og:type" content="article" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Redaction vs Metadata Removal: What's the Difference?" />
@@ -36,7 +46,7 @@ import Navbar from '../../components/Navbar.astro';
     "author": {"@type": "Organization", "name": "FileIntel"},
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "Redaction hides visible content in a PDF. Metadata removal strips hidden data embedded in the file. Most professionals need both — and don't know it.",
-    "url": "https://fileintel.me/blog/redaction-vs-metadata-removal"
+    "url": "https://fileintel.me/blog/pdf-metadata-vs-redactor"
   }
   </script>
 
@@ -104,7 +114,7 @@ import Navbar from '../../components/Navbar.astro';
     "itemListElement": [
       {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://fileintel.me"},
       {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fileintel.me/blog"},
-      {"@type": "ListItem", "position": 3, "name": "Redaction vs Metadata Removal", "item": "https://fileintel.me/blog/redaction-vs-metadata-removal"}
+      {"@type": "ListItem", "position": 3, "name": "Redaction vs Metadata Removal", "item": "https://fileintel.me/blog/pdf-metadata-vs-redactor"}
     ]
   }
   </script>
@@ -421,7 +431,7 @@ import Navbar from '../../components/Navbar.astro';
 
     <p>Beyond the standard Info dictionary, PDFs also carry an XMP stream — an XML block that can contain an extended version of all these fields, plus revision history, embedded thumbnail images, and in some cases comment data. Stripping the Info dictionary but leaving the XMP stream intact is a common partial-cleaning mistake.</p>
 
-    <p>FileIntel's <a href="/pdf-metadata-remover">PDF Metadata Remover</a> handles all three layers: Info dictionary setters, direct dictionary deletion, and XMP stream removal. See our <a href="/blog/what-is-pdf-metadata">guide to what PDF metadata actually is</a> for the full breakdown.</p>
+    <p>FileIntel's <a href="/pdf-metadata-remover">PDF Metadata Remover</a> handles all three layers: Info dictionary setters, direct dictionary deletion, and XMP stream removal. See our <a href="/blog/pdf-metadata-fields-explained">guide to what PDF metadata actually is</a> for the full breakdown.</p>
 
     <!-- MID-ARTICLE CTA -->
     <div class="article-cta">
@@ -665,7 +675,7 @@ import Navbar from '../../components/Navbar.astro';
     <div class="sidebar-widget">
       <div class="sidebar-widget-header">Related articles</div>
       <div class="sidebar-widget-body">
-        <a href="/blog/what-is-pdf-metadata" class="related-post">
+        <a href="/blog/pdf-metadata-fields-explained" class="related-post">
           <div class="related-post-cat">Explainer</div>
           <div class="related-post-title">What is PDF metadata — and what does it reveal?</div>
         </a>
@@ -673,7 +683,7 @@ import Navbar from '../../components/Navbar.astro';
           <div class="related-post-cat">Compliance</div>
           <div class="related-post-title">GDPR and PDF metadata: what organisations must know</div>
         </a>
-        <a href="/blog/pdf-metadata-lawyers" class="related-post">
+        <a href="/blog/pdf-metadata-legal-case" class="related-post">
           <div class="related-post-cat">Legal</div>
           <div class="related-post-title">PDF metadata removal for lawyers and legal teams</div>
         </a>
@@ -703,8 +713,8 @@ import Navbar from '../../components/Navbar.astro';
       <div class="footer-col">
         <h4>Blog</h4>
         <ul>
-          <li><a href="/blog/what-is-pdf-metadata">What is PDF metadata?</a></li>
-          <li><a href="/blog/pdf-metadata-lawyers">Remove metadata guide</a></li>
+          <li><a href="/blog/pdf-metadata-fields-explained">What is PDF metadata?</a></li>
+          <li><a href="/blog/remove-metadata-from-pdf">Remove metadata guide</a></li>
           <li><a href="/blog/gdpr-pdf-metadata">GDPR & PDF metadata</a></li>
           <li><a href="/blog/view-pdf-metadata-mac-windows-linux">View on Mac/Win/Linux</a></li>
         </ul>

@@ -1,6 +1,7 @@
 ---
 import SEO from "../components/SEO.astro";
 import Navbar from "../components/Navbar.astro";
+import Clarity from "../components/Clarity.astro";
 
 const { title, description, canonical, schema, currentPath } = Astro.props;
 
@@ -27,6 +28,7 @@ const activePage = getActivePage(currentPath);
 <!doctype html>
 <html lang="en">
   <head>
+    <Clarity />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZDBV7SGRD"
     ></script>
@@ -111,7 +113,7 @@ const activePage = getActivePage(currentPath);
         <div class="footer-col">
           <h4>Use Cases</h4>
           <ul>
-            <li><a href="/blog/pdf-metadata-lawyers">For Lawyers</a></li>
+            <li><a href="/blog/pdf-metadata-legal-case">For Lawyers</a></li>
             <li>
               <a href="/blog/pdf-metadata-journalists">For Journalists</a>
             </li>

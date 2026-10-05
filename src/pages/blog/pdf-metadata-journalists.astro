@@ -5,6 +5,16 @@ import Navbar from '../../components/Navbar.astro';
 <!doctype html>
 <html lang="en">
     <head>
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "ysqtycrlb2");
+    </script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -418,12 +428,41 @@ import Navbar from '../../components/Navbar.astro';
                     FileIntel's PDF Metadata Remover inspects every metadata field in seconds and removes all author identification, timestamps, and software traces with a single click—no server uploads, no logging, 100% private.
                 </p>
 
-                <h2>#4. Best Practices</h2>
+                <h2>#4. A newsroom verification workflow</h2>
+                <p>
+                    Treat metadata as one evidence stream, not as proof by itself. Preserve the original file in a restricted evidence directory, record its cryptographic hash, and work from a copy. Note the filename, source context, acquisition time, and transfer method before opening the document in a desktop application that might rewrite it.
+                </p>
+                <p>
+                    Start with a read-only inspection. Compare CreationDate and ModDate, identify the Creator and Producer applications, and check whether the document contains an XMP packet, embedded files, comments, form data, or incremental updates. A date mismatch can suggest an editing sequence, but it cannot establish who edited a file or whether the file is authentic.
+                </p>
+                <div class="highlight-box">
+                    <strong>Verification rule:</strong> Never publish a conclusion based on one metadata field. Corroborate metadata with document content, visual comparison, file structure, independent records, and the source's account of how the file was obtained.
+                </div>
+
+                <h2>#5. Source communication and device hygiene</h2>
+                <p>
+                    SecureDrop and Signal solve different problems. SecureDrop is designed for anonymous source submissions to participating newsrooms; Signal provides encrypted messaging but does not make a journalist's device, screenshots, downloads, or backups anonymous. Use the newsroom's established intake policy rather than asking a source to send sensitive material through a personal account or an unapproved cloud drive.
+                </p>
+                <p>
+                    Tails can reduce local traces when it is correctly configured, but it is not a magic anonymity layer and it does not repair an already exposed document. Journalists should follow their organisation's threat model, keep operating systems and browsers updated, use multi-factor authentication, and avoid opening source files on a personal device that is also used for public social accounts. Consult a newsroom security specialist for high-risk investigations.
+                </p>
+
+                <h2>#6. Remove metadata from the publication copy</h2>
+                <p>
+                    The file used for verification is not the file that should be uploaded to a publication system. After the reporting team has documented the original, create a separate publication copy. Remove author, company, keyword, timestamp, software, comments, attachments, hidden layers, and other fields that could identify a source or reveal internal workflow. Then inspect the exported copy again with a second tool.
+                </p>
+                <p>
+                    Metadata removal does not anonymise visible text, image content, document layout, or distinctive language. A cropped screenshot can still contain a location clue, and a PDF can still expose a source through names, revision marks, or embedded images. Redact or recreate sensitive content separately, and ask another editor to review the final file before publication.
+                </p>
+
+                <h2>#7. Best practices</h2>
                 <ul>
                     <li>Always inspect metadata before publishing—treat it as part of your source verification checklist</li>
                     <li>Remove metadata from documents before publication using a verified tool</li>
                     <li>Document the metadata you find as part of your verification notes (for internal use only)</li>
                     <li>Remember: metadata removal is not the same as redaction. Use redaction for sensitive content within the document itself</li>
+                    <li>Keep the original evidence separate from the sanitised publication copy</li>
+                    <li>Have a second editor review the file and its visible content before release</li>
                 </ul>
 
                 <p style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border);font-size:14px;color:var(--ink-3);">
