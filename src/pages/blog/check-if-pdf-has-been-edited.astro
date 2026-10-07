@@ -1,6 +1,11 @@
 ---
 import Footer from "../../components/Footer.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
+
 import Navbar from "../../components/Navbar.astro";
+
+
 
 // src/pages/blog/check-if-pdf-has-been-edited.astro
 // Target keyword: "how to check if a PDF has been edited"
@@ -45,7 +50,11 @@ import Navbar from "../../components/Navbar.astro";
     "headline": "How to Check if a PDF Has Been Edited or Tampered With",
     "datePublished": "2026-07-26",
     "dateModified": "2026-07-26",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "Six methods to detect PDF editing and tampering — metadata inspection, digital signature verification, incremental update detection, font analysis, ExifTool forensics, and visual layer analysis.",
     "url": "https://fileintel.me/blog/check-if-pdf-has-been-edited"
@@ -442,6 +451,8 @@ import Navbar from "../../components/Navbar.astro";
         </div>
     
   </div>
+
+<AuthorBar published="July 2026" readTime="12" />
 
 </section>
 

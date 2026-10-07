@@ -7,6 +7,8 @@
 // Competing gap: No competitor explains BOTH the technical mechanism AND the legal basis together
 
 import Navbar from '../../components/Navbar.astro';
+import AuthorBar from "../../components/AuthorBar.astro";
+
 ---
 
 <!doctype html>
@@ -67,7 +69,7 @@ import Navbar from '../../components/Navbar.astro';
     <meta property="og:site_name" content="FileIntel" />
     <meta property="article:published_time" content="2026-04-30T00:00:00Z" />
     <meta property="article:modified_time" content="2026-04-30T00:00:00Z" />
-    <meta property="article:author" content="FileIntel" />
+    <meta property="article:author" content="Darshan Lamichhane" />
     <meta property="article:section" content="GDPR Compliance" />
     <meta
       property="article:tag"
@@ -100,10 +102,10 @@ import Navbar from '../../components/Navbar.astro';
         "datePublished": "2026-04-30",
         "dateModified": "2026-04-30",
         "author": {
-          "@type": "Organization",
-          "name": "FileIntel",
-          "url": "https://fileintel.me"
-        },
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
         "publisher": {
           "@type": "Organization",
           "name": "FileIntel",
@@ -1110,7 +1112,9 @@ import Navbar from '../../components/Navbar.astro';
           </div>
         </div>
       </div>
-    </div>
+    <AuthorBar published="April 2026" readTime="9" />
+
+</div>
 
     <!-- ARTICLE BODY -->
     <div class="article-layout">

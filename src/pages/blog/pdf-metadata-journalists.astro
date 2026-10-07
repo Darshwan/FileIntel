@@ -1,5 +1,7 @@
 ---
 import Navbar from '../../components/Navbar.astro';
+import AuthorBar from "../../components/AuthorBar.astro";
+
 ---
 
 <!doctype html>
@@ -46,9 +48,10 @@ import Navbar from '../../components/Navbar.astro';
                 "image": "https://fileintel.me/og-blog.png",
                 "datePublished": "2026-05-15",
                 "author": {
-                    "@type": "Organization",
-                    "name": "FileIntel"
-                },
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
                 "publisher": {
                     "@type": "Organization",
                     "name": "FileIntel",
@@ -391,7 +394,9 @@ import Navbar from '../../components/Navbar.astro';
                     <span>6 min read</span>
                 </div>
             </div>
-        </div>
+        <AuthorBar published="May 2026" readTime="6" />
+
+</div>
 
         <!-- ARTICLE -->
         <div class="article-wrapper">

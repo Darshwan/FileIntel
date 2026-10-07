@@ -1,6 +1,9 @@
 ---
 import Footer from "../../components/Footer.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
 import Navbar from "../../components/Navbar.astro";
+
 ---
 
 <!DOCTYPE html>
@@ -41,7 +44,11 @@ import Navbar from "../../components/Navbar.astro";
     "headline": "How to Remove Metadata from a Signed PDF Without Invalidating the Signature",
     "datePublished": "2026-08-31",
     "dateModified": "2026-08-31",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "Removing metadata from a signed PDF usually invalidates the signature. Here's the byte-range math behind why, and the three workflows that actually work.",
     "url": "https://fileintel.me/blog/remove-metadata-from-signed-pdf",
@@ -323,6 +330,8 @@ import Navbar from "../../components/Navbar.astro";
       <span>✍️ FileIntel</span>
     </div>
   </div>
+<AuthorBar published="August 2026" readTime="14" />
+
 </section>
 
 <div class="article-layout">

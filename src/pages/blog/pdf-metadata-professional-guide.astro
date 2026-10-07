@@ -1,0 +1,922 @@
+---
+// src/pages/blog/pdf-metadata-professional-guide.astro
+// Primary: "PDF metadata professionals"
+// Secondary: "PDF metadata lawyers", "PDF metadata HR", "PDF metadata journalists", "PDF metadata freelancers"
+// Replaces: pdf-metadata-lawyers, pdf-metadata-hr-employment-documents, pdf-metadata-freelancers-proposals-contracts, pdf-metadata-journalists
+// 301 redirects: all four old URLs → this page
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import AuthorBar from '../../components/AuthorBar.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Metadata Risks by Profession — Lawyers, HR, Freelancers and Journalists (2026) | FileIntel</title>
+  <meta name="description" content="What PDF metadata exposes depends entirely on who you are and what you send. A complete profession-specific guide for legal, HR, freelance, and journalism professionals — with real examples and removal workflows." />
+  <link rel="canonical" href="https://fileintel.me/blog/pdf-metadata-professional-guide" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="PDF Metadata Risks by Profession — Lawyers, HR, Freelancers and Journalists" />
+  <meta property="og:description" content="What PDF metadata exposes depends entirely on who you are. A complete guide covering legal, HR, freelance, and journalism contexts with real examples." />
+  <meta property="og:url" content="https://fileintel.me/blog/pdf-metadata-professional-guide" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="article:published_time" content="2026-10-05T00:00:00Z" />
+  <meta property="article:modified_time" content="2026-10-05T00:00:00Z" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "PDF Metadata Risks by Profession — Lawyers, HR, Freelancers and Journalists (2026)",
+    "datePublished": "2026-10-05T00:00:00Z",
+    "dateModified": "2026-10-05T00:00:00Z",
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FileIntel",
+      "url": "https://fileintel.me"
+    },
+    "description": "A complete profession-specific guide to PDF metadata risks — what lawyers, HR professionals, freelancers, and journalists expose when sharing PDF documents, with real ExifTool examples and removal workflows.",
+    "url": "https://fileintel.me/blog/pdf-metadata-professional-guide",
+    "mainEntityOfPage": "https://fileintel.me/blog/pdf-metadata-professional-guide",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".direct-answer", ".faq-a-inner", ".profession-answer"]
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Do lawyers need to remove PDF metadata before sharing documents?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. PDF metadata can expose the Author name, Manager name, internal Keywords from document management systems, edit timestamps, and software used — none of which are relevant to the recipient and some of which may be privileged. Under Model Rules of Professional Conduct Rule 1.6 (confidentiality) and ABA Formal Opinion 11-460, lawyers have an obligation to use reasonable care to avoid inadvertent disclosure of client information, which includes metadata in shared documents. Before sharing any PDF externally, lawyers should strip metadata using a dedicated tool that removes both the Info dictionary and XMP stream."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What PDF metadata should HR teams remove before sending offer letters?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HR teams should remove the Author field (contains the HR professional's name — personal data under GDPR), Manager field (may contain the HR manager's name), Keywords (may contain internal job codes, salary bands, or candidate classifications from ATS systems), and modification timestamps (reveal when the offer letter was last edited, which can indicate negotiation activity). All of these fields should be stripped from both the PDF Info dictionary and the XMP stream before the document is sent to the candidate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can PDF metadata expose a journalist's source?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PDF metadata can expose a journalist's identity and working patterns but not usually the source directly. The Author field contains the journalist's name, timestamps reveal when documents were accessed or modified, and the Creator field identifies the software used. Indirectly, if a journalist edits a document shared by a source and the modified version retains metadata, the modification timestamp may help narrow down when the journalist and source were in contact. For source protection, journalists should use SecureDrop for receiving documents and strip all metadata before sharing or publishing processed versions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does PDF metadata in a freelance proposal reveal confidential information?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PDF metadata in a freelance proposal can reveal: the freelancer's full name (Author field), their manager's name if using a corporate account (Manager field), internal pricing notes in the Keywords field, how many times the proposal was revised (RevisionNumber — revealing whether it was bespoke or adapted from a template), when it was last modified (revealing whether it was prepared at the last minute), and which software was used (Creator — which may contradict a premium positioning if the proposal was made in a free tool)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is sharing PDF metadata with a client a GDPR violation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sharing a PDF containing the Author field — which contains an employee's full name — with an external party constitutes sharing personal data under GDPR Article 4(1). If that personal data serves no purpose for the recipient, sharing it may violate the data minimisation principle under Article 5(1)(c). This applies to any organisation subject to GDPR or UK GDPR sharing documents externally. The practical fix is to strip the Author and Manager fields before sharing — a process that takes under 30 seconds with a dedicated tool."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the fastest way to remove PDF metadata before sending a professional document?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The fastest method that removes both the Info dictionary and XMP stream is FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover — drop the PDF in, click Strip Metadata, download the clean file in under 10 seconds. Nothing is uploaded. For command line users: exiftool -all= document.pdf followed by exiftool -XMP:all document.pdf to verify the XMP stream was cleared."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://fileintel.me"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fileintel.me/blog"},
+      {"@type": "ListItem", "position": 3, "name": "PDF Metadata by Profession", "item": "https://fileintel.me/blog/pdf-metadata-professional-guide"}
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0f0f0d; --ink-2: #3a3a35; --ink-3: #7a7a72;
+      --paper: #f5f3ee; --paper-2: #eceae3; --paper-3: #e2dfd6;
+      --accent: #c8432a; --green: #2a6b4a; --green-light: #e8f2ec;
+      --green-border: #b8ddc8; --amber: #b06820; --amber-light: #fef3e2;
+      --border: #d4d1c8; --white: #fafaf8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Geist', system-ui, sans-serif;
+      --radius: 4px; --radius-lg: 8px;
+    }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+    #reading-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.08s linear; border-radius: 0 2px 2px 0; pointer-events: none; }
+
+    .nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; position: sticky; top: 0; z-index: 100; }
+    .nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-mark { width: 28px; height: 28px; background: var(--ink); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--paper); }
+    .nav-logo-text { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+    .nav-logo-sub { font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-badge { font-family: var(--mono); font-size: 10px; background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); padding: 3px 8px; border-radius: 3px; }
+    @media (max-width: 700px) { .nav-links { display: none; } .nav { padding: 0 20px; } }
+
+    .blog-nav-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 40px; }
+    .blog-nav-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+    .blog-nav-inner a { color: var(--ink-3); text-decoration: none; }
+    .blog-nav-inner a:hover { color: var(--ink); }
+    @media (max-width: 700px) { .blog-nav-bar { padding: 10px 20px; } }
+
+    /* HERO */
+    .article-hero { background: var(--ink); padding: 64px 40px 56px; position: relative; overflow: hidden; }
+    .article-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .hero-inner { max-width: 1160px; margin: 0 auto; position: relative; z-index: 1; }
+    .article-category { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .article-title { font-family: var(--serif); font-size: clamp(28px, 4.2vw, 50px); color: var(--paper); line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 20px; max-width: 820px; }
+    .article-subtitle { font-size: 16px; color: #7a7a72; font-weight: 300; line-height: 1.65; max-width: 600px; }
+    .hero-meta { display: flex; align-items: center; gap: 20px; margin-top: 28px; font-family: var(--mono); font-size: 10.5px; color: #4a4a42; flex-wrap: wrap; }
+    .profession-pills { display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap; }
+    .prof-pill { font-family: var(--mono); font-size: 10px; padding: 3px 10px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); color: #5a5a52; cursor: pointer; transition: all 0.15s; }
+    .prof-pill:hover { border-color: rgba(255,255,255,0.25); color: #9a9a92; }
+    @media (max-width: 700px) { .article-hero { padding: 40px 20px 36px; } }
+
+    /* AUTHOR BAR */
+    .author-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 12px 40px; }
+    .author-bar-inner { max-width: 1160px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+    .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .author-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+    .author-name a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.15s; }
+    .author-name a:hover { border-bottom-color: var(--ink); }
+    .author-meta { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
+    @media (max-width: 700px) { .author-bar { padding: 12px 20px; } }
+
+    /* LAYOUT */
+    .article-layout { max-width: 1160px; margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: start; }
+    .prose { max-width: 680px; }
+    .article-sidebar { position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+    @media (max-width: 960px) { .article-layout { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px 60px; } .article-sidebar { position: static; } .prose { max-width: 100%; } }
+
+    /* PROSE */
+    .prose h2 { font-family: var(--serif); font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 18px; padding-bottom: 12px; border-bottom: 1px solid var(--paper-3); }
+    .prose h3 { font-size: 18px; font-weight: 600; color: var(--ink); margin: 36px 0 12px; letter-spacing: -0.015em; }
+    .prose p { font-size: 16px; color: var(--ink-2); line-height: 1.8; margin-bottom: 22px; }
+    .prose ul, .prose ol { padding-left: 22px; margin-bottom: 22px; }
+    .prose li { font-size: 15.5px; color: var(--ink-2); line-height: 1.75; margin-bottom: 8px; }
+    .prose a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,67,42,0.3); transition: border-color 0.15s; }
+    .prose a:hover { border-bottom-color: var(--accent); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+
+    /* DIRECT ANSWER */
+    .direct-answer { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-lg); padding: 20px 24px; margin: 0 0 32px; }
+    .da-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; font-weight: 600; }
+    .direct-answer p { font-size: 15.5px; color: var(--ink); line-height: 1.7; margin: 0; font-weight: 500; }
+
+    /* PROFESSION SECTION */
+    .profession-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 36px 0; }
+    .profession-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 16px; }
+    .profession-icon { font-size: 28px; flex-shrink: 0; }
+    .profession-name { font-family: var(--serif); font-size: 24px; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 4px; }
+    .profession-sub { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; }
+    .profession-body { padding: 22px 24px; }
+    .profession-body p { font-size: 15.5px; color: var(--ink-2); line-height: 1.8; margin-bottom: 16px; }
+    .profession-body p:last-child { margin-bottom: 0; }
+
+    /* PROFESSION ANSWER — Copilot/Bing extraction target */
+    .profession-answer { background: var(--paper-2); border-radius: var(--radius); padding: 14px 18px; margin: 14px 0; border-left: 3px solid var(--border); }
+    .pa-label { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 6px; }
+    .profession-answer p { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin: 0; }
+
+    /* EXIF OUTPUT */
+    .exif-block { background: #0a0a08; border-radius: var(--radius-lg); padding: 16px 20px; margin: 16px 0; font-family: var(--mono); font-size: 12px; color: #7acc99; line-height: 2; overflow-x: auto; position: relative; border: 1px solid #1a1a17; }
+    .exif-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #5a7a62; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px solid #1a1a17; }
+    .ef { color: #7acc99; }
+    .ev-danger { color: #c8432a; }
+    .ev-warn { color: #c8a840; }
+    .ev-clean { color: #5a9a72; }
+    .ef-note { color: #5a7a62; font-size: 10px; margin-left: 6px; }
+    .copy-btn { position: absolute; top: 10px; right: 12px; background: #1a1a17; border: 1px solid #2a2a27; border-radius: 3px; padding: 3px 8px; font-size: 10px; color: #5a5a52; cursor: pointer; font-family: var(--mono); transition: all 0.15s; }
+    .copy-btn:hover { background: #222; color: #9a9a92; }
+
+    /* RISK MATRIX */
+    .risk-matrix { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 20px 0; }
+    .rm-header { padding: 12px 16px; background: var(--paper-2); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); font-weight: 600; }
+    .rm-row { display: grid; grid-template-columns: 140px 1fr 90px; gap: 0; border-bottom: 1px solid var(--paper-3); }
+    .rm-row:last-child { border-bottom: none; }
+    .rm-row.head { background: var(--paper-2); }
+    .rm-cell { padding: 10px 14px; font-size: 13px; color: var(--ink-2); border-right: 1px solid var(--paper-3); line-height: 1.5; }
+    .rm-cell:last-child { border-right: none; text-align: center; display: flex; align-items: center; justify-content: center; }
+    .rm-cell.head { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; }
+    .rm-cell code { font-family: var(--mono); font-size: 11px; background: var(--paper-2); border: 1px solid var(--border); padding: 1px 5px; border-radius: 3px; }
+    .rp { font-family: var(--mono); font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; }
+    .rp-critical { background: #fdecea; color: var(--accent); }
+    .rp-high { background: #fff0e8; color: #c05820; }
+    .rp-medium { background: var(--amber-light); color: var(--amber); }
+
+    /* CALLOUT */
+    .callout { border-left: 3px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 18px 22px; margin: 28px 0; box-shadow: 0 1px 3px rgba(15,15,13,0.06); }
+    .callout.green { border-left-color: var(--green); }
+    .callout.amber { border-left-color: var(--amber); }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    .callout.green .callout-label { color: var(--green); }
+    .callout.amber .callout-label { color: var(--amber); }
+    .callout p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.65; }
+    .callout p + p { margin-top: 8px; }
+
+    /* UNIVERSAL CHECKLIST */
+    .checklist-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 28px 0; }
+    .cw-header { padding: 14px 20px; background: var(--paper-2); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: space-between; }
+    .cw-counter { color: var(--green); font-weight: 600; }
+    .cw-item { display: flex; gap: 14px; padding: 13px 20px; border-bottom: 1px solid var(--paper-3); align-items: flex-start; cursor: pointer; transition: background 0.15s; user-select: none; }
+    .cw-item:last-child { border-bottom: none; }
+    .cw-item:hover { background: var(--paper); }
+    .cw-item.done { opacity: 0.6; }
+    .cw-item.done .cw-title { text-decoration: line-through; color: var(--ink-3); }
+    .cw-box { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 3px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; transition: all 0.15s; }
+    .cw-item.done .cw-box { background: var(--green); border-color: var(--green); }
+    .cw-content { flex: 1; }
+    .cw-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; line-height: 1.4; }
+    .cw-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+
+    /* TABLE */
+    .table-wrapper { overflow-x: auto; margin: 24px 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .data-table th { padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); background: var(--paper-2); font-family: var(--mono); border-bottom: 1px solid var(--border); }
+    .data-table th.dark { background: var(--ink); color: var(--paper); }
+    .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--paper-3); color: var(--ink-2); vertical-align: top; line-height: 1.55; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:nth-child(even) td { background: var(--paper); }
+
+    /* CTA */
+    .article-cta { background: var(--ink); border-radius: var(--radius-lg); padding: 28px 32px; margin: 44px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .article-cta h3 { font-family: var(--serif); font-size: 22px; color: var(--paper); font-style: italic; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .article-cta p { font-size: 13.5px; color: #7a7a72; margin: 0; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 600; text-decoration: none; transition: all 0.15s; font-family: var(--sans); }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: #fff; }
+
+    /* FAQ */
+    .faq-section { margin-top: 56px; border-top: 1px solid var(--paper-3); padding-top: 40px; }
+    .faq-title { font-family: var(--serif); font-size: 26px; letter-spacing: -0.02em; margin-bottom: 28px; color: var(--ink); }
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; background: var(--white); }
+    .faq-q { width: 100%; text-align: left; padding: 16px 20px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 14.5px; font-weight: 600; color: var(--ink); font-family: var(--sans); transition: background 0.15s; line-height: 1.4; }
+    .faq-q:hover { background: var(--paper); }
+    .faq-q svg { flex-shrink: 0; transition: transform 0.2s; color: var(--ink-3); }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+    .faq-item.open .faq-q { background: var(--paper); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-a { max-height: 500px; }
+    .faq-a-inner { padding: 16px 20px 18px; font-size: 14.5px; color: var(--ink-2); line-height: 1.75; border-top: 1px solid var(--paper-3); }
+
+    /* SIDEBAR */
+    .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .sw-header { padding: 12px 16px; border-bottom: 1px solid var(--paper-3); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+    .sw-body { padding: 14px 16px; }
+    .toc-link { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--ink-3); text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--paper-3); transition: color 0.15s; line-height: 1.4; }
+    .toc-link:last-child { border-bottom: none; }
+    .toc-link:hover, .toc-link.active { color: var(--ink); font-weight: 500; }
+    .toc-num { font-family: var(--mono); font-size: 10px; color: var(--ink-3); flex-shrink: 0; padding-top: 2px; min-width: 18px; }
+    .stw { background: var(--ink); border-radius: var(--radius-lg); padding: 20px; }
+    .stw h4 { font-family: var(--serif); font-size: 17px; color: var(--paper); font-style: italic; margin-bottom: 6px; }
+    .stw p { font-size: 12.5px; color: #7a7a72; margin-bottom: 14px; line-height: 1.5; }
+    .stw .btn { width: 100%; justify-content: center; font-size: 12.5px; }
+    .rel-post { display: block; text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--paper-3); }
+    .rel-post:last-child { border-bottom: none; }
+    .rel-cat { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .rel-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; transition: color 0.15s; }
+    .rel-post:hover .rel-title { color: var(--accent); }
+    .legal-note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--paper-3); border-radius: var(--radius); padding: 12px 16px; margin-top: 40px; line-height: 1.6; }
+
+    footer { background: var(--ink); color: var(--paper); padding: 56px 40px 40px; margin-top: 80px; }
+    .footer-inner { max-width: 1160px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 10px; }
+    .footer-tagline { font-size: 13px; color: #5a5a52; line-height: 1.6; }
+    .footer-col h4 { font-size: 11px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a52; margin-bottom: 14px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 13px; color: #7a7a72; text-decoration: none; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--paper); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; font-family: var(--mono); font-size: 11px; color: #3a3a35; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 700px) { footer { padding: 40px 20px 32px; } .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  </style>
+</head>
+<body>
+
+<div id="reading-progress" aria-hidden="true"></div>
+
+<Navbar activePage="blog" />
+
+<div class="blog-nav-bar">
+  <div class="blog-nav-inner">
+    <a href="/">Home</a><span>&#8250;</span>
+    <a href="/blog">Blog</a><span>&#8250;</span>
+    <span>PDF Metadata by Profession</span>
+  </div>
+</div>
+
+<section class="article-hero">
+  <div class="hero-inner">
+    <div class="article-category">Professional Guide &middot; Privacy &middot; Document Security</div>
+    <h1 class="article-title">PDF Metadata Risks by Profession — Lawyers, HR, Freelancers, and Journalists</h1>
+    <p class="article-subtitle">What your PDF exposes depends entirely on who you are and what you send. The same hidden field that embarrasses a freelancer can cost a lawyer their client's case.</p>
+    <div class="profession-pills">
+      <span class="prof-pill" onclick="document.getElementById('lawyers').scrollIntoView({behavior:'smooth'})">&#9878; Lawyers</span>
+      <span class="prof-pill" onclick="document.getElementById('hr').scrollIntoView({behavior:'smooth'})">&#128203; HR teams</span>
+      <span class="prof-pill" onclick="document.getElementById('freelancers').scrollIntoView({behavior:'smooth'})">&#128188; Freelancers</span>
+      <span class="prof-pill" onclick="document.getElementById('journalists').scrollIntoView({behavior:'smooth'})">&#128240; Journalists</span>
+    </div>
+  </div>
+</section>
+
+<AuthorBar published="October 2026" readTime="14" />
+
+<div class="article-layout">
+  <article class="prose">
+
+    <div class="direct-answer">
+      <div class="da-label">What this guide covers</div>
+      <p>PDF metadata — the hidden fields recording your name, your manager's name, your software, and your editing timeline — creates different risks depending on your profession. A lawyer risks privilege exposure. An HR professional risks personal data violations. A freelancer risks pricing transparency. A journalist risks source proximity. This guide covers each profession separately, with real ExifTool examples and specific removal workflows.</p>
+    </div>
+
+    <p>The same PDF file. Sent to four different recipients, by four different professionals. The document itself is identical. The metadata consequences are completely different.</p>
+
+    <p>That's what most metadata guides miss. They explain what metadata is — which fields exist, how to remove them — but treat the risk as uniform. It isn't. The Author field containing "Sarah Chen" is a minor inconvenience when a freelancer sends a proposal. It's a potential privilege problem when a solicitor shares a draft agreement. It's a GDPR compliance failure when an HR team sends an offer letter. It's an operational security issue when a journalist is working a sensitive story.</p>
+
+    <p>This guide treats the four professions separately, with the specificity each deserves. If you only need one section, use the profession pills above to jump directly.</p>
+
+    <h2 id="lawyers">#1. Legal professionals</h2>
+
+    <div class="profession-section">
+      <div class="profession-header">
+        <div class="profession-icon">&#9878;</div>
+        <div>
+          <div class="profession-name">Lawyers, solicitors, and legal teams</div>
+          <div class="profession-sub">Privilege exposure &middot; eDiscovery &middot; ABA Rule 1.6 &middot; Metadata in evidence</div>
+        </div>
+      </div>
+      <div class="profession-body">
+        <p>A US litigation firm produced documents in response to an eDiscovery request. The documents themselves were properly reviewed and redacted. But the metadata was not stripped. The produced PDFs contained Keywords fields populated by the firm's document management system — fields that included internal matter classifications, privilege designations, and attorney assignment codes. The opposing party's e-discovery vendor extracted these automatically. The privilege log became a map.</p>
+
+        <p>This is not a hypothetical. Metadata exposure in legal document production is a documented, recurring problem. The ABA has addressed it directly.</p>
+
+        <div class="profession-answer">
+          <div class="pa-label">What ABA guidance says</div>
+          <p><a href="https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/ethics_opinions/aba-formal-opinion-11-460.pdf" target="_blank" rel="noopener">ABA Formal Opinion 11-460</a> (Duty When Inadvertently Receiving Metadata) and ABA Model Rule 1.6 (Confidentiality of Information) together establish that lawyers have an obligation to use reasonable care to prevent inadvertent disclosure of client information — including metadata embedded in documents shared externally. The obligation applies both to documents sent to opposing parties and to documents sent to clients, regulators, or courts.</p>
+        </div>
+
+        <p>The metadata fields that carry the highest risk in legal practice are not always the obvious ones:</p>
+      </div>
+    </div>
+
+    <div class="risk-matrix">
+      <div class="rm-header">Highest-risk PDF metadata fields for legal professionals</div>
+      <div class="rm-row head">
+        <div class="rm-cell head">Field</div>
+        <div class="rm-cell head">What it exposes in legal contexts</div>
+        <div class="rm-cell head">Risk</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell"><code>Keywords</code></div>
+        <div class="rm-cell">Internal DMS classifications — matter numbers, privilege designations (PRIV, AC, WP), attorney assignment codes, status markers (DRAFT, SETTLEMENT, CONFIDENTIAL)</div>
+        <div class="rm-cell"><span class="rp rp-critical">Critical</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell"><code>Author</code></div>
+        <div class="rm-cell">The drafting attorney's full name — can reveal which attorney worked on a matter, relevant in conflicts checks and privilege assertions</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell"><code>Manager</code></div>
+        <div class="rm-cell">The supervising partner's name from Active Directory — reveals billing hierarchy and supervision structure</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell"><code>ModDate</code></div>
+        <div class="rm-cell">Editing timeline — reveals when documents were last changed, which matters in disputes about when counsel became aware of issues</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell"><code>Title</code></div>
+        <div class="rm-cell">Internal document classification — may contain matter names, client codes, or privilege markers inserted by the DMS</div>
+        <div class="rm-cell"><span class="rp rp-medium">Medium</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell"><code>RevisionNumber</code></div>
+        <div class="rm-cell">Edit count — a "final" document with 89 saves reveals extensive negotiation and drafting history</div>
+        <div class="rm-cell"><span class="rp rp-medium">Medium</span></div>
+      </div>
+    </div>
+
+    <p>The document management system (iManage, NetDocuments, Worldox) is the primary source of metadata contamination in law firms. These systems automatically write matter numbers, client codes, document types, and status markers into the Keywords field of every document they manage. When an attorney exports a document to PDF for sharing, these internal codes travel with it.</p>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <div class="exif-label">Typical law firm document — exiftool output</div>
+      <span class="ef">Author              </span>: <span class="ev-danger">Sarah Chen</span> <span class="ef-note">&larr; drafting attorney — personal data</span><br>
+      <span class="ef">Manager             </span>: <span class="ev-danger">David Clarke</span> <span class="ef-note">&larr; supervising partner</span><br>
+      <span class="ef">Keywords            </span>: <span class="ev-danger">PRIV-AC, Matter:C2847-001, SETTLEMENT, draft-v7</span> <span class="ef-note">&larr; privilege designation + matter code</span><br>
+      <span class="ef">Title               </span>: <span class="ev-warn">Settlement Agreement — Acme Corp v. XYZ Ltd</span><br>
+      <span class="ef">Create Date         </span>: <span class="ev-clean">2026:09:01 09:12:44+01:00</span><br>
+      <span class="ef">Modify Date         </span>: <span class="ev-warn">2026:09:28 22:43:11+01:00</span> <span class="ef-note">&larr; 27 days editing visible</span><br>
+      <span class="ef">Revision Number     </span>: <span class="ev-warn">89</span> <span class="ef-note">&larr; extensive negotiation history</span>
+    </div>
+
+    <p>Under <a href="https://www.law.cornell.edu/rules/frcp/rule_26" target="_blank" rel="noopener">Federal Rules of Civil Procedure Rule 26</a>, metadata is discoverable as part of electronically stored information (ESI). The obligation to produce metadata in discovery is well-established. What's less understood is the risk of inadvertently producing privileged metadata — internal classifications that the firm never intended to disclose — when sharing documents outside the formal production process.</p>
+
+    <div class="callout amber">
+      <div class="callout-label">&#9878; Legal workflow recommendation</div>
+      <p>Strip metadata from any document before sharing externally — to clients, to opposing counsel, to courts, and to regulators. The stripping step should be part of the file-closing workflow, not an afterthought. For produced documents in discovery, coordinate with your e-discovery vendor on metadata handling requirements specified in the ESI protocol. Do not assume that redacting document content also strips metadata — these are separate operations requiring separate tools.</p>
+    </div>
+
+    <!-- MID-ARTICLE CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Strip metadata before it leaves your firm</h3>
+        <p>Browser-only. Nothing uploaded. Removes DMS keywords, attorney names, and privilege markers.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <h2 id="hr">#2. HR and people teams</h2>
+
+    <div class="profession-section">
+      <div class="profession-header">
+        <div class="profession-icon">&#128203;</div>
+        <div>
+          <div class="profession-name">HR professionals and people operations</div>
+          <div class="profession-sub">GDPR personal data &middot; Employment law &middot; Candidate documents &middot; Payroll PDFs</div>
+        </div>
+      </div>
+      <div class="profession-body">
+        <p>An HR manager at a mid-size UK employer sends a job offer letter to a successful candidate. The letter is properly formatted — salary, start date, benefits, reporting line. What the HR manager doesn't check is the metadata. The Author field contains her full name. The Manager field contains the Head of HR's name. The Keywords field, automatically populated by SharePoint, contains internal compensation band codes and the requisition number.</p>
+
+        <p>The candidate, who happened to work previously at a technology company with a security-conscious culture, opens the file in Acrobat Reader, goes to File &rarr; Properties, and sees the compensation band code. They recognise the internal grading system from their previous employer, which uses the same HR software. They now have information about the firm's salary structure that was not intended for disclosure.</p>
+
+        <div class="profession-answer">
+          <div class="pa-label">GDPR obligation for HR teams</div>
+          <p>The Author and Manager fields in HR-generated PDFs contain employees' full names — personal data under GDPR Article 4(1) and UK GDPR. Sharing these fields with external parties (candidates, contractors, former employees) without a lawful basis and in violation of the data minimisation principle (Article 5(1)(c)) is a personal data breach. The Information Commissioner's Office (ICO) has published guidance specifically noting that organisations should check documents for personal data in metadata fields before external sharing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="risk-matrix">
+      <div class="rm-header">Highest-risk metadata fields in HR documents</div>
+      <div class="rm-row head">
+        <div class="rm-cell head">Document type</div>
+        <div class="rm-cell head">High-risk metadata fields</div>
+        <div class="rm-cell head">Risk</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Offer letters</div>
+        <div class="rm-cell">Author (HR manager name), Manager (HR head name), Keywords (compensation band codes, requisition numbers), RevisionNumber (reveals negotiation rounds)</div>
+        <div class="rm-cell"><span class="rp rp-critical">Critical</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Performance reviews</div>
+        <div class="rm-cell">Author (reviewer name), Manager (department head), Keywords (ATS codes, rating system markers), ModDate (timeline of review process)</div>
+        <div class="rm-cell"><span class="rp rp-critical">Critical</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Termination letters</div>
+        <div class="rm-cell">Author (HR professional), Manager (legal counsel or CHRO), Keywords (may contain reason codes), RevisionNumber (reveals how many drafts were required)</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Payslips and contracts</div>
+        <div class="rm-cell">Creator (payroll software name/version), Author, Keywords (payroll run codes, employee IDs)</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Reference letters</div>
+        <div class="rm-cell">Author (referee's name — fine if they wrote it, problematic if written by admin staff), ModDate (reveals whether letter was freshly written or adapted)</div>
+        <div class="rm-cell"><span class="rp rp-medium">Medium</span></div>
+      </div>
+    </div>
+
+    <p>The RevisionNumber field is particularly revealing in HR contexts. A termination letter that was revised 23 times before being sent tells the receiving employee — or their solicitor — that the letter was extensively negotiated internally. That information, while not technically privileged, creates an impression of uncertainty and may encourage legal challenge.</p>
+
+    <p>For teams working in Microsoft 365 environments, SharePoint document libraries automatically write metadata into the Keywords and Subject fields of Office documents. When those documents are exported to PDF, the SharePoint metadata travels with them. HR teams should check both the source document properties in Word (File &rarr; Info &rarr; Properties) and the exported PDF.</p>
+
+    <div class="callout green">
+      <div class="callout-label">&#10003; HR team workflow</div>
+      <p>Before sending any HR document externally — to a candidate, a former employee, an employment tribunal, a reference recipient, or an external payroll bureau — pass the PDF through a metadata check. The Author, Manager, and Keywords fields should always be stripped. RevisionNumber and timestamps are worth removing for sensitive documents like termination letters and settlement agreements. For teams processing high volumes, ExifTool's batch processing (<code>exiftool -all= *.pdf</code>) covers an entire folder in one command.</p>
+    </div>
+
+    <h2 id="freelancers">#3. Freelancers and independent consultants</h2>
+
+    <div class="profession-section">
+      <div class="profession-header">
+        <div class="profession-icon">&#128188;</div>
+        <div>
+          <div class="profession-name">Freelancers, consultants, and independent contractors</div>
+          <div class="profession-sub">Pricing transparency &middot; Template reuse &middot; Client confidentiality &middot; Positioning</div>
+        </div>
+      </div>
+      <div class="profession-body">
+        <p>The risks for freelancers are less about legal liability and more about negotiation position and professional perception. But they're no less real.</p>
+
+        <p>A UX designer sends a proposal to a prospective client. The rate is £850/day. The covering note says the proposal was prepared specifically for this project. The client opens the PDF properties out of curiosity. The Creator field says "Canva." The CreationDate is from 2022. The ModDate is from this morning — 07:43, two hours before the proposal landed in their inbox.</p>
+
+        <p>Three pieces of information the designer didn't choose to share: the proposal was built on a template created three years ago, it was prepared using a free design tool rather than premium software, and it was finished in a last-minute session this morning. None of this makes the proposal bad. All of it affects how the client reads the £850/day rate.</p>
+
+        <div class="profession-answer">
+          <div class="pa-label">What metadata reveals about your proposal process</div>
+          <p>The RevisionNumber field records how many times the source document was saved — including auto-saves. A proposal described as "bespoke" with a RevisionNumber of 3 looks genuinely fresh. The same proposal with a RevisionNumber of 67 suggests extensive reworking of an existing template. The xmpMM:DocumentID field persists across documents derived from the same source — meaning two proposals sent to different clients can be linked by a recipient who knows to look.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exif-block">
+      <button class="copy-btn">Copy</button>
+      <div class="exif-label">Freelance proposal — what the client can see</div>
+      <span class="ef">Author              </span>: <span class="ev-warn">Alex Rivera</span><br>
+      <span class="ef">Creator             </span>: <span class="ev-warn">Canva</span> <span class="ef-note">&larr; free tool — may contradict premium pricing</span><br>
+      <span class="ef">Create Date         </span>: <span class="ev-danger">2022:08:14 11:22:08+00:00</span> <span class="ef-note">&larr; template created 4 years ago</span><br>
+      <span class="ef">Modify Date         </span>: <span class="ev-danger">2026:10:05 07:43:11+00:00</span> <span class="ef-note">&larr; finished 2 hours before sending</span><br>
+      <span class="ef">XMP:DocumentID      </span>: <span class="ev-warn">uuid:f3a2c1b4-8d7e-...</span> <span class="ef-note">&larr; links to template used for other clients</span><br>
+      <span class="ef">Revision Number     </span>: <span class="ev-warn">67</span> <span class="ef-note">&larr; heavily adapted existing document</span>
+    </div>
+
+    <p>Client confidentiality is the other dimension. A freelancer who includes a previous client's information in their proposal template — even inadvertently, as embedded text in a template layer — and then shares that template with a new client has a confidentiality problem. Metadata is one vector; embedded hidden content is another. Both require dedicated sanitisation tools, not just visual review.</p>
+
+    <p>For consultants who charge on a per-project rather than per-day basis, the RevisionNumber can be particularly revealing. If a "strategy document" that bills 40 hours has a RevisionNumber of 4, it suggests very little iteration. If a "quick overview" has a RevisionNumber of 89, it suggests significantly more work than the document implies — which cuts both ways.</p>
+
+    <div class="callout green">
+      <div class="callout-label">&#10003; Freelancer workflow</div>
+      <p>Strip metadata from every document before it leaves your hands — proposals, contracts, invoices, deliverables. For proposals specifically, use a metadata check as the final step before sending, not the final step in document creation. Create templates with metadata stripped, and re-strip before each send. Our complete guide on <a href="/blog/remove-metadata-from-pdf">removing metadata from PDFs</a> covers every method including how to verify the XMP stream was fully cleared.</p>
+    </div>
+
+    <h2 id="journalists">#4. Journalists and media professionals</h2>
+
+    <div class="profession-section">
+      <div class="profession-header">
+        <div class="profession-icon">&#128240;</div>
+        <div>
+          <div class="profession-name">Journalists, editors, and investigative reporters</div>
+          <div class="profession-sub">Source protection &middot; OPSEC &middot; SecureDrop &middot; Document verification</div>
+        </div>
+      </div>
+      <div class="profession-body">
+        <p>In 2017, a Reality Winner leaked a classified NSA document to The Intercept. The outlet, in the process of verifying the document's authenticity, sent a photograph of the printed document to the NSA for comment. The photograph revealed printer tracking dots — microscopic yellow dots embedded by colour laser printers that encode the printer serial number and print date. The NSA used these to identify the source printer, which was checked out to Winner. She was arrested within days of the story's publication.</p>
+
+        <p>That incident involved printer metadata rather than PDF metadata. But the underlying dynamic is identical: document handling created a metadata trail that exposed a source. For journalists, metadata risks operate at two distinct levels.</p>
+
+        <div class="profession-answer">
+          <div class="pa-label">Two distinct metadata risks for journalists</div>
+          <p><strong>Risk 1 — Metadata you create.</strong> When a journalist edits, annotates, or processes a document, their metadata is added to it. Author field, modification timestamps, and software fingerprint can identify the journalist who handled the document — relevant when a processed version circulates publicly or is submitted to authorities. <strong>Risk 2 — Metadata in documents received from sources.</strong> PDFs received from sources may carry metadata identifying the source — their name in the Author field, their employer in the Company field, or their software environment in the Creator field. Publishing or forwarding the raw received document may inadvertently expose the source.</p>
+        </div>
+
+        <p>Most newsrooms now have established protocols for the second risk — digital security desks, SecureDrop systems, and document sanitisation workflows. The first risk is less consistently addressed.</p>
+      </div>
+    </div>
+
+    <div class="risk-matrix">
+      <div class="rm-header">Metadata risks by journalism workflow stage</div>
+      <div class="rm-row head">
+        <div class="rm-cell head">Workflow stage</div>
+        <div class="rm-cell head">Metadata risk</div>
+        <div class="rm-cell head">Severity</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Receiving documents from sources</div>
+        <div class="rm-cell">Source's Author/Company/Creator fields may identify them. Timestamps may reveal when they accessed or modified the document</div>
+        <div class="rm-cell"><span class="rp rp-critical">Critical</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Annotating or editing received documents</div>
+        <div class="rm-cell">Journalist's Author field is added. ModDate updated. If the annotated version is shared or seized, it identifies the journalist's involvement</div>
+        <div class="rm-cell"><span class="rp rp-critical">Critical</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Sharing processed documents with editors</div>
+        <div class="rm-cell">Journalist's metadata present. If communication is intercepted or subpoenaed, metadata confirms document handling chain</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Publishing embedded documents online</div>
+        <div class="rm-cell">Source metadata may persist in published PDF. Any reader can extract it with free tools</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-cell">Responding to official requests for documents</div>
+        <div class="rm-cell">Metadata reveals handling chain, editing timeline, and which journalists worked with the material</div>
+        <div class="rm-cell"><span class="rp rp-high">High</span></div>
+      </div>
+    </div>
+
+    <p>For journalists working on sensitive stories, the <a href="https://securedrop.org" target="_blank" rel="noopener">SecureDrop</a> whistleblowing platform is designed to receive documents without logging metadata about the source's connection. The Freedom of the Press Foundation maintains SecureDrop and publishes guidance on its technical operation. For journalists who cannot use SecureDrop, receiving documents via Signal (which strips metadata from files sent through its protocol) is a significantly better option than email.</p>
+
+    <p>For document verification — checking whether a received document has been altered, when it was created, and what software produced it — metadata analysis is itself a tool, not just a risk. Our guide on <a href="/blog/check-if-pdf-has-been-edited">detecting PDF editing and tampering</a> covers the forensic methodology journalists use to verify document authenticity.</p>
+
+    <div class="callout amber">
+      <div class="callout-label">&#9888; Before publishing any PDF online</div>
+      <p>Strip all metadata before embedding or linking any PDF document in a published article. The metadata in a document you publish is readable by any reader — including the subjects of your investigation, law enforcement, and hostile state actors. This applies equally to documents you've written and documents you've received. Strip both. The Tails operating system, which routes all traffic through Tor and runs from a USB drive leaving no traces on the host machine, is the most thorough approach for journalists working in high-risk environments. For everyday workflows, a dedicated metadata removal tool run on a secure machine is the minimum standard.</p>
+    </div>
+
+    <h2 id="universal-checklist">#5. Universal pre-send checklist — all professions</h2>
+
+    <p>Regardless of profession, the same five verification steps protect you. The checklist below is interactive — mark each step as you complete it before sending any sensitive document.</p>
+
+    <div class="checklist-widget">
+      <div class="cw-header">
+        <span>Pre-send metadata checklist</span>
+        <span class="cw-counter" id="cw-count">0 / 5 complete</span>
+      </div>
+      <div class="cw-item">
+        <div class="cw-box"></div>
+        <div class="cw-content">
+          <div class="cw-title">Check Author and Manager in Acrobat Reader</div>
+          <div class="cw-desc">File &rarr; Properties &rarr; Description. Both should be blank. If either shows a name, the document has not been sanitised.</div>
+        </div>
+      </div>
+      <div class="cw-item">
+        <div class="cw-box"></div>
+        <div class="cw-content">
+          <div class="cw-title">Check Keywords for internal codes</div>
+          <div class="cw-desc">Keywords from DMS systems, ATS platforms, and SharePoint libraries often contain internal classification codes not visible without opening Properties. If present, strip the document.</div>
+        </div>
+      </div>
+      <div class="cw-item">
+        <div class="cw-box"></div>
+        <div class="cw-content">
+          <div class="cw-title">Verify XMP stream was cleared — not just Info dictionary</div>
+          <div class="cw-desc">Run exiftool -XMP:all document.pdf. No output = clean. Any output = XMP stream not cleared. Most partial-clean tools fail here.</div>
+        </div>
+      </div>
+      <div class="cw-item">
+        <div class="cw-box"></div>
+        <div class="cw-content">
+          <div class="cw-title">Consider RevisionNumber and ModDate for sensitive documents</div>
+          <div class="cw-desc">For termination letters, settlement agreements, and proposals — RevisionNumber and ModDate reveal negotiation history and preparation timeline. Strip these fields for sensitive documents.</div>
+        </div>
+      </div>
+      <div class="cw-item">
+        <div class="cw-box"></div>
+        <div class="cw-content">
+          <div class="cw-title">Send the stripped file, not the original export</div>
+          <div class="cw-desc">FileIntel adds "-clean" to the output filename. Confirm you're attaching the clean version — not the original sitting next to it in your Downloads folder.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="comparison">#6. How metadata risk compares across professions</h2>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Risk type</th>
+            <th class="dark">Lawyers</th>
+            <th class="dark">HR teams</th>
+            <th class="dark">Freelancers</th>
+            <th class="dark">Journalists</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Personal data (GDPR)</td>
+            <td>&#9888; High — attorney names</td>
+            <td>&#9940; Critical — employee names</td>
+            <td>&#9888; Medium — freelancer name</td>
+            <td>&#9888; High — journalist identity</td>
+          </tr>
+          <tr>
+            <td>Privilege / confidentiality</td>
+            <td>&#9940; Critical — DMS keywords</td>
+            <td>&#9888; Medium — HR classifications</td>
+            <td>&#128994; Low — client info in templates</td>
+            <td>&#9940; Critical — source exposure</td>
+          </tr>
+          <tr>
+            <td>Commercial / negotiation</td>
+            <td>&#128994; Low</td>
+            <td>&#9888; Medium — salary bands</td>
+            <td>&#9940; Critical — pricing, tool choice</td>
+            <td>&#128994; Low</td>
+          </tr>
+          <tr>
+            <td>Regulatory obligation</td>
+            <td>&#9940; ABA Rule 1.6, FRCP 26</td>
+            <td>&#9940; GDPR Art. 5(1)(c), ICO guidance</td>
+            <td>&#9888; GDPR if EU clients</td>
+            <td>&#9888; Shield laws, press freedom</td>
+          </tr>
+          <tr>
+            <td>Highest-risk field</td>
+            <td>Keywords (DMS codes)</td>
+            <td>Author + Manager (PII)</td>
+            <td>CreationDate + RevisionNum</td>
+            <td>Author on annotated docs</td>
+          </tr>
+          <tr>
+            <td>Primary tool recommendation</td>
+            <td>ExifTool + verification</td>
+            <td>FileIntel batch or ExifTool</td>
+            <td>FileIntel before each send</td>
+            <td>Tails OS + ExifTool for high-risk</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The common thread across all four professions: the metadata that creates the most risk is rarely the metadata you chose to include. It's the metadata your software, your document management system, or your operating system added without asking. Understanding which fields carry that automatic data — and building a verification step into your document workflow — is what separates professionals who manage this risk from those who discover it too late.</p>
+
+    <p>For a complete reference to every PDF metadata field and what each one contains, see our <a href="/blog/pdf-metadata-fields-explained">PDF metadata fields explained</a> guide. For the technical removal workflow, see <a href="/blog/remove-metadata-from-pdf">how to remove metadata from a PDF</a>.</p>
+
+    <!-- END CTA -->
+    <div class="article-cta">
+      <div>
+        <h3>Strip metadata before your next document goes out</h3>
+        <p>Author, Manager, Keywords, XMP stream — all removed. Free, browser-only, 10 seconds.</p>
+      </div>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open PDF Metadata Remover &rarr;</a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <h2 class="faq-title">Frequently asked</h2>
+
+      <div class="faq-item">
+        <button class="faq-q">Do lawyers need to remove PDF metadata before sharing documents?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. ABA Formal Opinion 11-460 and Model Rule 1.6 require lawyers to use reasonable care to prevent inadvertent disclosure of client information — including metadata. The highest-risk fields in legal documents are Keywords (which DMS systems populate with matter numbers and privilege designations), Author and Manager (which identify attorneys), and ModDate (which reveals editing timelines). Strip metadata from any document shared outside the firm.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What PDF metadata should HR teams remove before sending offer letters?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">HR teams should remove Author (contains the HR professional's name — personal data under GDPR), Manager (may contain the HR head's name), Keywords (may contain compensation band codes and ATS requisition numbers), and RevisionNumber (reveals how many drafts were produced — relevant for negotiation documents like termination letters). All fields should be stripped from both the Info dictionary and the XMP stream.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Can PDF metadata expose a journalist's source?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Metadata in documents received from sources may identify the source directly — their name in the Author field, their employer in the Company field, timestamps revealing when they accessed the document. If a journalist annotates or edits a received document, the journalist's own metadata is added. Publishing or forwarding that annotated version can confirm the journalist's involvement and timing. For sensitive stories, use SecureDrop to receive documents and strip all metadata before any processed version is shared or published.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Does PDF metadata in a freelance proposal reveal confidential information?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">PDF metadata in a freelance proposal can reveal: the freelancer's full name, how many times the document was saved (RevisionNumber — indicating template reuse), when it was last modified (preparation timeline), which software was used (Creator — which may contradict premium positioning), and via the xmpMM:DocumentID field, whether it shares a source with proposals sent to other clients.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Is sharing PDF metadata with a client a GDPR violation?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">The Author field in a PDF contains an employee's full name — personal data under GDPR Article 4(1). Sharing it with an external party without a lawful basis and where it serves no purpose may violate the data minimisation principle under Article 5(1)(c). This applies to any UK or EU organisation sharing documents externally. The practical fix is stripping the Author and Manager fields before sharing — taking under 30 seconds with a dedicated tool.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is the fastest way to remove PDF metadata before sending a professional document?
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">The fastest method that removes both the Info dictionary and XMP stream is FileIntel's PDF Metadata Remover at fileintel.me/pdf-metadata-remover — drop the PDF in, click Strip Metadata, download the clean file in under 10 seconds. Nothing is uploaded. For command line: <code>exiftool -all= document.pdf</code> followed by <code>exiftool -XMP:all document.pdf</code> to verify the XMP stream was cleared.</div></div>
+      </div>
+    </div>
+
+    <p class="legal-note">This guide is for general informational purposes. It does not constitute legal advice, GDPR compliance advice, or information security guidance specific to your organisation. Regulatory obligations vary by jurisdiction, contract, and document type. Consult a qualified legal or compliance professional for advice specific to your situation. Tool limitations: no metadata removal tool can guarantee complete removal across all PDF versions and configurations — verify output independently for high-stakes documents.</p>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+    <div class="sidebar-widget">
+      <div class="sw-header">Jump to profession</div>
+      <div class="sw-body">
+        <a href="#lawyers" class="toc-link"><span class="toc-num">01</span> Lawyers & legal teams</a>
+        <a href="#hr" class="toc-link"><span class="toc-num">02</span> HR professionals</a>
+        <a href="#freelancers" class="toc-link"><span class="toc-num">03</span> Freelancers</a>
+        <a href="#journalists" class="toc-link"><span class="toc-num">04</span> Journalists</a>
+        <a href="#universal-checklist" class="toc-link"><span class="toc-num">05</span> Universal checklist</a>
+        <a href="#comparison" class="toc-link"><span class="toc-num">06</span> Risk comparison</a>
+      </div>
+    </div>
+
+    <div class="stw">
+      <div style="font-size:22px;margin-bottom:10px;">&#128274;</div>
+      <h4>PDF Metadata Remover</h4>
+      <p>Strips Author, Manager, Keywords and XMP stream. Verify with Privacy Risk Score. Free, browser-only.</p>
+      <a href="/pdf-metadata-remover" class="btn btn-light">Open free tool &rarr;</a>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sw-header">Related articles</div>
+      <div class="sw-body">
+        <a href="/blog/remove-metadata-from-pdf" class="rel-post">
+          <div class="rel-cat">How-To</div>
+          <div class="rel-title">How to remove all metadata from a PDF — complete guide</div>
+        </a>
+        <a href="/blog/pdf-metadata-fields-explained" class="rel-post">
+          <div class="rel-cat">Reference</div>
+          <div class="rel-title">Every PDF metadata field explained</div>
+        </a>
+        <a href="/blog/gdpr-pdf-metadata" class="rel-post">
+          <div class="rel-cat">Compliance</div>
+          <div class="rel-title">GDPR and PDF metadata — what organisations must know</div>
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<Footer />
+
+<script>
+  // Reading progress
+  const bar = document.getElementById('reading-progress');
+  window.addEventListener('scroll', () => {
+    const d = document.documentElement;
+    const pct = d.scrollHeight - window.innerHeight > 0
+      ? (window.scrollY / (d.scrollHeight - window.innerHeight)) * 100 : 0;
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.style.background = pct >= 99 ? 'var(--green)' : 'var(--accent)';
+  }, { passive: true });
+
+  // FAQ accordion — event listener based
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Checklist — event listener based
+  document.querySelectorAll('.cw-item').forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('done');
+      item.querySelector('.cw-box').textContent = item.classList.contains('done') ? '\u2713' : '';
+      const done = document.querySelectorAll('.cw-item.done').length;
+      document.getElementById('cw-count').textContent = done + ' / 5 complete';
+    });
+  });
+
+  // Copy buttons — event listener based
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const block = btn.closest('.exif-block');
+      const text = Array.from(block.childNodes)
+        .filter(n => n.nodeType === Node.TEXT_NODE || (n.tagName && !['BUTTON','DIV'].includes(n.tagName)))
+        .map(n => n.textContent).join('').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '\u2713 Copied';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      });
+    });
+  });
+
+  // Active TOC
+  const sections = ['lawyers','hr','freelancers','journalists','universal-checklist','comparison'];
+  const tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = i;
+    });
+    tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
+  }, { passive: true });
+</script>
+
+</body>
+</html>

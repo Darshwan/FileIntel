@@ -1,6 +1,11 @@
 ---
 import Footer from "../../components/Footer.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
+
 import Navbar from "../../components/Navbar.astro";
+
+
 
 // src/pages/blog/remove-author-from-pdf.astro
 // Target keyword: "remove author from PDF"
@@ -45,7 +50,11 @@ import Navbar from "../../components/Navbar.astro";
     "headline": "How to Remove Author Name from a PDF (2026) — Every Method",
     "datePublished": "2026-07-26",
     "dateModified": "2026-07-26",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "A complete guide to removing the Author field from PDF files — browser-based tools, ExifTool command line, Adobe Acrobat, and Microsoft Word — with verification steps and compliance context.",
     "url": "https://fileintel.me/blog/remove-author-from-pdf",
@@ -367,6 +376,8 @@ import Navbar from "../../components/Navbar.astro";
       <span>&#9998; FileIntel</span>
     </div>
   </div>
+<AuthorBar published="July 2026" readTime="9" />
+
 </section>
 
 <div class="article-layout">

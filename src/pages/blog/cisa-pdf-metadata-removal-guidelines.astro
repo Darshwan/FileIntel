@@ -5,7 +5,10 @@
 // Intent: Compliance / Authority / Security professional
 
 import Navbar from '../../components/Navbar.astro';
+import AuthorBar from "../../components/AuthorBar.astro";
+
 import Footer from '../../components/Footer.astro';
+
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +40,7 @@ import Footer from '../../components/Footer.astro';
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="article:published_time" content="2026-10-05T00:00:00Z" />
   <meta property="article:modified_time" content="2026-10-05T00:00:00Z" />
-  <meta name="author" content="FileIntel" />
+  <meta name="author" content="Darshan Lamichhane" />
 
   <!-- Article Schema -->
   <script type="application/ld+json">
@@ -48,10 +51,9 @@ import Footer from '../../components/Footer.astro';
     "datePublished": "2026-10-05T00:00:00Z",
     "dateModified": "2026-10-05T00:00:00Z",
     "author": {
-      "@type": "Organization",
-      "name": "FileIntel",
-      "url": "https://fileintel.me",
-      "description": "Browser-based PDF privacy and metadata analysis tools for security professionals"
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
     },
     "publisher": {
       "@type": "Organization",
@@ -470,6 +472,8 @@ import Footer from '../../components/Footer.astro';
       <span class="auth-badge">Primary sources cited</span>
     </div>
   </div>
+<AuthorBar published="October 2026" readTime="14" />
+
 </section>
 
 <div class="article-layout">

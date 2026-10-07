@@ -1,0 +1,24 @@
+---
+interface Props {
+  published: string;
+  readTime: string;
+}
+
+const { published, readTime } = Astro.props;
+---
+
+<div class="author-bar">
+  <div class="author-bar-inner">
+    <div class="author-avatar">
+      <img src="/images/darshan.png" alt="Author Avatar" />
+    </div>
+    <div class="author-info">
+      <div class="author-name">
+        <a href="/about">Darshan Lamichhane</a>
+      </div>
+      <div class="author-meta">
+        FileIntel · {published} · {readTime} min read
+      </div>
+    </div>
+  </div>
+</div>

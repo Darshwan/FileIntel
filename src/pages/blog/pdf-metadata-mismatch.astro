@@ -4,7 +4,10 @@
 // Secondary: "PDF metadata contradicts document", "PDF creation date wrong", "PDF metadata lies"
 // Intent: Informational / Forensic - high curiosity, high share potential
 import Navbar from "../../components/Navbar.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
 import Footer from "../../components/Footer.astro";
+
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +45,11 @@ import Footer from "../../components/Footer.astro";
     "headline": "Your PDF Is a Lie: What the Metadata Says vs What the Document Says",
     "datePublished": "2026-10-04",
     "dateModified": "2026-10-04",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "Five documented scenarios where PDF metadata directly contradicts the document's stated dates, authorship, version status, and origin. Each includes real ExifTool output.",
     "url": "https://fileintel.me/blog/pdf-metadata-mismatch",
@@ -422,6 +429,8 @@ import Footer from "../../components/Footer.astro";
     </div>
   </div>
   </div>
+<AuthorBar published="October 2026" readTime="13" />
+
 </section>
 
 <div class="article-layout">

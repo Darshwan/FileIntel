@@ -4,7 +4,10 @@
 // Intent: Informational / Commercial
 
 import Footer from "../../components/Footer.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
 import Navbar from "../../components/Navbar.astro";
+
 ---
 
 <!doctype html>
@@ -71,7 +74,11 @@ import Navbar from "../../components/Navbar.astro";
                 "headline": "Why Freelancers Must Remove PDF Metadata From Proposals & Contracts",
                 "datePublished": "2026-06-05",
                 "dateModified": "2026-06-05",
-                "author": { "@type": "Organization", "name": "FileIntel" },
+                "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
                 "publisher": {
                     "@type": "Organization",
                     "name": "FileIntel",
@@ -1110,7 +1117,9 @@ import Navbar from "../../components/Navbar.astro";
                     <span>&#9998; FileIntel</span>
                 </div>
             </div>
-        </section>
+        <AuthorBar published="June 2026" readTime="8" />
+
+</section>
 
         <div class="article-layout">
             <article class="prose">

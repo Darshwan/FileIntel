@@ -1,6 +1,11 @@
 ---
 import Navbar from "../../components/Navbar.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
+
 import Footer from "../../components/Footer.astro";
+
+
 ---
 
 <!DOCTYPE html>
@@ -20,7 +25,7 @@ import Footer from "../../components/Footer.astro";
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI-Generated PDF Metadata: What Gets Left Behind | FileIntel</title>
   <meta name="description" content="We exported real AI-drafted text to PDF and inspected the raw metadata. Here's exactly what Word, Google Docs, and PDF export tools do and don't reveal." />
-  <meta name="author" content="FileIntel" />
+  <meta name="author" content="Darshan Lamichhane" />
   <link rel="canonical" href="https://fileintel.me/blog/ai-generated-pdf-metadata" />
   <link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
   <link rel="stylesheet" href="/styles/global.css" />
@@ -50,7 +55,11 @@ import Footer from "../../components/Footer.astro";
     "headline": "What Happens to PDF Metadata When You Use ChatGPT, Gemini, or Claude to Write a Document",
     "datePublished": "2026-10-04",
     "dateModified": "2026-10-04",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "image": "https://fileintel.me/images/pdf-metadata-mismatch.jpg",
     "articleSection": "PDF Metadata and AI",
@@ -337,6 +346,8 @@ import Footer from "../../components/Footer.astro";
       </div>
     </div>
   </div>
+<AuthorBar published="October 2026" readTime="15" />
+
 </section>
 
 <div class="article-layout">

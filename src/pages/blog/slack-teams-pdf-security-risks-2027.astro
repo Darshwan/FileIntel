@@ -1,6 +1,11 @@
 ---
 import Navbar from "../../components/Navbar.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
+
 import Footer from "../../components/Footer.astro";
+
+
 ---
 
 
@@ -42,7 +47,11 @@ import Footer from "../../components/Footer.astro";
     "headline": "Does Slack Remove PDF Metadata? What Happens When You Share PDFs in Teams & Email",
     "datePublished": "2026-09-06",
     "dateModified": "2026-09-06",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "PDFs shared in Slack, Teams, and email carry hidden metadata that survives the upload. Here's what gets exposed, how each platform handles it, and how to check first.",
     "url": "https://fileintel.me/blog/pdf-sharing-security-risk",
@@ -310,6 +319,8 @@ import Footer from "../../components/Footer.astro";
       <span>✍️ FileIntel</span>
     </div>
   </div>
+<AuthorBar published="September 2026" readTime="15" />
+
 </section>
 
 <div class="article-layout">

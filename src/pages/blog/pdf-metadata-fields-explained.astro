@@ -1,6 +1,11 @@
 ---
 import Footer from "../../components/Footer.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
+
 import Navbar from "../../components/Navbar.astro";
+
+
 
 // src/pages/blog/pdf-metadata-fields-explained.astro
 // Primary: "PDF metadata fields"
@@ -44,7 +49,11 @@ import Navbar from "../../components/Navbar.astro";
     "headline": "What Does PDF Metadata Contain? Every Field Explained (2026)",
     "datePublished": "2026-07-26",
     "dateModified": "2026-07-26",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "A complete reference to every PDF metadata field — Info dictionary fields, XMP stream fields, where each comes from, what it reveals, and the privacy risk each carries.",
     "url": "https://fileintel.me/blog/pdf-metadata-fields-explained"
@@ -461,6 +470,8 @@ import Navbar from "../../components/Navbar.astro";
       </div>
     </div>
   </div>
+<AuthorBar published="July 2026" readTime="8" />
+
 </section>
 
 <div class="article-layout">

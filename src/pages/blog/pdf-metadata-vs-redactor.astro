@@ -5,6 +5,8 @@
 // Intent: Informational / Commercial
 
 import Navbar from '../../components/Navbar.astro';
+import AuthorBar from "../../components/AuthorBar.astro";
+
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +45,11 @@ import Navbar from '../../components/Navbar.astro';
     "headline": "Redaction vs Metadata Removal: What's the Difference?",
     "datePublished": "2026-05-31",
     "dateModified": "2026-05-31",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "Redaction hides visible content in a PDF. Metadata removal strips hidden data embedded in the file. Most professionals need both — and don't know it.",
     "url": "https://fileintel.me/blog/pdf-metadata-vs-redactor"
@@ -334,6 +340,8 @@ import Navbar from '../../components/Navbar.astro';
       <span>✍️ FileIntel</span>
     </div>
   </div>
+<AuthorBar published="May 2026" readTime="9" />
+
 </section>
 
 <!-- ARTICLE BODY -->

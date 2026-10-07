@@ -7,6 +7,9 @@
 // Competitor gap: No article addresses BOTH sides — sender (HR) AND recipient (job seeker)
 // High RPM: US employment/HR audience = $12-18 RPM
 import Navbar from '../../components/Navbar.astro';
+import AuthorBar from "../../components/AuthorBar.astro";
+
+
 ---
 
 <!doctype html>
@@ -35,7 +38,7 @@ import Navbar from '../../components/Navbar.astro';
   <meta property="og:description" content="Offer letters, resumes, and HR documents contain hidden metadata. Here's what HR teams and job seekers need to know — and how to fix it in 30 seconds." />
   <meta property="og:image"       content="https://fileintel.me/og-blog-hr-metadata.png" />
   <meta property="article:published_time" content="2026-05-02T00:00:00Z" />
-  <meta property="article:author"         content="FileIntel" />
+  <meta property="article:author"         content="Darshan Lamichhane" />
   <meta property="article:section"        content="HR & Employment" />
   <meta property="article:tag"            content="HR,PDF,Metadata,Employment,Privacy,GDPR,Resume" />
 
@@ -53,7 +56,11 @@ import Navbar from '../../components/Navbar.astro';
     "url": "https://fileintel.me/blog/pdf-metadata-hr-employment-documents",
     "datePublished": "2026-05-02",
     "dateModified": "2026-05-02",
-    "author": { "@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me" },
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": { "@type": "Organization", "name": "FileIntel" },
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://fileintel.me/blog/pdf-metadata-hr-employment-documents" },
     "keywords": "HR metadata, PDF employment documents, resume metadata, offer letter metadata, HR privacy",
@@ -523,7 +530,9 @@ import Navbar from '../../components/Navbar.astro';
         <span class="audience-badge badge-jobseeker">🎯 For job seekers</span>
       </div>
     </div>
-  </div>
+  <AuthorBar published="May 2026" readTime="8" />
+
+</div>
 
   <!-- ARTICLE -->
   <div class="article-layout">

@@ -1,5 +1,7 @@
 ---
 import Navbar from "../../components/Navbar.astro";
+import AuthorBar from "../../components/AuthorBar.astro";
+
 
 // src/pages/blog/remove-metadata-from-pdf.astro
 // Target keyword: "remove metadata from PDF"
@@ -46,7 +48,11 @@ import Navbar from "../../components/Navbar.astro";
     "headline": "How to Remove Metadata from a PDF — Complete Guide (2026)",
     "datePublished": "2026-07-26",
     "dateModified": "2026-07-26",
-    "author": {"@type": "Organization", "name": "FileIntel"},
+    "author": {
+      "@type": "Person",
+      "name": "Darshan Lamichhane",
+      "url": "https://fileintel.me/about"
+    },
     "publisher": {"@type": "Organization", "name": "FileIntel", "url": "https://fileintel.me"},
     "description": "A complete guide to removing metadata from PDF files — covering browser-based tools, command-line methods, Adobe Acrobat, and why partial stripping fails.",
     "url": "https://fileintel.me/blog/remove-metadata-from-pdf",
@@ -417,6 +423,8 @@ import Navbar from "../../components/Navbar.astro";
       <span class="hero-badge">All methods covered</span>
     </div>
   </div>
+<AuthorBar published="July 2026" readTime="11" />
+
 </section>
 
 <div class="article-layout">
@@ -964,7 +972,7 @@ import Navbar from "../../components/Navbar.astro";
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; <span id="footer-year"></span> FileIntel by Darshwan &mdash; Nepal</span>
+      <span>&copy; <span id="footer-year"></span> FileIntel by Darshan Lamichhane &mdash; Nepal</span>
       <span>0 bytes sent to our servers</span>
     </div>
   </div>
