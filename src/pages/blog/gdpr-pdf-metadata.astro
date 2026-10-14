@@ -1,16 +1,8 @@
 ---
-// src/pages/blog/gdpr-pdf-metadata.astro
-// Target keyword: "gdpr pdf metadata"
-// Secondary: "pdf metadata gdpr compliance", "personal data pdf documents gdpr", "remove metadata gdpr"
-// Intent: Informational + Commercial — compliance officers, DPOs, legal teams
-// Monthly searches: 1,200 primary + 4,800 long-tail cluster
-// Competing gap: No competitor explains BOTH the technical mechanism AND the legal basis together
-
 import Navbar from '../../components/Navbar.astro';
 import AuthorBar from "../../components/AuthorBar.astro";
-
+import Footer from '../../components/Footer.astro';
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -1112,9 +1104,8 @@ import AuthorBar from "../../components/AuthorBar.astro";
           </div>
         </div>
       </div>
+    </div>
     <AuthorBar published="April 2026" readTime="9" />
-
-</div>
 
     <!-- ARTICLE BODY -->
     <div class="article-layout">
@@ -1679,7 +1670,7 @@ import AuthorBar from "../../components/AuthorBar.astro";
         </div>
 
         <!-- Tool CTA -->
-        <div
+        <!-- <div
           class="sidebar-widget"
           style="background:var(--ink);border-color:#2a2a27;"
         >
@@ -1709,7 +1700,7 @@ import AuthorBar from "../../components/AuthorBar.astro";
               0 bytes sent to any server
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- GDPR References -->
         <div class="sidebar-widget">
@@ -1778,7 +1769,7 @@ Mac, Windows & Linux
 
               </div>
             </a>
-            <a href="/blog/pdf-metadata-hr-employment-documents" class="related-post">
+            <a href="/blog/pdf-metadata-professional-guide" class="related-post">
               <div class="related-post-cat">HR & Employment</div>
               <div class="related-post-title">
                 PDF Metadata in HR & Employment Documents:
@@ -1791,64 +1782,7 @@ What Both Sides Need to Know
       </aside>
     </div><!-- /article-layout -->
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div class="nav-logo" style="background:#1a1a17;color:#5a5a52;">
-              Fi
-            </div>
-            <span style="color:#5a5a52;font-size:15px;font-weight:600;"
-              >FileIntel</span
-            >
-          </div>
-          <p>
-            Private file tools for professionals. Everything runs in your
-            browser. Nothing touches our servers.
-          </p>
-        </div>
-        <div class="footer-col">
-          <h4>Tools</h4>
-          <ul>
-            <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
-            <li><a href="/pdf-redactor">PDF Redactor</a></li>
-            <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Blog</h4>
-          <ul>
-            <li>
-              <a href="/blog/pdf-metadata-fields-explained">What is PDF metadata?</a>
-            </li>
-            <li>
-              <a href="/blog/remove-metadata-from-pdf">Remove metadata guide</a>
-            </li>
-            <li><a href="/blog/gdpr-pdf-metadata">GDPR & PDF metadata</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="/privacy">Privacy Policy</a></li>
-            <li>
-              <a
-                href="https://github.com/Darshwan/FileIntel"
-                target="_blank"
-                rel="noopener">GitHub</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span
-          >© {new Date().getFullYear()} FileIntel. Built with privacy by design.</span
-        >
-        <span class="footer-mono">0 bytes sent to our servers</span>
-      </div>
-    </footer>
+<Footer />
 
     <script>
       // ── Scroll progress bar ──

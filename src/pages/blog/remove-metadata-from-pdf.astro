@@ -1,12 +1,7 @@
 ---
 import Navbar from "../../components/Navbar.astro";
 import AuthorBar from "../../components/AuthorBar.astro";
-
-
-// src/pages/blog/remove-metadata-from-pdf.astro
-// Target keyword: "remove metadata from PDF"
-// Secondary: "strip PDF metadata", "delete PDF metadata", "PDF metadata remover free"
-// Intent: Informational / Commercial
+import Footer from "../../components/Footer.astro";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -376,21 +371,7 @@ import AuthorBar from "../../components/AuthorBar.astro";
 
     /* PROGRESS INDICATOR */
     #reading-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: var(--accent); z-index: 9999; transition: width 0.08s linear; border-radius: 0 2px 2px 0; pointer-events: none; }
-
-    /* FOOTER */
-    footer { background: var(--ink); color: var(--paper); padding: 56px 40px 40px; margin-top: 80px; }
-    .footer-inner { max-width: 1160px; margin: 0 auto; }
-    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .footer-logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 10px; }
-    .footer-tagline { font-size: 13px; color: #5a5a52; line-height: 1.6; }
-    .footer-col h4 { font-size: 11px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #5a5a52; margin-bottom: 14px; }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { font-size: 13px; color: #7a7a72; text-decoration: none; transition: color 0.15s; }
-    .footer-col a:hover { color: var(--paper); }
-    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; font-family: var(--mono); font-size: 11px; color: #3a3a35; flex-wrap: wrap; gap: 12px; }
-    @media (max-width: 700px) { footer { padding: 40px 20px 32px; } .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; } }
-  </style>
+</style>
 </head>
 <body>
 
@@ -423,9 +404,8 @@ import AuthorBar from "../../components/AuthorBar.astro";
       <span class="hero-badge">All methods covered</span>
     </div>
   </div>
-<AuthorBar published="July 2026" readTime="11" />
-
 </section>
+<AuthorBar published="July 2026" readTime="11" />
 
 <div class="article-layout">
   <article class="prose">
@@ -442,6 +422,7 @@ import AuthorBar from "../../components/AuthorBar.astro";
       <p>To remove metadata from a PDF: drop your file into <a href="/pdf-metadata-remover">FileIntel's PDF Metadata Remover</a> &mdash; it strips the Author, Creator, Keywords, timestamps, and the XMP stream in under 5 seconds, entirely in your browser. For command-line users: <code>exiftool -all= document.pdf</code>. Saving or re-exporting does not remove metadata &mdash; you need a dedicated stripping step.</p>
     </div>
 
+    <span id="author-field"></span>
     <h2 id="what-youre-actually-removing">#1. What you are actually removing</h2>
 
     <p>Before you strip metadata, it helps to understand what you are stripping &mdash; because this is where most guides stop short and why "partial" removal fails.</p>
@@ -761,7 +742,7 @@ import AuthorBar from "../../components/AuthorBar.astro";
 
     <div class="callout green">
       <div class="callout-label">&#10003; Best practice for teams</div>
-      <p>Make metadata removal a step in your document checklist, not an afterthought. Any PDF leaving your organisation &mdash; to clients, counterparties, regulators, media &mdash; should pass through a metadata check before it goes. The 30-second cost of checking is trivial against the risk of inadvertent disclosure. For freelancers specifically, our guide on <a href="/blog/pdf-metadata-freelancers-proposals-contracts">metadata in proposals and contracts</a> covers the professional implications in detail.</p>
+      <p>Make metadata removal a step in your document checklist, not an afterthought. Any PDF leaving your organisation &mdash; to clients, counterparties, regulators, media &mdash; should pass through a metadata check before it goes. The 30-second cost of checking is trivial against the risk of inadvertent disclosure. For profession-specific context, our <a href="/blog/pdf-metadata-professional-guide">professional guide to PDF metadata risks</a> covers legal, HR, freelance, and journalism workflows in detail.</p>
     </div>
 
     <h2 id="before-you-send-checklist">#10. The complete pre-send checklist</h2>
@@ -907,12 +888,12 @@ import AuthorBar from "../../components/AuthorBar.astro";
       </div>
     </div>
 
-    <div class="sidebar-tool-widget">
+    <!-- <div class="sidebar-tool-widget">
       <div style="font-size:22px; margin-bottom:10px;">&#128274;</div>
       <h4>PDF Metadata Remover</h4>
       <p>Strip Author, Manager, Keywords and the XMP stream. Privacy Risk Score shows exactly what's exposed. Browser-only.</p>
       <a href="/pdf-metadata-remover" class="btn btn-light">Open free tool &rarr;</a>
-    </div>
+    </div> -->
 
     <div class="sidebar-widget">
       <div class="sidebar-widget-header">Related articles</div>
@@ -935,51 +916,9 @@ import AuthorBar from "../../components/AuthorBar.astro";
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-logo">Fi FileIntel</div>
-        <p class="footer-tagline">Private file tools for professionals.<br>Everything runs in your browser.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Tools</h4>
-        <ul>
-          <li><a href="/pdf-metadata-remover">PDF Metadata Remover</a></li>
-          <li><a href="/pdf-redactor">PDF Redactor</a></li>
-          <li><a href="/pdf-merger">PDF Merger</a></li>
-          <li><a href="/pdf-splitter">PDF Splitter</a></li>
-          <li><a href="/csv-deduplicator">CSV Deduplicator</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Blog</h4>
-        <ul>
-          <li><a href="/blog/pdf-metadata-fields-explained">What is PDF metadata?</a></li>
-          <li><a href="/blog/gdpr-pdf-metadata">GDPR &amp; PDF metadata</a></li>
-          <li><a href="/blog/pdf-metadata-vs-redactor">Redaction vs removal</a></li>
-          <li><a href="/blog/check-if-pdf-has-been-edited">Check if PDF was edited</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/terms">Terms of Use</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; <span id="footer-year"></span> FileIntel by Darshan Lamichhane &mdash; Nepal</span>
-      <span>0 bytes sent to our servers</span>
-    </div>
-  </div>
-</footer>
+ <Footer />
 
 <script>
-  document.getElementById('footer-year').textContent = new Date().getFullYear();
 
   // Reading progress bar
   const bar = document.getElementById('reading-progress');
@@ -1050,6 +989,11 @@ import AuthorBar from "../../components/AuthorBar.astro";
     });
     tocLinks.forEach((l, i) => l.classList.toggle('active', i === current));
   }, { passive: true });
+
+  window.showState = showState;
+  window.copyCode = copyCode;
+  window.toggleCheck = toggleCheck;
+  window.toggleFaq = toggleFaq;
 </script>
 
 </body>

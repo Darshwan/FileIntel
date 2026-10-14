@@ -1,15 +1,7 @@
 ---
 import Footer from "../../components/Footer.astro";
 import AuthorBar from "../../components/AuthorBar.astro";
-
-
 import Navbar from "../../components/Navbar.astro";
-
-
-
-// src/pages/blog/pdf-metadata-fields-explained.astro
-// Primary: "PDF metadata fields"
-// Secondary: "PDF info dictionary", "PDF author field", "PDF creator field explained"
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -470,9 +462,8 @@ import Navbar from "../../components/Navbar.astro";
       </div>
     </div>
   </div>
-<AuthorBar published="July 2026" readTime="8" />
-
 </section>
+<AuthorBar published="July 2026" readTime="8" />
 
 <div class="article-layout">
   <article class="prose">
@@ -532,7 +523,7 @@ import Navbar from "../../components/Navbar.astro";
               <span class="fe-key">Author          : </span><span class="fe-val">Jane Smith</span><br>
               <span class="fe-key">XMP:Creator     : </span><span class="fe-val">Jane Smith</span>
             </div>
-            <p class="field-desc">The Author field is automatically populated from your Windows username, Apple ID, Microsoft 365 account name, or Google account display name — depending on the application. You never typed this. Your software inserted it every time you created or saved the document. It is personal data under GDPR Article 4(1) and under UK GDPR. Sending it to external parties without a lawful basis may violate the data minimisation principle. See our guide on <a href="/blog/remove-author-from-pdf">how to remove the Author field from a PDF</a> for all removal methods.</p>
+            <p class="field-desc">The Author field is automatically populated from your Windows username, Apple ID, Microsoft 365 account name, or Google account display name — depending on the application. You never typed this. Your software inserted it every time you created or saved the document. It is personal data under GDPR Article 4(1) and under UK GDPR. Sending it to external parties without a lawful basis may violate the data minimisation principle. See our guide on <a href="/blog/remove-metadata-from-pdf#author-field">how to remove the Author field from a PDF</a> for all removal methods.</p>
           </div>
         </div>
       </div>
@@ -1061,7 +1052,7 @@ import Navbar from "../../components/Navbar.astro";
           <div class="rel-cat">Complete guide</div>
           <div class="rel-title">How to remove all metadata from a PDF</div>
         </a>
-        <a href="/blog/remove-author-from-pdf" class="rel-post">
+        <a href="/blog/remove-metadata-from-pdf#author-field" class="rel-post">
           <div class="rel-cat">How-To</div>
           <div class="rel-title">How to remove author name from a PDF</div>
         </a>

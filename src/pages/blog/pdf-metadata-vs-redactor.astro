@@ -1,12 +1,7 @@
 ---
-// src/pages/blog/pdf-metadata-vs-redactor.astro
-// Target keyword: "redaction vs metadata removal"
-// Secondary: "pdf redaction", "remove pdf metadata", "what is redaction", "pdf privacy"
-// Intent: Informational / Commercial
-
 import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro'
 import AuthorBar from "../../components/AuthorBar.astro";
-
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -340,9 +335,9 @@ import AuthorBar from "../../components/AuthorBar.astro";
       <span>✍️ FileIntel</span>
     </div>
   </div>
-<AuthorBar published="May 2026" readTime="9" />
-
 </section>
+
+<AuthorBar published="May 2026" readTime="9" />
 
 <!-- ARTICLE BODY -->
 <div class="article-layout">
@@ -447,7 +442,7 @@ import AuthorBar from "../../components/AuthorBar.astro";
         <h3>Strip metadata from your PDF now</h3>
         <p>No upload. No account. Runs entirely in your browser.</p>
       </div>
-      <a href="/pdf-metadata-remover" class="btn btn-light">Open tool →</a>
+      <a href="/pdf-metadata-remover" target="_blank" class="btn btn-light">Open ad →</a>
     </div>
 
     <h2 id="the-difference">#3. The actual difference, clearly</h2>
@@ -673,12 +668,12 @@ import AuthorBar from "../../components/AuthorBar.astro";
       </div>
     </div>
 
-    <div class="sidebar-tool-widget">
+    <!-- <div class="sidebar-tool-widget">
       <div class="sidebar-tool-icon">🔍</div>
       <h4>PDF Metadata Remover</h4>
       <p>Strip Author, Creator, Keywords and all hidden fields. Free, private, browser-only.</p>
       <a href="/pdf-metadata-remover" class="btn btn-light">Open tool →</a>
-    </div>
+    </div> -->
 
     <div class="sidebar-widget">
       <div class="sidebar-widget-header">Related articles</div>
