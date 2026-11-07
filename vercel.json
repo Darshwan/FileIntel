@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/blog/slack-teams-pdf-security-risks-2027",
+      "destination": "/blog/pdf-sharing-security-risk",
+      "permanent": true
+    }
+  ]
+}
