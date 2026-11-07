@@ -6,7 +6,14 @@ export default defineConfig({
   site: 'https://fileintel.me',
   integrations: [
     tailwind(),
-    sitemap(),
+    sitemap({
+      serialize(item) {
+        const u = new URL(item.url);
+        if (u.pathname !== '/') u.pathname = u.pathname.replace(/\/+$/, '');
+        item.url = u.toString();
+        return item;
+      },
+    }),
   ],
   server: {
     host: true,
